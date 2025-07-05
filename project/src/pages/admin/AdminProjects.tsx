@@ -30,7 +30,7 @@ const AdminProjects: React.FC = () => {
     price: '',
   });
 
-  const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDgyNzYyZGQ3MTg5YjA0ZDk0ZWY3ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MTcwMzYyMCwiZXhwIjoxNzUxNzA3MjIwfQ.pIhnTauf4jBMt239MZv4G9biX5ol4i54gNNSwtYVXys');
+  const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDgyNzYyZGQ3MTg5YjA0ZDk0ZWY3ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MTcwNzM1OCwiZXhwIjoxNzUxNzEwOTU4fQ.itF2HbnTwzlzyjZP7CAsp7Fe5_y2dV6dvBkj6LmGmjU');
 
   useEffect(() => {
     api.get('/admin/projects')
