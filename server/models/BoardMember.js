@@ -12,8 +12,14 @@ const boardMemberSchema = new mongoose.Schema({
     trim: true
   },
   image: {
-    type: String,
-    required: true
+    url: {
+      type: String,
+      required: true
+    },
+    public_id: {
+      type: String,
+      required: true
+    }
   },
   order: {
     type: Number,
@@ -29,4 +35,4 @@ const boardMemberSchema = new mongoose.Schema({
 
 const BoardMember = mongoose.model('BoardMember', boardMemberSchema);
 
-module.exports = BoardMember; 
+module.exports = BoardMember;

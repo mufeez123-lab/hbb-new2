@@ -3,23 +3,27 @@ const router = express.Router();
 const { adminAuth } = require('../middleware/auth');
 const Project = require('../models/Project');
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-const uploadsDir = path.join(__dirname, '../uploads');
-// Configure multer for image upload
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null,uploadsDir );
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'projects',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
 });
 
 const upload = multer({ storage });
 
-// Get all projects
+// === GET: All Projects ===
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
@@ -29,7 +33,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get featured projects (limit to 6)
+// === GET: Featured Projects (Limit 6) ===
 router.get('/featured', async (req, res) => {
   try {
     const projects = await Project.find()
@@ -41,7 +45,7 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// Get project by ID
+// === GET: Single Project by ID ===
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -54,11 +58,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create new project
+// === POST: Create Project ===
 router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
-    const { name, description, category,status, location, client, price } = req.body;
-    const images = req.files.map(file => `/uploads/${file.filename}`);
+    const { name, description, category, status, location, client, price } = req.body;
+
+    const images = req.files.map(file => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
 
     const project = new Project({
       name,
@@ -82,10 +90,16 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   }
 });
 
-// Update project
+// === PUT: Update Project ===
 router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
-    const { name, description, category,status, location, client, price } = req.body;
+    const { name, description, category, status, location, client, price } = req.body;
+
+    const existingProject = await Project.findById(req.params.id);
+    if (!existingProject) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
     const updateData = {
       name,
       description,
@@ -94,40 +108,53 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-
     };
 
     if (req.files && req.files.length > 0) {
-      updateData.images = req.files.map(file => `/uploads/${file.filename}`);
+      // Delete old Cloudinary images
+      for (const img of existingProject.images) {
+        if (img.public_id) {
+          await cloudinary.uploader.destroy(img.public_id);
+        }
+      }
+
+      updateData.images = req.files.map(file => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
     }
 
-    const project = await Project.findByIdAndUpdate(
+    const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
     );
 
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
-
     // Emit real-time update
-    req.app.get('io').emit('project:updated', project);
+    req.app.get('io').emit('project:updated', updatedProject);
 
-    res.json(project);
+    res.json(updatedProject);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// Delete project
+// === DELETE: Delete Project ===
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
-    const project = await Project.findByIdAndDelete(req.params.id);
-    
+    const project = await Project.findById(req.params.id);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
+
+    // Delete all Cloudinary images
+    for (const img of project.images) {
+      if (img.public_id) {
+        await cloudinary.uploader.destroy(img.public_id);
+      }
+    }
+
+    await project.deleteOne();
 
     // Emit real-time update
     req.app.get('io').emit('project:deleted', req.params.id);
@@ -138,4 +165,4 @@ router.delete('/:id', adminAuth, async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

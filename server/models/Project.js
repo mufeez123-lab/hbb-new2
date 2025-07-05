@@ -15,10 +15,18 @@ const projectSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  images: [{
-    type: String,
-    required: true
-  }],
+  images: [
+    {
+      url: {
+        type: String,
+        required: true
+      },
+      public_id: {
+        type: String,
+        required: true
+      }
+    }
+  ],
   status: {
     type: String,
     enum: ['upcoming', 'ongoing', 'featured', 'ready to move', 'completed']
@@ -36,11 +44,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-
 }, {
   timestamps: true
 });
 
 const Project = mongoose.model('Project', projectSchema);
 
-module.exports = Project; 
+module.exports = Project;
