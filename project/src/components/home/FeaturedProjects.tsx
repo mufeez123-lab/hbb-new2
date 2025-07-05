@@ -22,8 +22,6 @@ const FeaturedProjects = () => {
   const [error, setError] = useState<string | null>(null);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
 
-  const API_BASE = 'https://hbb-new2.onrender.com';
-
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -90,12 +88,10 @@ const FeaturedProjects = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {mainFeatured.map((project, index) => {
               const image = project.images?.[0];
-              const isImageString = typeof image === 'string';
-              const imageUrl = isImageString
-                ? image.startsWith('http')
+              const imageUrl =
+                typeof image === 'string' && image.startsWith('http')
                   ? image
-                  : `${API_BASE}${image}`
-                : '/images/image1.jpg';
+                  : '/images/image1.jpg';
 
               return (
                 <motion.div
@@ -116,8 +112,7 @@ const FeaturedProjects = () => {
                         loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/images/image1.jpg';
+                          (e.target as HTMLImageElement).src = '/images/image1.jpg';
                         }}
                       />
                       <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">

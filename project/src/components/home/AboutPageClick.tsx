@@ -58,8 +58,6 @@ const AboutPageClick = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = 'https://hbb-new2.onrender.com';
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -165,7 +163,7 @@ const AboutPageClick = () => {
                 const imageURL =
                   typeof director.image === 'string' && director.image.startsWith('http')
                     ? director.image
-                    : `${API_URL}${director.image}`;
+                    : '/default-avatar.png'; // fallback for broken image
 
                 return (
                   <div key={director._id} className="bg-white rounded-lg shadow-md overflow-hidden">
