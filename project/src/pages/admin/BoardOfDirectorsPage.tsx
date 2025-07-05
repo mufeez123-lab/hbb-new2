@@ -16,25 +16,29 @@ const BoardOfDirectorsPage: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', position: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const token = localStorage.getItem('adminToken');
+
   const getImageUrl = (path: string) => {
-  if (path.startsWith('http')) return path;
-
-  const baseUrl = "https://hbb-new2.vercel.app";
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-
-  return `${baseUrl}${cleanPath}`;
-};
-
-const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDgyNzYyZGQ3MTg5YjA0ZDk0ZWY3ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MTcwMzYyMCwiZXhwIjoxNzUxNzA3MjIwfQ.pIhnTauf4jBMt239MZv4G9biX5ol4i54gNNSwtYVXys');
+    if (path.startsWith('http')) return path;
+    const baseUrl = 'https://hbb-new2.vercel.app';
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${baseUrl}${cleanPath}`;
+  };
 
   useEffect(() => {
-    api.get('/admin/board')
+    api
+      .get('/admin/board', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => setDirectors(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.position) return;
+    if (!formData.name || !formData.position || (!selectedFile && !editingId)) {
+      alert('All fields including image are required!');
+      return;
+    }
 
     const data = new FormData();
     data.append('name', formData.name);
@@ -44,14 +48,23 @@ const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI
     try {
       if (editingId) {
         await api.put(`/admin/board/${editingId}`, data, {
-          headers: { 'Content-Type': 'multipart/form-data','Authorization': `Bearer ${token}` },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
         });
       } else {
         await api.post('/admin/board', data, {
-          headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
         });
       }
-      const updated = await api.get('/admin/board');
+
+      const updated = await api.get('/admin/board', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setDirectors(updated.data);
       setOpen(false);
       setSelectedFile(null);
@@ -59,16 +72,15 @@ const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI
       setEditingId(null);
     } catch (err) {
       console.error(err);
+      alert('Something went wrong while submitting. Please try again.');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/admin/board/${id}`,{
-  headers: {
-    'Authorization': `Bearer ${token}`
-  }
-});
+      await api.delete(`/admin/board/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setDirectors(directors.filter((d) => d._id !== id));
     } catch (err) {
       console.error(err);
@@ -121,18 +133,14 @@ const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI
                         className="text-blue-600 hover:text-blue-800 focus:outline-none"
                         title="Edit"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 13h3l9-9a1.414 1.414 0 00-2-2l-9 9v3zM16 21H4a1 1 0 01-1-1v-6a1 1 0 011-1h2" />
-                        </svg>
+                        ✏️
                       </button>
                       <button
                         onClick={() => handleDelete(director._id)}
                         className="text-red-600 hover:text-red-800 focus:outline-none"
                         title="Delete"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
+                        🗑️
                       </button>
                     </div>
                   </div>
