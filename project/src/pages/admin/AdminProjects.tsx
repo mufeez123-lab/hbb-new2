@@ -6,7 +6,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: string[];
+  images: (string | { url: string })[];
   category: string;
   status: string;
   location: string;
@@ -30,32 +30,33 @@ const AdminProjects: React.FC = () => {
     price: '',
   });
 
-  const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDgyNzYyZGQ3MTg5YjA0ZDk0ZWY3ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MTcwNzM1OCwiZXhwIjoxNzUxNzEwOTU4fQ.itF2HbnTwzlzyjZP7CAsp7Fe5_y2dV6dvBkj6LmGmjU');
+  const token = localStorage.getItem('adminToken');
 
   useEffect(() => {
-    api.get('/admin/projects')
-      .then((res) => setProjects(res.data))
-      .catch((err) => console.error(err));
+    fetchProjects();
   }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await api.get('/admin/projects', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProjects(res.data);
+    } catch (err) {
+      console.error('Failed to fetch projects:', err);
+    }
+  };
 
   const handleSubmit = async () => {
     const data = new FormData();
-    if (selectedFile) {
-      data.append('images', selectedFile);
-    }
-    data.append('name', formData.name);
-    data.append('description', formData.description);
-    data.append('category', formData.category);
-    data.append('status', formData.status);
-    data.append('location', formData.location);
-    data.append('client', formData.client);
-    data.append('price', formData.price);
+    if (selectedFile) data.append('images', selectedFile);
+    Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
     try {
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
 
@@ -65,20 +66,8 @@ const AdminProjects: React.FC = () => {
         await api.post('/admin/projects', data, config);
       }
 
-      const updated = await api.get('/admin/projects');
-      setProjects(updated.data);
-      setOpen(false);
-      setSelectedFile(null);
-      setEditingProjectId(null);
-      setFormData({
-        name: '',
-        description: '',
-        category: '',
-        status: '',
-        location: '',
-        client: '',
-        price: '',
-      });
+      await fetchProjects();
+      closeModal();
     } catch (err) {
       console.error('API Error:', err);
     }
@@ -87,14 +76,32 @@ const AdminProjects: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await api.delete(`/admin/projects/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setProjects(projects.filter((p) => p._id !== id));
+      setProjects((prev) => prev.filter((p) => p._id !== id));
     } catch (err) {
-      console.error(err);
+      console.error('Delete failed:', err);
     }
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setEditingProjectId(null);
+    setFormData({
+      name: '',
+      description: '',
+      category: '',
+      status: '',
+      location: '',
+      client: '',
+      price: '',
+    });
+    setSelectedFile(null);
+  };
+
+  const getImageUrl = (img: string | { url: string }) => {
+    if (typeof img === 'object' && img.url) return img.url;
+    return `https://hbb-new2.onrender.com${img}`;
   };
 
   return (
@@ -120,7 +127,7 @@ const AdminProjects: React.FC = () => {
                   });
                   setSelectedFile(null);
                 }}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
                 Add Project
               </button>
@@ -133,7 +140,7 @@ const AdminProjects: React.FC = () => {
                     <img
                       src={
                         project.images?.[0]
-                          ? `https://hbb-new2.onrender.com${project.images[0]}`
+                          ? getImageUrl(project.images[0])
                           : '/images/image1.jpg'
                       }
                       alt={project.name}
@@ -162,24 +169,15 @@ const AdminProjects: React.FC = () => {
                             setSelectedFile(null);
                             setOpen(true);
                           }}
-                          className="text-blue-600 hover:text-blue-800 focus:outline-none"
+                          className="text-blue-600 hover:text-blue-800"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-                          </svg>
+                          ✏️
                         </button>
-
                         <button
                           onClick={() => handleDelete(project._id)}
-                          className="text-red-600 hover:text-red-800 focus:outline-none"
+                          className="text-red-600 hover:text-red-800"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
+                          🗑️
                         </button>
                       </div>
                     </div>
@@ -198,27 +196,16 @@ const AdminProjects: React.FC = () => {
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <textarea
-                placeholder="Description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={3}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <input
-                type="text"
-                placeholder="Category"
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
-              />
+              {['name', 'description', 'category', 'location', 'client', 'price'].map((field) => (
+                <input
+                  key={field}
+                  type="text"
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  value={(formData as any)[field]}
+                  onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+              ))}
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
@@ -232,51 +219,13 @@ const AdminProjects: React.FC = () => {
                 <option value="completed">Completed</option>
               </select>
               <input
-                type="text"
-                placeholder="Location"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <input
-                type="text"
-                placeholder="Client"
-                value={formData.client}
-                onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <input
-                type="text"
-                placeholder="Price"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
-              />
-              <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                 className="w-full px-3 py-2 border rounded-md"
               />
-
               <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                    setEditingProjectId(null);
-                    setFormData({
-                      name: '',
-                      description: '',
-                      category: '',
-                      status: '',
-                      location: '',
-                      client: '',
-                      price: '',
-                    });
-                    setSelectedFile(null);
-                  }}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
-                >
+                <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
                   Cancel
                 </button>
                 <button

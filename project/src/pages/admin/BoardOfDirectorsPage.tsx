@@ -6,7 +6,10 @@ interface Director {
   _id: string;
   name: string;
   position: string;
-  image: string;
+  image: {
+    url: string;
+    public_id?: string;
+  };
 }
 
 const BoardOfDirectorsPage: React.FC = () => {
@@ -17,13 +20,6 @@ const BoardOfDirectorsPage: React.FC = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const token = localStorage.getItem('adminToken');
-
-  const getImageUrl = (path: string) => {
-    if (path.startsWith('http')) return path;
-    const baseUrl = 'https://hbb-new2.onrender.com';
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${baseUrl}${cleanPath}`;
-  };
 
   useEffect(() => {
     api
@@ -113,7 +109,7 @@ const BoardOfDirectorsPage: React.FC = () => {
                 <div key={director._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                   <div className="relative h-64 bg-gray-100">
                     <img
-                      src={getImageUrl(director.image)}
+                      src={director.image?.url}
                       alt={director.name}
                       className="w-full h-full object-cover"
                       loading="lazy"

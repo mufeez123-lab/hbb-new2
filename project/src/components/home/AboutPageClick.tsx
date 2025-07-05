@@ -41,10 +41,7 @@ const CountUpNumber = ({ end, suffix = '' }: CountUpNumberProps) => {
     };
 
     animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
+    return () => cancelAnimationFrame(animationFrame);
   }, [end]);
 
   return (
@@ -61,7 +58,7 @@ const AboutPageClick = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = "https://hbb-new2.onrender.com";
+  const API_URL = 'https://hbb-new2.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +76,6 @@ const AboutPageClick = () => {
         console.error('Error fetching data:', err);
       }
     };
-
     fetchData();
   }, []);
 
@@ -146,7 +142,7 @@ const AboutPageClick = () => {
           </div>
         </div>
 
-        {/* Board of Directors */}
+        {/* Board of Directors Section */}
         <div className="mt-16">
           <h3 className="text-xl sm:text-2xl font-poppins text-neutral-900 mb-8 text-center">
             Board of Directors
@@ -166,23 +162,23 @@ const AboutPageClick = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {directors.map((director) => {
-                const imageURL = `${API_URL}${director.image}`;
-                return (
-                  <div
-                    key={director._id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
-                    <div className="w-full mt-0 bg-neutral-100 overflow-hidden h-80 sm:h-[22rem] lg:h-72">
-  <img
-    src={imageURL}
-    alt={director.name}
-    className="w-full h-full  object-cover object-top transition-transform duration-300 hover:scale-105"
-    onError={(e) => {
-      e.currentTarget.src = '/default-avatar.png';
-    }}
-  />
-</div>
+                const imageURL = director.image?.startsWith('http')
+                  ? director.image
+                  : `${API_URL}${director.image}`;
 
+                return (
+                  <div key={director._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="w-full mt-0 bg-neutral-100 overflow-hidden h-80 sm:h-[22rem] lg:h-72">
+                      <img
+                        src={imageURL}
+                        alt={director.name || 'Director'}
+                        className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = '/default-avatar.png';
+                        }}
+                      />
+                    </div>
                     <div className="p-4 text-center">
                       <h4 className="text-lg font-semibold text-neutral-800">
                         {director.name}

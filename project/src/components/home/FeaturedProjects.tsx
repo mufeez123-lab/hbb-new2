@@ -102,7 +102,13 @@ const FeaturedProjects = () => {
                 <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
                   <div className="relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden">
                     <img
-                      src={project.images?.[0] ? `${API_BASE}${project.images[0]}` : '/images/image1.jpg'}
+                      src={
+                        project.images?.[0]
+                          ? project.images[0].startsWith('http')
+                            ? project.images[0]
+                            : `${API_BASE}${project.images[0]}`
+                          : '/images/image1.jpg'
+                      }
                       alt={project.name}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
