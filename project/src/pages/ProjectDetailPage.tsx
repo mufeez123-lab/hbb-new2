@@ -25,7 +25,7 @@ const ProjectDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_BASE = "https://hbb-new2.vercel.app";
 
   useEffect(() => {
     const fetchProject = async () => {

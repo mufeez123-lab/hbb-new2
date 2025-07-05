@@ -15,7 +15,7 @@ const BrandsPage = () => {
 
   // Get full image URL (support for relative and absolute)
   const getImageUrl = (path: string) => {
-    const base = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const base = "https://hbb-new2.vercel.app";
     return path.startsWith('http')
       ? path
       : `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;

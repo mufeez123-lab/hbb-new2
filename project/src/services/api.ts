@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable or fallback
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = "https://hbb-new2.vercel.app/api";
 
 // Create Axios instance
 const api = axios.create({
