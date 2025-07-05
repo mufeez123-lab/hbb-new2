@@ -22,7 +22,7 @@ const server = http.createServer(app);
 // ✅ Define allowed origins for both local and production
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://hbb-new-pxwa.vercel.app'
+  'https://hbb-new2.vercel.app'
 ];
 
 // ✅ CORS for Express API
