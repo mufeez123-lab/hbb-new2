@@ -25,6 +25,7 @@ const BoardOfDirectorsPage: React.FC = () => {
   return `${baseUrl}${cleanPath}`;
 };
 
+const token = localStorage.getItem('adminToken');
 
   useEffect(() => {
     api.get('/admin/board')
@@ -43,11 +44,11 @@ const BoardOfDirectorsPage: React.FC = () => {
     try {
       if (editingId) {
         await api.put(`/admin/board/${editingId}`, data, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': 'multipart/form-data','Authorization': `Bearer ${token}` },
         });
       } else {
         await api.post('/admin/board', data, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
         });
       }
       const updated = await api.get('/admin/board');
@@ -63,7 +64,11 @@ const BoardOfDirectorsPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/admin/board/${id}`);
+      await api.delete(`/admin/board/${id}`,{
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
       setDirectors(directors.filter((d) => d._id !== id));
     } catch (err) {
       console.error(err);
