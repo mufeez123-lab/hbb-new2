@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://hbb-new2.vercel.app/api/$1"
+      "destination": "https://hbb-new2.vercel.app/$1"
     },
     {
       "source": "/(.*)",
