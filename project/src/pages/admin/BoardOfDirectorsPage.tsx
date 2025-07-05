@@ -25,7 +25,7 @@ const BoardOfDirectorsPage: React.FC = () => {
   return `${baseUrl}${cleanPath}`;
 };
 
-const token = localStorage.getItem('adminToken');
+const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDgyNzYyZGQ3MTg5YjA0ZDk0ZWY3ZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1MTcwMzYyMCwiZXhwIjoxNzUxNzA3MjIwfQ.pIhnTauf4jBMt239MZv4G9biX5ol4i54gNNSwtYVXys');
 
   useEffect(() => {
     api.get('/admin/board')
