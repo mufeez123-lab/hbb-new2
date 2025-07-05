@@ -3,11 +3,16 @@ import { Helmet } from 'react-helmet';
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
+interface DirectorImage {
+  url: string;
+  public_id: string;
+}
+
 interface Director {
   _id: string;
   name: string;
   position: string;
-  image: string;
+  image: string | DirectorImage;
   order: number;
   isActive: boolean;
 }
@@ -161,9 +166,9 @@ const AboutPageClick = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {directors.map((director) => {
                 const imageURL =
-                  typeof director.image === 'string' && director.image.startsWith('http')
-                    ? director.image
-                    : '/default-avatar.png'; // fallback for broken image
+                  typeof director.image === 'object' && director.image.url
+                    ? director.image.url
+                    : '/default-avatar.png';
 
                 return (
                   <div key={director._id} className="bg-white rounded-lg shadow-md overflow-hidden">

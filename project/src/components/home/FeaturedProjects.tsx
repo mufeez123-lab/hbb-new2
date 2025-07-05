@@ -8,7 +8,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: string[];
+  images: { url: string; public_id: string }[]; // Updated for Cloudinary
   category: string;
   status: string;
   location: string;
@@ -87,10 +87,10 @@ const FeaturedProjects = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {mainFeatured.map((project, index) => {
-              const image = project.images?.[0];
+              const imageObj = project.images?.[0];
               const imageUrl =
-                typeof image === 'string' && image.startsWith('http')
-                  ? image
+                typeof imageObj === 'object' && imageObj.url
+                  ? imageObj.url
                   : '/images/image1.jpg';
 
               return (
@@ -112,7 +112,8 @@ const FeaturedProjects = () => {
                         loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/images/image1.jpg';
                         }}
                       />
                       <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
