@@ -19,7 +19,7 @@ const BoardOfDirectorsPage: React.FC = () => {
   const getImageUrl = (path: string) => {
   if (path.startsWith('http')) return path;
 
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const baseUrl = "https://hbb-new2.vercel.app";
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
 
   return `${baseUrl}${cleanPath}`;
