@@ -21,22 +21,26 @@ const server = http.createServer(app);
 
 // ✅ Define allowed origins for both local and production
 const allowedOrigins = [
-  
   'https://hbb-new2-fhnh.vercel.app'
 ];
 
-// ✅ CORS for Express API
 app.use(cors({
   origin: function (origin, callback) {
+    // allow requests with no origin (like curl or mobile apps)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('CORS not allowed from this origin: ' + origin));
     }
   },
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
-app.options('*', cors()); // for handling preflight
+
+// Handle preflight requests for all routes
+app.options('*', cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
