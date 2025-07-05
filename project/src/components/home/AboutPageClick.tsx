@@ -162,9 +162,10 @@ const AboutPageClick = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {directors.map((director) => {
-                const imageURL = director.image?.startsWith('http')
-                  ? director.image
-                  : `${API_URL}${director.image}`;
+                const imageURL =
+                  typeof director.image === 'string' && director.image.startsWith('http')
+                    ? director.image
+                    : `${API_URL}${director.image}`;
 
                 return (
                   <div key={director._id} className="bg-white rounded-lg shadow-md overflow-hidden">
