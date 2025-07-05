@@ -28,7 +28,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://hbb-new2.vercel.app',
+        target: 'https://hbb-new2.onrender.com',
         changeOrigin: true,
         secure: false,
       },

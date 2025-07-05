@@ -15,7 +15,7 @@ const BrandsPage = () => {
 
   // Get full image URL (support for relative and absolute)
   const getImageUrl = (path: string) => {
-    const base = "https://hbb-new2.vercel.app";
+    const base = "https://hbb-new2.onrender.com";
     return path.startsWith('http')
       ? path
       : `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;

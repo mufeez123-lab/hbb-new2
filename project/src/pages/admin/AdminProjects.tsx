@@ -133,7 +133,7 @@ const AdminProjects: React.FC = () => {
                     <img
                       src={
                         project.images?.[0]
-                          ? `https://hbb-new2.vercel.app${project.images[0]}`
+                          ? `https://hbb-new2.onrender.com${project.images[0]}`
                           : '/images/image1.jpg'
                       }
                       alt={project.name}

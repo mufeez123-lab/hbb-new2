@@ -20,7 +20,7 @@ const BoardOfDirectorsPage: React.FC = () => {
 
   const getImageUrl = (path: string) => {
     if (path.startsWith('http')) return path;
-    const baseUrl = 'https://hbb-new2.vercel.app';
+    const baseUrl = 'https://hbb-new2.onrender.com';
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     return `${baseUrl}${cleanPath}`;
   };

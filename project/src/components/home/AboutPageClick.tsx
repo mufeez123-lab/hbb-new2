@@ -61,7 +61,7 @@ const AboutPageClick = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = "https://hbb-new2.vercel.app";
+  const API_URL = "https://hbb-new2.onrender.com";
 
   useEffect(() => {
     const fetchData = async () => {

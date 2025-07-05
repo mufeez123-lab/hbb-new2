@@ -25,7 +25,7 @@ const ProjectDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE = "https://hbb-new2.vercel.app";
+  const API_BASE = "https://hbb-new2.onrender.com";
 
   useEffect(() => {
     const fetchProject = async () => {
