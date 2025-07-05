@@ -18,7 +18,7 @@ const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [editingProjectId, setEditingProjectId] = useState<string | null>(null); // ✅ [NEW] Added for update logic
+  const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -30,13 +30,14 @@ const AdminProjects: React.FC = () => {
     price: '',
   });
 
+  const token = localStorage.getItem('adminToken');
+
   useEffect(() => {
     api.get('/admin/projects')
       .then((res) => setProjects(res.data))
       .catch((err) => console.error(err));
   }, []);
 
-  // ✅ [UPDATED] Supports both add and update logic
   const handleSubmit = async () => {
     const data = new FormData();
     if (selectedFile) {
@@ -51,21 +52,24 @@ const AdminProjects: React.FC = () => {
     data.append('price', formData.price);
 
     try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+
       if (editingProjectId) {
-        await api.put(`/admin/projects/${editingProjectId}`, data, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        await api.put(`/admin/projects/${editingProjectId}`, data, config);
       } else {
-        await api.post('/admin/projects', data, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        await api.post('/admin/projects', data, config);
       }
 
       const updated = await api.get('/admin/projects');
       setProjects(updated.data);
       setOpen(false);
       setSelectedFile(null);
-      setEditingProjectId(null); // ✅ reset update mode
+      setEditingProjectId(null);
       setFormData({
         name: '',
         description: '',
@@ -76,13 +80,17 @@ const AdminProjects: React.FC = () => {
         price: '',
       });
     } catch (err) {
-      console.error(err);
+      console.error('API Error:', err);
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/admin/projects/${id}`);
+      await api.delete(`/admin/projects/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
       setProjects(projects.filter((p) => p._id !== id));
     } catch (err) {
       console.error(err);
@@ -100,7 +108,7 @@ const AdminProjects: React.FC = () => {
               <button
                 onClick={() => {
                   setOpen(true);
-                  setEditingProjectId(null); // ✅ ensure it's add mode
+                  setEditingProjectId(null);
                   setFormData({
                     name: '',
                     description: '',
@@ -123,7 +131,7 @@ const AdminProjects: React.FC = () => {
                 <div key={project._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                   <div className="relative h-40 bg-gray-100">
                     <img
-                     src={
+                      src={
                         project.images?.[0]
                           ? `https://hbb-new2.vercel.app${project.images[0]}`
                           : '/images/image1.jpg'
@@ -139,7 +147,6 @@ const AdminProjects: React.FC = () => {
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xs font-medium text-gray-500">{project.category}</span>
                       <div className="flex items-center space-x-3">
-                        {/* ✅ [NEW] Edit Button */}
                         <button
                           onClick={() => {
                             setFormData({
@@ -152,7 +159,7 @@ const AdminProjects: React.FC = () => {
                               price: project.price || '',
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile(null); // optional
+                            setSelectedFile(null);
                             setOpen(true);
                           }}
                           className="text-blue-600 hover:text-blue-800 focus:outline-none"
@@ -164,7 +171,6 @@ const AdminProjects: React.FC = () => {
                           </svg>
                         </button>
 
-                        {/* Delete Button */}
                         <button
                           onClick={() => handleDelete(project._id)}
                           className="text-red-600 hover:text-red-800 focus:outline-none"
@@ -185,12 +191,11 @@ const AdminProjects: React.FC = () => {
         </main>
       </div>
 
-      {/* Modal */}
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">
-              {editingProjectId ? 'Update Project' : 'Add New Project'} {/* ✅ Dynamic Title */}
+              {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
             <div className="space-y-4">
               <input
@@ -258,7 +263,7 @@ const AdminProjects: React.FC = () => {
                 <button
                   onClick={() => {
                     setOpen(false);
-                    setEditingProjectId(null); // ✅ Cancel reset
+                    setEditingProjectId(null);
                     setFormData({
                       name: '',
                       description: '',
@@ -283,7 +288,7 @@ const AdminProjects: React.FC = () => {
                       : 'bg-gray-400 cursor-not-allowed'
                   }`}
                 >
-                  {editingProjectId ? 'Update Project' : 'Add Project'} {/* ✅ Dynamic Label */}
+                  {editingProjectId ? 'Update Project' : 'Add Project'}
                 </button>
               </div>
             </div>
