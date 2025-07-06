@@ -3,10 +3,28 @@ const router = express.Router();
 const multer = require('multer');
 const Brand = require('../models/Brand');
 const { adminAuth } = require('../middleware/auth');
-const cloudinary = require('../utils/cloudinary'); // ✅ Custom utility for cloudinary
 
-// Use memory storage (no need to save locally)
-const storage = multer.memoryStorage();
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// Load .env for Cloudinary credentials
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Set up Cloudinary storage
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'brands',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+  },
+});
+
 const upload = multer({ storage });
 
 /**
@@ -33,30 +51,12 @@ router.post('/', adminAuth, upload.single('images'), async (req, res) => {
       return res.status(400).json({ message: 'Image file is required' });
     }
 
-    // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload_stream(
-      {
-        folder: 'brands',
-        resource_type: 'image',
-      },
-      async (error, result) => {
-        if (error) {
-          console.error('Cloudinary Upload Error:', error);
-          return res.status(500).json({ message: 'Image upload failed' });
-        }
+    const brand = new Brand({
+      images: [{ url: req.file.path, public_id: req.file.filename }],
+    });
 
-        const brand = new Brand({
-          images: [{ url: result.secure_url, public_id: result.public_id }],
-        });
-
-        await brand.save();
-        res.status(201).json(brand);
-      }
-    );
-
-    // Convert buffer stream
-    const streamifier = require('streamifier');
-    streamifier.createReadStream(req.file.buffer).pipe(result);
+    await brand.save();
+    res.status(201).json(brand);
   } catch (err) {
     console.error('Error uploading brand:', err);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
@@ -74,9 +74,10 @@ router.delete('/:id', adminAuth, async (req, res) => {
       return res.status(404).json({ message: 'Brand not found' });
     }
 
-    // Delete images from Cloudinary
     for (const img of brand.images) {
-      await cloudinary.uploader.destroy(img.public_id);
+      if (img.public_id) {
+        await cloudinary.uploader.destroy(img.public_id);
+      }
     }
 
     await brand.deleteOne();
