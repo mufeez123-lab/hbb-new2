@@ -179,7 +179,7 @@ const AboutPageClick = () => {
                       <img
                         src={imageURL}
                         alt={director.name || 'Director'}
-                        className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105"
+                        className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105 rounded-lg"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = '/default-avatar.png';
