@@ -196,7 +196,7 @@ const AdminProjects: React.FC = () => {
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
             <div className="space-y-4">
-              {['name', 'description', 'category', 'location', 'client', 'price'].map((field) => (
+              {['name', 'description', 'location', 'client', 'price'].map((field) => (
                 <input
                   key={field}
                   type="text"
@@ -206,6 +206,17 @@ const AdminProjects: React.FC = () => {
                   className="w-full px-3 py-2 border rounded-md"
                 />
               ))}
+              {/* Category Dropdown */}
+<select
+  value={formData.category}
+  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+  className="w-full px-3 py-2 border rounded-md"
+>
+  <option value="">Select Category</option>
+  <option value="residential">Residential</option>
+  <option value="commercial">Commercial</option>
+  <option value="luxury villa">Luxury Villa</option>
+</select>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
