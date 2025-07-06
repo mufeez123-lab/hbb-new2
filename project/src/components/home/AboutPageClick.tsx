@@ -123,19 +123,19 @@ const AboutPageClick = () => {
             {stats ? (
               <div className="grid grid-cols-2 gap-3">
                 <div className="text-center mr-3">
-                  <CountUpNumber end={stats.yearsOfExperience} />
+                  <CountUpNumber end={stats.yearsOfExperience} suffix="+" />
                   <p className="text-neutral-600 text-sm mt-1">Years of Excellence</p>
                 </div>
                 <div className="text-center ml-3">
-                  <CountUpNumber end={stats.completedProjects} />
+                  <CountUpNumber end={stats.completedProjects} suffix="+" />
                   <p className="text-neutral-600 text-sm mt-1">Projects Completed</p>
                 </div>
                 <div className="text-center mr-3">
-                  <CountUpNumber end={stats.happyClients} />
+                  <CountUpNumber end={stats.happyClients} suffix="+" />
                   <p className="text-neutral-600 text-sm mt-1">Happy Families</p>
                 </div>
                 <div className="text-center ml-3">
-                  <CountUpNumber end={stats.awardsWon} />
+                  <CountUpNumber end={stats.awardsWon} suffix="+" />
                   <p className="text-neutral-600 text-sm mt-1">Awards Won</p>
                 </div>
               </div>
