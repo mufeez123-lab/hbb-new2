@@ -8,7 +8,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: string[];
+  images: { url: string; public_id: string }[]; // Cloudinary image format
   category: string;
   status: string;
   location: string;
@@ -24,8 +24,6 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const API_BASE = "https://hbb-new2.onrender.com";
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -58,6 +56,8 @@ const ProjectDetailPage = () => {
     );
   }
 
+  const imageUrl = project.images?.[0]?.url || '/images/image1.jpg';
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -89,11 +89,7 @@ const ProjectDetailPage = () => {
             className="w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto"
           >
             <img
-              src={
-                project.images?.[0]
-                  ? `${API_BASE}${project.images[0]}`
-                  : '/images/image1.jpg'
-              }
+              src={imageUrl}
               alt={project.name}
               className="w-full h-full object-cover"
               onError={(e) => {
