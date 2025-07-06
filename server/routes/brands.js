@@ -1,21 +1,20 @@
 const express = require('express');
+const router = express.Router();
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Brand = require('../models/Brand');
 const { adminAuth } = require('../middleware/auth');
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-const router = express.Router();
-
-// Configure Cloudinary
+// Cloudinary Config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure multer-cloudinary storage
+// Multer + Cloudinary Storage Setup
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -23,12 +22,11 @@ const storage = new CloudinaryStorage({
     allowed_formats: ['jpg', 'jpeg', 'png'],
   },
 });
-
 const upload = multer({ storage });
 
 /**
  * @route   GET /admin/brands
- * @desc    Get all brands
+ * @desc    Fetch all brands
  */
 router.get('/', async (req, res) => {
   try {
@@ -42,7 +40,7 @@ router.get('/', async (req, res) => {
 
 /**
  * @route   POST /admin/brands
- * @desc    Upload multiple brand images to Cloudinary
+ * @desc    Upload multiple brand images to Cloudinary (each image = separate brand)
  */
 router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
@@ -50,15 +48,20 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
       return res.status(400).json({ message: 'At least one image is required' });
     }
 
-    const imageData = req.files.map(file => ({
-      url: file.path,
-      public_id: file.filename,
-    }));
+    const savedBrands = [];
 
-    const brand = new Brand({ images: imageData });
-    await brand.save();
+    for (const file of req.files) {
+      const brand = new Brand({
+        images: [{
+          url: file.path,
+          public_id: file.filename,
+        }],
+      });
+      await brand.save();
+      savedBrands.push(brand);
+    }
 
-    res.status(201).json(brand);
+    res.status(201).json(savedBrands);
   } catch (err) {
     console.error('Error uploading brand:', err);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
@@ -67,7 +70,7 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
 
 /**
  * @route   DELETE /admin/brands/:id
- * @desc    Delete brand and images from Cloudinary
+ * @desc    Delete brand and image from Cloudinary
  */
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
@@ -76,7 +79,6 @@ router.delete('/:id', adminAuth, async (req, res) => {
       return res.status(404).json({ message: 'Brand not found' });
     }
 
-    // Delete each image from Cloudinary
     for (const img of brand.images) {
       if (img.public_id) {
         await cloudinary.uploader.destroy(img.public_id);
