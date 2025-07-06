@@ -39,10 +39,10 @@ const UpcomingProjects = () => {
 
     emailjs
       .send(
-        'your_service_id',       // 🔁 Replace with your EmailJS Service ID
-        'your_template_id',      // 🔁 Replace with your EmailJS Template ID
+        'service_etnx5ox',       // 🔁 Replace with your EmailJS Service ID
+        'template_puc6yi4',      // 🔁 Replace with your EmailJS Template ID
         templateParams,
-        'your_public_key'        // 🔁 Replace with your EmailJS Public Key
+        'wUdeNSJ0V6jqmnIBC'        // 🔁 Replace with your EmailJS Public Key
       )
       .then(() => {
         alert('Form submitted successfully!');
