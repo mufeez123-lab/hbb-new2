@@ -1,4 +1,3 @@
-// src/pages/admin/BrandsPage.tsx
 import { useEffect, useState } from 'react';
 import { brandsAPI } from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
@@ -10,10 +9,10 @@ interface Brand {
 
 const BrandsPage = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Get correct image URL (Cloudinary or local fallback)
+  // Normalize image URL (Cloudinary or fallback)
   const getImageUrl = (img: string | { url: string }) => {
     if (typeof img === 'string') return img;
     return img?.url || '/default-avatar.png';
@@ -32,19 +31,25 @@ const BrandsPage = () => {
     fetchBrands();
   }, []);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFiles(Array.from(e.target.files));
+    }
+  };
+
   const handleUpload = async () => {
-    if (!selectedFile) {
-      alert('Please select a file to upload.');
+    if (selectedFiles.length === 0) {
+      alert('Please select at least one image.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('images', selectedFile);
-    setLoading(true);
+    selectedFiles.forEach((file) => formData.append('images', file));
 
+    setLoading(true);
     try {
-      await brandsAPI.admin.create(formData); // This should handle Cloudinary upload on backend
-      setSelectedFile(null);
+      await brandsAPI.admin.create(formData); // Backend will handle multiple Cloudinary uploads
+      setSelectedFiles([]);
       await fetchBrands();
     } catch (error) {
       console.error('Upload failed:', error);
@@ -72,7 +77,8 @@ const BrandsPage = () => {
         <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <input
             type="file"
-            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            multiple
+            onChange={handleFileChange}
             className="border rounded px-4 py-2"
           />
           <button
@@ -91,14 +97,19 @@ const BrandsPage = () => {
               key={brand._id}
               className="bg-white border p-4 shadow rounded flex flex-col items-center justify-between"
             >
-              <img
-                src={getImageUrl(brand.images[0])}
-                alt="Brand"
-                className="w-24 h-24 object-contain mb-3"
-                onError={(e) => {
-                  e.currentTarget.src = '/default-avatar.png';
-                }}
-              />
+              <div className="flex flex-wrap justify-center gap-2 mb-3">
+                {brand.images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={getImageUrl(img)}
+                    alt={`Brand ${index}`}
+                    className="w-16 h-16 object-contain"
+                    onError={(e) => {
+                      e.currentTarget.src = '/default-avatar.png';
+                    }}
+                  />
+                ))}
+              </div>
               <button
                 onClick={() => handleDelete(brand._id)}
                 className="text-sm text-red-600 hover:underline"
