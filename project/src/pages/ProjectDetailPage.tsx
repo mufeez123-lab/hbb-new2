@@ -107,22 +107,18 @@ const ProjectDetailPage = () => {
             className="w-full lg:w-1/2 p-5 sm:p-6 flex flex-col justify-between"
           >
             <div className="space-y-6">
-              <div className="flex flex-wrap gap-3 text-sm text-neutral-600">
-                <div className="flex items-center">
-                  <MapPin className="mr-1 text-secondary-500" size={16} />
-                  {project.location}
-                </div>
-                {/* <div><strong>Status:</strong> {project.status}</div> */}
-                <div><strong>Category:</strong> {project.category}</div>
-                {project.type && <div><strong>Type:</strong> {project.type}</div>}
-                {project.completion && (
-                  <div><strong>Completion:</strong> {project.completion}</div>
-                )}
-                {project.price && (
-                  <div><strong>Price:</strong> ₹{project.price}</div>
-                )}
-                <div><strong>Client:</strong> {project.client}</div>
-              </div>
+             <div className="space-y-2 text-sm text-neutral-600">
+  <div className="flex items-center">
+    <MapPin className="mr-2 text-secondary-500" size={16} />
+    <span>{project.location}</span>
+  </div>
+  <div><strong>Category:</strong> {project.category}</div>
+  {project.type && <div><strong>Type:</strong> {project.type}</div>}
+  {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
+  {project.price && <div><strong>Price:</strong> ₹{project.price}</div>}
+  <div><strong>Client:</strong> {project.client}</div>
+</div>
+
 
               <div>
                 <h3 className="text-lg font-semibold text-neutral-800 mb-2">
