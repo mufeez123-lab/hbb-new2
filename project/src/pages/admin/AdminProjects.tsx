@@ -1,3 +1,4 @@
+// === AdminProjects.tsx ===
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
@@ -12,7 +13,17 @@ interface Project {
   location: string;
   client: string;
   price?: string;
+  amenities?: string[];
 }
+
+const defaultAmenities = [
+  'Park Area',
+  'Gym',
+  '24x7 Security',
+  'Swimming Pool',
+  'Children’s Play Area',
+  'Covered Parking',
+];
 
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -28,6 +39,7 @@ const AdminProjects: React.FC = () => {
     location: '',
     client: '',
     price: '',
+    amenities: [] as string[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -50,7 +62,10 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async () => {
     const data = new FormData();
     if (selectedFile) data.append('images', selectedFile);
-    Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== 'amenities') data.append(key, value as string);
+    });
+    formData.amenities.forEach((item) => data.append('amenities', item));
 
     try {
       const config = {
@@ -95,6 +110,7 @@ const AdminProjects: React.FC = () => {
       location: '',
       client: '',
       price: '',
+      amenities: [],
     });
     setSelectedFile(null);
   };
@@ -124,6 +140,7 @@ const AdminProjects: React.FC = () => {
                     location: '',
                     client: '',
                     price: '',
+                    amenities: [],
                   });
                   setSelectedFile(null);
                 }}
@@ -164,6 +181,7 @@ const AdminProjects: React.FC = () => {
                               location: project.location,
                               client: project.client,
                               price: project.price || '',
+                              amenities: project.amenities || [],
                             });
                             setEditingProjectId(project._id);
                             setSelectedFile(null);
@@ -206,17 +224,18 @@ const AdminProjects: React.FC = () => {
                   className="w-full px-3 py-2 border rounded-md"
                 />
               ))}
-              {/* Category Dropdown */}
-<select
-  value={formData.category}
-  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-  className="w-full px-3 py-2 border rounded-md"
->
-  <option value="">Select Category</option>
-  <option value="residential">Residential</option>
-  <option value="commercial">Commercial</option>
-  <option value="luxury villa">Luxury Villa</option>
-</select>
+
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              >
+                <option value="">Select Category</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="luxury villa">Luxury Villa</option>
+              </select>
+
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
@@ -229,12 +248,35 @@ const AdminProjects: React.FC = () => {
                 <option value="ready to move">Ready to Move</option>
                 <option value="completed">Completed</option>
               </select>
+
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                 className="w-full px-3 py-2 border rounded-md"
               />
+
+              <div>
+                <label className="block font-medium mb-2">Amenities</label>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  {defaultAmenities.map((amenity) => (
+                    <label key={amenity} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.amenities.includes(amenity)}
+                        onChange={(e) => {
+                          const updated = e.target.checked
+                            ? [...formData.amenities, amenity]
+                            : formData.amenities.filter((a) => a !== amenity);
+                          setFormData({ ...formData, amenities: updated });
+                        }}
+                      />
+                      <span>{amenity}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="flex justify-end space-x-4">
                 <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
                   Cancel
