@@ -40,7 +40,7 @@ const Brands = () => {
       {/* Section Header */}
       <div className="container mx-auto px-4 mb-10">
         <motion.h2
-          className="text-2xl text-center"
+          className="text-2xl text-center mt-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
