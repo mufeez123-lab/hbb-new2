@@ -94,7 +94,7 @@ const AboutPage = () => {
                 className="h-12 w-auto object-contain"
               />
                <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div>
-              <h3 className="text-2xl md:text-2xl font-poppins text-neutral-900 ml-2">
+              <h3 className="text-2xl md:text-1xl font-poppins text-neutral-900 ml-2">
                 Building Landmarks, Crafting Lifestyles
               </h3>
             </div>
