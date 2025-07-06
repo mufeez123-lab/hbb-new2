@@ -111,7 +111,7 @@ function App() {
               <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} />
               {/* <Route path="/admin/projects/add" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
               {/* <Route path="/admin/projects/edit/:id" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
-              {/* <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} /> */}
+              <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} />
               <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} />
               <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} />
               <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} />
