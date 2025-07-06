@@ -16,7 +16,7 @@ const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
       exit="exit"
       variants={menuVariants}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
-      className="fixed top-0 right-0 w-72 sm:w-96 h-full bg-neutral-800 text-white p-8 z-40 flex flex-col gap-5 mt-20"
+      className="fixed top-0 right-0 w-72 sm:w-96 h-full bg-neutral-800 text-white p-8 z-40 flex flex-col gap-5 mt-24"
     >
       <Link to="/" className="hover:text-[#8a6c1a]">Home</Link> 
       <Link to="/aboutclick" className="hover:text-[#8a6c1a]">About</Link> 
