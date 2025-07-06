@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import emailjs from '@emailjs/browser';
 
 const UpcomingProjects = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,40 @@ const UpcomingProjects = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    const templateParams = {
+      name: formData.name,
+      mobile: formData.mobile,
+      email: formData.email,
+      location: formData.location,
+      propertyType: formData.propertyType,
+      source: formData.source,
+      newsletter: formData.newsletter ? 'Yes' : 'No',
+    };
+
+    emailjs
+      .send(
+        'your_service_id',       // 🔁 Replace with your EmailJS Service ID
+        'your_template_id',      // 🔁 Replace with your EmailJS Template ID
+        templateParams,
+        'your_public_key'        // 🔁 Replace with your EmailJS Public Key
+      )
+      .then(() => {
+        alert('Form submitted successfully!');
+        setFormData({
+          name: '',
+          mobile: '',
+          email: '',
+          location: '',
+          propertyType: '',
+          source: '',
+          newsletter: false,
+        });
+      })
+      .catch((error) => {
+        console.error('EmailJS Error:', error);
+        alert('Something went wrong. Please try again.');
+      });
   };
 
   return (
@@ -52,19 +86,15 @@ const UpcomingProjects = () => {
           <p className="text-neutral-700 mb-4">
             Hindustan Bawa Builders has earned a strong reputation in Mangalore
             and coastal Karnataka for delivering reliable and well-crafted
-            residential spaces. With an emphasis on modern design, transparency,
-            and timely delivery, Bawa Builders continues to shape the skyline of
-            the city.
+            residential spaces.
           </p>
           <p className="text-neutral-700 mb-4">
             Stay informed about our upcoming residential projects in prime
-            locations across Mangalore and surrounding regions. Whether you're
-            looking for your dream home or a smart investment opportunity, our
-            new launches are designed to meet every need.
+            locations across Mangalore and surrounding regions.
           </p>
           <p className="text-neutral-700">
             Sign up now to receive early access and priority notifications about
-            our project launches in Mangalore, Udupi, and other coastal cities.
+            our project launches.
           </p>
         </div>
 
@@ -154,8 +184,7 @@ const UpcomingProjects = () => {
                 checked={formData.newsletter}
                 onChange={handleChange}
               />
-              Yes, I want to stay informed and receive newsletter and marketing
-              updates.
+              Yes, I want to receive updates.
             </label>
 
             <button

@@ -18,7 +18,7 @@ const dummyFaqs: FAQ[] = [
   {
     _id: '2',
     question: 'How can I book a site visit?',
-    answer: 'You can schedule a site visit through our contact form. Click on Contact us or Enquire now 🡨',
+    answer: 'You can schedule a site visit through our contact form. Click on Contact us Page 🡨',
   },
   {
     _id: '3',

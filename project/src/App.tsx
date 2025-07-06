@@ -8,7 +8,7 @@ import 'aos/dist/aos.css';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/utils/ScrollToTop';
-import EnquireForm from './components/EnquireNow';
+// import EnquireForm from './components/EnquireNow';
 
 
 // Pages
@@ -117,8 +117,7 @@ function App() {
               <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} />
             </Routes>
           </AnimatePresence>
-        </main>
-        {!isAdminPage && <EnquireForm />} 
+        </main> 
         {!isAdminPage && <Footer />}
       </ProjectProvider>
     </AuthProvider>
