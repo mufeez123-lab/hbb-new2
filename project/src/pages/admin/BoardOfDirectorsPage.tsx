@@ -111,7 +111,8 @@ const BoardOfDirectorsPage: React.FC = () => {
                     <img
                       src={director.image?.url}
                       alt={director.name}
-                      className="w-full h-full object-cover"
+                     className="w-full h-full object-contain p-4"
+
                       loading="lazy"
                     />
                   </div>
