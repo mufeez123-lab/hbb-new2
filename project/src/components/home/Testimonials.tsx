@@ -29,7 +29,7 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
-        {/* Right Side - Plain AutoPlay Video */}
+        {/* Right Side - AutoPlay Video */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -45,7 +45,10 @@ const Testimonials = () => {
               playsInline
               className="w-full h-full object-cover"
             >
-              <source src="/test1.mp4" type="video/mp4" />
+              <source
+                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                type="video/mp4"
+              />
               Your browser does not support the video tag.
             </video>
           </div>
