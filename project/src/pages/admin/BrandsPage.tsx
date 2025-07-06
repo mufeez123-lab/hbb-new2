@@ -4,19 +4,16 @@ import Sidebar from '../../components/admin/Sidebar';
 
 interface Brand {
   _id: string;
-  images: (string | { url: string })[];
+  image: {
+    url: string;
+    public_id: string;
+  };
 }
 
 const BrandsPage = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Normalize image URL (Cloudinary or fallback)
-  const getImageUrl = (img: string | { url: string }) => {
-    if (typeof img === 'string') return img;
-    return img?.url || '/default-avatar.png';
-  };
 
   const fetchBrands = async () => {
     try {
@@ -31,25 +28,21 @@ const BrandsPage = () => {
     fetchBrands();
   }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setSelectedFiles(Array.from(e.target.files));
-    }
-  };
-
   const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
+    if (!selectedFiles || selectedFiles.length === 0) {
       alert('Please select at least one image.');
       return;
     }
 
     const formData = new FormData();
-    selectedFiles.forEach((file) => formData.append('images', file));
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append('images', selectedFiles[i]);
+    }
 
     setLoading(true);
     try {
-      await brandsAPI.admin.create(formData); // Backend will handle multiple Cloudinary uploads
-      setSelectedFiles([]);
+      await brandsAPI.admin.create(formData);
+      setSelectedFiles(null);
       await fetchBrands();
     } catch (error) {
       console.error('Upload failed:', error);
@@ -67,6 +60,8 @@ const BrandsPage = () => {
     }
   };
 
+  const getImageUrl = (image: any) => image?.url || '/default-avatar.png';
+
   return (
     <div className="flex">
       <Sidebar />
@@ -78,7 +73,7 @@ const BrandsPage = () => {
           <input
             type="file"
             multiple
-            onChange={handleFileChange}
+            onChange={(e) => setSelectedFiles(e.target.files)}
             className="border rounded px-4 py-2"
           />
           <button
@@ -97,19 +92,14 @@ const BrandsPage = () => {
               key={brand._id}
               className="bg-white border p-4 shadow rounded flex flex-col items-center justify-between"
             >
-              <div className="flex flex-wrap justify-center gap-2 mb-3">
-                {brand.images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={getImageUrl(img)}
-                    alt={`Brand ${index}`}
-                    className="w-16 h-16 object-contain"
-                    onError={(e) => {
-                      e.currentTarget.src = '/default-avatar.png';
-                    }}
-                  />
-                ))}
-              </div>
+              <img
+                src={getImageUrl(brand.image)}
+                alt="Brand"
+                className="w-24 h-24 object-contain mb-3"
+                onError={(e) => {
+                  e.currentTarget.src = '/default-avatar.png';
+                }}
+              />
               <button
                 onClick={() => handleDelete(brand._id)}
                 className="text-sm text-red-600 hover:underline"
