@@ -175,7 +175,7 @@ const AboutPageClick = () => {
                     key={director._id}
                     className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden"
                   >
-                    <div className="w-full h-96 sm:h-[26rem] bg-neutral-100 overflow-hidden">
+                    <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden p-1">
                       <img
                         src={imageURL}
                         alt={director.name || 'Director'}
@@ -186,7 +186,7 @@ const AboutPageClick = () => {
                         }}
                       />
                     </div>
-                    <div className="p-5 text-center">
+                    <div className="p-3 text-center">
                       <h4 className="text-lg font-semibold text-[#8a6c1a]">
                         {director.name}
                       </h4>
