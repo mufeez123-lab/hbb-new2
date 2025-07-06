@@ -87,17 +87,18 @@ const AboutPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Section: Logo + Heading + Paragraph */}
           <div className="lg:col-span-2 border-r border-neutral-300 pr-6 pl-4">
-            <div className="flex items-center gap-4 mb-4">
-              <img
-                src={crisilLogo}
-                alt="CRISIL Logo"
-                className="h-12 w-auto object-contain"
-              />
-               <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div>
-              <h3 className="text-2xl md:text-2xl font-poppins text-neutral-900 ml-2">
-                Building Landmarks, Crafting Lifestyles
-              </h3>
-            </div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-4">
+  <img
+    src={crisilLogo}
+    alt="CRISIL Logo"
+    className="h-12 w-auto object-contain"
+  />
+  <div className="w-full sm:w-[0.5px] h-[1px] sm:h-10 bg-[#8A6C4B] sm:ml-2"></div>
+  <h3 className="text-xl sm:text-2xl font-poppins text-neutral-900 sm:ml-2">
+    Building Landmarks, Crafting Lifestyles
+  </h3>
+</div>
+
 
             <p className="text-base text-neutral-600 leading-relaxed mb-4">
             One of India's most trusted and respected names in Real Estate – Hindustan Bawa Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Bawa Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations..
