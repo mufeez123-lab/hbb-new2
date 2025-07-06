@@ -46,7 +46,7 @@ const Testimonials = () => {
               className="w-full h-full object-cover"
             >
               <source
-                src="https://mixkit.co/free-stock-video/girls-playing-with-dog-in-the-park-25007.mp4"
+                src="https://www.w3schools.com/html/mov_bbb.mp4"
                 type="video/mp4"
               />
               Your browser does not support the video tag.
