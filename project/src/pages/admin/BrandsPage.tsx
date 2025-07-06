@@ -5,7 +5,7 @@ import Sidebar from '../../components/admin/Sidebar';
 
 interface Brand {
   _id: string;
-  images: string[];
+  images: (string | { url: string })[];
 }
 
 const BrandsPage = () => {
@@ -13,15 +13,12 @@ const BrandsPage = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Get full image URL (support for relative and absolute)
-  const getImageUrl = (path: string) => {
-    const base = "https://hbb-new2.onrender.com";
-    return path.startsWith('http')
-      ? path
-      : `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  // Get correct image URL (Cloudinary or local fallback)
+  const getImageUrl = (img: string | { url: string }) => {
+    if (typeof img === 'string') return img;
+    return img?.url || '/default-avatar.png';
   };
 
-  // Fetch all brands from admin API
   const fetchBrands = async () => {
     try {
       const data = await brandsAPI.admin.getAll();
@@ -35,7 +32,6 @@ const BrandsPage = () => {
     fetchBrands();
   }, []);
 
-  // Handle file upload
   const handleUpload = async () => {
     if (!selectedFile) {
       alert('Please select a file to upload.');
@@ -47,9 +43,9 @@ const BrandsPage = () => {
     setLoading(true);
 
     try {
-      await brandsAPI.admin.create(formData);
+      await brandsAPI.admin.create(formData); // This should handle Cloudinary upload on backend
       setSelectedFile(null);
-      await fetchBrands(); // Refresh brand list
+      await fetchBrands();
     } catch (error) {
       console.error('Upload failed:', error);
     } finally {
@@ -57,7 +53,6 @@ const BrandsPage = () => {
     }
   };
 
-  // Handle delete brand
   const handleDelete = async (id: string) => {
     try {
       await brandsAPI.admin.delete(id);
@@ -73,6 +68,7 @@ const BrandsPage = () => {
       <div className="flex-1 p-6 sm:p-10">
         <h2 className="text-2xl font-bold mb-6">Manage Brands</h2>
 
+        {/* Upload Section */}
         <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <input
             type="file"
@@ -88,6 +84,7 @@ const BrandsPage = () => {
           </button>
         </div>
 
+        {/* Brand Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
           {brands.map((brand) => (
             <div
