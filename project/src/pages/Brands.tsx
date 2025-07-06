@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import api from '../../services/api'; // adjust path if needed
+import api from '../services/api'; // adjust path if needed
 
 interface BrandImage {
   url: string;
