@@ -44,6 +44,13 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+
+  // ✅ New field added below
+  amenities: {
+    type: [String],
+    default: []
+  }
+
 }, {
   timestamps: true
 });

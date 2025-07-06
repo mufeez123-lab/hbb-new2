@@ -61,12 +61,30 @@ router.get('/:id', async (req, res) => {
 // === POST: Create Project ===
 router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
-    const { name, description, category, status, location, client, price } = req.body;
+    const {
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities
+    } = req.body;
 
     const images = req.files.map(file => ({
       url: file.path,
       public_id: file.filename,
     }));
+
+    let amenitiesArray = [];
+    if (amenities) {
+      if (Array.isArray(amenities)) {
+        amenitiesArray = amenities;
+      } else {
+        amenitiesArray = [amenities];
+      }
+    }
 
     const project = new Project({
       name,
@@ -76,12 +94,12 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
+      amenities: amenitiesArray,
       images
     });
 
     await project.save();
 
-    // Emit real-time update
     req.app.get('io').emit('project:created', project);
 
     res.status(201).json(project);
@@ -93,11 +111,29 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
 // === PUT: Update Project ===
 router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
-    const { name, description, category, status, location, client, price } = req.body;
+    const {
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities
+    } = req.body;
 
     const existingProject = await Project.findById(req.params.id);
     if (!existingProject) {
       return res.status(404).json({ message: 'Project not found' });
+    }
+
+    let amenitiesArray = [];
+    if (amenities) {
+      if (Array.isArray(amenities)) {
+        amenitiesArray = amenities;
+      } else {
+        amenitiesArray = [amenities];
+      }
     }
 
     const updateData = {
@@ -108,10 +144,10 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
+      amenities: amenitiesArray
     };
 
     if (req.files && req.files.length > 0) {
-      // Delete old Cloudinary images
       for (const img of existingProject.images) {
         if (img.public_id) {
           await cloudinary.uploader.destroy(img.public_id);
@@ -130,7 +166,6 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       { new: true }
     );
 
-    // Emit real-time update
     req.app.get('io').emit('project:updated', updatedProject);
 
     res.json(updatedProject);
@@ -147,7 +182,6 @@ router.delete('/:id', adminAuth, async (req, res) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    // Delete all Cloudinary images
     for (const img of project.images) {
       if (img.public_id) {
         await cloudinary.uploader.destroy(img.public_id);
@@ -156,7 +190,6 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
     await project.deleteOne();
 
-    // Emit real-time update
     req.app.get('io').emit('project:deleted', req.params.id);
 
     res.json({ message: 'Project deleted successfully' });
