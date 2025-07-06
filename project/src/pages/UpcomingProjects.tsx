@@ -40,7 +40,7 @@ const UpcomingProjects = () => {
     emailjs
       .send(
         'service_etnx5ox',       // 🔁 Replace with your EmailJS Service ID
-        'template_puc6yi4',      // 🔁 Replace with your EmailJS Template ID
+        'template_puc6yi4',      
         templateParams,
         'wUdeNSJ0V6jqmnIBC'        // 🔁 Replace with your EmailJS Public Key
       )
@@ -71,7 +71,7 @@ const UpcomingProjects = () => {
       className="bg-white py-6 px-4 md:px-10 lg:px-20 mt-20"
     >
       <Helmet>
-        <title>Upcoming Projects | Hindustan Bawa Builders</title>
+        <title>Upcoming Projects  Hindustan Bawa Builders</title>
       </Helmet>
 
       <div className="max-w-screen-lg mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
