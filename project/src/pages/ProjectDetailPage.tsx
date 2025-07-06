@@ -1,3 +1,4 @@
+// === ProjectDetailPage.tsx ===
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -8,9 +9,8 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: { url: string; public_id: string }[]; // Cloudinary image format
+  images: { url: string; public_id: string }[];
   category: string;
-  // status: string;
   location: string;
   client: string;
   price?: string;
@@ -107,18 +107,17 @@ const ProjectDetailPage = () => {
             className="w-full lg:w-1/2 p-5 sm:p-6 flex flex-col justify-between"
           >
             <div className="space-y-6">
-             <div className="space-y-2 text-sm text-neutral-600">
-  <div className="flex items-center">
-    <MapPin className="mr-2 text-secondary-500" size={16} />
-    <span>{project.location}</span>
-  </div>
-  <div><strong>Category:</strong> {project.category}</div>
-  {project.type && <div><strong>Type:</strong> {project.type}</div>}
-  {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
-  {project.price && <div><strong>Price:</strong> ₹{project.price}</div>}
-  <div><strong>Client:</strong> {project.client}</div>
-</div>
-
+              <div className="space-y-2 text-sm text-neutral-600">
+                <div className="flex items-center">
+                  <MapPin className="mr-2 text-secondary-500" size={16} />
+                  <span>{project.location}</span>
+                </div>
+                <div><strong>Category:</strong> {project.category}</div>
+                {project.type && <div><strong>Type:</strong> {project.type}</div>}
+                {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
+                {project.price && <div><strong>Price:</strong> ₹{project.price}</div>}
+                <div><strong>Client:</strong> {project.client}</div>
+              </div>
 
               <div>
                 <h3 className="text-lg font-semibold text-neutral-800 mb-2">
@@ -134,21 +133,12 @@ const ProjectDetailPage = () => {
                   Amenities
                 </h3>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-700 text-sm list-disc list-inside">
-                  {project.amenities?.length ? (
+                  {project.amenities && project.amenities.length > 0 ? (
                     project.amenities.map((item, idx) => (
                       <li key={idx} className="leading-snug">{item}</li>
                     ))
                   ) : (
-                    [
-                      'Park Area',
-                      'Gym',
-                      '24x7 Security',
-                      'Swimming Pool',
-                      'Children’s Play Area',
-                      'Covered Parking',
-                    ].map((item, i) => (
-                      <li key={i} className="leading-snug">{item}</li>
-                    ))
+                    <li className="text-neutral-500 italic">No amenities listed</li>
                   )}
                 </ul>
               </div>
