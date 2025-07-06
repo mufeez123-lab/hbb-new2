@@ -14,7 +14,7 @@ const Header = () => {
     setIsOpen(false);
   }, [location]);
 
-  // Scroll background blur effect
+  // Track scroll for header background effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -42,7 +42,7 @@ const Header = () => {
             <img src="/logo-SVG.svg" alt="Logo" className="h-16 w-auto" />
           </Link>
 
-          {/* Desktop Right Controls */}
+          {/* Desktop CTA button only */}
           <div className="hidden lg:flex items-center space-x-4">
             <Link
               to="/upcoming-projects"
@@ -50,7 +50,6 @@ const Header = () => {
             >
               Upcoming Projects
             </Link>
-            <AnimatedHamburger isOpen={isOpen} toggle={() => setIsOpen(!isOpen)} />
           </div>
 
           {/* Mobile Hamburger */}
