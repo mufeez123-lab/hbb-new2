@@ -146,10 +146,10 @@ const AboutPageClick = () => {
         </div>
 
         {/* Board of Directors Section */}
-        <div className="mt-16">
-          <h3 className="text-xl sm:text-2xl font-poppins text-neutral-900 mb-8 text-center">
+        <div className="mt-20">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-center text-neutral-800 mb-10">
             Board of Directors
-          </h3>
+          </h2>
 
           {loading ? (
             <div className="text-center py-8">
@@ -163,7 +163,7 @@ const AboutPageClick = () => {
               Our leadership team is being updated — check back shortly.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-2">
               {directors.map((director) => {
                 const imageURL =
                   typeof director.image === 'object' && director.image.url
@@ -171,8 +171,11 @@ const AboutPageClick = () => {
                     : '/default-avatar.png';
 
                 return (
-                  <div key={director._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="w-full mt-0 bg-neutral-100 overflow-hidden h-80 sm:h-[22rem] lg:h-72">
+                  <div
+                    key={director._id}
+                    className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden"
+                  >
+                    <div className="w-full h-96 sm:h-[26rem] bg-neutral-100 overflow-hidden">
                       <img
                         src={imageURL}
                         alt={director.name || 'Director'}
@@ -183,8 +186,8 @@ const AboutPageClick = () => {
                         }}
                       />
                     </div>
-                    <div className="p-4 text-center">
-                      <h4 className="text-lg font-semibold text-neutral-800">
+                    <div className="p-5 text-center">
+                      <h4 className="text-lg font-semibold text-[#8a6c1a]">
                         {director.name}
                       </h4>
                       <p className="text-neutral-600 text-sm">{director.position}</p>
