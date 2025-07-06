@@ -10,7 +10,7 @@ interface Project {
   description: string;
   images: { url: string; public_id: string }[]; // Cloudinary image format
   category: string;
-  status: string;
+  // status: string;
   location: string;
   client: string;
   price?: string;
@@ -112,7 +112,7 @@ const ProjectDetailPage = () => {
                   <MapPin className="mr-1 text-secondary-500" size={16} />
                   {project.location}
                 </div>
-                <div><strong>Status:</strong> {project.status}</div>
+                {/* <div><strong>Status:</strong> {project.status}</div> */}
                 <div><strong>Category:</strong> {project.category}</div>
                 {project.type && <div><strong>Type:</strong> {project.type}</div>}
                 {project.completion && (
