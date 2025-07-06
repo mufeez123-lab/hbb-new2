@@ -1,21 +1,26 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import api from '../../services/api'; // adjust if path differs
+import api from '../../services/api'; // adjust path if needed
+
+interface BrandImage {
+  url: string;
+  public_id: string;
+}
 
 interface Brand {
   _id: string;
-  images: (string | { url: string })[];
+  image: BrandImage;
 }
 
 const Brands = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
 
-  // Fetch brands from backend
+  // Fetch brand data
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const res = await api.get('/brands'); // public endpoint
-        setBrands(res.data);
+        const res = await api.get('/brands'); // Make sure this is your public endpoint
+        setBrands(res.data || []);
       } catch (error) {
         console.error('Failed to load brands:', error);
       }
@@ -24,11 +29,11 @@ const Brands = () => {
     fetchBrands();
   }, []);
 
-  // Utility to get image URL
-  const getImageUrl = (img: string | { url: string }) => {
-    if (typeof img === 'object' && img?.url) return img.url;
-    return img; // assume string path (Cloudinary full URL or relative)
-  };
+  // Ensure safe image access
+  const getImageUrl = (image?: BrandImage) =>
+    image?.url || '/default-avatar.png';
+
+  const visibleBrands = brands.filter((brand) => brand?.image?.url);
 
   return (
     <section className="py-12 relative overflow-hidden">
@@ -67,13 +72,13 @@ const Brands = () => {
             },
           }}
         >
-          {[...brands, ...brands].map((brand, index) => (
+          {[...visibleBrands, ...visibleBrands].map((brand, index) => (
             <div
               key={`left-${index}`}
               className="flex-shrink-0 w-24 h-24 flex items-center justify-center"
             >
               <img
-                src={getImageUrl(brand.images[0])}
+                src={getImageUrl(brand.image)}
                 alt="Brand Logo"
                 className="w-full h-full object-contain"
                 onError={(e) => {
@@ -97,13 +102,13 @@ const Brands = () => {
             },
           }}
         >
-          {[...brands, ...brands].map((brand, index) => (
+          {[...visibleBrands, ...visibleBrands].map((brand, index) => (
             <div
               key={`right-${index}`}
               className="flex-shrink-0 w-24 h-24 flex items-center justify-center"
             >
               <img
-                src={getImageUrl(brand.images[0])}
+                src={getImageUrl(brand.image)}
                 alt="Brand Logo"
                 className="w-full h-full object-contain"
                 onError={(e) => {
