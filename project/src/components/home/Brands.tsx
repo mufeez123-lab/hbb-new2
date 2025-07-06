@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 const brands = [
-  { id: 1, logo: '/images/bawalogo.png' },
+  { id: 1, logo: '/images/barbe.jpg' },
   { id: 2, logo: '/images/7299.png' },
   { id: 3, logo: '/images/8207.jpg' },
   { id: 4, logo: '/images/preview.jpg' },
