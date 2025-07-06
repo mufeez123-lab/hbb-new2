@@ -31,16 +31,7 @@ hindustan/
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
 
-## Environment Variables
 
-### Backend (Render)
-- `MONGODB_URI`: MongoDB connection string
-- `JWT_SECRET`: Secret key for JWT tokens
-- `CLIENT_URL`: Frontend URL (Vercel)
-- `PORT`: 6000
-
-### Frontend (Vercel)
-- `VITE_API_URL`: Backend URL (Render)
 
 ## Local Development
 
