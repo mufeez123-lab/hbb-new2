@@ -73,7 +73,7 @@ const ProjectDetailPage = () => {
 
           {project.price && (
             <div className="text-lg font-semibold text-[#8a731b] border border-[#f1e4c2] bg-[#f1e4c2] rounded p-2">
-              ₹ {project.price} Onwards
+             BUA :{project.price} 
             </div>
           )}
 
