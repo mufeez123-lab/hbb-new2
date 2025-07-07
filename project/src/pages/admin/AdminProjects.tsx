@@ -1,4 +1,3 @@
-// === AdminProjects.tsx ===
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
@@ -30,6 +29,7 @@ const AdminProjects: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState(''); // ✅ Success message state
 
   const [formData, setFormData] = useState({
     name: '',
@@ -77,12 +77,17 @@ const AdminProjects: React.FC = () => {
 
       if (editingProjectId) {
         await api.put(`/admin/projects/${editingProjectId}`, data, config);
+        setSuccessMessage('✅ Project updated successfully');
       } else {
         await api.post('/admin/projects', data, config);
+        setSuccessMessage('✅ Project added successfully');
       }
 
       await fetchProjects();
       closeModal();
+
+      // Clear message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('API Error:', err);
     }
@@ -128,6 +133,9 @@ const AdminProjects: React.FC = () => {
           <div className="max-w-10xl mx-auto">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-semibold">Projects</h1>
+              {successMessage && (
+                <div className="text-green-600 font-medium ml-4">{successMessage}</div>
+              )}
               <button
                 onClick={() => {
                   setOpen(true);
