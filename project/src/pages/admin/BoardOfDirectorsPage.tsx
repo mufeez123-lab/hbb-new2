@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Director {
   _id: string;
@@ -18,7 +20,6 @@ const BoardOfDirectorsPage: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({ name: '', position: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState('');
 
   const token = localStorage.getItem('adminToken');
 
@@ -56,7 +57,7 @@ const BoardOfDirectorsPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setSuccessMessage('✅ Director updated successfully');
+        toast.success('✅ Director updated successfully');
       } else {
         await api.post('/admin/board', data, {
           headers: {
@@ -64,7 +65,7 @@ const BoardOfDirectorsPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setSuccessMessage('✅ Director added successfully');
+        toast.success('✅ Director added successfully');
       }
 
       await fetchDirectors();
@@ -72,10 +73,9 @@ const BoardOfDirectorsPage: React.FC = () => {
       setSelectedFile(null);
       setFormData({ name: '', position: '' });
       setEditingId(null);
-      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error(err);
-      alert('Something went wrong while submitting. Please try again.');
+      toast.error('❌ Something went wrong. Please try again.');
     }
   };
 
@@ -84,12 +84,11 @@ const BoardOfDirectorsPage: React.FC = () => {
       await api.delete(`/admin/board/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setDirectors(directors.filter((d) => d._id !== id));
-      setSuccessMessage('🗑️ Director deleted successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      setDirectors((prev) => prev.filter((d) => d._id !== id));
+      toast.success('🗑️ Director deleted successfully');
     } catch (err) {
       console.error(err);
-      alert('Failed to delete. Please try again.');
+      toast.error('❌ Failed to delete. Please try again.');
     }
   };
 
@@ -100,12 +99,7 @@ const BoardOfDirectorsPage: React.FC = () => {
         <main className="flex-1 p-4 ml-64">
           <div className="max-w-6xl mx-auto">
             <div className="flex justify-between items-center mb-4">
-              <div>
-                <h1 className="text-2xl font-semibold">Board of Directors</h1>
-                {successMessage && (
-                  <div className="text-green-600 font-medium mt-2">{successMessage}</div>
-                )}
-              </div>
+              <h1 className="text-2xl font-semibold">Board of Directors</h1>
               <button
                 onClick={() => {
                   setOpen(true);
@@ -113,7 +107,7 @@ const BoardOfDirectorsPage: React.FC = () => {
                   setSelectedFile(null);
                   setEditingId(null);
                 }}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none"
               >
                 Add Director
               </button>
@@ -163,7 +157,7 @@ const BoardOfDirectorsPage: React.FC = () => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">
               {editingId ? 'Update Director' : 'Add New Director'}
@@ -202,7 +196,7 @@ const BoardOfDirectorsPage: React.FC = () => {
                     setOpen(false);
                     setEditingId(null);
                   }}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
                 >
                   Cancel
                 </button>
@@ -222,6 +216,9 @@ const BoardOfDirectorsPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* 🛎️ Toast messages container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
