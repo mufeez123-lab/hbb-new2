@@ -68,12 +68,12 @@ const ProjectDetailPage = () => {
 
         {/* Details */}
         <div className="w-full lg:w-1/2 p-6 space-y-5">
-          <h2 className="text-2xl font-semibold text-neutral-800">{project.name}</h2>
+          <h2 className="text-2xl font-sans text-neutral-800 mb-1">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
           {project.price && (
             <div className="text-lg font-semibold text-[#8a731b] border border-[#f1e4c2] bg-[#f1e4c2] rounded p-2">
-             BUA :{project.price} 
+             BUA :{project.price} sqft
             </div>
           )}
 
