@@ -48,7 +48,7 @@ const ProjectDetailPage = () => {
   const imageUrl = project.images?.[0]?.url || '/images/image1.jpg';
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden lg:flex">
         {/* Image */}
         <div className="w-full lg:w-1/2 h-80 lg:h-auto">
