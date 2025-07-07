@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import NotFoundPage from '../../pages/NotFoundPage';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -29,8 +30,7 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   }
 
   if (!user || user.role !== 'admin') {
-    console.log('User not found or not admin, redirecting to login');
-    return <Navigate to="/786313login" state={{ from: location }} replace />;
+      return <NotFoundPage />;
   }
 
   console.log('Rendering admin route for user:', user);
