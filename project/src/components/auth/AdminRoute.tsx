@@ -1,6 +1,5 @@
-// src/components/auth/AdminRoute.tsx
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 interface AdminRouteProps {
@@ -9,7 +8,12 @@ interface AdminRouteProps {
 
 const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, loading, token } = useAuth();
+
+  useEffect(() => {
+    console.log('AdminRoute state:', { user, loading, token });
+  }, [user, loading, token]);
 
   if (loading) {
     return (
@@ -19,10 +23,17 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
     );
   }
 
-  if (!token || !user || user.role !== 'admin') {
+  if (!token) {
+    console.log('No token found, redirecting to login');
     return <Navigate to="/786313login" state={{ from: location }} replace />;
   }
 
+  if (!user || user.role !== 'admin') {
+    console.log('User not found or not admin, redirecting to login');
+    return <Navigate to="/786313login" state={{ from: location }} replace />;
+  }
+
+  console.log('Rendering admin route for user:', user);
   return <>{children}</>;
 };
 
