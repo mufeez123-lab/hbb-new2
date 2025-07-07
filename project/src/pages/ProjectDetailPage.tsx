@@ -70,13 +70,6 @@ const ProjectDetailPage = () => {
             {project.description}
           </p>
 
-          <div className="flex items-center gap-4 border border-neutral-200 p-2 rounded mb-6">
-            <div className="text-sm font-semibold text-neutral-600">TYPE: {project.category}</div>
-            {project.price && (
-              <div className="text-sm font-semibold text-neutral-600">BUA: {project.price} sqft</div>
-            )}
-          </div>
-
           {/* Plans Section */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-neutral-800 mb-4">Plans</h3>
@@ -86,7 +79,7 @@ const ProjectDetailPage = () => {
           </div>
 
           {/* Amenities Section */}
-          <div>
+          <div className="mb-8">
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-700 text-sm list-disc list-inside">
               {project.amenities && project.amenities.length > 0 ? (
@@ -97,6 +90,14 @@ const ProjectDetailPage = () => {
                 <li className="text-neutral-500 italic">No amenities listed</li>
               )}
             </ul>
+          </div>
+
+          {/* Info */}
+          <div className="flex items-center gap-4 border border-neutral-200 p-2 rounded mb-6">
+            <div className="text-sm font-semibold text-neutral-600">TYPE: {project.category}</div>
+            {project.price && (
+              <div className="text-sm font-semibold text-neutral-600">BUA: {project.price} sqft</div>
+            )}
           </div>
 
           <button className="mt-6 px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
