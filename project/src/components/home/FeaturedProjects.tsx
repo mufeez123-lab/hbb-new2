@@ -133,9 +133,10 @@ const FeaturedProjects = () => {
 
                       <div className="flex justify-between items-center">
                         <div className="text-primary-700 font-semibold text-sm sm:text-base">
-                         {project.price
-                                     ? `BUA: ${project.price}${project.price.match(/\d$/) ? ' sqft' : ''}`
-                                      : project.client}
+                        {project.price
+  ? `BUA: ${project.price}${/\d$/.test(project.price) ? ' sqft' : ''}`
+  : project.client}
+
 
                         </div>
                         <Link
