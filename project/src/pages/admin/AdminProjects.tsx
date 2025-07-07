@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Project {
   _id: string;
@@ -29,7 +31,6 @@ const AdminProjects: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState(''); // ✅ Success message state
 
   const [formData, setFormData] = useState({
     name: '',
@@ -56,6 +57,7 @@ const AdminProjects: React.FC = () => {
       setProjects(res.data);
     } catch (err) {
       console.error('Failed to fetch projects:', err);
+      toast.error('❌ Failed to load projects');
     }
   };
 
@@ -77,17 +79,17 @@ const AdminProjects: React.FC = () => {
 
       if (editingProjectId) {
         await api.put(`/admin/projects/${editingProjectId}`, data, config);
-        setSuccessMessage('✅ Project updated successfully');
+        toast.success('✅ Project updated successfully');
       } else {
         await api.post('/admin/projects', data, config);
-        setSuccessMessage('✅ Project added successfully');
+        toast.success('✅ Project added successfully');
       }
 
       await fetchProjects();
       closeModal();
-      setTimeout(() => setSuccessMessage(''), 3000); // clear message
     } catch (err) {
       console.error('API Error:', err);
+      toast.error('❌ Something went wrong!');
     }
   };
 
@@ -97,10 +99,10 @@ const AdminProjects: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects((prev) => prev.filter((p) => p._id !== id));
-      setSuccessMessage('🗑️ Project deleted successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      toast.success('🗑️ Project deleted successfully');
     } catch (err) {
       console.error('Delete failed:', err);
+      toast.error('❌ Failed to delete project');
     }
   };
 
@@ -127,17 +129,13 @@ const AdminProjects: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-6 md:ml-0 md:mr-10">
           <div className="max-w-10xl mx-auto">
             <div className="flex justify-between items-start mb-4">
-              <div>
-                <h1 className="text-2xl font-semibold">Projects</h1>
-                {successMessage && (
-                  <div className="text-green-600 font-medium mt-2">{successMessage}</div>
-                )}
-              </div>
+              <h1 className="text-2xl font-semibold">Projects</h1>
               <button
                 onClick={() => {
                   setOpen(true);
@@ -218,7 +216,7 @@ const AdminProjects: React.FC = () => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
