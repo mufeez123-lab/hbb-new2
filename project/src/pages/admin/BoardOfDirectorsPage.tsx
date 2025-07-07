@@ -18,17 +18,24 @@ const BoardOfDirectorsPage: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({ name: '', position: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const token = localStorage.getItem('adminToken');
 
   useEffect(() => {
-    api
-      .get('/admin/board', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setDirectors(res.data))
-      .catch((err) => console.error(err));
+    fetchDirectors();
   }, []);
+
+  const fetchDirectors = async () => {
+    try {
+      const res = await api.get('/admin/board', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setDirectors(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!formData.name || !formData.position || (!selectedFile && !editingId)) {
@@ -49,6 +56,7 @@ const BoardOfDirectorsPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        setSuccessMessage('✅ Director updated successfully');
       } else {
         await api.post('/admin/board', data, {
           headers: {
@@ -56,16 +64,15 @@ const BoardOfDirectorsPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        setSuccessMessage('✅ Director added successfully');
       }
 
-      const updated = await api.get('/admin/board', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setDirectors(updated.data);
+      await fetchDirectors();
       setOpen(false);
       setSelectedFile(null);
       setFormData({ name: '', position: '' });
       setEditingId(null);
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error(err);
       alert('Something went wrong while submitting. Please try again.');
@@ -78,8 +85,11 @@ const BoardOfDirectorsPage: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDirectors(directors.filter((d) => d._id !== id));
+      setSuccessMessage('🗑️ Director deleted successfully');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error(err);
+      alert('Failed to delete. Please try again.');
     }
   };
 
@@ -90,7 +100,12 @@ const BoardOfDirectorsPage: React.FC = () => {
         <main className="flex-1 p-4 ml-64">
           <div className="max-w-6xl mx-auto">
             <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-semibold">Board of Directors</h1>
+              <div>
+                <h1 className="text-2xl font-semibold">Board of Directors</h1>
+                {successMessage && (
+                  <div className="text-green-600 font-medium mt-2">{successMessage}</div>
+                )}
+              </div>
               <button
                 onClick={() => {
                   setOpen(true);
@@ -111,8 +126,7 @@ const BoardOfDirectorsPage: React.FC = () => {
                     <img
                       src={director.image?.url}
                       alt={director.name}
-                     className="w-full h-full object-contain p-4"
-
+                      className="w-full h-full object-contain p-4"
                       loading="lazy"
                     />
                   </div>
@@ -151,7 +165,9 @@ const BoardOfDirectorsPage: React.FC = () => {
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">{editingId ? 'Update Director' : 'Add New Director'}</h2>
+            <h2 className="text-xl font-bold mb-4">
+              {editingId ? 'Update Director' : 'Add New Director'}
+            </h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>

@@ -85,9 +85,7 @@ const AdminProjects: React.FC = () => {
 
       await fetchProjects();
       closeModal();
-
-      // Clear message after 3 seconds
-      setTimeout(() => setSuccessMessage(''), 3000);
+      setTimeout(() => setSuccessMessage(''), 3000); // clear message
     } catch (err) {
       console.error('API Error:', err);
     }
@@ -99,6 +97,8 @@ const AdminProjects: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects((prev) => prev.filter((p) => p._id !== id));
+      setSuccessMessage('🗑️ Project deleted successfully');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('Delete failed:', err);
     }
@@ -131,11 +131,13 @@ const AdminProjects: React.FC = () => {
         <Sidebar />
         <main className="flex-1 p-6 md:ml-0 md:mr-10">
           <div className="max-w-10xl mx-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-semibold">Projects</h1>
-              {successMessage && (
-                <div className="text-green-600 font-medium ml-4">{successMessage}</div>
-              )}
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h1 className="text-2xl font-semibold">Projects</h1>
+                {successMessage && (
+                  <div className="text-green-600 font-medium mt-2">{successMessage}</div>
+                )}
+              </div>
               <button
                 onClick={() => {
                   setOpen(true);
