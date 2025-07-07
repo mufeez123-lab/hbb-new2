@@ -230,15 +230,15 @@ const AdminProjects: React.FC = () => {
             </h2>
             <div className="space-y-4">
               {['name', 'description', 'location', 'client', 'price'].map((field) => (
-                <input
-                  key={field}
-                  type="text"
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  value={(formData as any)[field]}
-                  onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-              ))}
+  <input
+    key={field}
+    type="text"
+    placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
+    value={(formData as any)[field]}
+    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+    className="w-full px-3 py-2 border rounded-md"
+  />
+))}
 
               <select
                 value={formData.category}

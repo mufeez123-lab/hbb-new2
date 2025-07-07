@@ -126,7 +126,7 @@ const FeaturedProjects = () => {
 
                       <div className="flex justify-between items-center mt-3">
                         <div className="text-primary-700 font-semibold text-sm">
-                          {project.price ? `₹${project.price}` : project.client}
+                          {project.price ? `${project.price}` : project.client}
                         </div>
                         <Link
                           to={`/projects/${project._id}`}
