@@ -1,3 +1,4 @@
+// src/pages/admin/AdminLogin.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -57,16 +58,12 @@ const AdminLogin: React.FC = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
-    if (!validateForm()) {
-      return;
-    }
+
+    if (!validateForm()) return;
 
     setLoading(true);
     try {
-      console.log('Attempting login with:', { email: formData.email });
       await login(formData.email, formData.password);
-      console.log('Login successful, navigating to admin dashboard');
       const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     } catch (err: any) {
