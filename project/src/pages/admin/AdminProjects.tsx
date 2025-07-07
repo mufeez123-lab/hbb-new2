@@ -246,9 +246,9 @@ const AdminProjects: React.FC = () => {
                 className="w-full px-3 py-2 border rounded-md"
               >
                 <option value="">Select Category</option>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
-                <option value="luxury villa">Luxury Villa</option>
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Luxury villa">Luxury Villa</option>
               </select>
 
               <select
