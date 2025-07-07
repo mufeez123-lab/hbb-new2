@@ -15,6 +15,7 @@ interface Project {
   client: string;
   price?: string;
   amenities?: string[];
+  explore?: boolean;
 }
 
 const defaultAmenities = [
@@ -41,6 +42,7 @@ const AdminProjects: React.FC = () => {
     client: '',
     price: '',
     amenities: [] as string[],
+    explore: true,
   });
 
   const token = localStorage.getItem('adminToken');
@@ -64,9 +66,11 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async () => {
     const data = new FormData();
     if (selectedFile) data.append('images', selectedFile);
+
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== 'amenities') data.append(key, value as string);
+      if (key !== 'amenities') data.append(key, value.toString());
     });
+
     formData.amenities.forEach((item) => data.append('amenities', item));
 
     try {
@@ -118,6 +122,7 @@ const AdminProjects: React.FC = () => {
       client: '',
       price: '',
       amenities: [],
+      explore: true,
     });
     setSelectedFile(null);
   };
@@ -149,6 +154,7 @@ const AdminProjects: React.FC = () => {
                     client: '',
                     price: '',
                     amenities: [],
+                    explore: true,
                   });
                   setSelectedFile(null);
                 }}
@@ -190,6 +196,7 @@ const AdminProjects: React.FC = () => {
                               client: project.client,
                               price: project.price || '',
                               amenities: project.amenities || [],
+                              explore: project.explore ?? true,
                             });
                             setEditingProjectId(project._id);
                             setSelectedFile(null);
@@ -283,6 +290,17 @@ const AdminProjects: React.FC = () => {
                     </label>
                   ))}
                 </div>
+              </div>
+
+              {/* ✅ Explore checkbox */}
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.explore}
+                  onChange={(e) => setFormData({ ...formData, explore: e.target.checked })}
+                  id="explore"
+                />
+                <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
               </div>
 
               <div className="flex justify-end space-x-4">

@@ -8,12 +8,13 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: { url: string; public_id: string }[]; // Updated for Cloudinary
+  images: { url: string; public_id: string }[];
   category: string;
   status: string;
   location: string;
   client: string;
   price?: string;
+  explore?: boolean; // Optional for future use
 }
 
 const FeaturedProjects = () => {
@@ -27,7 +28,7 @@ const FeaturedProjects = () => {
       try {
         setLoading(true);
         const data = await projectsAPI.getAll();
-        const featured = data.filter((p: Project) => p.status === 'featured');
+        const featured = data.filter((p: Project) => p.status === 'featured'); // ✅ Only 'featured'
         setProjects(featured);
       } catch (err) {
         console.error('Error fetching featured projects:', err);
@@ -89,7 +90,7 @@ const FeaturedProjects = () => {
             {mainFeatured.map((project, index) => {
               const imageObj = project.images?.[0];
               const imageUrl =
-                typeof imageObj === 'object' && imageObj.url
+                typeof imageObj === 'object' && imageObj?.url
                   ? imageObj.url
                   : '/images/image1.jpg';
 
