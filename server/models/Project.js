@@ -44,6 +44,11 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  explore: {
+  type: Boolean,
+  default: true,
+}
+,
 
   // ✅ New field added below
   amenities: {

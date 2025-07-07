@@ -33,12 +33,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// === GET: Featured Projects (Limit 6) ===
+// === GET: Featured Projects (with explore true, Limit 9) ===
 router.get('/featured', async (req, res) => {
   try {
-    const projects = await Project.find()
+    const projects = await Project.find({ status: 'featured', explore: true }) // ✅ Only those meant to show Explore
       .sort({ createdAt: -1 })
-      .limit(6);
+      .limit(9);
     res.json(projects);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -69,7 +69,8 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-      amenities
+      amenities,
+      explore, // ✅ Add explore
     } = req.body;
 
     const images = req.files.map(file => ({
@@ -95,7 +96,8 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       client,
       price,
       amenities: amenitiesArray,
-      images
+      explore: explore === 'true', // ✅ Convert to boolean
+      images,
     });
 
     await project.save();
@@ -119,7 +121,8 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-      amenities
+      amenities,
+      explore, // ✅ Add explore
     } = req.body;
 
     const existingProject = await Project.findById(req.params.id);
@@ -144,10 +147,12 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-      amenities: amenitiesArray
+      amenities: amenitiesArray,
+      explore: explore === 'true', // ✅ Convert to boolean
     };
 
     if (req.files && req.files.length > 0) {
+      // Delete old Cloudinary images
       for (const img of existingProject.images) {
         if (img.public_id) {
           await cloudinary.uploader.destroy(img.public_id);
