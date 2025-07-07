@@ -21,7 +21,7 @@ const AdminLogin: React.FC = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user && user.role === 'admin') {
-      const from = location.state?.from?.pathname || '/786313login';
+      const from = location.state?.from?.pathname || '/admin';
       navigate(from, { replace: true });
     }
   }, [user, navigate, location]);
