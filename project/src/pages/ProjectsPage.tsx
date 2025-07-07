@@ -8,13 +8,14 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: { url: string; public_id: string }[]; // Cloudinary image format
+  images: { url: string; public_id: string }[];
   category: string;
   status: string;
   location: string;
   client: string;
   price?: string;
   completionDate?: string;
+  explore?: boolean; // ✅ controls “Explore” button visibility
 }
 
 const FeaturedProjects = () => {
@@ -106,8 +107,7 @@ const FeaturedProjects = () => {
                         loading="lazy"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/images/image1.jpg';
+                          (e.target as HTMLImageElement).src = '/images/image1.jpg';
                         }}
                       />
                       <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
@@ -126,20 +126,25 @@ const FeaturedProjects = () => {
 
                       <div className="flex justify-between items-center mt-3">
                         <div className="text-primary-700 font-semibold text-sm">
-                          {project.price ? `BUA:${project.price}` : project.client}
+                          {project.price
+                            ? `BUA: ${project.price}${/\d$/.test(project.price) ? ' sqft' : ''}`
+                            : project.client}
                         </div>
-                        <Link
-                          to={`/projects/${project._id}`}
-                          className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
-                        >
-                          Explore
-                          <ArrowRight
-                            size={16}
-                            className={`ml-1 transition-transform duration-300 ${
-                              hoveredProject === project._id ? 'translate-x-1' : ''
-                            }`}
-                          />
-                        </Link>
+
+                        {project.explore && (
+                          <Link
+                            to={`/projects/${project._id}`}
+                            className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
+                          >
+                            Explore
+                            <ArrowRight
+                              size={16}
+                              className={`ml-1 transition-transform duration-300 ${
+                                hoveredProject === project._id ? 'translate-x-1' : ''
+                              }`}
+                            />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
