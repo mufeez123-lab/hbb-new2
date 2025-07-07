@@ -21,6 +21,7 @@ import ContactPage from './pages/ContactPage';
 import UpcomingProjects from './pages/UpcomingProjects';
 import  FaqsPage  from './pages/FaqsPage';
 import Brands from './pages/Brands';
+import NotFoundPage from './pages/NotFoundPage';
 
 
 // Admin Pages
@@ -102,6 +103,7 @@ function App() {
               <Route path="/upcoming-projects" element={<UpcomingProjects />} />
               <Route path="/faqs" element={<FaqsPage />} />
               <Route path="/brands" element={<Brands />} />
+              <Route path="*" element={<NotFoundPage />} />
 
 
               {/* Admin Routes */}
