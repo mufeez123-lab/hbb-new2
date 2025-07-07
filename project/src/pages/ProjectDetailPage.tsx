@@ -114,7 +114,7 @@ const ProjectDetailPage = () => {
               <div><strong>Category:</strong> {project.category}</div>
               {project.type && <div><strong>Type:</strong> {project.type}</div>}
               {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
-              {project.price && <div><strong>Price:</strong>BUA: {project.price}</div>}
+              {project.price && <div><strong>Price:</strong>BUA:{project.price}</div>}
               <div><strong>Client:</strong> {project.client}</div>
             </div>
 
