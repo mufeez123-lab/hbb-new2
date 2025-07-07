@@ -69,7 +69,7 @@ const FeaturedProjects = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.2 }}
           className="text-left mb-10"
         >
           <h2 className="text-2xl font-semibold text-neutral-800 mt-10">Our Projects</h2>
