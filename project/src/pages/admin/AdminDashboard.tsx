@@ -18,13 +18,36 @@ const AdminDashboard: React.FC = () => {
   const [projectCount, setProjectCount] = useState(0);
   const [heroImageCount, setHeroImageCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Fetch all admin metrics
     api.get('/admin/board').then((res) => setBoardCount(res.data.length));
     api.get('/admin/projects').then((res) => setProjectCount(res.data.length));
     api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
     api.get('/admin/brands').then((res) => setBrandCount(res.data.length));
+
+    // Detect screen width for responsiveness
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener('resize', handleResize); // Listen for resize
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (isMobile) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-gray-100 text-center p-4">
+        <div className="bg-white p-6 rounded-lg shadow text-gray-800">
+          <h2 className="text-xl font-bold mb-2">Admin Access Restricted</h2>
+          <p>Admins can only access the dashboard from a desktop device.</p>
+        </div>
+      </div>
+    );
+  }
 
   const metrics = [
     {
@@ -59,10 +82,8 @@ const AdminDashboard: React.FC = () => {
         <Sidebar />
 
         <main className="flex-1 p-6 ml-0 mt-16">
-          {/* Heading */}
           <h3 className="text-2xl font-bold mb-6">Dashboard</h3>
 
-          {/* Metrics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {metrics.map((metric, index) => (
               <div
@@ -83,9 +104,7 @@ const AdminDashboard: React.FC = () => {
             ))}
           </div>
 
-          {/* Admin Panel Routes */}
           <Routes>
-            {/* <Route path="/" element={<AdminProjects />} /> */}
             <Route path="/brands" element={<BrandsPage />} />
             <Route path="/board" element={<BoardOfDirectorsPage />} />
             <Route path="/hero" element={<HeroSectionPage />} />
