@@ -61,7 +61,7 @@ const FeaturedProjects = () => {
     );
   }
 
-  const mainFeatured = projects.slice(0, 3);
+  const mainFeatured = projects.slice(0, 9);
 
   return (
     <section className="py-16 bg-neutral-50">
