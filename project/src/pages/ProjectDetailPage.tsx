@@ -1,4 +1,3 @@
-// === ProjectDetailPage.tsx ===
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -63,15 +62,15 @@ const ProjectDetailPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="container mx-auto px-4 py-10 sm:py-14"
+      className="container mx-auto px-6 py-12 sm:py-16"
     >
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="max-w-6xl mx-auto mt-20"
+        className="max-w-7xl mx-auto"
       >
-        <h1 className="text-2xl sm:text-3xl font-light mb-6 sm:mb-8 text-center sm:text-left">
+        <h1 className="text-3xl sm:text-4xl font-semibold mb-10 text-center">
           {project.name}
         </h1>
 
@@ -79,14 +78,14 @@ const ProjectDetailPage = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col lg:flex-row"
+          className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col lg:flex-row"
         >
-          {/* Image */}
+          {/* Image Section */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto"
+            className="w-full lg:w-[55%] h-80 md:h-[480px]"
           >
             <img
               src={imageUrl}
@@ -99,49 +98,43 @@ const ProjectDetailPage = () => {
             />
           </motion.div>
 
-          {/* Details */}
+          {/* Details Section */}
           <motion.div
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full lg:w-1/2 p-5 sm:p-6 flex flex-col justify-between"
+            className="w-full lg:w-[45%] p-6 sm:p-8 space-y-6"
           >
-            <div className="space-y-6">
-              <div className="space-y-2 text-sm text-neutral-600">
-                <div className="flex items-center">
-                  <MapPin className="mr-2 text-secondary-500" size={16} />
-                  <span>{project.location}</span>
-                </div>
-                <div><strong>Category:</strong> {project.category}</div>
-                {project.type && <div><strong>Type:</strong> {project.type}</div>}
-                {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
-                {project.price && <div><strong>Price:</strong> ₹{project.price}</div>}
-                <div><strong>Client:</strong> {project.client}</div>
+            <div className="space-y-3 text-sm sm:text-base text-neutral-600">
+              <div className="flex items-center">
+                <MapPin className="mr-2 text-secondary-500" size={18} />
+                <span>{project.location}</span>
               </div>
+              <div><strong>Category:</strong> {project.category}</div>
+              {project.type && <div><strong>Type:</strong> {project.type}</div>}
+              {project.completion && <div><strong>Completion:</strong> {project.completion}</div>}
+              {project.price && <div><strong>Price:</strong> ₹{project.price}</div>}
+              <div><strong>Client:</strong> {project.client}</div>
+            </div>
 
-              <div>
-                <h3 className="text-lg font-semibold text-neutral-800 mb-2">
-                  Description
-                </h3>
-                <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
-                  {project.description}
-                </p>
-              </div>
+            <div>
+              <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
+              <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
+                {project.description}
+              </p>
+            </div>
 
-              <div>
-                <h3 className="text-lg font-semibold text-neutral-800 mb-2">
-                  Amenities
-                </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-700 text-sm list-disc list-inside">
-                  {project.amenities && project.amenities.length > 0 ? (
-                    project.amenities.map((item, idx) => (
-                      <li key={idx} className="leading-snug">{item}</li>
-                    ))
-                  ) : (
-                    <li className="text-neutral-500 italic">No amenities listed</li>
-                  )}
-                </ul>
-              </div>
+            <div>
+              <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-700 text-sm list-disc list-inside">
+                {project.amenities && project.amenities.length > 0 ? (
+                  project.amenities.map((item, idx) => (
+                    <li key={idx} className="leading-snug">{item}</li>
+                  ))
+                ) : (
+                  <li className="text-neutral-500 italic">No amenities listed</li>
+                )}
+              </ul>
             </div>
           </motion.div>
         </motion.div>
