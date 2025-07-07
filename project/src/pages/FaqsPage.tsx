@@ -12,7 +12,7 @@ interface FAQ {
 const dummyFaqs: FAQ[] = [
   {
     _id: '1',
-    question: 'What services do Hindustan Bawa Builders offer?',
+    question: 'What services do Hindustan Builders offer?',
     answer: 'We provide residential, commercial, and mixed-use real estate development services across India.',
   },
   {
@@ -61,7 +61,7 @@ const FaqsPage = () => {
       className="bg-white py-12"
     >
       <Helmet>
-        <meta name="description" content="Frequently Asked Questions about Hindustan Bawa Builders" />
+        <meta name="description" content="Frequently Asked Questions about Hindustan Builders" />
       </Helmet>
 
       <div className="container mx-auto px-6 mt-20">

@@ -93,13 +93,13 @@ const AboutPageClick = () => {
       <Helmet>
         <meta
           name="description"
-          content="Learn about Hindustan Bawa Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
+          content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
         />
       </Helmet>
 
       <div className="container mx-auto px-4 mt-22">
         <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-4 ml-1">
-          About Hindustan Bawa Builders
+          About Hindustan Builders
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -113,7 +113,7 @@ const AboutPageClick = () => {
             </div>
 
             <p className="text-base text-neutral-600 leading-relaxed mb-3 font-poppins">
-              For over two decades, Hindustan Bawa Builders has been at the forefront of India's real estate development,
+              For over two decades, Hindustan Builders has been at the forefront of India's real estate development,
               creating landmark properties that combine exceptional quality, innovative design, and sustainable practices.
               Our commitment to excellence has earned us the trust of countless families and businesses who call our developments home.
             </p>

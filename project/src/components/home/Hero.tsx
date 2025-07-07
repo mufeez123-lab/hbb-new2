@@ -59,7 +59,7 @@ const Hero = () => {
       {/* Centered Content */}
       <div className="relative z-20 px-4 max-w-4xl">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          {/* Welcome to Hindustan Bawa Builders */}
+          {/* Welcome to Hindustan Builders */}
         </h1>
         <p className="text-lg text-white mb-6">
           {/* Building Excellence. Crafting Dreams. */}

@@ -71,7 +71,7 @@ const UpcomingProjects = () => {
       className="bg-white py-6 px-4 md:px-10 lg:px-20 mt-20"
     >
       <Helmet>
-        <title>Upcoming Projects  Hindustan Bawa Builders</title>
+        <title>Upcoming Projects  Hindustan Builders</title>
       </Helmet>
 
       <div className="max-w-screen-lg mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -84,7 +84,7 @@ const UpcomingProjects = () => {
             Upcoming Projects: Residential
           </h2>
           <p className="text-neutral-700 mb-4">
-            Hindustan Bawa Builders has earned a strong reputation in Mangalore
+            Hindustan Builders has earned a strong reputation in Mangalore
             and coastal Karnataka for delivering reliable and well-crafted
             residential spaces.
           </p>

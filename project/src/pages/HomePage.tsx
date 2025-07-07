@@ -18,8 +18,8 @@ const HomePage = () => {
       transition={{ duration: 0.5 }}
     >
       <Helmet>
-        <title>Hindustan Bawa Builders </title>
-        <meta name="description" content="Hindustan Bawa Builders - Creating landmark properties with exceptional quality and design across India. Explore our residential, commercial and luxury projects." />
+        <title>Hindustan Builders </title>
+        <meta name="description" content="Hindustan Builders - Creating landmark properties with exceptional quality and design across India. Explore our residential, commercial and luxury projects." />
       </Helmet>
 
       <Hero />

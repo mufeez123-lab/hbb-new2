@@ -75,13 +75,13 @@ const AboutPage = () => {
       <Helmet>
         <meta
           name="description"
-          content="Learn about Hindustan Bawa Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
+          content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
         />
       </Helmet>
 
       <div className="container mx-auto px-6 mb-0">
         <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-28">
-          About Hindustan Bawa Builders
+          About Hindustan Builders
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -100,7 +100,7 @@ const AboutPage = () => {
             </div>
 
             <p className="text-base text-neutral-600 leading-relaxed mb-4">
-            One of India's most trusted and respected names in Real Estate – Hindustan Bawa Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Bawa Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations..
+            One of India's most trusted and respected names in Real Estate – Hindustan Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations..
             </p>
 
             <Link

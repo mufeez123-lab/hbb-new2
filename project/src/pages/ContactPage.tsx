@@ -12,8 +12,8 @@ const ContactPage = () => {
       transition={{ duration: 0.5 }}
     >
       <Helmet>
-        <title>Contact Us | Hindustan Bawa Builders</title>
-        <meta name="description" content="Get in touch with Hindustan Bawa Builders. Contact us for inquiries about our residential, commercial, and luxury real estate projects." />
+        <title>Contact Us | Hindustan Builders</title>
+        <meta name="description" content="Get in touch with Hindustan Builders. Contact us for inquiries about our residential, commercial, and luxury real estate projects." />
       </Helmet>
 
       <div className="pt-20 bg-neutral-50">
