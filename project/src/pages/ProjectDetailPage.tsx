@@ -71,14 +71,15 @@ const ProjectDetailPage = () => {
           <h2 className="text-2xl font-sans text-neutral-800 mb-1">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
-          <div className="flex justify-between items-center border border-neutral-200 p-2 rounded">
-            <div className="text-sm text-neutral-600 font-medium">Type: {project.category}</div>
-            {project.price && (
-              <div className="text-sm font-semibold text-[#8a731b]">
-                BUA: {project.price} sqft
-              </div>
-            )}
-          </div>
+        <div className="flex items-center gap-4 border border-neutral-200 p-2 rounded">
+  <div className="text-sm text-neutral-600 font-medium">Type: {project.category}</div>
+  {project.price && (
+    <div className="ml-auto text-sm font-semibold text-[#8a731b]">
+      BUA: {project.price} sqft
+    </div>
+  )}
+</div>
+
 
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
