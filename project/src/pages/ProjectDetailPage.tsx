@@ -61,7 +61,9 @@ const ProjectDetailPage = () => {
               target.src = '/images/image1.jpg';
             }}
           />
-       
+          <div className="absolute top-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded uppercase tracking-wide">
+            Ready to Move In
+          </div>
         </div>
 
         {/* Details */}
@@ -69,11 +71,14 @@ const ProjectDetailPage = () => {
           <h2 className="text-2xl font-sans text-neutral-800 mb-1">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
-          {project.price && (
-            <div className="text-lg font-semibold text-[#8a731b] border border-[#f1e4c2] bg-[#f1e4c2] rounded p-2">
-             BUA :{project.price} sqft
-            </div>
-          )}
+          <div className="flex justify-between items-center border border-neutral-200 p-2 rounded">
+            <div className="text-sm text-neutral-600 font-medium">Type: {project.category}</div>
+            {project.price && (
+              <div className="text-sm font-semibold text-[#8a731b]">
+                BUA: {project.price} sqft
+              </div>
+            )}
+          </div>
 
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
