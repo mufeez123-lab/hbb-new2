@@ -62,7 +62,8 @@ const ProjectDetailPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="container mx-auto px-6 py-12 sm:py-16"
+    className="container mx-auto px-6 py-12 sm:py-16 mt-20"
+
     >
       <motion.div
         initial={{ y: 30, opacity: 0 }}
