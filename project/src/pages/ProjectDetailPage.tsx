@@ -181,8 +181,8 @@ const ProjectDetailPage = () => {
               >
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
-                  <span className="text-neutral-400 group-open:rotate-45 transition-transform text-xl">
-                    {index === 0 ? '−' : '+'}
+                  <span className="text-black group-open:rotate-45 transition-transform text-xl">
+                    {index === 0 ? '-' : '+'}
                   </span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
