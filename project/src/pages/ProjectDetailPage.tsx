@@ -117,7 +117,7 @@ const ProjectDetailPage = () => {
   </button>
   <a
     href="tel:+916362514956"
-    className="w-full sm:w-1/4 px-4 py-2 bg-[#8a731b] text-white flex items-center justify-center gap-2 hover:bg-green-700"
+    className="w-full sm:w-1/4 px-4 py-2 bg-[#8a731b] text-white flex items-center justify-center gap-2 hover:bg-[#745e16]"
   >
     <FiPhone className="h-5 w-5" />
     Call Now
