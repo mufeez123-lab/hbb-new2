@@ -166,8 +166,21 @@ const AdminProjects: React.FC = () => {
               <h1 className="text-2xl font-semibold">Projects</h1>
               <button
                 onClick={() => {
+                  setEditingProjectId(null);
+                  setFormData({
+                    name: '',
+                    description: '',
+                    category: '',
+                    status: '',
+                    location: '',
+                    client: '',
+                    price: '',
+                    amenities: [],
+                    explore: true,
+                    specifications: [],
+                  });
+                  setSelectedFile(null);
                   setOpen(true);
-                  closeModal();
                 }}
                 className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
@@ -353,7 +366,6 @@ const AdminProjects: React.FC = () => {
               </button>
             </div>
 
-            {/* Footer */}
             <div className="flex items-center space-x-2 mt-4">
               <input
                 type="checkbox"
