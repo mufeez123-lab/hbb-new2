@@ -75,7 +75,7 @@ const ProjectDetailPage = () => {
     >
       {/* Project Card */}
       <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
-  <div className="lg:flex min-h-[450px]">
+  <div className="lg:flex h-[400px]">
 
           {/* Project Image */}
           <div className="w-full lg:w-3/5 h-[400px] ">
