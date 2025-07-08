@@ -22,6 +22,7 @@ interface Project {
   location: string;
   price?: string;
   amenities?: string[];
+  specifications?: { title: string; description: string }[];
 }
 
 const amenityIcons: { [key: string]: JSX.Element } = {
@@ -64,7 +65,6 @@ const ProjectDetailPage = () => {
     return <div className="py-20 text-center text-red-600">{error}</div>;
   }
 
-  
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -76,15 +76,17 @@ const ProjectDetailPage = () => {
         <div className="flex flex-col lg:flex-row h-auto">
           {/* Image Carousel */}
           <div className="w-full lg:w-3/5 h-[400px]">
-            <Slider dots={true}
-    infinite={true}
-    speed={1000}
-    slidesToShow={1}
-    slidesToScroll={1}
-    autoplay
-    autoplaySpeed={3000}
-     lazyLoad="progressive"
-    className="h-full">
+            <Slider
+              dots={true}
+              infinite={true}
+              speed={1000}
+              slidesToShow={1}
+              slidesToScroll={1}
+              autoplay
+              autoplaySpeed={3000}
+              lazyLoad="progressive"
+              className="h-full"
+            >
               {project.images.map((img, idx) => (
                 <img
                   key={idx}
@@ -156,21 +158,43 @@ const ProjectDetailPage = () => {
           {project.description}
         </p>
       </div>
-    {/* Plans Section */}
-<div className="bg-white mt-6 p-6 rounded ">
-  <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <div className="w-full h-64 bg-[#8a731b] rounded ">
-      {/* <span className="text-neutral-400">Plan Image 1</span> */}
-    </div>
-    <div className="w-full h-64 bg-[#8a731b] rounded ">
-      {/* <span className="text-neutral-400">Plan Image 2</span> */}
-    </div>
-  </div>
-</div>
 
+      {/* Plans Section */}
+      <div className="bg-white mt-6 p-6 rounded ">
+        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+        </div>
+      </div>
 
-
+      {/* ✅ Specifications Accordion Section */}
+      {project.specifications && project.specifications.length > 0 && (
+        <div className="bg-white mt-6 p-6 rounded">
+          <h3 className="text-2xl font-serif text-[#8a731b] mb-4">Specifications</h3>
+          <div className="divide-y border rounded border-neutral-200">
+            {project.specifications.map((spec, index) => (
+              <details
+                key={index}
+                className="group p-4 hover:bg-neutral-50 transition duration-300"
+                open={index === 0}
+              >
+                <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
+                  {spec.title}
+                  <span className="text-neutral-400 group-open:rotate-45 transition-transform text-xl">
+                    {index === 0 ? '−' : '+'}
+                  </span>
+                </summary>
+                <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
+                  {spec.description.split('\n').map((line, idx) => (
+                    <li key={idx}>{line.trim()}</li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
