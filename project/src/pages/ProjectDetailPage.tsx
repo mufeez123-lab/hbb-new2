@@ -83,6 +83,7 @@ const ProjectDetailPage = () => {
     slidesToScroll={1}
     autoplay
     autoplaySpeed={3000}
+     lazyLoad="progressive"
     className="h-full">
               {project.images.map((img, idx) => (
                 <img
