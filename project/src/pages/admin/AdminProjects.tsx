@@ -180,7 +180,7 @@ const AdminProjects: React.FC = () => {
                   </div>
                   <div className="p-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-1">{project.name}</h3>
-                    <p className="text-sm text-gray-600">{project.description}</p>
+                    {/* <p className="text-sm text-gray-600">{project.description}</p> */}
                     <p className="text-sm text-gray-500 mt-1">{project.location}</p>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xs font-medium text-gray-500">{project.category}</span>
