@@ -78,7 +78,7 @@ const ProjectDetailPage = () => {
           <div className="w-full lg:w-3/5 h-[400px]">
             <Slider dots={true}
     infinite={true}
-    speed={500}
+    speed={1000}
     slidesToShow={1}
     slidesToScroll={1}
     autoplay
