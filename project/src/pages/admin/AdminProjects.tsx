@@ -24,7 +24,7 @@ interface Project {
   price?: string;
   amenities?: string[];
   explore?: boolean;
-  specifications?: string[];
+  specifications?: { title: string; description: string }[];
 }
 
 const defaultAmenities = [
@@ -61,7 +61,7 @@ const AdminProjects: React.FC = () => {
     price: '',
     amenities: [] as string[],
     explore: true,
-    specifications: [] as string[],
+    specifications: [] as { title: string; description: string }[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -166,21 +166,8 @@ const AdminProjects: React.FC = () => {
               <h1 className="text-2xl font-semibold">Projects</h1>
               <button
                 onClick={() => {
-                  setEditingProjectId(null);
-                  setFormData({
-                    name: '',
-                    description: '',
-                    category: '',
-                    status: '',
-                    location: '',
-                    client: '',
-                    price: '',
-                    amenities: [],
-                    explore: true,
-                    specifications: [],
-                  });
-                  setSelectedFile(null);
                   setOpen(true);
+                  closeModal();
                 }}
                 className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
@@ -193,11 +180,7 @@ const AdminProjects: React.FC = () => {
                 <div key={project._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                   <div className="relative h-40 bg-gray-100">
                     <img
-                      src={
-                        project.images?.[0]
-                          ? getImageUrl(project.images[0])
-                          : '/images/image1.jpg'
-                      }
+                      src={project.images?.[0] ? getImageUrl(project.images[0]) : '/images/image1.jpg'}
                       alt={project.name}
                       className="w-full h-40 object-cover"
                     />
@@ -331,17 +314,28 @@ const AdminProjects: React.FC = () => {
             <div className="mt-4">
               <label className="block font-medium mb-2">Specifications</label>
               {formData.specifications.map((spec, index) => (
-                <div key={index} className="flex gap-2 mb-2">
+                <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
                   <input
                     type="text"
-                    value={spec}
+                    placeholder="Title"
+                    value={spec.title}
                     onChange={(e) => {
                       const updated = [...formData.specifications];
-                      updated[index] = e.target.value;
+                      updated[index].title = e.target.value;
                       setFormData({ ...formData, specifications: updated });
                     }}
-                    className="flex-1 px-3 py-2 border rounded-md"
-                    placeholder={`Specification ${index + 1}`}
+                    className="px-3 py-2 border rounded-md"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    value={spec.description}
+                    onChange={(e) => {
+                      const updated = [...formData.specifications];
+                      updated[index].description = e.target.value;
+                      setFormData({ ...formData, specifications: updated });
+                    }}
+                    className="px-3 py-2 border rounded-md"
                   />
                   <button
                     type="button"
@@ -349,7 +343,7 @@ const AdminProjects: React.FC = () => {
                       const updated = formData.specifications.filter((_, i) => i !== index);
                       setFormData({ ...formData, specifications: updated });
                     }}
-                    className="px-2 text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700"
                   >
                     ✖
                   </button>
@@ -358,7 +352,10 @@ const AdminProjects: React.FC = () => {
               <button
                 type="button"
                 onClick={() =>
-                  setFormData({ ...formData, specifications: [...formData.specifications, ''] })
+                  setFormData({
+                    ...formData,
+                    specifications: [...formData.specifications, { title: '', description: '' }],
+                  })
                 }
                 className="mt-2 text-sm text-primary-600 hover:underline"
               >
@@ -366,6 +363,7 @@ const AdminProjects: React.FC = () => {
               </button>
             </div>
 
+            {/* Footer */}
             <div className="flex items-center space-x-2 mt-4">
               <input
                 type="checkbox"
