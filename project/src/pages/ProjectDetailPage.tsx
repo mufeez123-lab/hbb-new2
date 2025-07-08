@@ -56,10 +56,10 @@ const ProjectDetailPage = () => {
       className="container mx-auto px-4 py-12 mt-20"
     >
       {/* Card section */}
-      <div className="bg-white shadow-lg overflow-hidden rounded-lg">
+      <div className="bg-white shadow-lg overflow-hidden ">
         <div className="lg:flex">
           {/* Image */}
-          <div className="w-full lg:w-3/5 h-60 lg:h-auto aspect-[3/4]">
+          <div className="w-full lg:w-3/5 h-60 lg:h-auto aspect-[1/4]">
             <img
               src={imageUrl}
               alt={project.name}
