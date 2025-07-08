@@ -75,7 +75,7 @@ const ProjectDetailPage = () => {
     >
       {/* Project Card */}
       <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
-  <div className="lg:flex h-[400px]">
+  <div className=" flex flex-col lg:flex h-[500px]">
 
           {/* Project Image */}
           <div className="w-full lg:w-3/5 h-[400px] ">
@@ -95,7 +95,7 @@ const ProjectDetailPage = () => {
             <h2 className="text-2xl font-serif text-[#8a731b]">{project.name}</h2>
             <p className="text-sm text-neutral-500">{project.location}</p>
 
-           <div className="bg-neutral-100 px-3 py-2 rounded-md flex gap-4 text-sm font-semibold text-neutral-600 mt-2">
+           <div className="bg-neutral-100 px-0 py-2 rounded-md flex gap-4 text-xs font-semibold text-neutral-600 mt-2">
   <div>TYPE: {project.category}</div>
   {project.price && <div>BUA: {project.price} sqft</div>}
 </div>
@@ -141,8 +141,8 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Description */}
-      <div className="bg-white mt-6 p-6 rounded shadow">
-        <h3 className="text-2xl font-semibold text-[#8a731b] mb-2">About {project.name}</h3>
+      <div className="bg-white mt-4 p-6 rounded shadow">
+        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">About {project.name}</h3>
         <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
           {project.description}
         </p>
