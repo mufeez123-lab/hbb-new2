@@ -95,10 +95,11 @@ const ProjectDetailPage = () => {
             <h2 className="text-2xl font-serif text-[#8a731b]">{project.name}</h2>
             <p className="text-sm text-neutral-500">{project.location}</p>
 
-            <div className="flex gap-4 text-sm font-semibold text-neutral-600 mt-2">
-              <div>TYPE: {project.category}</div>
-              {project.price && <div>BUA: {project.price} sqft</div>}
-            </div>
+           <div className="bg-neutral-100 px-3 py-2 rounded-md flex gap-4 text-sm font-semibold text-neutral-600 mt-2">
+  <div>TYPE: {project.category}</div>
+  {project.price && <div>BUA: {project.price} sqft</div>}
+</div>
+
 
             {/* Amenities */}
             <div className="mt-4">
