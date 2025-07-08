@@ -293,9 +293,14 @@ const AdminProjects: React.FC = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
                 {defaultAmenities.map((amenity) => (
                   <label
-                    key={amenity}
-                    className="flex flex-col items-center text-center border border-neutral-200 rounded p-3 cursor-pointer hover:shadow transition"
-                  >
+  key={amenity}
+  className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${
+    formData.amenities.includes(amenity)
+      ? 'bg-primary-100 border-primary-400'
+      : 'border-neutral-200'
+  }`}
+>
+
                     <input
                       type="checkbox"
                       checked={formData.amenities.includes(amenity)}
