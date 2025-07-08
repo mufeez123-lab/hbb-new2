@@ -1,10 +1,16 @@
-// AdminProjects.tsx
-
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  FaSwimmingPool,
+  FaCar,
+  FaChild,
+  FaShieldAlt,
+  FaDumbbell,
+  FaTree,
+} from 'react-icons/fa';
 
 interface Project {
   _id: string;
@@ -28,6 +34,15 @@ const defaultAmenities = [
   'Children’s Play Area',
   'Covered Parking',
 ];
+
+const amenityIcons: { [key: string]: JSX.Element } = {
+  'Swimming Pool': <FaSwimmingPool className="text-xl mb-1" />,
+  'Covered Parking': <FaCar className="text-xl mb-1" />,
+  "Children’s Play Area": <FaChild className="text-xl mb-1" />,
+  '24x7 Security': <FaShieldAlt className="text-xl mb-1" />,
+  Gym: <FaDumbbell className="text-xl mb-1" />,
+  'Park Area': <FaTree className="text-xl mb-1" />,
+};
 
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -225,12 +240,11 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="space-y-4">
               {['name', 'description', 'location', 'client', 'price'].map((field) => (
                 <input
                   key={field}
@@ -273,11 +287,14 @@ const AdminProjects: React.FC = () => {
                 className="w-full px-3 py-2 border rounded-md"
               />
 
-              <div className="col-span-full">
+              <div>
                 <label className="block font-medium mb-2">Amenities</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-sm">
+                <div className="grid grid-cols-3 gap-4 text-sm">
                   {defaultAmenities.map((amenity) => (
-                    <label key={amenity} className="flex items-center space-x-2">
+                    <label
+                      key={amenity}
+                      className="flex flex-col items-center text-center border border-neutral-200 rounded p-3 cursor-pointer hover:shadow transition"
+                    >
                       <input
                         type="checkbox"
                         checked={formData.amenities.includes(amenity)}
@@ -287,14 +304,16 @@ const AdminProjects: React.FC = () => {
                             : formData.amenities.filter((a) => a !== amenity);
                           setFormData({ ...formData, amenities: updated });
                         }}
+                        className="hidden"
                       />
-                      <span>{amenity}</span>
+                      {amenityIcons[amenity] || <div className="text-xl mb-1">❓</div>}
+                      <span className="text-xs text-neutral-700">{amenity}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <div className="col-span-full flex items-center space-x-2 mt-2">
+              <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   checked={formData.explore}
@@ -303,23 +322,23 @@ const AdminProjects: React.FC = () => {
                 />
                 <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
               </div>
-            </div>
 
-            <div className="flex justify-end space-x-4 mt-6">
-              <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={!formData.name || !formData.status}
-                className={`px-4 py-2 rounded-md text-white ${
-                  formData.name && formData.status
-                    ? 'bg-primary-600 hover:bg-primary-700'
-                    : 'bg-gray-400 cursor-not-allowed'
-                }`}
-              >
-                {editingProjectId ? 'Update Project' : 'Add Project'}
-              </button>
+              <div className="flex justify-end space-x-4">
+                <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!formData.name || !formData.status}
+                  className={`px-4 py-2 rounded-md text-white ${
+                    formData.name && formData.status
+                      ? 'bg-primary-600 hover:bg-primary-700'
+                      : 'bg-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {editingProjectId ? 'Update Project' : 'Add Project'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
