@@ -83,7 +83,7 @@ function App() {
     );
   }
 
-  const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/786313login';
+  const isAdminPage = location.pathname.startsWith('/786313login') || location.pathname === '/admin';
 
   return (
     <AuthProvider>
@@ -107,7 +107,7 @@ function App() {
 
 
               {/* Admin Routes */}
-              <Route path="/786313login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
               <Route path="/admin/board" element={<AdminRoute><BoardMembersPage /></AdminRoute>} />
               <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} />
