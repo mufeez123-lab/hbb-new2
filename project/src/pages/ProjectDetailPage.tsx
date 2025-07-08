@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
 import { FiPhone } from 'react-icons/fi';
+import {
+  FaSwimmingPool,
+  FaCar,
+  FaChild,
+  FaShieldAlt,
+  FaDumbbell,
+  FaTree,
+} from 'react-icons/fa';
 
 interface Project {
   _id: string;
@@ -14,6 +22,16 @@ interface Project {
   price?: string;
   amenities?: string[];
 }
+
+// Icon mapping for amenities
+const amenityIcons: { [key: string]: JSX.Element } = {
+  'Swimming Pool': <FaSwimmingPool className="text-2xl text-[#8a731b]" />,
+  'Covered Parking': <FaCar className="text-2xl text-[#8a731b]" />,
+  "Children’s Play Area": <FaChild className="text-2xl text-[#8a731b]" />,
+  '24x7 Security': <FaShieldAlt className="text-2xl text-[#8a731b]" />,
+  Gym: <FaDumbbell className="text-2xl text-[#8a731b]" />,
+  'Park Area': <FaTree className="text-2xl text-[#8a731b]" />,
+};
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -59,7 +77,7 @@ const ProjectDetailPage = () => {
       <div className="bg-white shadow-lg overflow-hidden rounded-lg">
         <div className="lg:flex">
           {/* Project Image */}
-          <div className="w-full lg:w-3/5 h-65 lg:h-65">
+          <div className="w-full lg:w-3/5 h-[260px]">
             <img
               src={imageUrl}
               alt={project.name}
@@ -89,18 +107,12 @@ const ProjectDetailPage = () => {
                   project.amenities.map((item, idx) => (
                     <div
                       key={idx}
-                      className="border border-neutral-200 flex flex-col justify-end items-center text-center rounded hover:shadow transition h-28 px-2 pb-2"
+                      className="border border-neutral-200 flex flex-col justify-center items-center text-center rounded hover:shadow transition h-24 p-2"
                     >
-                      <img
-                        src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
-                        alt={item}
-                        className="w-8 h-8 mb-auto"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
-                      />
-                      <span className="text-xs text-neutral-700">{item}</span>
+                      {amenityIcons[item] || (
+                        <div className="text-xl text-gray-400 mb-1">❓</div>
+                      )}
+                      <span className="text-xs text-neutral-700 mt-1 text-center">{item}</span>
                     </div>
                   ))
                 ) : (
