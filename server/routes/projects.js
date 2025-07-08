@@ -33,10 +33,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// === GET: Featured Projects (with explore true, Limit 9) ===
+// === GET: Featured Projects (Explore = true, limit 9) ===
 router.get('/featured', async (req, res) => {
   try {
-    const projects = await Project.find({ status: 'featured', explore: true }) // ✅ Only those meant to show Explore
+    const projects = await Project.find({ status: 'featured', explore: true })
       .sort({ createdAt: -1 })
       .limit(9);
     res.json(projects);
@@ -45,7 +45,7 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// === GET: Single Project by ID ===
+// === GET: Single Project ===
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -70,7 +70,8 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       client,
       price,
       amenities,
-      explore, // ✅ Add explore
+      explore,
+      specifications,
     } = req.body;
 
     const images = req.files.map(file => ({
@@ -87,6 +88,15 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       }
     }
 
+    let specificationsArray = [];
+    if (specifications) {
+      if (typeof specifications === 'string') {
+        specificationsArray = JSON.parse(specifications);
+      } else if (Array.isArray(specifications)) {
+        specificationsArray = specifications;
+      }
+    }
+
     const project = new Project({
       name,
       description,
@@ -96,16 +106,17 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       client,
       price,
       amenities: amenitiesArray,
-      explore: explore === 'true', // ✅ Convert to boolean
+      explore: explore === 'true',
       images,
+      specifications: specificationsArray,
     });
 
     await project.save();
 
     req.app.get('io').emit('project:created', project);
-
     res.status(201).json(project);
   } catch (err) {
+    console.error('POST Error:', err);
     res.status(400).json({ message: err.message });
   }
 });
@@ -122,7 +133,8 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       client,
       price,
       amenities,
-      explore, // ✅ Add explore
+      explore,
+      specifications,
     } = req.body;
 
     const existingProject = await Project.findById(req.params.id);
@@ -139,6 +151,15 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       }
     }
 
+    let specificationsArray = [];
+    if (specifications) {
+      if (typeof specifications === 'string') {
+        specificationsArray = JSON.parse(specifications);
+      } else if (Array.isArray(specifications)) {
+        specificationsArray = specifications;
+      }
+    }
+
     const updateData = {
       name,
       description,
@@ -148,11 +169,11 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       client,
       price,
       amenities: amenitiesArray,
-      explore: explore === 'true', // ✅ Convert to boolean
+      explore: explore === 'true',
+      specifications: specificationsArray,
     };
 
     if (req.files && req.files.length > 0) {
-      // Delete old Cloudinary images
       for (const img of existingProject.images) {
         if (img.public_id) {
           await cloudinary.uploader.destroy(img.public_id);
@@ -172,14 +193,14 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
     );
 
     req.app.get('io').emit('project:updated', updatedProject);
-
     res.json(updatedProject);
   } catch (err) {
+    console.error('PUT Error:', err);
     res.status(400).json({ message: err.message });
   }
 });
 
-// === DELETE: Delete Project ===
+// === DELETE: Project ===
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -196,7 +217,6 @@ router.delete('/:id', adminAuth, async (req, res) => {
     await project.deleteOne();
 
     req.app.get('io').emit('project:deleted', req.params.id);
-
     res.json({ message: 'Project deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });
