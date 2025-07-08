@@ -160,7 +160,6 @@ const AdminProjects: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <ToastContainer position="top-right" autoClose={3000} />
-      {/* ...Sidebar and Project Cards code remains same... */}
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-5 ml-20">
