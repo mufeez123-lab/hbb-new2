@@ -1,3 +1,5 @@
+// AdminProjects.tsx
+
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
@@ -180,7 +182,6 @@ const AdminProjects: React.FC = () => {
                   </div>
                   <div className="p-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-1">{project.name}</h3>
-                    {/* <p className="text-sm text-gray-600">{project.description}</p> */}
                     <p className="text-sm text-gray-500 mt-1">{project.location}</p>
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xs font-medium text-gray-500">{project.category}</span>
@@ -224,21 +225,22 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
-            <div className="space-y-4">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {['name', 'description', 'location', 'client', 'price'].map((field) => (
-  <input
-    key={field}
-    type="text"
-    placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
-    value={(formData as any)[field]}
-    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
-    className="w-full px-3 py-2 border rounded-md"
-  />
-))}
+                <input
+                  key={field}
+                  type="text"
+                  placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
+                  value={(formData as any)[field]}
+                  onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+              ))}
 
               <select
                 value={formData.category}
@@ -271,9 +273,9 @@ const AdminProjects: React.FC = () => {
                 className="w-full px-3 py-2 border rounded-md"
               />
 
-              <div>
+              <div className="col-span-full">
                 <label className="block font-medium mb-2">Amenities</label>
-                <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-sm">
                   {defaultAmenities.map((amenity) => (
                     <label key={amenity} className="flex items-center space-x-2">
                       <input
@@ -292,8 +294,7 @@ const AdminProjects: React.FC = () => {
                 </div>
               </div>
 
-              {/* ✅ Explore checkbox */}
-              <div className="flex items-center space-x-2">
+              <div className="col-span-full flex items-center space-x-2 mt-2">
                 <input
                   type="checkbox"
                   checked={formData.explore}
@@ -302,23 +303,23 @@ const AdminProjects: React.FC = () => {
                 />
                 <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
               </div>
+            </div>
 
-              <div className="flex justify-end space-x-4">
-                <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!formData.name || !formData.status}
-                  className={`px-4 py-2 rounded-md text-white ${
-                    formData.name && formData.status
-                      ? 'bg-primary-600 hover:bg-primary-700'
-                      : 'bg-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {editingProjectId ? 'Update Project' : 'Add Project'}
-                </button>
-              </div>
+            <div className="flex justify-end space-x-4 mt-6">
+              <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={!formData.name || !formData.status}
+                className={`px-4 py-2 rounded-md text-white ${
+                  formData.name && formData.status
+                    ? 'bg-primary-600 hover:bg-primary-700'
+                    : 'bg-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {editingProjectId ? 'Update Project' : 'Add Project'}
+              </button>
             </div>
           </div>
         </div>
