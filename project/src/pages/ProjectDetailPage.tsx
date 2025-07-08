@@ -59,7 +59,7 @@ const ProjectDetailPage = () => {
       <div className="bg-white shadow-lg overflow-hidden ">
         <div className="lg:flex">
           {/* Image */}
-          <div className="w-full lg:w-3/5 h-60 lg:h-auto aspect-[0.5/4]">
+          <div className="w-full lg:w-3/5 h-60 lg:h-auto aspect-[1/4]">
             <img
               src={imageUrl}
               alt={project.name}
