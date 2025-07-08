@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
-import { FiPhone } from 'react-icons/fi'; // 📞 phone icon
+import { FiPhone } from 'react-icons/fi'; // phone icon
 
 interface Project {
   _id: string;
