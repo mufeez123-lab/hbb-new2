@@ -25,12 +25,12 @@ interface Project {
 
 // Icon mapping for amenities
 const amenityIcons: { [key: string]: JSX.Element } = {
-  'Swimming Pool': <FaSwimmingPool className="text-2xl text-[#8a731b]" />,
-  'Covered Parking': <FaCar className="text-2xl text-[#8a731b]" />,
-  "Children’s Play Area": <FaChild className="text-2xl text-[#8a731b]" />,
-  '24x7 Security': <FaShieldAlt className="text-2xl text-[#8a731b]" />,
-  Gym: <FaDumbbell className="text-2xl text-[#8a731b]" />,
-  'Park Area': <FaTree className="text-2xl text-[#8a731b]" />,
+  'Swimming Pool': <FaSwimmingPool className="text-2xl text-black" />,
+  'Covered Parking': <FaCar className="text-2xl text-black" />,
+  "Children’s Play Area": <FaChild className="text-2xl text-black" />,
+  '24x7 Security': <FaShieldAlt className="text-2xl text-black" />,
+  Gym: <FaDumbbell className="text-2xl text-black" />,
+  'Park Area': <FaTree className="text-2xl text-black" />,
 };
 
 const ProjectDetailPage = () => {
@@ -101,8 +101,8 @@ const ProjectDetailPage = () => {
 
             {/* Amenities */}
             <div className="mt-4">
-              <h3 className="text-xl font-semibold text-neutral-800 mb-2">Amenities</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              <h3 className="text-xl font-serif text-neutral-800 mb-2">Amenities</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-0">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
                     <div
