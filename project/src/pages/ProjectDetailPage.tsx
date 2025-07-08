@@ -150,14 +150,14 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Description */}
-      <div className="bg-white mt-4 p-6 rounded shadow">
+      <div className="bg-white mt-4 p-6 rounded ">
         <h3 className="text-2xl font-serif text-[#8a731b] mb-2">About {project.name}</h3>
         <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
           {project.description}
         </p>
       </div>
     {/* Plans Section */}
-<div className="bg-white mt-6 p-6 rounded shadow">
+<div className="bg-white mt-6 p-6 rounded ">
   <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     <div className="w-full h-64 bg-gray-100 rounded flex items-center justify-center">
