@@ -68,15 +68,14 @@ const ProjectDetailPage = () => {
 
         {/* Details */}
         <div className="w-full lg:w-1/2 p-6 space-y-5">
-          <h2 className="text-2xl font-sans text-neutral-800 mb-1">{project.name}</h2>
+          <h2 className="text-2xl font-serif text-neutral-573 mb-0">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
-          <div className="flex items-center  gap-4 border border-neutral-200 p-2 rounded">
-            <div className="text-sm font-semibold text-neutral-600 ">TYPE: {project.category}</div>
-            {project.price && (
-              <div className="text-sm font-semibold ">BUA: {project.price} sqft</div>
-            )}
-          </div>
+          <div className="flex gap-4 text-sm font-semibold text-neutral-600">
+  <div>TYPE: {project.category}</div>
+  {project.price && <div>BUA: {project.price} sqft</div>}
+</div>
+
 
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
