@@ -128,7 +128,7 @@ const ProjectDetailPage = () => {
 
       {/* Description */}
       <div className="bg-white mt-4 p-6 rounded shadow">
-        <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
+        <h3 className="text-2xl font-semibold text-[#8a731b] mb-2">About {project.name}</h3>
         <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
           {project.description}
         </p>
