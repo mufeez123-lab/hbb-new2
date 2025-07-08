@@ -47,9 +47,16 @@ const ProjectDetailPage = () => {
 
   const imageUrl = project.images?.[0]?.url || '/images/image1.jpg';
 
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
-      <div className="bg-white shadow-lg  overflow-hidden lg:flex">
+ return (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.6 }}
+    className="container mx-auto px-4 py-12 mt-20"
+  >
+    {/* Card section */}
+    <div className="bg-white shadow-lg overflow-hidden rounded-lg">
+      <div className="lg:flex">
         {/* Image */}
         <div className="w-full lg:w-1/2 h-80 lg:h-auto">
           <img
@@ -61,9 +68,6 @@ const ProjectDetailPage = () => {
               target.src = '/images/image1.jpg';
             }}
           />
-          {/* <div className="absolute top-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded uppercase tracking-wide">
-            Ready to Move In
-          </div> */}
         </div>
 
         {/* Details */}
@@ -72,12 +76,9 @@ const ProjectDetailPage = () => {
           <p className="text-sm text-neutral-500">{project.location}</p>
 
           <div className="flex gap-4 text-sm font-semibold text-neutral-600">
-  <div>TYPE: {project.category}</div>
-  {project.price && <div>BUA: {project.price} sqft</div>}
-</div>
-
-
-          
+            <div>TYPE: {project.category}</div>
+            {project.price && <div>BUA: {project.price} sqft</div>}
+          </div>
 
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
@@ -96,19 +97,19 @@ const ProjectDetailPage = () => {
             Download Brochure
           </button>
         </div>
-
-
-        {/* Full-width Description Section */}
-<div className="bg-white mt-4 p-6 rounded shadow container mx-auto">
-  <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
-  <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
-    {project.description}
-  </p>
-</div>
-
       </div>
-    </motion.div>
-  );
+    </div>
+
+    {/* Desc outside the flex box */}
+    <div className="bg-white mt-4 p-6 rounded shadow">
+      <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
+      <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
+        {project.description}
+      </p>
+    </div>
+  </motion.div>
+);
+
 };
 
 export default ProjectDetailPage;
