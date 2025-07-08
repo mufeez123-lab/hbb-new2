@@ -156,6 +156,22 @@ const ProjectDetailPage = () => {
           {project.description}
         </p>
       </div>
+     <div className="">
+  <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
+  
+  {/* Image container */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {/* Example placeholder images */}
+    <div className="w-full h-64 bg-gray-100 border rounded flex items-center justify-center">
+      <span className="text-neutral-400">Plan Image 1</span>
+    </div>
+    <div className="w-full h-64 bg-gray-100 border rounded flex items-center justify-center">
+      <span className="text-neutral-400">Plan Image 2</span>
+    </div>
+  </div>
+</div>
+
+
     </motion.div>
   );
 };
