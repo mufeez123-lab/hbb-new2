@@ -83,7 +83,7 @@ const ProjectDetailPage = () => {
           </div>
 
           <div>
-  <h3 className="text-lg font-serif text-neutral-800 mb-2 mt-4">Amenities</h3>
+  <h3 className="text-2xl font-serif text-neutral-800 mb-2 mt-4">Amenities</h3>
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
     {project.amenities && project.amenities.length > 0 ? (
       project.amenities.map((item, idx) => (
@@ -109,7 +109,7 @@ const ProjectDetailPage = () => {
   </div>
 </div>
 
-<button className="mt-4 w-1/2 px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
+<button className="mt-4 w-full px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
   Download Brochure
 </button>
 
