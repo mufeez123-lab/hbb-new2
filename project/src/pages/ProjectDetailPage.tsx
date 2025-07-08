@@ -49,7 +49,7 @@ const ProjectDetailPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden lg:flex">
+      <div className="bg-white shadow-lg  overflow-hidden lg:flex">
         {/* Image */}
         <div className="w-full lg:w-1/2 h-80 lg:h-auto">
           <img
@@ -77,12 +77,7 @@ const ProjectDetailPage = () => {
 </div>
 
 
-          <div>
-            <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
-            <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
-              {project.description}
-            </p>
-          </div>
+          
 
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
@@ -101,6 +96,16 @@ const ProjectDetailPage = () => {
             Download Brochure
           </button>
         </div>
+
+
+        {/* Full-width Description Section */}
+<div className="bg-white mt-4 p-6 rounded shadow container mx-auto">
+  <h3 className="text-lg font-semibold text-neutral-800 mb-2">Description</h3>
+  <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
+    {project.description}
+  </p>
+</div>
+
       </div>
     </motion.div>
   );
