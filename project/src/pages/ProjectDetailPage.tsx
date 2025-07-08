@@ -61,9 +61,9 @@ const ProjectDetailPage = () => {
               target.src = '/images/image1.jpg';
             }}
           />
-          <div className="absolute top-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded uppercase tracking-wide">
+          {/* <div className="absolute top-4 left-4 bg-neutral-800 text-white text-xs px-3 py-1 rounded uppercase tracking-wide">
             Ready to Move In
-          </div>
+          </div> */}
         </div>
 
         {/* Details */}
