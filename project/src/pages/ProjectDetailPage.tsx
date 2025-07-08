@@ -110,18 +110,19 @@ const ProjectDetailPage = () => {
             </div>
 
             {/* Buttons */}
-            <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <button className="w-full sm:w-1/2 px-4 py-2 bg-[#8a731b] text-white  hover:bg-[#745e16]">
-                Download Brochure
-              </button>
-              <a
-                href="tel:+916362514956"
-                className="w-full sm:w-1/2 px-4 py-2 bg-green-600 text-white rounded flex items-center justify-center gap-2 hover:bg-green-700"
-              >
-                <FiPhone className="h-5 w-5" />
-                Call Now
-              </a>
-            </div>
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+  <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white hover:bg-[#745e16]">
+    Download Brochure
+  </button>
+  <a
+    href="tel:+916362514956"
+    className="w-full sm:w-1/4 px-4 py-2 bg-[#8a731b] text-white flex items-center justify-center gap-2 hover:bg-green-700"
+  >
+    <FiPhone className="h-5 w-5" />
+    Call Now
+  </a>
+</div>
+
           </div>
         </div>
       </div>
