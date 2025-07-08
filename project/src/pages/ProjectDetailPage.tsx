@@ -89,19 +89,20 @@ const ProjectDetailPage = () => {
                   project.amenities.map((item, idx) => (
                     <div
   key={idx}
-  className="border border-neutral-200 p-4 flex flex-col justify-between items-center text-center  hover:shadow transition h-28"
+  className="border border-neutral-200 flex flex-col justify-end items-center text-center rounded hover:shadow transition h-28 px-2 pb-2"
 >
   <img
     src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
     alt={item}
-    className="w-10 h-10"
+    className="w-8 h-8 mb-auto"
     onError={(e) => {
       const target = e.target as HTMLImageElement;
-      target.style.display = 'none';
+      target.style.display = 'none'; // Hide broken image
     }}
   />
   <span className="text-xs text-neutral-700">{item}</span>
 </div>
+
 
                   ))
                 ) : (
