@@ -64,16 +64,7 @@ const ProjectDetailPage = () => {
     return <div className="py-20 text-center text-red-600">{error}</div>;
   }
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
-
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -85,7 +76,14 @@ const ProjectDetailPage = () => {
         <div className="flex flex-col lg:flex-row h-auto">
           {/* Image Carousel */}
           <div className="w-full lg:w-3/5 h-[400px]">
-            <Slider {...sliderSettings}>
+            <Slider dots={true}
+    infinite={true}
+    speed={500}
+    slidesToShow={1}
+    slidesToScroll={1}
+    autoplay
+    autoplaySpeed={3000}
+    className="h-full">
               {project.images.map((img, idx) => (
                 <img
                   key={idx}
