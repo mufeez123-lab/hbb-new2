@@ -76,7 +76,7 @@ const ProjectDetailPage = () => {
             <h2 className="text-2xl font-serif text-[#8a731b] mb-0">{project.name}</h2>
             <p className="text-sm text-neutral-500 mb-2">{project.location}</p>
 
-            <div className="flex gap-4 text-sm font-semibold text-neutral-600 mb-2">
+            <div className="flex gap-4 text-sm font-semibold text-neutral-600 mb-2  ">
               <div>TYPE: {project.category}</div>
               {project.price && <div>BUA: {project.price} sqft</div>}
             </div>
@@ -84,24 +84,25 @@ const ProjectDetailPage = () => {
             {/* Amenities */}
             <div>
               <h3 className="text-2xl font-serif text-neutral-800 mb-2 mt-4">Amenities</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-0 mt-4">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
                     <div
-                      key={idx}
-                      className="border border-neutral-200 p-4 flex flex-col items-center justify-center text-center rounded hover:shadow transition"
-                    >
-                      <img
-                        src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
-                        alt={item}
-                        className="w-10 h-10 mb-2"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none'; // Hide image if icon not found
-                        }}
-                      />
-                      <span className="text-sm text-neutral-700 font-medium">{item}</span>
-                    </div>
+  key={idx}
+  className="border border-neutral-200 p-4 flex flex-col justify-between items-center text-center rounded hover:shadow transition h-28"
+>
+  <img
+    src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
+    alt={item}
+    className="w-10 h-10"
+    onError={(e) => {
+      const target = e.target as HTMLImageElement;
+      target.style.display = 'none';
+    }}
+  />
+  <span className="text-xs text-neutral-700">{item}</span>
+</div>
+
                   ))
                 ) : (
                   <p className="text-neutral-500 italic col-span-full">No amenities listed</p>
