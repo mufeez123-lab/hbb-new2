@@ -72,7 +72,7 @@ const ProjectDetailPage = () => {
 
         {/* Details */}
         <div className="w-full lg:w-1/2 p-6 space-y-2">
-          <h2 className="text-2xl font-serif text-neutral-573 mb-0">{project.name}</h2>
+          <h2 className="text-2xl font-serif text-[#8a731b] mb-0">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
           <div className="flex gap-4 text-sm font-semibold text-neutral-600">
@@ -107,10 +107,10 @@ const ProjectDetailPage = () => {
   </div>
 </div>
 
+<button className="mt-4 w-1/2 px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
+  Download Brochure
+</button>
 
-          <button className="mt-4 px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
-            Download Brochure
-          </button>
         </div>
       </div>
     </div>
