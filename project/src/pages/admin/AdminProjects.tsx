@@ -240,11 +240,11 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {['name', 'description', 'location', 'client', 'price'].map((field) => (
                 <input
                   key={field}
@@ -252,14 +252,14 @@ const AdminProjects: React.FC = () => {
                   placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
                   value={(formData as any)[field]}
                   onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
+                  className="px-3 py-2 border rounded-md"
                 />
               ))}
 
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="px-3 py-2 border rounded-md"
               >
                 <option value="">Select Category</option>
                 <option value="Residential">Residential</option>
@@ -270,7 +270,7 @@ const AdminProjects: React.FC = () => {
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-3 py-2 border rounded-md"
+                className="px-3 py-2 border rounded-md"
               >
                 <option value="">Select Status</option>
                 <option value="upcoming">Upcoming</option>
@@ -284,61 +284,61 @@ const AdminProjects: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                className="w-full px-3 py-2 border rounded-md"
+                className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
               />
+            </div>
 
-              <div>
-                <label className="block font-medium mb-2">Amenities</label>
-                <div className="grid grid-cols-3 gap-4 text-sm">
-                  {defaultAmenities.map((amenity) => (
-                    <label
-                      key={amenity}
-                      className="flex flex-col items-center text-center border border-neutral-200 rounded p-3 cursor-pointer hover:shadow transition"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.amenities.includes(amenity)}
-                        onChange={(e) => {
-                          const updated = e.target.checked
-                            ? [...formData.amenities, amenity]
-                            : formData.amenities.filter((a) => a !== amenity);
-                          setFormData({ ...formData, amenities: updated });
-                        }}
-                        className="hidden"
-                      />
-                      {amenityIcons[amenity] || <div className="text-xl mb-1">❓</div>}
-                      <span className="text-xs text-neutral-700">{amenity}</span>
-                    </label>
-                  ))}
-                </div>
+            <div className="mt-4">
+              <label className="block font-medium mb-2">Amenities</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
+                {defaultAmenities.map((amenity) => (
+                  <label
+                    key={amenity}
+                    className="flex flex-col items-center text-center border border-neutral-200 rounded p-3 cursor-pointer hover:shadow transition"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={formData.amenities.includes(amenity)}
+                      onChange={(e) => {
+                        const updated = e.target.checked
+                          ? [...formData.amenities, amenity]
+                          : formData.amenities.filter((a) => a !== amenity);
+                        setFormData({ ...formData, amenities: updated });
+                      }}
+                      className="hidden"
+                    />
+                    {amenityIcons[amenity] || <div className="text-xl mb-1">❓</div>}
+                    <span className="text-xs text-neutral-700 mt-2">{amenity}</span>
+                  </label>
+                ))}
               </div>
+            </div>
 
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={formData.explore}
-                  onChange={(e) => setFormData({ ...formData, explore: e.target.checked })}
-                  id="explore"
-                />
-                <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
-              </div>
+            <div className="flex items-center space-x-2 mt-4">
+              <input
+                type="checkbox"
+                checked={formData.explore}
+                onChange={(e) => setFormData({ ...formData, explore: e.target.checked })}
+                id="explore"
+              />
+              <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
+            </div>
 
-              <div className="flex justify-end space-x-4">
-                <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!formData.name || !formData.status}
-                  className={`px-4 py-2 rounded-md text-white ${
-                    formData.name && formData.status
-                      ? 'bg-primary-600 hover:bg-primary-700'
-                      : 'bg-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {editingProjectId ? 'Update Project' : 'Add Project'}
-                </button>
-              </div>
+            <div className="flex justify-end space-x-4 mt-6">
+              <button onClick={closeModal} className="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={!formData.name || !formData.status}
+                className={`px-4 py-2 rounded-md text-white ${
+                  formData.name && formData.status
+                    ? 'bg-primary-600 hover:bg-primary-700'
+                    : 'bg-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {editingProjectId ? 'Update Project' : 'Add Project'}
+              </button>
             </div>
           </div>
         </div>
