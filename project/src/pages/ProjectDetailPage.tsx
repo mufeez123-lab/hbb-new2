@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
-import { FiPhone } from 'react-icons/fi'; // phone icon
+import { FiPhone } from 'react-icons/fi';
 
 interface Project {
   _id: string;
@@ -55,11 +55,11 @@ const ProjectDetailPage = () => {
       transition={{ duration: 0.6 }}
       className="container mx-auto px-4 py-12 mt-20"
     >
-      {/* Card section */}
-      <div className="bg-white shadow-lg overflow-hidden ">
+      {/* Project Card */}
+      <div className="bg-white shadow-lg overflow-hidden rounded-lg">
         <div className="lg:flex">
-          {/* Image */}
-          <div className="w-full lg:w-3/5 ">
+          {/* Project Image */}
+          <div className="w-full lg:w-3/5 h-65 lg:h-65">
             <img
               src={imageUrl}
               alt={project.name}
@@ -71,39 +71,37 @@ const ProjectDetailPage = () => {
             />
           </div>
 
-          {/* Details */}
+          {/* Project Info */}
           <div className="w-full lg:w-2/5 p-6 space-y-2">
-            <h2 className="text-2xl font-serif text-[#8a731b] mb-0">{project.name}</h2>
-            <p className="text-sm text-neutral-500 mb-2">{project.location}</p>
+            <h2 className="text-2xl font-serif text-[#8a731b]">{project.name}</h2>
+            <p className="text-sm text-neutral-500">{project.location}</p>
 
-            <div className="flex gap-4 text-sm font-semibold text-neutral-600 mb-2  ">
+            <div className="flex gap-4 text-sm font-semibold text-neutral-600 mt-2">
               <div>TYPE: {project.category}</div>
               {project.price && <div>BUA: {project.price} sqft</div>}
             </div>
 
             {/* Amenities */}
-            <div>
-              <h3 className="text-2xl font-serif text-neutral-800 mb-2 mt-4">Amenities</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-0 mt-4">
+            <div className="mt-4">
+              <h3 className="text-xl font-semibold text-neutral-800 mb-2">Amenities</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
                     <div
-  key={idx}
-  className="border border-neutral-200 flex flex-col justify-end items-center text-center rounded hover:shadow transition h-28 px-2 pb-2"
->
-  <img
-    src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
-    alt={item}
-    className="w-8 h-8 mb-auto"
-    onError={(e) => {
-      const target = e.target as HTMLImageElement;
-      target.style.display = 'none'; // Hide broken image
-    }}
-  />
-  <span className="text-xs text-neutral-700">{item}</span>
-</div>
-
-
+                      key={idx}
+                      className="border border-neutral-200 flex flex-col justify-end items-center text-center rounded hover:shadow transition h-28 px-2 pb-2"
+                    >
+                      <img
+                        src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
+                        alt={item}
+                        className="w-8 h-8 mb-auto"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
+                      <span className="text-xs text-neutral-700">{item}</span>
+                    </div>
                   ))
                 ) : (
                   <p className="text-neutral-500 italic col-span-full">No amenities listed</p>
@@ -112,26 +110,24 @@ const ProjectDetailPage = () => {
             </div>
 
             {/* Buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4">
-  <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm hover:bg-[#745e16]">
-    Download Brochure
-  </button>
-  <a
-    href="tel:+916362514956"
-    className="w-full sm:w-1/4 px-4 py-1 bg-[#8a731b] text-white text-sm flex items-center justify-center gap-2 hover:bg-[#745e16]"
-  >
-    <FiPhone className="h-4 w-4" />
-    
-  </a>
-</div>
-
-
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+              <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm hover:bg-[#745e16]">
+                Download Brochure
+              </button>
+              <a
+                href="tel:+916362514956"
+                className="w-full sm:w-1/4 px-4 py-1 bg-[#8a731b] text-white text-sm flex items-center justify-center gap-2 hover:bg-[#745e16]"
+              >
+                <FiPhone className="h-4 w-4" />
+                Call
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Description */}
-      <div className="bg-white mt-4 p-6 rounded shadow">
+      <div className="bg-white mt-6 p-6 rounded shadow">
         <h3 className="text-2xl font-semibold text-[#8a731b] mb-2">About {project.name}</h3>
         <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
           {project.description}
