@@ -58,7 +58,8 @@ const ProjectDetailPage = () => {
     <div className="bg-white shadow-lg overflow-hidden rounded-lg">
       <div className="lg:flex">
         {/* Image */}
-        <div className="w-full lg:w-1/2 h-80 lg:h-auto">
+     <div className="w-full lg:w-3/5 h-80 lg:h-auto aspect-[4/3]">
+
           <img
             src={imageUrl}
             alt={project.name}
@@ -71,7 +72,7 @@ const ProjectDetailPage = () => {
         </div>
 
         {/* Details */}
-        <div className="w-full lg:w-1/2 p-6 space-y-2">
+   <div className="w-full lg:w-2/5 p-6 space-y-2">
           <h2 className="text-2xl font-serif text-[#8a731b] mb-0">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
