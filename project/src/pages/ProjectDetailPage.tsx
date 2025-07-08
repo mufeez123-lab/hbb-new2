@@ -67,7 +67,7 @@ const ProjectDetailPage = () => {
         </div>
 
         {/* Details */}
-        <div className="w-full lg:w-1/2 p-6 space-y-5">
+        <div className="w-full lg:w-1/2 p-6 space-y-2">
           <h2 className="text-2xl font-serif text-neutral-573 mb-0">{project.name}</h2>
           <p className="text-sm text-neutral-500">{project.location}</p>
 
