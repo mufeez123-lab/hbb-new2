@@ -81,17 +81,32 @@ const ProjectDetailPage = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-700 text-sm list-disc list-inside">
-              {project.amenities && project.amenities.length > 0 ? (
-                project.amenities.map((item, idx) => (
-                  <li key={idx} className="leading-snug">{item}</li>
-                ))
-              ) : (
-                <li className="text-neutral-500 italic">No amenities listed</li>
-              )}
-            </ul>
-          </div>
+  <h3 className="text-lg font-semibold text-neutral-800 mb-2">Amenities</h3>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+    {project.amenities && project.amenities.length > 0 ? (
+      project.amenities.map((item, idx) => (
+        <div
+          key={idx}
+          className="border border-neutral-200 p-4 flex flex-col items-center justify-center text-center rounded hover:shadow transition"
+        >
+          <img
+            src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
+            alt={item}
+            className="w-10 h-10 mb-2"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none'; // Hide image if not found
+            }}
+          />
+          <span className="text-sm text-neutral-700 font-medium">{item}</span>
+        </div>
+      ))
+    ) : (
+      <p className="text-neutral-500 italic col-span-full">No amenities listed</p>
+    )}
+  </div>
+</div>
+
 
           <button className="mt-4 px-4 py-2 bg-[#8a731b] text-white rounded hover:bg-[#745e16]">
             Download Brochure
