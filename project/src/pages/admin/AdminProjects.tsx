@@ -47,7 +47,7 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
@@ -82,7 +82,9 @@ const AdminProjects: React.FC = () => {
 
   const handleSubmit = async () => {
     const data = new FormData();
-    if (selectedFile) data.append('images', selectedFile);
+    selectedFiles.forEach((file) => {
+      data.append('images', file);
+    });
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities') data.append(key, value.toString());
@@ -141,7 +143,7 @@ const AdminProjects: React.FC = () => {
       amenities: [],
       explore: true,
     });
-    setSelectedFile(null);
+    setSelectedFiles([]);
   };
 
   const getImageUrl = (img: string | { url: string }) => {
@@ -173,7 +175,7 @@ const AdminProjects: React.FC = () => {
                     amenities: [],
                     explore: true,
                   });
-                  setSelectedFile(null);
+                  setSelectedFiles([]);
                 }}
                 className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
@@ -215,7 +217,7 @@ const AdminProjects: React.FC = () => {
                               explore: project.explore ?? true,
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile(null);
+                            setSelectedFiles([]);
                             setOpen(true);
                           }}
                           className="text-blue-600 hover:text-blue-800"
@@ -283,9 +285,24 @@ const AdminProjects: React.FC = () => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                multiple
+                onChange={(e) => setSelectedFiles(Array.from(e.target.files || []))}
                 className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
               />
+
+              {selectedFiles.length > 0 && (
+                <div className="mt-2 flex gap-2 flex-wrap col-span-full">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="w-20 h-20 border rounded overflow-hidden">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`preview-${index}`}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="mt-4">
@@ -293,14 +310,13 @@ const AdminProjects: React.FC = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
                 {defaultAmenities.map((amenity) => (
                   <label
-  key={amenity}
-  className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${
-    formData.amenities.includes(amenity)
-      ? 'bg-primary-100 border-primary-400'
-      : 'border-neutral-200'
-  }`}
->
-
+                    key={amenity}
+                    className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${
+                      formData.amenities.includes(amenity)
+                        ? 'bg-primary-100 border-primary-400'
+                        : 'border-neutral-200'
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={formData.amenities.includes(amenity)}
