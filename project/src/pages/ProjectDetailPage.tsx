@@ -89,7 +89,7 @@ const ProjectDetailPage = () => {
                   project.amenities.map((item, idx) => (
                     <div
   key={idx}
-  className="border border-neutral-200 p-4 flex flex-col justify-between items-center text-center rounded hover:shadow transition h-28"
+  className="border border-neutral-200 p-4 flex flex-col justify-between items-center text-center  hover:shadow transition h-28"
 >
   <img
     src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.svg`}
