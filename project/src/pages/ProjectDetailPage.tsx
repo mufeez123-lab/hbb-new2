@@ -160,11 +160,11 @@ const ProjectDetailPage = () => {
 <div className="bg-white mt-6 p-6 rounded ">
   <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <div className="w-full h-64 bg-gray-100 rounded flex items-center justify-center">
-      <span className="text-neutral-400">Plan Image 1</span>
+    <div className="w-full h-64 bg-[#8a731b] rounded ">
+      {/* <span className="text-neutral-400">Plan Image 1</span> */}
     </div>
-    <div className="w-full h-64 bg-gray-100 rounded flex items-center justify-center">
-      <span className="text-neutral-400">Plan Image 2</span>
+    <div className="w-full h-64 bg-[#8a731b] rounded ">
+      {/* <span className="text-neutral-400">Plan Image 2</span> */}
     </div>
   </div>
 </div>
