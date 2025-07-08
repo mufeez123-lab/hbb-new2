@@ -83,7 +83,7 @@ const ProjectDetailPage = () => {
           </div>
 
           <div>
-  <h3 className="text-lg font-serif text-neutral-800 mb-2">Amenities</h3>
+  <h3 className="text-lg font-serif text-neutral-800 mb-2 mt-4">Amenities</h3>
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
     {project.amenities && project.amenities.length > 0 ? (
       project.amenities.map((item, idx) => (
