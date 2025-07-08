@@ -78,7 +78,7 @@ const ProjectDetailPage = () => {
   <div className="lg:flex min-h-[450px]">
 
           {/* Project Image */}
-          <div className="w-full lg:w-3/5 h-[260px] mt-6 lg:mt-0 relative">
+          <div className="w-full lg:w-3/5 h-[300px] mt-6 lg:mt-0 relative">
             <img
               src={imageUrl}
               alt={project.name}
