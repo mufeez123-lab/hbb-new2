@@ -45,17 +45,28 @@ const projectSchema = new mongoose.Schema({
     trim: true
   },
   explore: {
-  type: Boolean,
-  default: true,
-}
-,
+    type: Boolean,
+    default: true
+  },
 
-  // ✅ New field added below
   amenities: {
     type: [String],
     default: []
-  }
+  },
 
+  // ✅ NEW FIELD: specifications
+  specifications: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      description: {
+        type: String,
+        required: true
+      }
+    }
+  ]
 }, {
   timestamps: true
 });
