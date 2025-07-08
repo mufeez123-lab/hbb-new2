@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
 import { FiPhone } from 'react-icons/fi';
+import Slider from 'react-slick';
 import {
   FaSwimmingPool,
   FaCar,
@@ -23,7 +24,6 @@ interface Project {
   amenities?: string[];
 }
 
-// Icon mapping for amenities
 const amenityIcons: { [key: string]: JSX.Element } = {
   'Swimming Pool': <FaSwimmingPool className="text-2xl text-black" />,
   'Covered Parking': <FaCar className="text-2xl text-black" />,
@@ -64,7 +64,15 @@ const ProjectDetailPage = () => {
     return <div className="py-20 text-center text-red-600">{error}</div>;
   }
 
-  const imageUrl = project.images?.[0]?.url || '/images/image1.jpg';
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
 
   return (
     <motion.div
@@ -73,22 +81,24 @@ const ProjectDetailPage = () => {
       transition={{ duration: 0.6 }}
       className="container mx-auto px-4 py-12 mt-20"
     >
-      {/* Project Card */}
       <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
-<div className="flex flex-col lg:flex-row h-auto">
-
-
-          {/* Project Image */}
-          <div className="w-full lg:w-3/5 h-[400px] ">
-            <img
-              src={imageUrl}
-              alt={project.name}
-              className="object-cover w-full h-full"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = '/images/image1.jpg';
-              }}
-            />
+        <div className="flex flex-col lg:flex-row h-auto">
+          {/* Image Carousel */}
+          <div className="w-full lg:w-3/5 h-[400px]">
+            <Slider {...sliderSettings}>
+              {project.images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img.url}
+                  alt={`${project.name}-${idx}`}
+                  className="object-cover w-full h-[400px]"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/images/image1.jpg';
+                  }}
+                />
+              ))}
+            </Slider>
           </div>
 
           {/* Project Info */}
@@ -96,11 +106,10 @@ const ProjectDetailPage = () => {
             <h2 className="text-2xl font-serif text-[#8a731b]">{project.name}</h2>
             <p className="text-sm text-neutral-500">{project.location}</p>
 
-           <div className="bg-neutral-100 px-0 py-2 rounded-md flex gap-4 text-xs font-semibold text-neutral-600 mt-2">
-  <div>TYPE: {project.category}</div>
-  {project.price && <div>BUA: {project.price} sqft</div>}
-</div>
-
+            <div className="bg-neutral-100 px-0 py-2 rounded-md flex gap-4 text-xs font-semibold text-neutral-600 mt-2">
+              <div>TYPE: {project.category}</div>
+              {project.price && <div>BUA: {project.price} sqft</div>}
+            </div>
 
             {/* Amenities */}
             <div className="mt-4">
