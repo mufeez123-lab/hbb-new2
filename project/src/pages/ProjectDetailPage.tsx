@@ -22,7 +22,11 @@ interface Project {
   location: string;
   price?: string;
   amenities?: string[];
-  specifications?: { title: string; description: string }[];
+  specifications?: {
+    title: string;
+    description?: string;
+    descriptions?: string[];
+  }[];
 }
 
 const amenityIcons: { [key: string]: JSX.Element } = {
@@ -152,7 +156,7 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Description */}
-      <div className="bg-white mt-4 p-6 rounded ">
+      <div className="bg-white mt-4 p-6 rounded">
         <h3 className="text-2xl font-serif text-[#8a731b] mb-2">About {project.name}</h3>
         <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
           {project.description}
@@ -160,17 +164,17 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Plans Section */}
-      <div className="bg-white mt-6 p-6 rounded ">
+      <div className="bg-white mt-6 p-6 rounded">
         <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+          <div className="w-full h-64 bg-[#8a731b] rounded"></div>
+          <div className="w-full h-64 bg-[#8a731b] rounded"></div>
         </div>
       </div>
 
-      {/* ✅ Specifications Accordion Section */}
+      {/* Specifications Accordion Section */}
       {project.specifications && project.specifications.length > 0 && (
-        <div className="bg-white mt-6 p-6 rounded">
+        <div className="bg-white mt-6 p-6 rounded w-3/4 mx-auto">
           <h3 className="text-2xl font-serif text-[#8a731b] mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200">
             {project.specifications.map((spec, index) => (
@@ -186,9 +190,13 @@ const ProjectDetailPage = () => {
                   </span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
-                  {spec.description.split('\n').map((line, idx) => (
-                    <li key={idx}>{line.trim()}</li>
-                  ))}
+                  {Array.isArray(spec.descriptions)
+                    ? spec.descriptions.map((line, idx) => (
+                        <li key={idx}>{line.trim()}</li>
+                      ))
+                    : (spec.description ?? '').split('\n').map((line, idx) => (
+                        <li key={idx}>{line.trim()}</li>
+                      ))}
                 </ul>
               </details>
             ))}

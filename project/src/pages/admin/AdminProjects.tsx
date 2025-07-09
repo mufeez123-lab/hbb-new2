@@ -1,16 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/admin/Sidebar';
-import api from '../../services/api';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-  FaSwimmingPool,
-  FaCar,
-  FaChild,
-  FaShieldAlt,
-  FaDumbbell,
-  FaTree,
-} from 'react-icons/fa';
+// ... keep all imports as before ...
 
 interface Project {
   _id: string;
@@ -24,26 +12,10 @@ interface Project {
   price?: string;
   amenities?: string[];
   explore?: boolean;
-  specifications?: { title: string; description: string }[];
+  specifications?: { title: string; descriptions: string[] }[];
 }
 
-const defaultAmenities = [
-  'Park Area',
-  'Gym',
-  '24x7 Security',
-  'Swimming Pool',
-  'Children’s Play Area',
-  'Covered Parking',
-];
-
-const amenityIcons: { [key: string]: JSX.Element } = {
-  'Swimming Pool': <FaSwimmingPool className="text-xl mb-1" />,
-  'Covered Parking': <FaCar className="text-xl mb-1" />,
-  "Children’s Play Area": <FaChild className="text-xl mb-1" />,
-  '24x7 Security': <FaShieldAlt className="text-xl mb-1" />,
-  Gym: <FaDumbbell className="text-xl mb-1" />,
-  'Park Area': <FaTree className="text-xl mb-1" />,
-};
+// ... keep defaultAmenities and amenityIcons as before ...
 
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -61,7 +33,7 @@ const AdminProjects: React.FC = () => {
     price: '',
     amenities: [] as string[],
     explore: true,
-    specifications: [] as { title: string; description: string }[],
+    specifications: [] as { title: string; descriptions: string[] }[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -77,7 +49,6 @@ const AdminProjects: React.FC = () => {
       });
       setProjects(res.data);
     } catch (err) {
-      console.error('Failed to fetch projects:', err);
       toast.error('❌ Failed to load projects');
     }
   };
@@ -115,7 +86,6 @@ const AdminProjects: React.FC = () => {
       await fetchProjects();
       closeModal();
     } catch (err) {
-      console.error('API Error:', err);
       toast.error('❌ Something went wrong!');
     }
   };
@@ -128,7 +98,6 @@ const AdminProjects: React.FC = () => {
       setProjects((prev) => prev.filter((p) => p._id !== id));
       toast.success('🗑️ Project deleted successfully');
     } catch (err) {
-      console.error('Delete failed:', err);
       toast.error('❌ Failed to delete project');
     }
   };
@@ -229,7 +198,7 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-5 ml-20">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh]">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
@@ -309,11 +278,11 @@ const AdminProjects: React.FC = () => {
                 </div>
               </div>
 
-              {/* Specifications */}
+              {/* Specifications with multiple descriptions */}
               <div className="mt-4">
                 <label className="block font-medium mb-2">Specifications</label>
                 {formData.specifications.map((spec, index) => (
-                  <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                  <div key={index} className="border p-3 mb-3 rounded">
                     <input
                       type="text"
                       placeholder="Title"
@@ -323,29 +292,60 @@ const AdminProjects: React.FC = () => {
                         updated[index].title = e.target.value;
                         setFormData({ ...formData, specifications: updated });
                       }}
-                      className="px-3 py-2 border rounded-md"
+                      className="px-3 py-2 border rounded-md w-full mb-2"
                     />
-                    <input
-                      type="text"
-                      placeholder="Description"
-                      value={spec.description}
-                      onChange={(e) => {
-                        const updated = [...formData.specifications];
-                        updated[index].description = e.target.value;
-                        setFormData({ ...formData, specifications: updated });
-                      }}
-                      className="px-3 py-2 border rounded-md"
-                    />
+
+                    {spec.descriptions.map((desc, descIndex) => (
+                      <div key={descIndex} className="flex items-center gap-2 mb-2">
+                        <input
+                          type="text"
+                          placeholder={`Description ${descIndex + 1}`}
+                          value={desc}
+                          onChange={(e) => {
+                            const updated = [...formData.specifications];
+                            updated[index].descriptions[descIndex] = e.target.value;
+                            setFormData({ ...formData, specifications: updated });
+                          }}
+                          className="flex-1 px-3 py-2 border rounded-md"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = [...formData.specifications];
+                            updated[index].descriptions.splice(descIndex, 1);
+                            setFormData({ ...formData, specifications: updated });
+                          }}
+                          className="text-red-500"
+                        >
+                          ✖
+                        </button>
+                      </div>
+                    ))}
+
                     <button
                       type="button"
                       onClick={() => {
-                        const updated = formData.specifications.filter((_, i) => i !== index);
+                        const updated = [...formData.specifications];
+                        updated[index].descriptions.push('');
                         setFormData({ ...formData, specifications: updated });
                       }}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-sm text-blue-600 hover:underline"
                     >
-                      ✖
+                      + Add Description
                     </button>
+
+                    <div className="mt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = formData.specifications.filter((_, i) => i !== index);
+                          setFormData({ ...formData, specifications: updated });
+                        }}
+                        className="text-sm text-red-600 hover:underline"
+                      >
+                        Remove Specification
+                      </button>
+                    </div>
                   </div>
                 ))}
                 <button
@@ -353,7 +353,7 @@ const AdminProjects: React.FC = () => {
                   onClick={() =>
                     setFormData({
                       ...formData,
-                      specifications: [...formData.specifications, { title: '', description: '' }],
+                      specifications: [...formData.specifications, { title: '', descriptions: [''] }],
                     })
                   }
                   className="mt-2 text-sm text-primary-600 hover:underline"
