@@ -233,8 +233,14 @@ const AdminProjects: React.FC = () => {
         </main>
       </div>
 
-      {/* The modal remains the same as you already have it implemented correctly */}
-
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-5 ml-20">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh]">
+            {/* Your existing form with amenities and specification inputs goes here */}
+            {/* Keep same as before, no need to change it if the above fixes are applied */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
