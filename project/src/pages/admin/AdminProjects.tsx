@@ -24,7 +24,7 @@ interface Project {
   price?: string;
   amenities?: string[];
   explore?: boolean;
-  specifications?: { title: string; description: string[] | string }[];
+    specifications?: { title: string; description: string[] }[]; 
 }
 
 const defaultAmenities = [
@@ -61,7 +61,7 @@ const AdminProjects: React.FC = () => {
     price: '',
     amenities: [] as string[],
     explore: true,
-    specifications: [] as { title: string; description: string[] }[],
+   specifications: [] as { title: string; description: string[] }[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -201,13 +201,7 @@ const AdminProjects: React.FC = () => {
                               price: project.price || '',
                               amenities: project.amenities || [],
                               explore: project.explore ?? true,
-                              specifications:
-                                project.specifications?.map((spec) => ({
-                                  title: spec.title,
-                                  description: Array.isArray(spec.description)
-                                    ? spec.description
-                                    : [spec.description],
-                                })) || [],
+                              specifications: project.specifications || [],
                             });
                             setEditingProjectId(project._id);
                             setSelectedFile(null);
@@ -235,9 +229,198 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-5 ml-20">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh]">
-            {/* Your existing form with amenities and specification inputs goes here */}
-            {/* Keep same as before, no need to change it if the above fixes are applied */}
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
+            <h2 className="text-xl font-bold mb-4">
+              {editingProjectId ? 'Update Project' : 'Add New Project'}
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {['name', 'description', 'location', 'client', 'price'].map((field) => (
+                  <input
+                    key={field}
+                    type="text"
+                    placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
+                    value={(formData as any)[field]}
+                    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                    className="px-3 py-2 border rounded-md"
+                  />
+                ))}
+
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  className="px-3 py-2 border rounded-md"
+                >
+                  <option value="">Select Category</option>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Luxury villa">Luxury Villa</option>
+                </select>
+
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  className="px-3 py-2 border rounded-md"
+                >
+                  <option value="">Select Status</option>
+                  <option value="upcoming">Upcoming</option>
+                  <option value="ongoing">Ongoing</option>
+                  <option value="featured">Featured</option>
+                  <option value="ready to move">Ready to Move</option>
+                  <option value="completed">Completed</option>
+                </select>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
+                />
+              </div>
+
+              {/* Amenities */}
+              <div className="mt-4">
+                <label className="block font-medium mb-2">Amenities</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
+                  {defaultAmenities.map((amenity) => (
+                    <label
+                      key={amenity}
+                      className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${
+                        formData.amenities.includes(amenity)
+                          ? 'bg-primary-100 border-primary-400'
+                          : 'border-neutral-200'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.amenities.includes(amenity)}
+                        onChange={(e) => {
+                          const updated = e.target.checked
+                            ? [...formData.amenities, amenity]
+                            : formData.amenities.filter((a) => a !== amenity);
+                          setFormData({ ...formData, amenities: updated });
+                        }}
+                        className="hidden"
+                      />
+                      {amenityIcons[amenity] || <div className="text-xl mb-1">❓</div>}
+                      <span className="text-xs text-neutral-700 mt-2">{amenity}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+             {/* Specifications */}
+              <div className="mt-4">
+                <label className="block font-medium mb-2">Specifications</label>
+                {formData.specifications.map((spec, specIndex) => (
+                  <div key={specIndex} className="bg-gray-50 p-3 rounded-md mb-3 border border-gray-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <input
+                        type="text"
+                        placeholder="Title"
+                        value={spec.title}
+                        onChange={(e) => {
+                          const updatedSpecs = [...formData.specifications];
+                          updatedSpecs[specIndex].title = e.target.value;
+                          setFormData({ ...formData, specifications: updatedSpecs });
+                        }}
+                        className="px-3 py-2 border rounded-md w-full mr-2"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updatedSpecs = formData.specifications.filter((_, i) => i !== specIndex);
+                          setFormData({ ...formData, specifications: updatedSpecs });
+                        }}
+                        className="text-red-500 hover:text-red-700 p-2"
+                      >
+                        ✖ Remove Spec
+                      </button>
+                    </div>
+
+                    {spec.description.map((desc, descIndex) => (
+                      <div key={descIndex} className="flex items-center mb-2">
+                        <input
+                          type="text"
+                          placeholder={`Description ${descIndex + 1}`}
+                          value={desc}
+                          onChange={(e) => {
+                            const updatedSpecs = [...formData.specifications];
+                            updatedSpecs[specIndex].description[descIndex] = e.target.value;
+                            setFormData({ ...formData, specifications: updatedSpecs });
+                          }}
+                          className="px-3 py-2 border rounded-md w-full mr-2"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updatedSpecs = [...formData.specifications];
+                            updatedSpecs[specIndex].description = updatedSpecs[specIndex].description.filter(
+                              (_, i) => i !== descIndex
+                            );
+                            setFormData({ ...formData, specifications: updatedSpecs });
+                          }}
+                          className="text-red-500 hover:text-red-700 p-2"
+                        >
+                          -
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updatedSpecs = [...formData.specifications];
+                        updatedSpecs[specIndex].description.push(''); // Add an empty string for a new description
+                        setFormData({ ...formData, specifications: updatedSpecs });
+                      }}
+                      className="mt-2 text-sm text-primary-600 hover:underline px-2 py-1 border rounded"
+                    >
+                      + Add Description for this Spec
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData({
+                      ...formData,
+                      specifications: [...formData.specifications, { title: '', description: [''] }], // Initialize with an empty description array
+                    })
+                  }
+                  className="mt-2 text-sm text-primary-600 hover:underline px-3 py-2 border rounded-md"
+                >
+                  + Add New Specification
+                </button>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center space-x-2 mt-4">
+                <input
+                  type="checkbox"
+                  checked={formData.explore}
+                  onChange={(e) => setFormData({ ...formData, explore: e.target.checked })}
+                  id="explore"
+                />
+                <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
+              </div>
+
+              <div className="flex justify-end space-x-4 mt-6">
+                <button onClick={closeModal} type="button" className="px-4 py-2 text-gray-600 hover:text-gray-800">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!formData.name || !formData.status}
+                  className={`px-4 py-2 rounded-md text-white ${
+                    formData.name && formData.status
+                      ? 'bg-primary-600 hover:bg-primary-700'
+                      : 'bg-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {editingProjectId ? 'Update Project' : 'Add Project'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
