@@ -283,6 +283,7 @@ const AdminProjects: React.FC = () => {
                   onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
                 />
+                <p className="text-sm text-gray-500 mb-2">Upload Prpoject Images ↑ </p>
                 <input
   type="file"
   accept="image/*"
@@ -290,7 +291,7 @@ const AdminProjects: React.FC = () => {
   onChange={(e) => setSelectedPlans(e.target.files)}
   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
 />
-<p className="text-sm text-gray-500 mb-2">Upload Plan Images (optional)</p>
+<p className="text-sm text-gray-500 mb-2">Upload Plan Images ↑</p>
 
               </div>
 
