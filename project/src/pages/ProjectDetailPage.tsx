@@ -24,8 +24,7 @@ interface Project {
   amenities?: string[];
   specifications?: {
     title: string;
-    description?: string;
-    descriptions?: string[];
+    description?: string[];
   }[];
 }
 
@@ -190,8 +189,8 @@ const ProjectDetailPage = () => {
                   </span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
-                  {Array.isArray(spec.descriptions)
-                    ? spec.descriptions.map((line, idx) => (
+                  {Array.isArray(spec.description)
+                    ? spec.description.map((line, idx) => (
                         <li key={idx}>{line.trim()}</li>
                       ))
                     : (spec.description ?? '').split('\n').map((line, idx) => (
