@@ -165,13 +165,14 @@ const ProjectDetailPage = () => {
         </p>
       </div>
 
-     {/* Plans Section (heading only with empty background) */}
-<div className="bg-white mt-6 p-6 rounded">
-  <h3 className="text-2xl font-serif text-neutral-700 mb-2">Plans</h3>
-  <div className="h-64 bg-neutral-100 rounded flex items-center justify-center text-neutral-400">
-    Plans will be available soon
-  </div>
-</div>
+     {/* Plans Section */}
+      <div className="bg-white mt-6 p-6 rounded ">
+        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+        </div>
+      </div>
 
 
       {/* Specifications */}
