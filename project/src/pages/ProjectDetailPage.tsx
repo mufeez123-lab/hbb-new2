@@ -24,8 +24,10 @@ interface Project {
   amenities?: string[];
   specifications?: {
     title: string;
-    description?: string[];
+    description?: string;
+    descriptions?: string[];
   }[];
+  plans?: { url: string; public_id: string }[]; // ✅ NEW: Plan images
 }
 
 const amenityIcons: { [key: string]: JSX.Element } = {
@@ -75,6 +77,7 @@ const ProjectDetailPage = () => {
       transition={{ duration: 0.6 }}
       className="container mx-auto px-4 py-12 mt-20"
     >
+      {/* Main Container */}
       <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
         <div className="flex flex-col lg:flex-row h-auto">
           {/* Image Carousel */}
@@ -163,35 +166,45 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Plans Section */}
-      <div className="bg-white mt-6 p-6 rounded">
-        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="w-full h-64 bg-[#8a731b] rounded"></div>
-          <div className="w-full h-64 bg-[#8a731b] rounded"></div>
+      {project.plans && project.plans.length > 0 && (
+        <div className="bg-white mt-6 p-6 rounded">
+          <h3 className="text-2xl font-serif text-neutral-700 mb-2">Plans</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {project.plans.map((plan, idx) => (
+              <img
+                key={idx}
+                src={plan.url}
+                alt={`plan-${idx}`}
+                className="w-full h-64 object-cover rounded border border-neutral-200"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/images/image1.jpg';
+                }}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Specifications Accordion Section */}
+      {/* Specifications */}
       {project.specifications && project.specifications.length > 0 && (
-        <div className="bg-white mt-6 p-6 rounded ">
+        <div className="bg-white mt-6 p-6 rounded">
           <h3 className="text-2xl font-serif text-[#8a731b] mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
               <details
                 key={index}
                 className="group p-4 hover:bg-neutral-50 transition duration-300"
-                
               >
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
                   <span className="text-black transition-transform group-open:rotate-90 text-xl">
-  ▶
-</span>
-
+                    ▶
+                  </span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
-                  {Array.isArray(spec.description)
-                    ? spec.description.map((line, idx) => (
+                  {Array.isArray(spec.descriptions)
+                    ? spec.descriptions.map((line, idx) => (
                         <li key={idx}>{line.trim()}</li>
                       ))
                     : (spec.description ?? '').split('\n').map((line, idx) => (

@@ -50,6 +50,8 @@ const AdminProjects: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [selectedPlans, setSelectedPlans] = useState<FileList | null>(null);
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -86,6 +88,9 @@ const AdminProjects: React.FC = () => {
     e.preventDefault();
     const data = new FormData();
     if (selectedFile) data.append('images', selectedFile);
+     if (selectedPlans) {
+    Array.from(selectedPlans).forEach((file) => data.append('plans', file));
+  }
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities' && key !== 'specifications') {
@@ -148,6 +153,7 @@ const AdminProjects: React.FC = () => {
       specifications: [],
     });
     setSelectedFile(null);
+    setSelectedPlans(null);
     setOpen(false);
   };
 
@@ -277,6 +283,15 @@ const AdminProjects: React.FC = () => {
                   onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
                 />
+                <input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setSelectedPlans(e.target.files)}
+  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
+/>
+<p className="text-sm text-gray-500 mb-2">Upload Plan Images (optional)</p>
+
               </div>
 
               {/* Amenities */}
