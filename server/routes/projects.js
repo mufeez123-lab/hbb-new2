@@ -79,15 +79,19 @@ router.post(
         specifications,
       } = req.body;
 
-      const images = (req.files['images'] || []).map((file) => ({
-        url: file.path,
-        public_id: file.filename,
-      }));
+      const images = Array.isArray(req.files?.images)
+        ? req.files.images.map((file) => ({
+            url: file.path,
+            public_id: file.filename || file.originalname,
+          }))
+        : [];
 
-      const plans = (req.files['plans'] || []).map((file) => ({
-        url: file.path,
-        public_id: file.filename,
-      }));
+      const plans = Array.isArray(req.files?.plans)
+        ? req.files.plans.map((file) => ({
+            url: file.path,
+            public_id: file.filename || file.originalname,
+          }))
+        : [];
 
       const amenitiesArray = Array.isArray(amenities)
         ? amenities
@@ -96,18 +100,22 @@ router.post(
         : [];
 
       let specificationsArray = [];
-      if (specifications) {
-        const parsedSpecs =
-          typeof specifications === 'string'
-            ? JSON.parse(specifications)
-            : specifications;
+      try {
+        if (specifications) {
+          const parsedSpecs =
+            typeof specifications === 'string'
+              ? JSON.parse(specifications)
+              : specifications;
 
-        specificationsArray = parsedSpecs.map((spec) => ({
-          title: spec.title,
-          description: Array.isArray(spec.description)
-            ? spec.description
-            : [spec.description],
-        }));
+          specificationsArray = parsedSpecs.map((spec) => ({
+            title: spec.title,
+            description: Array.isArray(spec.description)
+              ? spec.description
+              : [spec.description],
+          }));
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Invalid specifications JSON' });
       }
 
       const project = new Project({
@@ -159,8 +167,7 @@ router.put(
       } = req.body;
 
       const existingProject = await Project.findById(req.params.id);
-      if (!existingProject)
-        return res.status(404).json({ message: 'Project not found' });
+      if (!existingProject) return res.status(404).json({ message: 'Project not found' });
 
       const amenitiesArray = Array.isArray(amenities)
         ? amenities
@@ -169,18 +176,22 @@ router.put(
         : [];
 
       let specificationsArray = [];
-      if (specifications) {
-        const parsedSpecs =
-          typeof specifications === 'string'
-            ? JSON.parse(specifications)
-            : specifications;
+      try {
+        if (specifications) {
+          const parsedSpecs =
+            typeof specifications === 'string'
+              ? JSON.parse(specifications)
+              : specifications;
 
-        specificationsArray = parsedSpecs.map((spec) => ({
-          title: spec.title,
-          description: Array.isArray(spec.description)
-            ? spec.description
-            : [spec.description],
-        }));
+          specificationsArray = parsedSpecs.map((spec) => ({
+            title: spec.title,
+            description: Array.isArray(spec.description)
+              ? spec.description
+              : [spec.description],
+          }));
+        }
+      } catch (err) {
+        return res.status(400).json({ message: 'Invalid specifications JSON' });
       }
 
       const updateData = {
@@ -196,29 +207,37 @@ router.put(
         specifications: specificationsArray,
       };
 
-      // Safely replace images
-      if (req.files['images']) {
+      // Replace images
+      if (Array.isArray(req.files?.images)) {
         for (const img of existingProject.images || []) {
-          if (typeof img === 'object' && img.public_id) {
-            await cloudinary.uploader.destroy(img.public_id);
+          if (img?.public_id) {
+            try {
+              await cloudinary.uploader.destroy(img.public_id);
+            } catch (err) {
+              console.warn('Cloudinary delete failed for image:', img.public_id);
+            }
           }
         }
-        updateData.images = req.files['images'].map((file) => ({
+        updateData.images = req.files.images.map((file) => ({
           url: file.path,
-          public_id: file.filename,
+          public_id: file.filename || file.originalname,
         }));
       }
 
-      // Safely replace plans
-      if (req.files['plans']) {
+      // Replace plans
+      if (Array.isArray(req.files?.plans)) {
         for (const plan of existingProject.plans || []) {
-          if (typeof plan === 'object' && plan.public_id) {
-            await cloudinary.uploader.destroy(plan.public_id);
+          if (plan?.public_id) {
+            try {
+              await cloudinary.uploader.destroy(plan.public_id);
+            } catch (err) {
+              console.warn('Cloudinary delete failed for plan:', plan.public_id);
+            }
           }
         }
-        updateData.plans = req.files['plans'].map((file) => ({
+        updateData.plans = req.files.plans.map((file) => ({
           url: file.path,
-          public_id: file.filename,
+          public_id: file.filename || file.originalname,
         }));
       }
 
@@ -244,14 +263,22 @@ router.delete('/:id', adminAuth, async (req, res) => {
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
     for (const img of project.images || []) {
-      if (typeof img === 'object' && img.public_id) {
-        await cloudinary.uploader.destroy(img.public_id);
+      if (img?.public_id) {
+        try {
+          await cloudinary.uploader.destroy(img.public_id);
+        } catch (err) {
+          console.warn('Cloudinary delete failed for image:', img.public_id);
+        }
       }
     }
 
     for (const plan of project.plans || []) {
-      if (typeof plan === 'object' && plan.public_id) {
-        await cloudinary.uploader.destroy(plan.public_id);
+      if (plan?.public_id) {
+        try {
+          await cloudinary.uploader.destroy(plan.public_id);
+        } catch (err) {
+          console.warn('Cloudinary delete failed for plan:', plan.public_id);
+        }
       }
     }
 
