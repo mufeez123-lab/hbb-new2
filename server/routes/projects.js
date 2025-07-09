@@ -82,14 +82,16 @@ router.post(
       const images = Array.isArray(req.files?.images)
         ? req.files.images.map((file) => ({
             url: file.path,
-            public_id: file.filename || file.originalname,
+        public_id: file.filename || file.originalname || file.public_id,
+
           }))
         : [];
 
       const plans = Array.isArray(req.files?.plans)
         ? req.files.plans.map((file) => ({
             url: file.path,
-            public_id: file.filename || file.originalname,
+          public_id: file.filename || file.originalname || file.public_id,
+
           }))
         : [];
 
@@ -137,7 +139,7 @@ router.post(
       req.app.get('io')?.emit('project:created', project);
       res.status(201).json(project);
     } catch (err) {
-      console.error('POST Error:', err);
+      console.error('POST Error:', err.message, err.stack);
       res.status(400).json({ message: 'Something went wrong!', error: err.message });
     }
   }
