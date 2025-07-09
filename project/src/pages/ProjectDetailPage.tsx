@@ -182,7 +182,7 @@ const ProjectDetailPage = () => {
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
                   <span className="text-black group-open:rotate-90 transition-transform text-xl">
-                    {index === 0 ? '+' : '-'}
+                    {index === 0 ? '-' : '+'}
                   </span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
