@@ -23,7 +23,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// === GET: All Projects ===
+/* === GET: All Projects === */
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// === GET: Featured Projects (Explore = true, limit 9) ===
+/* === GET: Featured Projects === */
 router.get('/featured', async (req, res) => {
   try {
     const projects = await Project.find({ status: 'featured', explore: true })
@@ -45,20 +45,18 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// === GET: Single Project ===
+/* === GET: Single Project by ID === */
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+    if (!project) return res.status(404).json({ message: 'Project not found' });
     res.json(project);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// === POST: Create Project ===
+/* === POST: Create New Project === */
 router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
     const {
@@ -74,27 +72,30 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       specifications,
     } = req.body;
 
-    const images = req.files.map(file => ({
+    const images = req.files.map((file) => ({
       url: file.path,
       public_id: file.filename,
     }));
 
-    let amenitiesArray = [];
-    if (amenities) {
-      if (Array.isArray(amenities)) {
-        amenitiesArray = amenities;
-      } else {
-        amenitiesArray = [amenities];
-      }
-    }
+    const amenitiesArray = Array.isArray(amenities)
+      ? amenities
+      : amenities
+      ? [amenities]
+      : [];
 
     let specificationsArray = [];
     if (specifications) {
-      if (typeof specifications === 'string') {
-        specificationsArray = JSON.parse(specifications);
-      } else if (Array.isArray(specifications)) {
-        specificationsArray = specifications;
-      }
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
+
+      specificationsArray = parsedSpecs.map((spec) => ({
+        title: spec.title,
+        description: Array.isArray(spec.description)
+          ? spec.description
+          : [spec.description],
+      }));
     }
 
     const project = new Project({
@@ -112,8 +113,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
     });
 
     await project.save();
-
-    req.app.get('io').emit('project:created', project);
+    req.app.get('io')?.emit('project:created', project);
     res.status(201).json(project);
   } catch (err) {
     console.error('POST Error:', err);
@@ -121,7 +121,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   }
 });
 
-// === PUT: Update Project ===
+/* === PUT: Update Project === */
 router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
     const {
@@ -138,26 +138,27 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
     } = req.body;
 
     const existingProject = await Project.findById(req.params.id);
-    if (!existingProject) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+    if (!existingProject) return res.status(404).json({ message: 'Project not found' });
 
-    let amenitiesArray = [];
-    if (amenities) {
-      if (Array.isArray(amenities)) {
-        amenitiesArray = amenities;
-      } else {
-        amenitiesArray = [amenities];
-      }
-    }
+    const amenitiesArray = Array.isArray(amenities)
+      ? amenities
+      : amenities
+      ? [amenities]
+      : [];
 
     let specificationsArray = [];
     if (specifications) {
-      if (typeof specifications === 'string') {
-        specificationsArray = JSON.parse(specifications);
-      } else if (Array.isArray(specifications)) {
-        specificationsArray = specifications;
-      }
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
+
+      specificationsArray = parsedSpecs.map((spec) => ({
+        title: spec.title,
+        description: Array.isArray(spec.description)
+          ? spec.description
+          : [spec.description],
+      }));
     }
 
     const updateData = {
@@ -175,12 +176,10 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
 
     if (req.files && req.files.length > 0) {
       for (const img of existingProject.images) {
-        if (img.public_id) {
-          await cloudinary.uploader.destroy(img.public_id);
-        }
+        if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
       }
 
-      updateData.images = req.files.map(file => ({
+      updateData.images = req.files.map((file) => ({
         url: file.path,
         public_id: file.filename,
       }));
@@ -192,7 +191,7 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       { new: true }
     );
 
-    req.app.get('io').emit('project:updated', updatedProject);
+    req.app.get('io')?.emit('project:updated', updatedProject);
     res.json(updatedProject);
   } catch (err) {
     console.error('PUT Error:', err);
@@ -200,23 +199,18 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
   }
 });
 
-// === DELETE: Project ===
+/* === DELETE: Project === */
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+    if (!project) return res.status(404).json({ message: 'Project not found' });
 
     for (const img of project.images) {
-      if (img.public_id) {
-        await cloudinary.uploader.destroy(img.public_id);
-      }
+      if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
     }
 
     await project.deleteOne();
-
-    req.app.get('io').emit('project:deleted', req.params.id);
+    req.app.get('io')?.emit('project:deleted', req.params.id);
     res.json({ message: 'Project deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });
