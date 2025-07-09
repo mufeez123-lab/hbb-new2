@@ -174,9 +174,9 @@ const ProjectDetailPage = () => {
 
       {/* Specifications Accordion Section */}
       {project.specifications && project.specifications.length > 0 && (
-        <div className="bg-white mt-6 p-6 rounded w-3/4 mx-auto">
+        <div className="bg-white mt-6 p-6 rounded ">
           <h3 className="text-2xl font-serif text-[#8a731b] mb-4">Specifications</h3>
-          <div className="divide-y border rounded border-neutral-200">
+          <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
               <details
                 key={index}
