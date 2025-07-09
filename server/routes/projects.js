@@ -14,284 +14,187 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'projects',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
-  },
+  cloudinary,
+  params: { folder: 'projects', allowed_formats: ['jpg','jpeg','png'] },
 });
-
 const upload = multer({ storage });
 
-/* === GET: All Projects === */
 router.get('/', async (req, res) => {
-  try {
-    const projects = await Project.find().sort({ createdAt: -1 });
-    res.json(projects);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  const projects = await Project.find().sort({ createdAt: -1 });
+  return res.json(projects);
 });
 
-/* === GET: Featured Projects === */
 router.get('/featured', async (req, res) => {
-  try {
-    const projects = await Project.find({ status: 'featured', explore: true })
-      .sort({ createdAt: -1 })
-      .limit(9);
-    res.json(projects);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  const projects = await Project.find({ status: 'featured', explore: true })
+    .sort({ createdAt: -1 }).limit(9);
+  return res.json(projects);
 });
 
-/* === GET: Single Project by ID === */
 router.get('/:id', async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).json({ message: 'Project not found' });
-    res.json(project);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  const project = await Project.findById(req.params.id);
+  if (!project) return res.status(404).json({ message: 'Project not found' });
+  return res.json(project);
 });
 
-/* === POST: Create New Project === */
 router.post(
   '/',
   adminAuth,
   upload.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'plans', maxCount: 5 },
+    { name: 'plans', maxCount: 5 }
   ]),
   async (req, res) => {
     try {
-      console.log('📥 Request Body:', req.body);
-      console.log('🖼 Uploaded Images:', req.files?.images);
-      console.log('📐 Uploaded Plans:', req.files?.plans);
+      console.log('POST body:', req.body);
+      console.log('Files:', req.files);
+
       const {
-        name,
-        description,
-        category,
-        status,
-        location,
-        client,
-        price,
-        amenities,
-        explore,
-        specifications,
+        name, description, category, status,
+        location, client, price, amenities,
+        explore, specifications
       } = req.body;
 
+      if (!name || !description || !client) {
+        return res.status(400).json({ message: 'Missing required fields' });
+      }
+
       const images = Array.isArray(req.files?.images)
-        ? req.files.images.map((file) => ({
-            url: file.path,
-        public_id: file.filename || file.originalname || file.public_id,
-
-          }))
+        ? req.files.images.map(f => ({ url: f.path, public_id: f.filename }))
         : [];
-
       const plans = Array.isArray(req.files?.plans)
-        ? req.files.plans.map((file) => ({
-            url: file.path,
-          public_id: file.filename || file.originalname || file.public_id,
-
-          }))
+        ? req.files.plans.map(f => ({ url: f.path, public_id: f.filename }))
         : [];
 
-      const amenitiesArray = Array.isArray(amenities)
+      const amenitiesArr = Array.isArray(amenities)
         ? amenities
-        : amenities
-        ? [amenities]
-        : [];
+        : amenities ? [amenities] : [];
 
-      let specificationsArray = [];
-      try {
-        if (specifications) {
-          const parsedSpecs =
-            typeof specifications === 'string'
-              ? JSON.parse(specifications)
-              : specifications;
-
-          specificationsArray = parsedSpecs.map((spec) => ({
-            title: spec.title,
-            description: Array.isArray(spec.description)
-              ? spec.description
-              : [spec.description],
+      let specsArr = [];
+      if (specifications) {
+        try {
+          const parsed = typeof specifications === 'string'
+            ? JSON.parse(specifications) : specifications;
+          specsArr = parsed.map(s => ({
+            title: s.title,
+            description: Array.isArray(s.description) ? s.description : [s.description]
           }));
+        } catch (err) {
+          console.error('Specs parse failed', err);
+          return res.status(400).json({ message: 'Invalid specifications JSON' });
         }
-      } catch (err) {
-        return res.status(400).json({ message: 'Invalid specifications JSON' });
       }
 
       const project = new Project({
-        name,
-        description,
-        category,
-        status,
-        location,
-        client,
-        price,
+        name, description, category, status,
+        location, client, price,
         explore: explore === 'true',
-        images,
-        plans,
-        amenities: amenitiesArray,
-        specifications: specificationsArray,
+        images, plans: plans || [],
+        amenities: amenitiesArr,
+        specifications: specsArr
       });
 
       await project.save();
-      req.app.get('io')?.emit('project:created', project);
-      res.status(201).json(project);
+      return res.status(201).json(project);
+
     } catch (err) {
-      console.error('POST Error:', err.message, err.stack);
-      res.status(400).json({ message: 'Something went wrong!', error: err.message });
+      console.error('POST error:', err);
+      return res.status(500).json({ message: 'Server error', error: err.message });
     }
   }
 );
 
-/* === PUT: Update Project === */
 router.put(
   '/:id',
   adminAuth,
   upload.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'plans', maxCount: 5 },
+    { name: 'plans', maxCount: 5 }
   ]),
   async (req, res) => {
     try {
+      console.log('PUT body:', req.body);
+      console.log('PUT files:', req.files);
+
+      const project = await Project.findById(req.params.id);
+      if (!project) return res.status(404).json({ message: 'Not found' });
+
       const {
-        name,
-        description,
-        category,
-        status,
-        location,
-        client,
-        price,
-        amenities,
-        explore,
-        specifications,
+        name, description, category, status,
+        location, client, price, amenities,
+        explore, specifications
       } = req.body;
 
-      const existingProject = await Project.findById(req.params.id);
-      if (!existingProject) return res.status(404).json({ message: 'Project not found' });
+      const imagesArr = Array.isArray(req.files?.images)
+        ? req.files.images.map(f => ({ url: f.path, public_id: f.filename }))
+        : undefined;
+      const plansArr = Array.isArray(req.files?.plans)
+        ? req.files.plans.map(f => ({ url: f.path, public_id: f.filename }))
+        : undefined;
 
-      const amenitiesArray = Array.isArray(amenities)
+      const amenitiesArr = Array.isArray(amenities)
         ? amenities
-        : amenities
-        ? [amenities]
-        : [];
+        : amenities ? [amenities] : [];
 
-      let specificationsArray = [];
-      try {
-        if (specifications) {
-          const parsedSpecs =
-            typeof specifications === 'string'
-              ? JSON.parse(specifications)
-              : specifications;
-
-          specificationsArray = parsedSpecs.map((spec) => ({
-            title: spec.title,
-            description: Array.isArray(spec.description)
-              ? spec.description
-              : [spec.description],
+      let specsArr;
+      if (specifications) {
+        try {
+          const parsed = typeof specifications === 'string'
+            ? JSON.parse(specifications) : specifications;
+          specsArr = parsed.map(s => ({
+            title: s.title,
+            description: Array.isArray(s.description) ? s.description : [s.description]
           }));
+        } catch (err) {
+          console.error('Specs parse failed', err);
+          return res.status(400).json({ message: 'Invalid specifications JSON' });
         }
-      } catch (err) {
-        return res.status(400).json({ message: 'Invalid specifications JSON' });
       }
 
-      const updateData = {
-        name,
-        description,
-        category,
-        status,
-        location,
-        client,
-        price,
+      const update = {
+        name, description, category, status,
+        location, client, price,
         explore: explore === 'true',
-        amenities: amenitiesArray,
-        specifications: specificationsArray,
+        amenities: amenitiesArr,
+        ...(specsArr !== undefined && { specifications: specsArr }),
       };
 
-      // Replace images
-      if (Array.isArray(req.files?.images)) {
-        for (const img of existingProject.images || []) {
-          if (img?.public_id) {
-            try {
-              await cloudinary.uploader.destroy(img.public_id);
-            } catch (err) {
-              console.warn('Cloudinary delete failed for image:', img.public_id);
-            }
-          }
-        }
-        updateData.images = req.files.images.map((file) => ({
-          url: file.path,
-          public_id: file.filename || file.originalname,
-        }));
+      // Replace image set if new ones are uploaded
+      if (imagesArr) {
+        project.images.forEach(img => {
+          if (img.public_id) cloudinary.uploader.destroy(img.public_id);
+        });
+        update.images = imagesArr;
       }
 
-      // Replace plans
-      if (Array.isArray(req.files?.plans)) {
-        for (const plan of existingProject.plans || []) {
-          if (plan?.public_id) {
-            try {
-              await cloudinary.uploader.destroy(plan.public_id);
-            } catch (err) {
-              console.warn('Cloudinary delete failed for plan:', plan.public_id);
-            }
-          }
-        }
-        updateData.plans = req.files.plans.map((file) => ({
-          url: file.path,
-          public_id: file.filename || file.originalname,
-        }));
+      if (plansArr) {
+        (project.plans || []).forEach(p => {
+          if (p.public_id) cloudinary.uploader.destroy(p.public_id);
+        });
+        update.plans = plansArr;
       }
 
-      const updatedProject = await Project.findByIdAndUpdate(
-        req.params.id,
-        updateData,
-        { new: true }
-      );
+      const updated = await Project.findByIdAndUpdate(req.params.id, update, { new: true });
+      return res.json(updated);
 
-      req.app.get('io')?.emit('project:updated', updatedProject);
-      res.json(updatedProject);
     } catch (err) {
-      console.error('PUT Error:', err);
-      res.status(500).json({ message: 'Something went wrong!', error: err.message });
+      console.error('PUT error:', err);
+      return res.status(500).json({ message: 'Server error', error: err.message });
     }
   }
 );
 
-/* === DELETE: Project === */
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (!project) return res.status(404).json({ message: 'Not found' });
 
-    for (const img of project.images || []) {
-      if (img?.public_id) {
-        try {
-          await cloudinary.uploader.destroy(img.public_id);
-        } catch (err) {
-          console.warn('Cloudinary delete failed for image:', img.public_id);
-        }
-      }
-    }
-
-    for (const plan of project.plans || []) {
-      if (plan?.public_id) {
-        try {
-          await cloudinary.uploader.destroy(plan.public_id);
-        } catch (err) {
-          console.warn('Cloudinary delete failed for plan:', plan.public_id);
-        }
-      }
-    }
-
+    project.images.forEach(img => img.public_id && cloudinary.uploader.destroy(img.public_id));
+    (project.plans || []).forEach(p => p.public_id && cloudinary.uploader.destroy(p.public_id));
     await project.deleteOne();
-    req.app.get('io')?.emit('project:deleted', req.params.id);
-    res.json({ message: 'Project deleted successfully' });
+    return res.json({ message: 'Deleted' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('DELETE error:', err);
+    return res.status(500).json({ message: err.message });
   }
 });
 
