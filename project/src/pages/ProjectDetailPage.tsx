@@ -180,7 +180,7 @@ const ProjectDetailPage = () => {
               <details
                 key={index}
                 className="group p-4 hover:bg-neutral-50 transition duration-300"
-                open={index === 0}
+                
               >
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
