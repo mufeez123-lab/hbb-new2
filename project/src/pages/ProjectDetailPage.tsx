@@ -167,7 +167,7 @@ const ProjectDetailPage = () => {
 
      {/* Plans Section */}
       <div className="bg-white mt-6 p-6 rounded ">
-        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">Plans</h3>
+        <h3 className="text-2xl font-serif text-neutral-500 mb-2">Plans</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div className="w-full h-64 bg-[#8a731b] rounded "></div>
           <div className="w-full h-64 bg-[#8a731b] rounded "></div>
@@ -178,7 +178,7 @@ const ProjectDetailPage = () => {
       {/* Specifications */}
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
-          <h3 className="text-2xl font-serif text-[#8a731b] mb-4">Specifications</h3>
+          <h3 className="text-2xl font-serif text-neutral-500 mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
               <details
@@ -205,6 +205,29 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       )}
+
+      {/* Gallery Section */}
+{project.images.length > 0 && (
+  <div className="bg-white mt-6 p-6 rounded">
+    <h3 className="text-2xl font-serif text-neutral-500 mb-4">Gallery</h3>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {project.images.map((img, idx) => (
+        <img
+          key={idx}
+          src={img.url}
+          alt={`gallery-${idx}`}
+          className="w-full h-40 object-cover rounded border border-neutral-200"
+          loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/images/image1.jpg';
+          }}
+        />
+      ))}
+    </div>
+  </div>
+)}
+
     </motion.div>
   );
 };
