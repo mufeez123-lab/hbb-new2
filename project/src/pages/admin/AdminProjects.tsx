@@ -281,6 +281,7 @@ if (selectedPlans) {
                 </select>
 
             <input
+              id="images-input"
   type="file"
   accept="image/*"
   multiple
@@ -290,6 +291,7 @@ if (selectedPlans) {
 <p className="text-sm text-gray-500 mb-2">Upload Project Images ↑</p>
 
                 <input
+                id="plans-input"
   type="file"
   accept="image/*"
   multiple
