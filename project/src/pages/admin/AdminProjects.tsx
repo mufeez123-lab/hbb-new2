@@ -48,10 +48,8 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<FileList | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [selectedPlans, setSelectedPlans] = useState<FileList | null>(null);
-
 
   const [formData, setFormData] = useState({
     name: '',
@@ -87,13 +85,7 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
-   if (selectedFile) {
-  Array.from(selectedFile).forEach((file) => data.append('images', file));
-}
-
-if (selectedPlans) {
-  Array.from(selectedPlans).forEach((file) => data.append('plans', file));
-}
+    if (selectedFile) data.append('images', selectedFile);
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities' && key !== 'specifications') {
@@ -156,7 +148,6 @@ if (selectedPlans) {
       specifications: [],
     });
     setSelectedFile(null);
-    setSelectedPlans(null);
     setOpen(false);
   };
 
@@ -238,7 +229,7 @@ if (selectedPlans) {
 
       {open && (
        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-  <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+  <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
 
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
@@ -280,26 +271,12 @@ if (selectedPlans) {
                   <option value="completed">Completed</option>
                 </select>
 
-            <input
-              id="images-input"
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setSelectedFile(e.target.files)}
-  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
-/>
-<p className="text-sm text-gray-500 mb-2">Upload Project Images ↑</p>
-
                 <input
-                id="plans-input"
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setSelectedPlans(e.target.files)}
-  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
-/>
-<p className="text-sm text-gray-500 mb-2">Upload Plan Images ↑</p>
-
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
+                />
               </div>
 
               {/* Amenities */}
