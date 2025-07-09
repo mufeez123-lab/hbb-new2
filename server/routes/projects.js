@@ -14,188 +14,207 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary,
-  params: { folder: 'projects', allowed_formats: ['jpg','jpeg','png'] },
+  cloudinary: cloudinary,
+  params: {
+    folder: 'projects',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
 });
+
 const upload = multer({ storage });
 
+/* === GET: All Projects === */
 router.get('/', async (req, res) => {
-  const projects = await Project.find().sort({ createdAt: -1 });
-  return res.json(projects);
+  try {
+    const projects = await Project.find().sort({ createdAt: -1 });
+    res.json(projects);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
+/* === GET: Featured Projects === */
 router.get('/featured', async (req, res) => {
-  const projects = await Project.find({ status: 'featured', explore: true })
-    .sort({ createdAt: -1 }).limit(9);
-  return res.json(projects);
+  try {
+    const projects = await Project.find({ status: 'featured', explore: true })
+      .sort({ createdAt: -1 })
+      .limit(9);
+    res.json(projects);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
+/* === GET: Single Project by ID === */
 router.get('/:id', async (req, res) => {
-  const project = await Project.findById(req.params.id);
-  if (!project) return res.status(404).json({ message: 'Project not found' });
-  return res.json(project);
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+    res.json(project);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-router.post(
-  '/',
-  adminAuth,
-  upload.fields([
-    { name: 'images', maxCount: 5 },
-    { name: 'plans', maxCount: 5 }
-  ]),
-  async (req, res) => {
-    try {
-      console.log('POST body:', req.body);
-      console.log('Files:', req.files);
+/* === POST: Create New Project === */
+router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities,
+      explore,
+      specifications,
+    } = req.body;
 
-      const {
-        name, description, category, status,
-        location, client, price, amenities,
-        explore, specifications
-      } = req.body;
+    const images = req.files.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
 
-      if (!name || !description || !client) {
-        return res.status(400).json({ message: 'Missing required fields' });
-      }
+    const amenitiesArray = Array.isArray(amenities)
+      ? amenities
+      : amenities
+      ? [amenities]
+      : [];
 
-      const images = Array.isArray(req.files?.images)
-        ? req.files.images.map(f => ({ url: f.path, public_id: f.filename }))
-        : [];
-      const plans = Array.isArray(req.files?.plans)
-        ? req.files.plans.map(f => ({ url: f.path, public_id: f.filename }))
-        : [];
+    let specificationsArray = [];
+    if (specifications) {
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
 
-      const amenitiesArr = Array.isArray(amenities)
-        ? amenities
-        : amenities ? [amenities] : [];
-
-      let specsArr = [];
-      if (specifications) {
-        try {
-          const parsed = typeof specifications === 'string'
-            ? JSON.parse(specifications) : specifications;
-          specsArr = parsed.map(s => ({
-            title: s.title,
-            description: Array.isArray(s.description) ? s.description : [s.description]
-          }));
-        } catch (err) {
-          console.error('Specs parse failed', err);
-          return res.status(400).json({ message: 'Invalid specifications JSON' });
-        }
-      }
-
-      const project = new Project({
-        name, description, category, status,
-        location, client, price,
-        explore: explore === 'true',
-        images, plans: plans || [],
-        amenities: amenitiesArr,
-        specifications: specsArr
-      });
-
-      await project.save();
-      return res.status(201).json(project);
-
-    } catch (err) {
-      console.error('POST error:', err);
-      return res.status(500).json({ message: 'Server error', error: err.message });
+      specificationsArray = parsedSpecs.map((spec) => ({
+        title: spec.title,
+        description: Array.isArray(spec.description)
+          ? spec.description
+          : [spec.description],
+      }));
     }
+
+    const project = new Project({
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities: amenitiesArray,
+      explore: explore === 'true',
+      images,
+      specifications: specificationsArray,
+    });
+
+    await project.save();
+    req.app.get('io')?.emit('project:created', project);
+    res.status(201).json(project);
+  } catch (err) {
+    console.error('POST Error:', err);
+    res.status(400).json({ message: err.message });
   }
-);
+});
 
-router.put(
-  '/:id',
-  adminAuth,
-  upload.fields([
-    { name: 'images', maxCount: 5 },
-    { name: 'plans', maxCount: 5 }
-  ]),
-  async (req, res) => {
-    try {
-      console.log('PUT body:', req.body);
-      console.log('PUT files:', req.files);
+/* === PUT: Update Project === */
+router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities,
+      explore,
+      specifications,
+    } = req.body;
 
-      const project = await Project.findById(req.params.id);
-      if (!project) return res.status(404).json({ message: 'Not found' });
+    const existingProject = await Project.findById(req.params.id);
+    if (!existingProject) return res.status(404).json({ message: 'Project not found' });
 
-      const {
-        name, description, category, status,
-        location, client, price, amenities,
-        explore, specifications
-      } = req.body;
+    const amenitiesArray = Array.isArray(amenities)
+      ? amenities
+      : amenities
+      ? [amenities]
+      : [];
 
-      const imagesArr = Array.isArray(req.files?.images)
-        ? req.files.images.map(f => ({ url: f.path, public_id: f.filename }))
-        : undefined;
-      const plansArr = Array.isArray(req.files?.plans)
-        ? req.files.plans.map(f => ({ url: f.path, public_id: f.filename }))
-        : undefined;
+    let specificationsArray = [];
+    if (specifications) {
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
 
-      const amenitiesArr = Array.isArray(amenities)
-        ? amenities
-        : amenities ? [amenities] : [];
-
-      let specsArr;
-      if (specifications) {
-        try {
-          const parsed = typeof specifications === 'string'
-            ? JSON.parse(specifications) : specifications;
-          specsArr = parsed.map(s => ({
-            title: s.title,
-            description: Array.isArray(s.description) ? s.description : [s.description]
-          }));
-        } catch (err) {
-          console.error('Specs parse failed', err);
-          return res.status(400).json({ message: 'Invalid specifications JSON' });
-        }
-      }
-
-      const update = {
-        name, description, category, status,
-        location, client, price,
-        explore: explore === 'true',
-        amenities: amenitiesArr,
-        ...(specsArr !== undefined && { specifications: specsArr }),
-      };
-
-      // Replace image set if new ones are uploaded
-      if (imagesArr) {
-        project.images.forEach(img => {
-          if (img.public_id) cloudinary.uploader.destroy(img.public_id);
-        });
-        update.images = imagesArr;
-      }
-
-      if (plansArr) {
-        (project.plans || []).forEach(p => {
-          if (p.public_id) cloudinary.uploader.destroy(p.public_id);
-        });
-        update.plans = plansArr;
-      }
-
-      const updated = await Project.findByIdAndUpdate(req.params.id, update, { new: true });
-      return res.json(updated);
-
-    } catch (err) {
-      console.error('PUT error:', err);
-      return res.status(500).json({ message: 'Server error', error: err.message });
+      specificationsArray = parsedSpecs.map((spec) => ({
+        title: spec.title,
+        description: Array.isArray(spec.description)
+          ? spec.description
+          : [spec.description],
+      }));
     }
-  }
-);
 
+    const updateData = {
+      name,
+      description,
+      category,
+      status,
+      location,
+      client,
+      price,
+      amenities: amenitiesArray,
+      explore: explore === 'true',
+      specifications: specificationsArray,
+    };
+
+    if (req.files && req.files.length > 0) {
+      for (const img of existingProject.images) {
+        if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
+      }
+
+      updateData.images = req.files.map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    req.app.get('io')?.emit('project:updated', updatedProject);
+    res.json(updatedProject);
+  } catch (err) {
+    console.error('PUT Error:', err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+/* === DELETE: Project === */
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).json({ message: 'Not found' });
+    if (!project) return res.status(404).json({ message: 'Project not found' });
 
-    project.images.forEach(img => img.public_id && cloudinary.uploader.destroy(img.public_id));
-    (project.plans || []).forEach(p => p.public_id && cloudinary.uploader.destroy(p.public_id));
+    for (const img of project.images) {
+      if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
+    }
+
     await project.deleteOne();
-    return res.json({ message: 'Deleted' });
+    req.app.get('io')?.emit('project:deleted', req.params.id);
+    res.json({ message: 'Project deleted successfully' });
   } catch (err) {
-    console.error('DELETE error:', err);
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-module.exports = router;
+module.exports = router;  
