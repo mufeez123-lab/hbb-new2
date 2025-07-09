@@ -66,6 +66,9 @@ router.post(
   ]),
   async (req, res) => {
     try {
+      console.log('📥 Request Body:', req.body);
+      console.log('🖼 Uploaded Images:', req.files?.images);
+      console.log('📐 Uploaded Plans:', req.files?.plans);
       const {
         name,
         description,
