@@ -27,6 +27,19 @@ const projectSchema = new mongoose.Schema({
       }
     }
   ],
+  // ✅ NEW FIELD: plan images
+  plans: [
+    {
+      url: {
+        type: String,
+        required: true
+      },
+      public_id: {
+        type: String,
+        required: true
+      }
+    }
+  ],
   status: {
     type: String,
     enum: ['upcoming', 'ongoing', 'featured', 'ready to move', 'completed']
@@ -48,13 +61,10 @@ const projectSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-
   amenities: {
     type: [String],
     default: []
   },
-
-  // ✅ NEW FIELD: specifications
   specifications: [
     {
       title: {

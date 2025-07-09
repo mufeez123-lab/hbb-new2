@@ -21,6 +21,7 @@ const storage = new CloudinaryStorage({
   },
 });
 
+// Allow multiple image types
 const upload = multer({ storage });
 
 /* === GET: All Projects === */
@@ -57,7 +58,10 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
+router.post('/', adminAuth, upload.fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'plans', maxCount: 5 }
+]), async (req, res) => {
   try {
     const {
       name,
@@ -72,7 +76,12 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       specifications,
     } = req.body;
 
-    const images = req.files.map((file) => ({
+    const images = (req.files['images'] || []).map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
+
+    const plans = (req.files['plans'] || []).map((file) => ({
       url: file.path,
       public_id: file.filename,
     }));
@@ -85,7 +94,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
 
     let specificationsArray = [];
     if (specifications) {
-      let parsedSpecs =
+      const parsedSpecs =
         typeof specifications === 'string'
           ? JSON.parse(specifications)
           : specifications;
@@ -106,9 +115,10 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-      amenities: amenitiesArray,
       explore: explore === 'true',
       images,
+      plans,
+      amenities: amenitiesArray,
       specifications: specificationsArray,
     });
 
@@ -122,7 +132,10 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
+router.put('/:id', adminAuth, upload.fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'plans', maxCount: 5 }
+]), async (req, res) => {
   try {
     const {
       name,
@@ -148,7 +161,7 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
 
     let specificationsArray = [];
     if (specifications) {
-      let parsedSpecs =
+      const parsedSpecs =
         typeof specifications === 'string'
           ? JSON.parse(specifications)
           : specifications;
@@ -169,27 +182,36 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       location,
       client,
       price,
-      amenities: amenitiesArray,
       explore: explore === 'true',
+      amenities: amenitiesArray,
       specifications: specificationsArray,
     };
 
-    if (req.files && req.files.length > 0) {
+    // Replace images if new ones are uploaded
+    if (req.files['images']) {
       for (const img of existingProject.images) {
         if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
       }
-
-      updateData.images = req.files.map((file) => ({
+      updateData.images = req.files['images'].map((file) => ({
         url: file.path,
         public_id: file.filename,
       }));
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
+    // Replace plans if new ones are uploaded
+    if (req.files['plans']) {
+      for (const plan of existingProject.plans || []) {
+        if (plan.public_id) await cloudinary.uploader.destroy(plan.public_id);
+      }
+      updateData.plans = req.files['plans'].map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    });
 
     req.app.get('io')?.emit('project:updated', updatedProject);
     res.json(updatedProject);
@@ -207,6 +229,10 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
     for (const img of project.images) {
       if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
+    }
+
+    for (const plan of project.plans || []) {
+      if (plan.public_id) await cloudinary.uploader.destroy(plan.public_id);
     }
 
     await project.deleteOne();
