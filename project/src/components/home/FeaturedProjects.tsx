@@ -106,24 +106,28 @@ const FeaturedProjects = () => {
                   onMouseLeave={() => setHoveredProject(null)}
                 >
                   <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-                    <div className="relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden">
-                      <img
-                        src={imageUrl}
-                        alt={project.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/images/image1.jpg';
-                        }}
-                      />
-                      <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
-                        {project.status}
-                      </div>
-                      <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
-                        {project.category}
-                      </div>
-                    </div>
+                    
+                   <Link to={`/projects/${project._id}`}>
+  <div className="relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden">
+    <img
+      src={imageUrl}
+      alt={project.name}
+      loading="lazy"
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        target.src = '/images/image1.jpg';
+      }}
+    />
+    <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
+      {project.status}
+    </div>
+    <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
+      {project.category}
+    </div>
+  </div>
+</Link>
+
 
                     <div className="p-4 sm:p-6">
                       <h3 className="text-1xl sm:text-xl font-poppins  text-primary-800 mb-1">
