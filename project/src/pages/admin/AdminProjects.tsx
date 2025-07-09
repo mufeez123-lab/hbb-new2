@@ -1,4 +1,16 @@
-// ... keep all imports as before ...
+import React, { useEffect, useState } from 'react';
+import Sidebar from '../../components/admin/Sidebar';
+import api from '../../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  FaSwimmingPool,
+  FaCar,
+  FaChild,
+  FaShieldAlt,
+  FaDumbbell,
+  FaTree,
+} from 'react-icons/fa';
 
 interface Project {
   _id: string;
@@ -12,10 +24,26 @@ interface Project {
   price?: string;
   amenities?: string[];
   explore?: boolean;
-  specifications?: { title: string; descriptions: string[] }[];
+    specifications?: { title: string; description: string[] }[]; 
 }
 
-// ... keep defaultAmenities and amenityIcons as before ...
+const defaultAmenities = [
+  'Park Area',
+  'Gym',
+  '24x7 Security',
+  'Swimming Pool',
+  'Children’s Play Area',
+  'Covered Parking',
+];
+
+const amenityIcons: { [key: string]: JSX.Element } = {
+  'Swimming Pool': <FaSwimmingPool className="text-xl mb-1" />,
+  'Covered Parking': <FaCar className="text-xl mb-1" />,
+  "Children’s Play Area": <FaChild className="text-xl mb-1" />,
+  '24x7 Security': <FaShieldAlt className="text-xl mb-1" />,
+  Gym: <FaDumbbell className="text-xl mb-1" />,
+  'Park Area': <FaTree className="text-xl mb-1" />,
+};
 
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -33,7 +61,7 @@ const AdminProjects: React.FC = () => {
     price: '',
     amenities: [] as string[],
     explore: true,
-    specifications: [] as { title: string; descriptions: string[] }[],
+   specifications: [] as { title: string; description: string[] }[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -49,6 +77,7 @@ const AdminProjects: React.FC = () => {
       });
       setProjects(res.data);
     } catch (err) {
+      console.error('Failed to fetch projects:', err);
       toast.error('❌ Failed to load projects');
     }
   };
@@ -86,6 +115,7 @@ const AdminProjects: React.FC = () => {
       await fetchProjects();
       closeModal();
     } catch (err) {
+      console.error('API Error:', err);
       toast.error('❌ Something went wrong!');
     }
   };
@@ -98,6 +128,7 @@ const AdminProjects: React.FC = () => {
       setProjects((prev) => prev.filter((p) => p._id !== id));
       toast.success('🗑️ Project deleted successfully');
     } catch (err) {
+      console.error('Delete failed:', err);
       toast.error('❌ Failed to delete project');
     }
   };
@@ -198,7 +229,7 @@ const AdminProjects: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-5 ml-20">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh]">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
@@ -278,74 +309,74 @@ const AdminProjects: React.FC = () => {
                 </div>
               </div>
 
-              {/* Specifications with multiple descriptions */}
+             {/* Specifications */}
               <div className="mt-4">
                 <label className="block font-medium mb-2">Specifications</label>
-                {formData.specifications.map((spec, index) => (
-                  <div key={index} className="border p-3 mb-3 rounded">
-                    <input
-                      type="text"
-                      placeholder="Title"
-                      value={spec.title}
-                      onChange={(e) => {
-                        const updated = [...formData.specifications];
-                        updated[index].title = e.target.value;
-                        setFormData({ ...formData, specifications: updated });
-                      }}
-                      className="px-3 py-2 border rounded-md w-full mb-2"
-                    />
+                {formData.specifications.map((spec, specIndex) => (
+                  <div key={specIndex} className="bg-gray-50 p-3 rounded-md mb-3 border border-gray-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <input
+                        type="text"
+                        placeholder="Title"
+                        value={spec.title}
+                        onChange={(e) => {
+                          const updatedSpecs = [...formData.specifications];
+                          updatedSpecs[specIndex].title = e.target.value;
+                          setFormData({ ...formData, specifications: updatedSpecs });
+                        }}
+                        className="px-3 py-2 border rounded-md w-full mr-2"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updatedSpecs = formData.specifications.filter((_, i) => i !== specIndex);
+                          setFormData({ ...formData, specifications: updatedSpecs });
+                        }}
+                        className="text-red-500 hover:text-red-700 p-2"
+                      >
+                        ✖ Remove Spec
+                      </button>
+                    </div>
 
-                    {spec.descriptions.map((desc, descIndex) => (
-                      <div key={descIndex} className="flex items-center gap-2 mb-2">
+                    {spec.description.map((desc, descIndex) => (
+                      <div key={descIndex} className="flex items-center mb-2">
                         <input
                           type="text"
                           placeholder={`Description ${descIndex + 1}`}
                           value={desc}
                           onChange={(e) => {
-                            const updated = [...formData.specifications];
-                            updated[index].descriptions[descIndex] = e.target.value;
-                            setFormData({ ...formData, specifications: updated });
+                            const updatedSpecs = [...formData.specifications];
+                            updatedSpecs[specIndex].description[descIndex] = e.target.value;
+                            setFormData({ ...formData, specifications: updatedSpecs });
                           }}
-                          className="flex-1 px-3 py-2 border rounded-md"
+                          className="px-3 py-2 border rounded-md w-full mr-2"
                         />
                         <button
                           type="button"
                           onClick={() => {
-                            const updated = [...formData.specifications];
-                            updated[index].descriptions.splice(descIndex, 1);
-                            setFormData({ ...formData, specifications: updated });
+                            const updatedSpecs = [...formData.specifications];
+                            updatedSpecs[specIndex].description = updatedSpecs[specIndex].description.filter(
+                              (_, i) => i !== descIndex
+                            );
+                            setFormData({ ...formData, specifications: updatedSpecs });
                           }}
-                          className="text-red-500"
+                          className="text-red-500 hover:text-red-700 p-2"
                         >
-                          ✖
+                          -
                         </button>
                       </div>
                     ))}
-
                     <button
                       type="button"
                       onClick={() => {
-                        const updated = [...formData.specifications];
-                        updated[index].descriptions.push('');
-                        setFormData({ ...formData, specifications: updated });
+                        const updatedSpecs = [...formData.specifications];
+                        updatedSpecs[specIndex].description.push(''); // Add an empty string for a new description
+                        setFormData({ ...formData, specifications: updatedSpecs });
                       }}
-                      className="text-sm text-blue-600 hover:underline"
+                      className="mt-2 text-sm text-primary-600 hover:underline px-2 py-1 border rounded"
                     >
-                      + Add Description
+                      + Add Description for this Spec
                     </button>
-
-                    <div className="mt-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updated = formData.specifications.filter((_, i) => i !== index);
-                          setFormData({ ...formData, specifications: updated });
-                        }}
-                        className="text-sm text-red-600 hover:underline"
-                      >
-                        Remove Specification
-                      </button>
-                    </div>
                   </div>
                 ))}
                 <button
@@ -353,12 +384,12 @@ const AdminProjects: React.FC = () => {
                   onClick={() =>
                     setFormData({
                       ...formData,
-                      specifications: [...formData.specifications, { title: '', descriptions: [''] }],
+                      specifications: [...formData.specifications, { title: '', description: [''] }], // Initialize with an empty description array
                     })
                   }
-                  className="mt-2 text-sm text-primary-600 hover:underline"
+                  className="mt-2 text-sm text-primary-600 hover:underline px-3 py-2 border rounded-md"
                 >
-                  + Add Specification
+                  + Add New Specification
                 </button>
               </div>
 
