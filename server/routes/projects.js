@@ -14,7 +14,7 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'projects',
     allowed_formats: ['jpg', 'png', 'jpeg'],
@@ -59,6 +59,10 @@ router.get('/:id', async (req, res) => {
 /* === POST: Create New Project === */
 router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
+    console.log('🟢 POST /api/admin/projects');
+    console.log('🔍 Request Body:', req.body);
+    console.log('🖼️ Uploaded Files:', req.files);
+
     const {
       name,
       description,
@@ -84,18 +88,22 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
       : [];
 
     let specificationsArray = [];
-    if (specifications) {
-      let parsedSpecs =
-        typeof specifications === 'string'
+    try {
+      if (specifications) {
+        const parsedSpecs = typeof specifications === 'string'
           ? JSON.parse(specifications)
           : specifications;
 
-      specificationsArray = parsedSpecs.map((spec) => ({
-        title: spec.title,
-        description: Array.isArray(spec.description)
-          ? spec.description
-          : [spec.description],
-      }));
+        specificationsArray = parsedSpecs.map((spec) => ({
+          title: spec.title,
+          description: Array.isArray(spec.description)
+            ? spec.description
+            : [spec.description],
+        }));
+      }
+    } catch (specErr) {
+      console.error('❌ Invalid specifications format:', specifications);
+      return res.status(400).json({ message: 'Invalid specifications format' });
     }
 
     const project = new Project({
@@ -113,11 +121,18 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
     });
 
     await project.save();
-    req.app.get('io')?.emit('project:created', project);
+
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('project:created', project);
+    } else {
+      console.warn('⚠️ Socket.io not initialized.');
+    }
+
     res.status(201).json(project);
   } catch (err) {
-    console.error('POST Error:', err);
-    res.status(400).json({ message: err.message });
+    console.error('❌ POST /projects Error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
@@ -147,18 +162,22 @@ router.put('/:id', adminAuth, upload.array('images', 10), async (req, res) => {
       : [];
 
     let specificationsArray = [];
-    if (specifications) {
-      let parsedSpecs =
-        typeof specifications === 'string'
+    try {
+      if (specifications) {
+        const parsedSpecs = typeof specifications === 'string'
           ? JSON.parse(specifications)
           : specifications;
 
-      specificationsArray = parsedSpecs.map((spec) => ({
-        title: spec.title,
-        description: Array.isArray(spec.description)
-          ? spec.description
-          : [spec.description],
-      }));
+        specificationsArray = parsedSpecs.map((spec) => ({
+          title: spec.title,
+          description: Array.isArray(spec.description)
+            ? spec.description
+            : [spec.description],
+        }));
+      }
+    } catch (specErr) {
+      console.error('❌ Invalid specifications format during update:', specifications);
+      return res.status(400).json({ message: 'Invalid specifications format' });
     }
 
     const updateData = {
@@ -191,11 +210,15 @@ router.put('/:id', adminAuth, upload.array('images', 10), async (req, res) => {
       { new: true }
     );
 
-    req.app.get('io')?.emit('project:updated', updatedProject);
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('project:updated', updatedProject);
+    }
+
     res.json(updatedProject);
   } catch (err) {
-    console.error('PUT Error:', err);
-    res.status(400).json({ message: err.message });
+    console.error('❌ PUT /projects Error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
@@ -210,9 +233,15 @@ router.delete('/:id', adminAuth, async (req, res) => {
     }
 
     await project.deleteOne();
-    req.app.get('io')?.emit('project:deleted', req.params.id);
+
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('project:deleted', req.params.id);
+    }
+
     res.json({ message: 'Project deleted successfully' });
   } catch (err) {
+    console.error('❌ DELETE /projects Error:', err);
     res.status(500).json({ message: err.message });
   }
 });
