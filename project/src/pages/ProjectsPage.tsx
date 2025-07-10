@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
+import { ArrowRight } from 'lucide-react';
 
 interface Project {
   _id: string;
@@ -15,7 +15,7 @@ interface Project {
   client: string;
   price?: string;
   completionDate?: string;
-  explore?: boolean; // ✅ controls “Explore” button visibility
+  explore?: boolean;
 }
 
 const FeaturedProjects = () => {
@@ -100,23 +100,46 @@ const FeaturedProjects = () => {
                   onMouseLeave={() => setHoveredProject(null)}
                 >
                   <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-2">
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        src={imageUrl}
-                        alt={project.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/images/image1.jpg';
-                        }}
-                      />
-                      <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
-                        {project.status}
+                    
+                    {project.explore ? (
+                      <Link to={`/projects/${project._id}`} className="block">
+                        <div className="relative h-64 overflow-hidden">
+                          <img
+                            src={imageUrl}
+                            alt={project.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                            }}
+                          />
+                          <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
+                            {project.status}
+                          </div>
+                          <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
+                            {project.category}
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="relative h-64 overflow-hidden">
+                        <img
+                          src={imageUrl}
+                          alt={project.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                          }}
+                        />
+                        <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
+                          {project.status}
+                        </div>
+                        <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
+                          {project.category}
+                        </div>
                       </div>
-                      <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
-                        {project.category}
-                      </div>
-                    </div>
+                    )}
 
                     <div className="p-5 sm:p-6">
                       <h3 className="text-lg font-serif font-bold text-primary-800 mb-1">
@@ -130,21 +153,6 @@ const FeaturedProjects = () => {
                             ? `BUA: ${project.price}${/\d$/.test(project.price) ? ' sqft' : ''}`
                             : project.client}
                         </div>
-
-                        {project.explore && (
-                          <Link
-                            to={`/projects/${project._id}`}
-                            className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
-                          >
-                            Explore
-                            <ArrowRight
-                              size={16}
-                              className={`ml-1 transition-transform duration-300 ${
-                                hoveredProject === project._id ? 'translate-x-1' : ''
-                              }`}
-                            />
-                          </Link>
-                        )}
                       </div>
                     </div>
                   </div>
