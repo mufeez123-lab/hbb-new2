@@ -184,26 +184,24 @@ router.put('/:id', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'p
       specifications: specificationsArray,
     };
 
-    //this is for images
-    if (req.files && req.files.length > 0) {
-      for (const img of existingProject.images) {
-        if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
-      }
+   // ✅ Handle IMAGES
+if (req.files?.images?.length > 0) {
+  for (const img of existingProject.images || []) {
+    if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
+  }
 
-      updateData.images = req.files.map((file) => ({
-        url: file.path,
-        public_id: file.filename,
-      }));
-    }
+  updateData.images = req.files.images.map((file) => ({
+    url: file.path,
+    public_id: file.filename,
+  }));
+}
 
-    //this is for plans
-    if (req.files?.plans?.length > 0) {
-  // Delete old plans from cloudinary
+// ✅ Handle PLANS
+if (req.files?.plans?.length > 0) {
   for (const plan of existingProject.plans || []) {
     if (plan.public_id) await cloudinary.uploader.destroy(plan.public_id);
   }
 
-  // Add new plans
   updateData.plans = req.files.plans.map((file) => ({
     url: file.path,
     public_id: file.filename,
