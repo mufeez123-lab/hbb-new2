@@ -57,7 +57,11 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.array('images',5), async (req, res) => {
+router.post('/', adminAuth, upload.fields([
+  { name: 'images', maxCount: 10 },
+  { name: 'plans', maxCount: 10 },
+]),
+ async (req, res) => {
   try {
     const {
       name,
@@ -72,12 +76,24 @@ router.post('/', adminAuth, upload.array('images',5), async (req, res) => {
       specifications,
     } = req.body;
 
-    //this is for images
-     const imageFiles = req.files['images'] || [];
-    const images = imageFiles.map((file) => ({
-      url: file.path,
-      public_id: file.filename,
-    }));
+   const imageFiles = req.files['images'] || [];
+const planFiles = req.files['plans'] || [];
+
+
+//this is to handle the case where no images or plans are uploaded
+const images = [
+  ...imageFiles.map((file) => ({
+    url: file.path,
+    public_id: file.filename,
+    type: 'main',
+  })),
+  ...planFiles.map((file) => ({
+    url: file.path,
+    public_id: file.filename,
+    type: 'plan',
+  })),
+];
+
 
 
     const amenitiesArray = Array.isArray(amenities)
@@ -125,7 +141,7 @@ router.post('/', adminAuth, upload.array('images',5), async (req, res) => {
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images',5), async (req, res) => {
+router.put('/:id', adminAuth, upload.array('images',10), async (req, res) => {
   try {
     const {
       name,
@@ -177,16 +193,28 @@ router.put('/:id', adminAuth, upload.array('images',5), async (req, res) => {
       specifications: specificationsArray,
     };
 
-   // ✅ Handle IMAGES
-if (req.files?.images?.length > 0) {
+    //this is to handle the case where no images or plans are uploaded
+const imageFiles = req.files['images'] || [];
+const planFiles = req.files['plans'] || [];
+
+
+if (imageFiles.length > 0 || planFiles.length > 0) {
   for (const img of existingProject.images || []) {
     if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
   }
 
-  updateData.images = req.files.images.map((file) => ({
-    url: file.path,
-    public_id: file.filename,
-  }));
+  updateData.images = [
+    ...imageFiles.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+      type: 'main',
+    })),
+    ...planFiles.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+      type: 'plan',
+    })),
+  ];
 }
 
 
