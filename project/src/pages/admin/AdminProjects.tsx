@@ -48,7 +48,11 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File[]>([]);
+const [selectedFile, setSelectedFile] = useState<{ images: File[]; plans: File[] }>({
+  images: [],
+  plans: [],
+});
+
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
 
 
@@ -86,8 +90,9 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
-  if (!editingProjectId || selectedFile.length > 0) {
-  selectedFile.forEach((file) => data.append('images', file));
+ if (!editingProjectId || selectedFile.images.length > 0 || selectedFile.plans.length > 0) {
+  selectedFile.images.forEach((file) => data.append('images', file));
+  selectedFile.plans.forEach((file) => data.append('plans', file));
 }
 
 
@@ -153,7 +158,7 @@ const AdminProjects: React.FC = () => {
       explore: true,
       specifications: [],
     });
-    setSelectedFile([]);
+setSelectedFile({ images: [], plans: [] });
   
 
     setOpen(false);
@@ -212,7 +217,7 @@ const AdminProjects: React.FC = () => {
                               specifications: project.specifications || [],
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile([]);
+                            setSelectedFile({ images: [], plans: [] });
                             
 
                             setOpen(true);
@@ -281,15 +286,37 @@ const AdminProjects: React.FC = () => {
                   <option value="completed">Completed</option>
                 </select>
 
-                <input
-                key={editingProjectId ? 'edit-images' : 'create-images'}
-                  type="file"
-                  accept="image/*"
-                  multiple
-               onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
-                  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
-                />
-                <p>images uploads</p>
+               {/* Main Images Upload */}
+<label className="block mt-4 font-medium">Project Images</label>
+<input
+  key={editingProjectId ? 'edit-images' : 'create-images'}
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) =>
+    setSelectedFile((prev) => ({
+      ...prev,
+      images: Array.from(e.target.files || []),
+    }))
+  }
+  className="px-3 py-2 border rounded-md w-full"
+/>
+
+{/* Plan Images Upload */}
+<label className="block mt-4 font-medium">Plan Images</label>
+<input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) =>
+    setSelectedFile((prev) => ({
+      ...prev,
+      plans: Array.from(e.target.files || []),
+    }))
+  }
+  className="px-3 py-2 border rounded-md w-full"
+/>
+
                 
 
               </div>

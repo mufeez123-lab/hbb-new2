@@ -17,7 +17,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: { url: string; public_id: string }[];
+  images: { url: string; public_id: string; type?: 'main' | 'plan' }[];
   category: string;
   location: string;
   price?: string;
@@ -93,7 +93,7 @@ const ProjectDetailPage = () => {
               lazyLoad="progressive"
               className="h-full"
             >
-              {project.images.map((img, idx) => (
+             {project.images.filter((img) => img.type !== 'plan').map((img, idx) => (
                 <img
                   key={idx}
                   src={img.url}
@@ -169,8 +169,27 @@ const ProjectDetailPage = () => {
       <div className="bg-white mt-6 p-6 rounded ">
         <h3 className="text-2xl font-serif text-neutral-500 mb-2">Plans</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
+         {project.images.filter((img) => img.type === 'plan').length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {project.images
+      .filter((img) => img.type === 'plan')
+      .map((planImg, idx) => (
+        <img
+          key={idx}
+          src={planImg.url}
+          alt={`plan-${idx}`}
+          className="w-full h-64 object-cover rounded border border-neutral-200"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/images/image1.jpg';
+          }}
+        />
+      ))}
+  </div>
+) : (
+  <p className="text-sm italic text-neutral-500">No plan images available.</p>
+)}
+
         </div>
       </div>
 
@@ -214,7 +233,8 @@ const ProjectDetailPage = () => {
       <div className="flex-1 border-t border-neutral-200" />
     </div>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      {project.images.map((img, idx) => (
+      {project.images.filter((img) => img.type !== 'plan').map((img, idx) => (
+
         <img
           key={idx}
           src={img.url}
