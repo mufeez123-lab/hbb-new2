@@ -50,7 +50,7 @@ const AdminProjects: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [selectedPlans,setSelectedPlans]=useState<File[]>([]);
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -86,8 +86,10 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
-   selectedFile.forEach((file) => data.append('images', file));
-   selectedPlans.forEach((file) => data.append('plans', file));
+  if (!editingProjectId || selectedFile.length > 0) {
+  selectedFile.forEach((file) => data.append('images', file));
+}
+
 
 
 
@@ -152,7 +154,7 @@ const AdminProjects: React.FC = () => {
       specifications: [],
     });
     setSelectedFile([]);
-    setSelectedPlans([]); 
+  
 
     setOpen(false);
   };
@@ -211,7 +213,7 @@ const AdminProjects: React.FC = () => {
                             });
                             setEditingProjectId(project._id);
                             setSelectedFile([]);
-                            setSelectedPlans([]); 
+                            
 
                             setOpen(true);
                           }}
@@ -280,20 +282,14 @@ const AdminProjects: React.FC = () => {
                 </select>
 
                 <input
+                key={editingProjectId ? 'edit-images' : 'create-images'}
                   type="file"
                   accept="image/*"
                onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
                   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
                 />
                 <p>images uploads</p>
-                <input
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setSelectedPlans(Array.from(e.target.files || []))}
-  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
-/>
-<p>Plans uploads</p>
+                
 
               </div>
 
