@@ -14,7 +14,7 @@ interface Project {
   location: string;
   client: string;
   price?: string;
-  explore?: boolean; // Optional for future use
+  explore?: boolean;
 }
 
 const FeaturedProjects = () => {
@@ -28,7 +28,7 @@ const FeaturedProjects = () => {
       try {
         setLoading(true);
         const data = await projectsAPI.getAll();
-        const featured = data.filter((p: Project) => p.status === 'featured'); // ✅ Only 'featured'
+        const featured = data.filter((p: Project) => p.status === 'featured');
         setProjects(featured);
       } catch (err) {
         console.error('Error fetching featured projects:', err);
@@ -94,6 +94,31 @@ const FeaturedProjects = () => {
                   ? imageObj.url
                   : '/images/image1.jpg';
 
+              const imageContent = (
+                <div
+                  className={`relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden ${
+                    project.explore ? 'cursor-pointer' : 'cursor-default'
+                  }`}
+                >
+                  <img
+                    src={imageUrl}
+                    alt={project.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/images/image1.jpg';
+                    }}
+                  />
+                  <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
+                    {project.status}
+                  </div>
+                  <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
+                    {project.category}
+                  </div>
+                </div>
+              );
+
               return (
                 <motion.div
                   key={project._id}
@@ -106,57 +131,39 @@ const FeaturedProjects = () => {
                   onMouseLeave={() => setHoveredProject(null)}
                 >
                   <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-                    
-                   <Link to={`/projects/${project._id}`}>
-  <div className="relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden">
-    <img
-      src={imageUrl}
-      alt={project.name}
-      loading="lazy"
-      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-      onError={(e) => {
-        const target = e.target as HTMLImageElement;
-        target.src = '/images/image1.jpg';
-      }}
-    />
-    <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
-      {project.status}
-    </div>
-    <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
-      {project.category}
-    </div>
-  </div>
-</Link>
-
+                    {project.explore ? (
+                      <Link to={`/projects/${project._id}`} className="block">
+                        {imageContent}
+                      </Link>
+                    ) : (
+                      imageContent
+                    )}
 
                     <div className="p-4 sm:p-6">
-                      <h3 className="text-1xl sm:text-xl font-poppins  text-primary-800 mb-1">
+                      <h3 className="text-1xl sm:text-xl font-poppins text-primary-800 mb-1">
                         {project.name}
                       </h3>
                       <div className="text-neutral-500 text-sm mb-2">{project.location}</div>
 
                       <div className="flex justify-between items-center">
                         <div className="text-primary-700 font-semibold text-sm sm:text-base">
-    {project.price ? `BUA: ${project.price} sqft` : project.client}
-
-
-
+                          {project.price ? `BUA: ${project.price} sqft` : project.client}
                         </div>
-                       {project.explore && (
-  <Link
-    to={`/projects/${project._id}`}
-    className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
-  >
-    Explore
-    <ArrowRight
-      size={16}
-      className={`ml-1 transition-transform duration-300 ${
-        hoveredProject === project._id ? 'translate-x-1' : ''
-      }`}
-    />
-  </Link>
-)}
 
+                        {project.explore && (
+                          <Link
+                            to={`/projects/${project._id}`}
+                            className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
+                          >
+                            Explore
+                            <ArrowRight
+                              size={16}
+                              className={`ml-1 transition-transform duration-300 ${
+                                hoveredProject === project._id ? 'translate-x-1' : ''
+                              }`}
+                            />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
