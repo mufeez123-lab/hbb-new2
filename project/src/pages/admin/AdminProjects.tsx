@@ -116,11 +116,9 @@ const AdminProjects: React.FC = () => {
       };
 
       if (editingProjectId) {
-        console.log('Sending PUT for', editingProjectId);
         await api.put(`/admin/projects/${editingProjectId}`, data, config);
         toast.success('✅ Project updated successfully');
       } else {
-        console.log('Sending POST to create project');
         await api.post('/admin/projects', data, config);
         toast.success('✅ Project added successfully');
       }
@@ -248,19 +246,15 @@ const AdminProjects: React.FC = () => {
                 <input type="file" accept="image/*" multiple onChange={e=>setSelectedFiles(Array.from(e.target.files||[]))} className="px-3 py-2 border rounded-md w-full" />
               </div>
 
-              {/* Existing Images Preview */}
-              {editingProjectId && existingImages.length>0 && selectedFiles.length===0 && (
-                <div className="mt-4 border p-3 rounded-md bg-gray-50">
-                  <h4 className="text-sm font-medium mb-2">Current Images (select new to replace)</h4>
-                  <div className="flex flex-wrap gap-2">{existingImages.map((img,i)=><img key={i} src={img.url} alt={`Existing ${i}`} className="w-20 h-20 object-cover rounded" />)}</div>
-                </div>
-              )}
-
-              {/* New Images Preview */}
-              {selectedFiles.length>0 && (
-                <div className="mt-4 border p-3 rounded-md bg-yellow-50">
-                  <h4 className="text-sm font-medium mb-2">New Images Selected (will replace old ones)</h4>
-                  <div className="flex flex-wrap gap-2">{selectedFiles.map((file,i)=><img key={i} src={URL.createObjectURL(file)} alt={`New ${i}`} className="w-20 h-20 object-cover rounded" />)}</div>
+              {/* Show both existing and new images */}
+              {(existingImages.length>0 || selectedFiles.length>0) && (
+                <div className="mt-4 grid grid-cols-4 gap-2">
+                  {existingImages.map((img,i)=>(
+                    <img key={`old-${i}`} src={img.url} alt={`Existing ${i}`} className="w-20 h-20 object-cover rounded border" />
+                  ))}
+                  {selectedFiles.map((file,i)=>(
+                    <img key={`new-${i}`} src={URL.createObjectURL(file)} alt={`New ${i}`} className="w-20 h-20 object-cover rounded border-2 border-primary-600" />
+                  ))}
                 </div>
               )}
 
