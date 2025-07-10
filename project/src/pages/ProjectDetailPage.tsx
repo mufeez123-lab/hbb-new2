@@ -17,7 +17,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: { url: string; public_id: string; type?: 'main' | 'plan' }[];
+  images: { url: string; public_id: string }[];
   category: string;
   location: string;
   price?: string;
@@ -25,9 +25,7 @@ interface Project {
   specifications?: {
     title: string;
     description?: string[];
-
   }[];
-  plans?: { url: string; public_id: string }[]; // ✅ NEW: Plan images
 }
 
 const amenityIcons: { [key: string]: JSX.Element } = {
@@ -62,75 +60,37 @@ const ProjectDetailPage = () => {
     if (id) fetchProject();
   }, [id]);
 
-  if (loading) {
-    return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
-  }
+  if (loading) return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
+  if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
 
-  if (error || !project) {
-    return <div className="py-20 text-center text-red-600">{error}</div>;
-  }
+  // Ensure updated (newest) images appear last
+  const galleryImages = project.images.slice().reverse();
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="container mx-auto px-4 py-12 mt-20"
-    >
-      {/* Main Container */}
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
       <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
-        <div className="flex flex-col lg:flex-row h-auto">
-          {/* Image Carousel */}
+        <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[400px]">
-            <Slider
-              dots={true}
-              infinite={true}
-              speed={1000}
-              slidesToShow={1}
-              slidesToScroll={1}
-              autoplay
-              autoplaySpeed={3000}
-              lazyLoad="progressive"
-              className="h-full"
-            >
-             {project.images.filter((img) => img.type !== 'plan').map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img.url}
-                  alt={`${project.name}-${idx}`}
-                  className="object-cover w-full h-[400px]"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/images/image1.jpg';
-                  }}
-                />
+            <Slider dots infinite speed={1000} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={3000} lazyLoad="progressive" className="h-full">
+              {galleryImages.map((img, idx) => (
+                <img key={idx} src={img.url} alt={`${project.name}-${idx}`} className="object-cover w-full h-[400px]" />
               ))}
             </Slider>
           </div>
-
-          {/* Project Info */}
           <div className="w-full lg:w-2/5 p-6 space-y-2">
             <h2 className="text-2xl font-serif text-[#8a731b]">{project.name}</h2>
             <p className="text-sm text-neutral-500">{project.location}</p>
-
             <div className="bg-neutral-100 px-0 py-2 rounded-md flex gap-4 text-xs font-semibold text-neutral-600 mt-2">
               <div>TYPE: {project.category}</div>
               {project.price && <div>BUA: {project.price} sqft</div>}
             </div>
-
-            {/* Amenities */}
             <div className="mt-4">
               <h3 className="text-xl font-serif text-neutral-800 mb-2">Amenities</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-0">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="border border-neutral-200 flex flex-col justify-center items-center text-center rounded hover:shadow transition h-24 p-2"
-                    >
-                      {amenityIcons[item] || (
-                        <div className="text-xl text-gray-400 mb-1">❓</div>
-                      )}
+                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center rounded hover:shadow transition h-24 p-2">
+                      {amenityIcons[item] || <div className="text-xl text-gray-400 mb-1">❓</div>}
                       <span className="text-xs text-neutral-700 mt-1 text-center">{item}</span>
                     </div>
                   ))
@@ -139,119 +99,50 @@ const ProjectDetailPage = () => {
                 )}
               </div>
             </div>
-
-            {/* Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm hover:bg-[#745e16]">
-                Download Brochure
-              </button>
-              <a
-                href="tel:+916362514956"
-                className="w-full sm:w-1/4 px-4 py-1 bg-[#8a731b] text-white text-sm flex items-center justify-center gap-2 hover:bg-[#745e16]"
-              >
-                <FiPhone className="h-4 w-4" />
-                Call
-              </a>
+              <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm hover:bg-[#745e16]">Download Brochure</button>
+              <a href="tel:+916362514956" className="w-full sm:w-1/4 px-4 py-1 bg-[#8a731b] text-white text-sm flex items-center justify-center gap-2 hover:bg-[#745e16]"><FiPhone className="h-4 w-4" />Call</a>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Description */}
       <div className="bg-white mt-4 p-6 rounded">
         <h3 className="text-2xl font-serif text-[#8a731b] mb-2">About {project.name}</h3>
-        <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">
-          {project.description}
-        </p>
+        <p className="text-neutral-700 leading-relaxed text-sm sm:text-base">{project.description}</p>
       </div>
-
-     {/* Plans Section */}
-      <div className="bg-white mt-6 p-6 rounded ">
-        <h3 className="text-2xl font-serif text-neutral-500 mb-2">Plans</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-         {project.images.filter((img) => img.type === 'plan').length > 0 ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {project.images
-      .filter((img) => img.type === 'plan')
-      .map((planImg, idx) => (
-        <img
-          key={idx}
-          src={planImg.url}
-          alt={`plan-${idx}`}
-          className="w-full h-64 object-cover rounded border border-neutral-200"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = '/images/image1.jpg';
-          }}
-        />
-      ))}
-  </div>
-) : (
-  <p className="text-sm italic text-neutral-500">No plan images available.</p>
-)}
-
-        </div>
-      </div>
-
-
-      {/* Specifications */}
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
           <h3 className="text-2xl font-serif text-neutral-500 mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
-              <details
-                key={index}
-                className="group p-4 hover:bg-neutral-50 transition duration-300"
-              >
+              <details key={index} className="group p-4 hover:bg-neutral-50 transition duration-300">
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
-                  <span className="text-black transition-transform group-open:rotate-90 text-xl">
-                    ▶
-                  </span>
+                  <span className="text-black transition-transform group-open:rotate-90 text-xl">▶</span>
                 </summary>
                 <ul className="list-disc pl-5 pt-2 text-sm text-neutral-700">
-                  {Array.isArray(spec.description)
-                    ? spec.description.map((line, idx) => (
-                        <li key={idx}>{line.trim()}</li>
-                      ))
-                    : (spec.description ?? '').split('\n').map((line, idx) => (
-                        <li key={idx}>{line.trim()}</li>
-                      ))}
+                  {(spec.description || []).map((line, idx) => (
+                    <li key={idx}>{line.trim()}</li>
+                  ))}
                 </ul>
               </details>
             ))}
           </div>
         </div>
       )}
-
-      {/* Gallery Section */}
-{project.images.length > 0 && (
-  <div className="bg-white mt-6 px-6 py-8 rounded">
-    <div className="flex items-center gap-4 mb-6">
-      <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
-      <div className="flex-1 border-t border-neutral-200" />
-    </div>
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      {project.images.filter((img) => img.type !== 'plan').map((img, idx) => (
-
-        <img
-          key={idx}
-          src={img.url}
-          alt={`gallery-${idx}`}
-          className="w-full h-56 object-cover rounded border border-neutral-200"
-          loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = '/images/image1.jpg';
-          }}
-        />
-      ))}
-    </div>
-  </div>
-)}
-
-
+      {galleryImages.length > 0 && (
+        <div className="bg-white mt-6 px-6 py-8 rounded">
+          <div className="flex items-center gap-4 mb-6">
+            <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
+            <div className="flex-1 border-t border-neutral-200" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {galleryImages.map((img, idx) => (
+              <img key={idx} src={img.url} alt={`gallery-${idx}`} className="w-full h-56 object-cover rounded border border-neutral-200" loading="lazy" />
+            ))}
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
