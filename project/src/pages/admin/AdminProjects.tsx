@@ -48,8 +48,10 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // Renamed to selectedFiles for clarity
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [existingImages, setExistingImages] = useState<{ url: string; public_id: string }[]>([]); // To store images of the project being edited
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -86,43 +88,72 @@ const AdminProjects: React.FC = () => {
     e.preventDefault();
     const data = new FormData();
 
- if (selectedFile && selectedFile.length > 0) {
-  for (const img of selectedFile) {
-    data.append('images', img);
-  }
-}
+    // Log for debugging:
+    console.log('Frontend: Submitting form...');
+    console.log('Frontend: selectedFiles state:', selectedFiles);
+    console.log('Frontend: formData state:', formData);
 
 
+    // Append new images ONLY if selectedFiles has items
+    if (selectedFiles.length > 0) {
+      for (const file of selectedFiles) {
+        data.append('images', file);
+      }
+    } else if (editingProjectId) {
+      // For PUT request, if no new files are selected, send a flag or
+      // rely on backend to retain existing. For safety, you *could*
+      // send a flag if the backend specifically needs to know.
+      // However, current backend logic is fine if `req.files` is empty and it retains existing.
+      // So no need to append existingImages to FormData unless you want to send them back.
+      // We will rely on backend to handle this, as discussed.
+    }
+
+
+    // Append other form fields
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== 'amenities' && key !== 'specifications') {
-        data.append(key, value.toString());
+      if (key === 'amenities') {
+        value.forEach((item: string) => data.append(key, item));
+      } else if (key === 'specifications') {
+        data.append(key, JSON.stringify(value));
+      } else if (key === 'explore') { // Ensure boolean is sent as 'true' or 'false' string
+          data.append(key, value.toString());
+      } else {
+        data.append(key, value as string);
       }
     });
-
-    formData.amenities.forEach((item) => data.append('amenities', item));
-    data.append('specifications', JSON.stringify(formData.specifications));
 
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data', // Axios usually handles this for FormData, but explicit is fine
           Authorization: `Bearer ${token}`,
         },
       };
 
       if (editingProjectId) {
+        console.log(`Frontend: Sending PUT request to /admin/projects/${editingProjectId}`);
         await api.put(`/admin/projects/${editingProjectId}`, data, config);
         toast.success('✅ Project updated successfully');
       } else {
+        console.log('Frontend: Sending POST request to /admin/projects');
         await api.post('/admin/projects', data, config);
         toast.success('✅ Project added successfully');
       }
 
       await fetchProjects();
       closeModal();
-    } catch (err) {
-      console.error('API Error:', err);
-      toast.error('❌ Something went wrong!');
+    } catch (err: any) { // Use 'any' for AxiosError type if you don't have a specific type defined
+      console.error('Frontend: API Error:', err);
+      // Log more details from Axios error if available
+      if (err.response) {
+        console.error('Frontend: Error Response Status:', err.response.status);
+        console.error('Frontend: Error Response Data:', err.response.data);
+      } else if (err.request) {
+        console.error('Frontend: No response received:', err.request);
+      } else {
+        console.error('Frontend: Error message:', err.message);
+      }
+      toast.error(`❌ Something went wrong! ${err.response?.data?.message || err.message}`);
     }
   };
 
@@ -153,13 +184,15 @@ const AdminProjects: React.FC = () => {
       explore: true,
       specifications: [],
     });
-    setSelectedFile([]);
+    setSelectedFiles([]); // Reset selectedFiles for next use
+    setExistingImages([]); // Clear existing images
     setOpen(false);
   };
 
   const getImageUrl = (img: string | { url: string }) => {
     if (typeof img === 'object' && img.url) return img.url;
-    return `https://hbb-new2.onrender.com${img}`;
+    // Assuming relative paths for non-Cloudinary images, adjust if needed
+    return `https://hbb-new2.onrender.com${img}`; // Or a default placeholder
   };
 
   return (
@@ -172,7 +205,16 @@ const AdminProjects: React.FC = () => {
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-2xl font-semibold">Projects</h1>
               <button
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                  setOpen(true);
+                  // Ensure initial state is clean for Add Project
+                  setEditingProjectId(null);
+                  setFormData({
+                      name: '', description: '', category: '', status: '', location: '', client: '', price: '', amenities: [], explore: true, specifications: [],
+                  });
+                  setSelectedFiles([]);
+                  setExistingImages([]);
+                }}
                 className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
               >
                 Add Project
@@ -206,11 +248,12 @@ const AdminProjects: React.FC = () => {
                               client: project.client,
                               price: project.price || '',
                               amenities: project.amenities || [],
-                              explore: project.explore ?? true,
+                              explore: project.explore ?? true, // Use nullish coalescing for default true
                               specifications: project.specifications || [],
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile([]);
+                            setSelectedFiles([]); // Crucial: Reset for new selection, NOT to keep old
+                            setExistingImages(project.images || []); // Store existing images for display if needed
                             setOpen(true);
                           }}
                           className="text-blue-600 hover:text-blue-800"
@@ -233,7 +276,7 @@ const AdminProjects: React.FC = () => {
         </main>
       </div>
 
-      {/* Modal UI remains unchanged except for one file input */}
+      {/* Modal UI */}
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -278,14 +321,36 @@ const AdminProjects: React.FC = () => {
                 </select>
 
                 <input
-                  key={editingProjectId ? 'edit-images' : 'create-images'}
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
+                  onChange={(e) => setSelectedFiles(Array.from(e.target.files || []))}
                   className="px-3 py-2 border rounded-md w-full"
                 />
               </div>
+
+              {/* Display existing images when editing */}
+              {editingProjectId && existingImages.length > 0 && selectedFiles.length === 0 && (
+                  <div className="mt-4 border p-3 rounded-md bg-gray-50">
+                      <h4 className="text-sm font-medium mb-2">Current Images (select new to replace)</h4>
+                      <div className="flex flex-wrap gap-2">
+                          {existingImages.map((img, index) => (
+                              <img key={index} src={img.url} alt={`Existing ${index}`} className="w-20 h-20 object-cover rounded" />
+                          ))}
+                      </div>
+                  </div>
+              )}
+              {editingProjectId && selectedFiles.length > 0 && (
+                   <div className="mt-4 border p-3 rounded-md bg-yellow-50">
+                       <h4 className="text-sm font-medium mb-2">New Images Selected (will replace old ones)</h4>
+                       <div className="flex flex-wrap gap-2">
+                           {selectedFiles.map((file, index) => (
+                               <img key={index} src={URL.createObjectURL(file)} alt={`New ${index}`} className="w-20 h-20 object-cover rounded" />
+                           ))}
+                       </div>
+                   </div>
+              )}
+
 
               {/* Amenities */}
               <div className="mt-4">
@@ -318,7 +383,7 @@ const AdminProjects: React.FC = () => {
                 </div>
               </div>
 
-             {/* Specifications */}
+              {/* Specifications */}
               <div className="mt-4">
                 <label className="block font-medium mb-2">Specifications</label>
                 {formData.specifications.map((spec, specIndex) => (
