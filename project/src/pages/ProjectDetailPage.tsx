@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
 import { FiPhone } from 'react-icons/fi';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom'; 
 import {
   FaSwimmingPool,
   FaCar,
@@ -100,8 +101,12 @@ const ProjectDetailPage = () => {
               </div>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <button className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm hover:bg-[#745e16]">Download Brochure</button>
-              <a href="tel:+916362514956" className="w-full sm:w-1/4 px-4 py-1 bg-[#8a731b] text-white text-sm flex items-center justify-center gap-2 hover:bg-[#745e16]"><FiPhone className="h-4 w-4" />Call</a>
+             <Link
+  to="/contact"
+  className="w-full sm:w-3/4 px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
+>
+  Contact Us
+</Link>
             </div>
           </div>
         </div>
@@ -112,7 +117,7 @@ const ProjectDetailPage = () => {
       </div>
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
-          <h3 className="text-2xl font-serif text-neutral-500 mb-4">Specifications</h3>
+          <h3 className="text-2xl font-serif text-neutral-800 mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
               <details key={index} className="group p-4 hover:bg-neutral-50 transition duration-300">
