@@ -62,6 +62,9 @@ router.post('/', adminAuth, upload.fields([
   { name: 'plans', maxCount: 10 },
 ]),
  async (req, res) => {
+  console.log('REQ.BODY:', req.body);
+console.log('REQ.FILES:', req.files);
+
   try {
     const {
       name,
@@ -142,6 +145,9 @@ const images = [
 
 /* === PUT: Update Project === */
 router.put('/:id', adminAuth, upload.array('images',10), async (req, res) => {
+  console.log('REQ.BODY:', req.body);
+console.log('REQ.FILES:', req.files);
+
   try {
     const {
       name,
