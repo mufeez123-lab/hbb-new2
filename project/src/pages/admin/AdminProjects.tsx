@@ -274,7 +274,6 @@ const AdminProjects: React.FC = () => {
                   <option value="completed">Completed</option>
                 </select>
 
-                <label className="block mt-4 font-medium">Project Images</label>
                 <input
                   key={editingProjectId ? 'edit-images' : 'create-images'}
                   type="file"
