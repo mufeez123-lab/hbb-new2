@@ -48,10 +48,9 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // Renamed to selectedFiles for clarity
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<{ url: string; public_id: string }[]>([]);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [existingImages, setExistingImages] = useState<{ url: string; public_id: string }[]>([]); // To store images of the project being edited
-
 
   const [formData, setFormData] = useState({
     name: '',
@@ -88,35 +87,21 @@ const AdminProjects: React.FC = () => {
     e.preventDefault();
     const data = new FormData();
 
-    // Log for debugging:
-    console.log('Frontend: Submitting form...');
-    console.log('Frontend: selectedFiles state:', selectedFiles);
-    console.log('Frontend: formData state:', formData);
+    console.log('Submitting form:', { selectedFiles, formData });
 
-
-    // Append new images ONLY if selectedFiles has items
+    // Append new images only if selected
     if (selectedFiles.length > 0) {
-      for (const file of selectedFiles) {
-        data.append('images', file);
-      }
-    } else if (editingProjectId) {
-      // For PUT request, if no new files are selected, send a flag or
-      // rely on backend to retain existing. For safety, you *could*
-      // send a flag if the backend specifically needs to know.
-      // However, current backend logic is fine if `req.files` is empty and it retains existing.
-      // So no need to append existingImages to FormData unless you want to send them back.
-      // We will rely on backend to handle this, as discussed.
+      selectedFiles.forEach(file => data.append('images', file));
     }
 
-
-    // Append other form fields
+    // Append other fields
     Object.entries(formData).forEach(([key, value]) => {
       if (key === 'amenities') {
-        (value as string[]).forEach((item: string) => data.append(key, item));
+        (value as string[]).forEach(item => data.append(key, item));
       } else if (key === 'specifications') {
         data.append(key, JSON.stringify(value));
-      } else if (key === 'explore') { // Ensure boolean is sent as 'true' or 'false' string
-          data.append(key, value.toString());
+      } else if (key === 'explore') {
+        data.append(key, value.toString());
       } else {
         data.append(key, value as string);
       }
@@ -125,34 +110,25 @@ const AdminProjects: React.FC = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data', // Axios usually handles this for FormData, but explicit is fine
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       };
 
       if (editingProjectId) {
-        console.log(`Frontend: Sending PUT request to /admin/projects/${editingProjectId}`);
+        console.log('Sending PUT for', editingProjectId);
         await api.put(`/admin/projects/${editingProjectId}`, data, config);
         toast.success('✅ Project updated successfully');
       } else {
-        console.log('Frontend: Sending POST request to /admin/projects');
+        console.log('Sending POST to create project');
         await api.post('/admin/projects', data, config);
         toast.success('✅ Project added successfully');
       }
 
       await fetchProjects();
       closeModal();
-    } catch (err: any) { // Use 'any' for AxiosError type if you don't have a specific type defined
-      console.error('Frontend: API Error:', err);
-      // Log more details from Axios error if available
-      if (err.response) {
-        console.error('Frontend: Error Response Status:', err.response.status);
-        console.error('Frontend: Error Response Data:', err.response.data);
-      } else if (err.request) {
-        console.error('Frontend: No response received:', err.request);
-      } else {
-        console.error('Frontend: Error message:', err.message);
-      }
+    } catch (err: any) {
+      console.error('API Error:', err);
       toast.error(`❌ Something went wrong! ${err.response?.data?.message || err.message}`);
     }
   };
@@ -162,7 +138,7 @@ const AdminProjects: React.FC = () => {
       await api.delete(`/admin/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProjects((prev) => prev.filter((p) => p._id !== id));
+      setProjects(prev => prev.filter(p => p._id !== id));
       toast.success('🗑️ Project deleted successfully');
     } catch (err) {
       console.error('Delete failed:', err);
@@ -173,26 +149,40 @@ const AdminProjects: React.FC = () => {
   const closeModal = () => {
     setEditingProjectId(null);
     setFormData({
-      name: '',
-      description: '',
-      category: '',
-      status: '',
-      location: '',
-      client: '',
-      price: '',
-      amenities: [],
-      explore: true,
-      specifications: [],
+      name: '', description: '', category: '', status: '', location: '', client: '', price: '', amenities: [], explore: true, specifications: [],
     });
-    setSelectedFiles([]); // Reset selectedFiles for next use
-    setExistingImages([]); // Clear existing images
+    setSelectedFiles([]);
+    setExistingImages([]);
     setOpen(false);
+  };
+
+  const startAdd = () => {
+    closeModal();
+    setOpen(true);
+  };
+
+  const startEdit = (project: Project) => {
+    setFormData({
+      name: project.name,
+      description: project.description,
+      category: project.category,
+      status: project.status,
+      location: project.location,
+      client: project.client,
+      price: project.price || '',
+      amenities: project.amenities || [],
+      explore: project.explore ?? true,
+      specifications: project.specifications || [],
+    });
+    setExistingImages(project.images);
+    setSelectedFiles([]);
+    setEditingProjectId(project._id);
+    setOpen(true);
   };
 
   const getImageUrl = (img: string | { url: string }) => {
     if (typeof img === 'object' && img.url) return img.url;
-    // Assuming relative paths for non-Cloudinary images, adjust if needed
-    return `https://hbb-new2.onrender.com${img}`; // Or a default placeholder
+    return `https://hbb-new2.onrender.com${img}`;
   };
 
   return (
@@ -204,68 +194,24 @@ const AdminProjects: React.FC = () => {
           <div className="max-w-10xl mx-auto">
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-2xl font-semibold">Projects</h1>
-              <button
-                onClick={() => {
-                  setOpen(true);
-                  // Ensure initial state is clean for Add Project
-                  setEditingProjectId(null);
-                  setFormData({
-                      name: '', description: '', category: '', status: '', location: '', client: '', price: '', amenities: [], explore: true, specifications: [],
-                  });
-                  setSelectedFiles([]);
-                  setExistingImages([]);
-                }}
-                className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700"
-              >
+              <button onClick={startAdd} className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700">
                 Add Project
               </button>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project) => (
-                <div key={project._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+              {projects.map(proj => (
+                <div key={proj._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                   <div className="relative h-40 bg-gray-100">
-                    <img
-                      src={project.images?.[0] ? getImageUrl(project.images[0]) : '/images/image1.jpg'}
-                      alt={project.name}
-                      className="w-full h-40 object-cover"
-                    />
+                    <img src={proj.images[0] ? getImageUrl(proj.images[0]) : '/images/image1.jpg'} alt={proj.name} className="w-full h-40 object-cover" />
                   </div>
                   <div className="p-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">{project.name}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{project.location}</p>
+                    <h3 className="text-lg font-medium text-gray-900 mb-1">{proj.name}</h3>
+                    <p className="text-sm text-gray-500 mt-1">{proj.location}</p>
                     <div className="flex justify-between items-center mt-2">
-                      <span className="text-xs font-medium text-gray-500">{project.category}</span>
+                      <span className="text-xs font-medium text-gray-500">{proj.category}</span>
                       <div className="flex items-center space-x-3">
-                        <button
-                          onClick={() => {
-                            setFormData({
-                              name: project.name,
-                              description: project.description,
-                              category: project.category,
-                              status: project.status,
-                              location: project.location,
-                              client: project.client,
-                              price: project.price || '',
-                              amenities: project.amenities || [],
-                              explore: project.explore ?? true, // Use nullish coalescing for default true
-                              specifications: project.specifications || [],
-                            });
-                            setEditingProjectId(project._id);
-                            setSelectedFiles([]); // Crucial: Reset for new selection, NOT to keep old
-                            setExistingImages(project.images || []); // Store existing images for display if needed
-                            setOpen(true);
-                          }}
-                          className="text-blue-600 hover:text-blue-800"
-                        >
-                          ✏️
-                        </button>
-                        <button
-                          onClick={() => handleDelete(project._id)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          🗑️
-                        </button>
+                        <button onClick={() => startEdit(proj)} className="text-blue-600 hover:text-blue-800">✏️</button>
+                        <button onClick={() => handleDelete(proj._id)} className="text-red-600 hover:text-red-800">🗑️</button>
                       </div>
                     </div>
                   </div>
@@ -276,42 +222,22 @@ const AdminProjects: React.FC = () => {
         </main>
       </div>
 
-      {/* Modal UI */}
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">
-              {editingProjectId ? 'Update Project' : 'Add New Project'}
-            </h2>
+            <h2 className="text-xl font-bold mb-4">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['name', 'description', 'location', 'client', 'price'].map((field) => (
-                  <input
-                    key={field}
-                    type="text"
-                    placeholder={field === 'price' ? 'Square Feet' : field.charAt(0).toUpperCase() + field.slice(1)}
-                    value={(formData as any)[field]}
-                    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
-                    className="px-3 py-2 border rounded-md"
-                  />
+                {['name','description','location','client','price'].map(field => (
+                  <input key={field} type="text" placeholder={field.charAt(0).toUpperCase()+field.slice(1)} value={(formData as any)[field]} onChange={e=>setFormData({...formData,[field]:e.target.value})} className="px-3 py-2 border rounded-md" />
                 ))}
-
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="px-3 py-2 border rounded-md"
-                >
+                <select value={formData.category} onChange={e=>setFormData({...formData,category:e.target.value})} className="px-3 py-2 border rounded-md">
                   <option value="">Select Category</option>
                   <option value="Residential">Residential</option>
                   <option value="Commercial">Commercial</option>
                   <option value="Luxury villa">Luxury Villa</option>
                 </select>
-
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="px-3 py-2 border rounded-md"
-                >
+                <select value={formData.status} onChange={e=>setFormData({...formData,status:e.target.value})} className="px-3 py-2 border rounded-md">
                   <option value="">Select Status</option>
                   <option value="upcoming">Upcoming</option>
                   <option value="ongoing">Ongoing</option>
@@ -319,64 +245,36 @@ const AdminProjects: React.FC = () => {
                   <option value="ready to move">Ready to Move</option>
                   <option value="completed">Completed</option>
                 </select>
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => setSelectedFiles(Array.from(e.target.files || []))}
-                  className="px-3 py-2 border rounded-md w-full"
-                />
+                <input type="file" accept="image/*" multiple onChange={e=>setSelectedFiles(Array.from(e.target.files||[]))} className="px-3 py-2 border rounded-md w-full" />
               </div>
 
-              {/* Display existing images when editing */}
-              {editingProjectId && existingImages.length > 0 && selectedFiles.length === 0 && (
-                  <div className="mt-4 border p-3 rounded-md bg-gray-50">
-                      <h4 className="text-sm font-medium mb-2">Current Images (select new to replace)</h4>
-                      <div className="flex flex-wrap gap-2">
-                          {existingImages.map((img, index) => (
-                              <img key={index} src={img.url} alt={`Existing ${index}`} className="w-20 h-20 object-cover rounded" />
-                          ))}
-                      </div>
-                  </div>
-              )}
-              {editingProjectId && selectedFiles.length > 0 && (
-                   <div className="mt-4 border p-3 rounded-md bg-yellow-50">
-                       <h4 className="text-sm font-medium mb-2">New Images Selected (will replace old ones)</h4>
-                       <div className="flex flex-wrap gap-2">
-                           {selectedFiles.map((file, index) => (
-                               <img key={index} src={URL.createObjectURL(file)} alt={`New ${index}`} className="w-20 h-20 object-cover rounded" />
-                           ))}
-                       </div>
-                   </div>
+              {/* Existing Images Preview */}
+              {editingProjectId && existingImages.length>0 && selectedFiles.length===0 && (
+                <div className="mt-4 border p-3 rounded-md bg-gray-50">
+                  <h4 className="text-sm font-medium mb-2">Current Images (select new to replace)</h4>
+                  <div className="flex flex-wrap gap-2">{existingImages.map((img,i)=><img key={i} src={img.url} alt={`Existing ${i}`} className="w-20 h-20 object-cover rounded" />)}</div>
+                </div>
               )}
 
+              {/* New Images Preview */}
+              {selectedFiles.length>0 && (
+                <div className="mt-4 border p-3 rounded-md bg-yellow-50">
+                  <h4 className="text-sm font-medium mb-2">New Images Selected (will replace old ones)</h4>
+                  <div className="flex flex-wrap gap-2">{selectedFiles.map((file,i)=><img key={i} src={URL.createObjectURL(file)} alt={`New ${i}`} className="w-20 h-20 object-cover rounded" />)}</div>
+                </div>
+              )}
 
               {/* Amenities */}
               <div className="mt-4">
                 <label className="block font-medium mb-2">Amenities</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
-                  {defaultAmenities.map((amenity) => (
-                    <label
-                      key={amenity}
-                      className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${
-                        formData.amenities.includes(amenity)
-                          ? 'bg-primary-100 border-primary-400'
-                          : 'border-neutral-200'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.amenities.includes(amenity)}
-                        onChange={(e) => {
-                          const updated = e.target.checked
-                            ? [...formData.amenities, amenity]
-                            : formData.amenities.filter((a) => a !== amenity);
-                          setFormData({ ...formData, amenities: updated });
-                        }}
-                        className="hidden"
-                      />
-                      {amenityIcons[amenity] || <div className="text-xl mb-1">❓</div>}
+                  {defaultAmenities.map(amenity=>(
+                    <label key={amenity} className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${formData.amenities.includes(amenity)?'bg-primary-100 border-primary-400':'border-neutral-200'}`}>                    
+                      <input type="checkbox" checked={formData.amenities.includes(amenity)} onChange={e=>{
+                        const updated = e.target.checked?[...formData.amenities,amenity]:formData.amenities.filter(a=>a!==amenity);
+                        setFormData({...formData,amenities:updated});
+                      }} className="hidden" />
+                      {amenityIcons[amenity]||<div className="text-xl mb-1">❓</div>}
                       <span className="text-xs text-neutral-700 mt-2">{amenity}</span>
                     </label>
                   ))}
@@ -386,112 +284,46 @@ const AdminProjects: React.FC = () => {
               {/* Specifications */}
               <div className="mt-4">
                 <label className="block font-medium mb-2">Specifications</label>
-                {formData.specifications.map((spec, specIndex) => (
-                  <div key={specIndex} className="bg-gray-50 p-3 rounded-md mb-3 border border-gray-200">
+                {formData.specifications.map((spec, specIdx)=>(
+                  <div key={specIdx} className="bg-gray-50 p-3 rounded-md mb-3 border border-gray-200">
                     <div className="flex justify-between items-center mb-2">
-                      <input
-                        type="text"
-                        placeholder="Title"
-                        value={spec.title}
-                        onChange={(e) => {
-                          const updatedSpecs = [...formData.specifications];
-                          updatedSpecs[specIndex].title = e.target.value;
-                          setFormData({ ...formData, specifications: updatedSpecs });
-                        }}
-                        className="px-3 py-2 border rounded-md w-full mr-2"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updatedSpecs = formData.specifications.filter((_, i) => i !== specIndex);
-                          setFormData({ ...formData, specifications: updatedSpecs });
-                        }}
-                        className="text-red-500 hover:text-red-700 p-2"
-                      >
-                        ✖ Remove Spec
-                      </button>
+                      <input type="text" placeholder="Title" value={spec.title} onChange={e=>{
+                        const upd=[...formData.specifications]; upd[specIdx].title=e.target.value; setFormData({...formData,specifications:upd});
+                      }} className="px-3 py-2 border rounded-md w-full mr-2" />
+                      <button type="button" onClick={()=>{
+                        const upd=formData.specifications.filter((_,i)=>i!==specIdx); setFormData({...formData,specifications:upd});
+                      }} className="text-red-500 hover:text-red-700 p-2">✖</button>
                     </div>
-
-                    {spec.description.map((desc, descIndex) => (
-                      <div key={descIndex} className="flex items-center mb-2">
-                        <input
-                          type="text"
-                          placeholder={`Description ${descIndex + 1}`}
-                          value={desc}
-                          onChange={(e) => {
-                            const updatedSpecs = [...formData.specifications];
-                            updatedSpecs[specIndex].description[descIndex] = e.target.value;
-                            setFormData({ ...formData, specifications: updatedSpecs });
-                          }}
-                          className="px-3 py-2 border rounded-md w-full mr-2"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const updatedSpecs = [...formData.specifications];
-                            updatedSpecs[specIndex].description = updatedSpecs[specIndex].description.filter(
-                              (_, i) => i !== descIndex
-                            );
-                            setFormData({ ...formData, specifications: updatedSpecs });
-                          }}
-                          className="text-red-500 hover:text-red-700 p-2"
-                        >
-                          -
-                        </button>
+                    {spec.description.map((desc, descIdx)=>(
+                      <div key={descIdx} className="flex items-center mb-2">
+                        <input type="text" placeholder={`Description ${descIdx+1}`} value={desc} onChange={e=>{
+                          const upd=[...formData.specifications]; upd[specIdx].description[descIdx]=e.target.value; setFormData({...formData,specifications:upd});
+                        }} className="px-3 py-2 border rounded-md w-full mr-2" />
+                        <button type="button" onClick={()=>{
+                          const upd=[...formData.specifications]; upd[specIdx].description = upd[specIdx].description.filter((_,i)=>i!==descIdx); setFormData({...formData,specifications:upd});
+                        }} className="text-red-500 hover:text-red-700 p-2">-</button>
                       </div>
                     ))}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedSpecs = [...formData.specifications];
-                        updatedSpecs[specIndex].description.push(''); // Add an empty string for a new description
-                        setFormData({ ...formData, specifications: updatedSpecs });
-                      }}
-                      className="mt-2 text-sm text-primary-600 hover:underline px-2 py-1 border rounded"
-                    >
-                      + Add Description for this Spec
-                    </button>
+                    <button type="button" onClick={()=>{
+                      const upd=[...formData.specifications]; upd[specIdx].description.push(''); setFormData({...formData,specifications:upd});
+                    }} className="mt-2 text-sm text-primary-600 hover:underline px-2 py-1 border rounded">+ Add Description</button>
                   </div>
                 ))}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFormData({
-                      ...formData,
-                      specifications: [...formData.specifications, { title: '', description: [''] }], // Initialize with an empty description array
-                    })
-                  }
-                  className="mt-2 text-sm text-primary-600 hover:underline px-3 py-2 border rounded-md"
-                >
-                  + Add New Specification
-                </button>
+                <button type="button" onClick={()=>{
+                  setFormData({...formData,specifications:[...formData.specifications,{title:'',description:['']}]});
+                }} className="mt-2 text-sm text-primary-600 hover:underline px-3 py-2 border rounded-md">+ Add New Specification</button>
               </div>
 
               {/* Footer */}
               <div className="flex items-center space-x-2 mt-4">
-                <input
-                  type="checkbox"
-                  checked={formData.explore}
-                  onChange={(e) => setFormData({ ...formData, explore: e.target.checked })}
-                  id="explore"
-                />
+                <input type="checkbox" checked={formData.explore} onChange={e=>setFormData({...formData,explore:e.target.checked})} id="explore" />
                 <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
               </div>
 
               <div className="flex justify-end space-x-4 mt-6">
-                <button onClick={closeModal} type="button" className="px-4 py-2 text-gray-600 hover:text-gray-800">
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={!formData.name || !formData.status}
-                  className={`px-4 py-2 rounded-md text-white ${
-                    formData.name && formData.status
-                      ? 'bg-primary-600 hover:bg-primary-700'
-                      : 'bg-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {editingProjectId ? 'Update Project' : 'Add Project'}
+                <button onClick={closeModal} type="button" className="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+                <button type="submit" disabled={!formData.name||!formData.status} className={`px-4 py-2 rounded-md text-white ${formData.name&&formData.status?'bg-primary-600 hover:bg-primary-700':'bg-gray-400 cursor-not-allowed'}`}>
+                  {editingProjectId?'Update Project':'Add Project'}
                 </button>
               </div>
             </form>
