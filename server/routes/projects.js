@@ -74,7 +74,7 @@ router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
 
     const images = req.files.map((file) => ({
       url: file.path,
-      public_id: file.filename,
+      public_id: file.filename || file.public_id,
     }));
 
     const amenitiesArray = Array.isArray(amenities)
