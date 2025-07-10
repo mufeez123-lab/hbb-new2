@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'plans',maxCount:5}]), async (req, res) => {
+router.post('/', adminAuth, upload.array('images',5), async (req, res) => {
   try {
     const {
       name,
@@ -79,12 +79,6 @@ router.post('/', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'pla
       public_id: file.filename,
     }));
 
-    //this is for plans
-      const planFiles = req.files['plans'] || [];
-      const plans = planFiles.map(file => ({
-      url: file.path,
-      public_id: file.filename
-    }));
 
     const amenitiesArray = Array.isArray(amenities)
       ? amenities
@@ -118,7 +112,6 @@ router.post('/', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'pla
       amenities: amenitiesArray,
       explore: explore === 'true',
       images,
-      plans,
       specifications: specificationsArray,
     });
 
@@ -132,7 +125,7 @@ router.post('/', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'pla
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'plans',maxCount:5}]), async (req, res) => {
+router.put('/:id', adminAuth, upload.array('images',5), async (req, res) => {
   try {
     const {
       name,
@@ -196,17 +189,7 @@ if (req.files?.images?.length > 0) {
   }));
 }
 
-// ✅ Handle PLANS
-if (req.files?.plans?.length > 0) {
-  for (const plan of existingProject.plans || []) {
-    if (plan.public_id) await cloudinary.uploader.destroy(plan.public_id);
-  }
 
-  updateData.plans = req.files.plans.map((file) => ({
-    url: file.path,
-    public_id: file.filename,
-  }));
-}
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,

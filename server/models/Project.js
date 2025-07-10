@@ -27,18 +27,6 @@ const projectSchema = new mongoose.Schema({
       }
     }
   ],
-  plans: [
-  {
-    url: {
-      type: String,
-      required: true
-    },
-    public_id: {
-      type: String,
-      required: true
-    }
-  }
-],
 
 
   status: {
