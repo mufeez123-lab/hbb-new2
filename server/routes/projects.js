@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
+router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
     const {
       name,
@@ -122,7 +122,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
+router.put('/:id', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
     const {
       name,
