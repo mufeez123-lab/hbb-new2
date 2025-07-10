@@ -57,10 +57,7 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.fields([
-  { name: 'images', maxCount: 10 },
-  { name: 'plans', maxCount: 10 },
-]),
+router.post('/', adminAuth, upload.array('images', 20), 
  async (req, res) => {
   console.log('REQ.BODY:', req.body);
 console.log('REQ.FILES:', req.files);
@@ -69,7 +66,7 @@ console.log('REQ.PARAMS:', req.params);
   try {
     const {
       name,
-      description,
+      description,  
       category,
       status,
       location,
@@ -86,18 +83,12 @@ const planFiles = req.files?.plans || [];
 
 
 //this is to handle the case where no images or plans are uploaded
-const images = [
-  ...imageFiles.map((file) => ({
+const images = imageFiles.map((file) => ({
     url: file.path,
     public_id: file.filename,
     type: 'main',
-  })),
-  ...planFiles.map((file) => ({
-    url: file.path,
-    public_id: file.filename,
-    type: 'plan',
-  })),
-];
+  }));
+
 
 
 
@@ -147,14 +138,11 @@ res.status(500).json({ message: err.message || 'Something went wrong!' });
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.fields([
-  { name: 'images', maxCount: 10 },
-  { name: 'plans', maxCount: 10 },
-]),
+router.put('/:id', adminAuth, upload.array('images',20),
  async (req, res) => {
   console.log('REQ.BODY:', req.body);
-console.log('REQ.FILES:', req.files);
-console.log('REQ.PARAMS:', req.params);
+  console.log('REQ.FILES:', req.files);
+  console.log('REQ.PARAMS:', req.params);
 
   try {
     const {
@@ -208,30 +196,21 @@ console.log('REQ.PARAMS:', req.params);
     };
 
     //this is to handle the case where no images or plans are uploaded
-const imageFiles = req.files || [];
-const planFiles = req.files || [];
+    const imageFiles = req.files?.images || [];
+    // planFiles is not defined or used, so remove reference to it
+    // const planFiles = req.files?.plans || [];
 
+    if (imageFiles.length > 0) {
+      for (const img of existingProject.images || []) {
+        if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
+      }
 
-if (imageFiles.length > 0 || planFiles.length > 0) {
-  for (const img of existingProject.images || []) {
-    if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
-  }
-
-  updateData.images = [
-    ...imageFiles.map((file) => ({
-      url: file.path,
-      public_id: file.filename,
-      type: 'main',
-    })),
-    ...planFiles.map((file) => ({
-      url: file.path,
-      public_id: file.filename,
-      type: 'plan',
-    })),
-  ];
-}
-
-
+      updateData.images = imageFiles.map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+        type: 'main',
+      }));
+    }
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
@@ -242,9 +221,8 @@ if (imageFiles.length > 0 || planFiles.length > 0) {
     req.app.get('io')?.emit('project:updated', updatedProject);
     res.json(updatedProject);
   } catch (err) {
-   console.error('❌ PUT Error:', err);
+    console.error('❌ PUT Error:', err);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
-
   }
 });
 
