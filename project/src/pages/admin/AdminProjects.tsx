@@ -16,7 +16,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  images: (string | { url: string })[];
+   images: { url: string; public_id: string; type?: 'main' | 'plan' }[];
   category: string;
   status: string;
   location: string;
