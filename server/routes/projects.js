@@ -58,10 +58,11 @@ router.get('/:id', async (req, res) => {
 
 /* === POST: Create New Project === */
 router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
-  try {
-    console.log('🟢 POST /api/admin/projects');
+   console.log('🟢 POST /api/admin/projects');
     console.log('🔍 Request Body:', req.body);
     console.log('🖼️ Uploaded Files:', req.files);
+  try {
+   
 
     const {
       name,
@@ -138,6 +139,9 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
 
 /* === PUT: Update Project === */
 router.put('/:id', adminAuth, upload.array('images', 10), async (req, res) => {
+   console.log('🟢 PUT /api/admin/projects');
+    console.log('🔍 Request Body:', req.body);
+    console.log('🖼️ Uploaded Files:', req.files);
   try {
     const {
       name,
