@@ -86,9 +86,12 @@ const AdminProjects: React.FC = () => {
     e.preventDefault();
     const data = new FormData();
 
-    if (!editingProjectId || selectedFile.length > 0) {
-      selectedFile.forEach((file) => data.append('images', file));
-    }
+ if (selectedFile && selectedFile.length > 0) {
+  for (const img of selectedFile) {
+    data.append('images', img);
+  }
+}
+
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities' && key !== 'specifications') {
