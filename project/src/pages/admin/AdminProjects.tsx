@@ -285,6 +285,7 @@ const AdminProjects: React.FC = () => {
                 key={editingProjectId ? 'edit-images' : 'create-images'}
                   type="file"
                   accept="image/*"
+                  multiple
                onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
                   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
                 />
