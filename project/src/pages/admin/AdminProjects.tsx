@@ -249,12 +249,26 @@ const AdminProjects: React.FC = () => {
               {/* Show both existing and new images */}
               {(existingImages.length>0 || selectedFiles.length>0) && (
                 <div className="mt-4 grid grid-cols-4 gap-2">
-                  {existingImages.map((img,i)=>(
-                    <img key={`old-${i}`} src={img.url} alt={`Existing ${i}`} className="w-20 h-20 object-cover rounded border" />
-                  ))}
-                  {selectedFiles.map((file,i)=>(
-                    <img key={`new-${i}`} src={URL.createObjectURL(file)} alt={`New ${i}`} className="w-20 h-20 object-cover rounded border-2 border-primary-600" />
-                  ))}
+                 {existingImages.map((img, i) => (
+  <div key={`old-${i}`} className="relative w-20 h-20">
+    <img
+      src={img.url}
+      alt={`Existing ${i}`}
+      className="w-full h-full object-cover rounded border"
+    />
+    <button
+      type="button"
+      onClick={() => {
+        const updatedImages = existingImages.filter((_, index) => index !== i);
+        setExistingImages(updatedImages);
+      }}
+      className="absolute top-0 right-0 bg-white text-red-500 border border-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
+    >
+      ｘ
+    </button>
+  </div>
+))}
+
                 </div>
               )}
 
