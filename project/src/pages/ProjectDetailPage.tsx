@@ -64,7 +64,7 @@ const ProjectDetailPage = () => {
   if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
 
   // Ensure updated (newest) images appear last
-  const galleryImages = project.images.slice().reverse();
+  const galleryImages = project.images;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
