@@ -144,7 +144,21 @@ const FeaturedProjects = () => {
                             ? `BUA: ${project.price}${/\d$/.test(project.price) ? ' sqft' : ''}`
                             : project.client}
                         </div>
-                      </div>
+                          {project.explore && (
+    <Link
+      to={`/projects/${project._id}`}
+      className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
+    >
+      Explore
+      <ArrowRight
+        size={16}
+        className={`ml-1 transition-transform duration-300 ${
+          hoveredProject === project._id ? 'translate-x-1' : ''
+        }`}
+      />
+    </Link>
+  )}
+</div>
                     </div>
                   </div>
                 </motion.div>
