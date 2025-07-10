@@ -112,7 +112,7 @@ const AdminProjects: React.FC = () => {
     // Append other form fields
     Object.entries(formData).forEach(([key, value]) => {
       if (key === 'amenities') {
-        value.forEach((item: string) => data.append(key, item));
+        (value as string[]).forEach((item: string) => data.append(key, item));
       } else if (key === 'specifications') {
         data.append(key, JSON.stringify(value));
       } else if (key === 'explore') { // Ensure boolean is sent as 'true' or 'false' string
