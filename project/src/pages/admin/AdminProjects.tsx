@@ -247,30 +247,52 @@ const AdminProjects: React.FC = () => {
               </div>
 
               {/* Show both existing and new images */}
-              {(existingImages.length>0 || selectedFiles.length>0) && (
-                <div className="mt-4 grid grid-cols-4 gap-2">
-                 {existingImages.map((img, i) => (
-  <div key={`old-${i}`} className="relative w-20 h-20">
-    <img
-      src={img.url}
-      alt={`Existing ${i}`}
-      className="w-full h-full object-cover rounded border"
-    />
-    <button
-      type="button"
-      onClick={() => {
-        const updatedImages = existingImages.filter((_, index) => index !== i);
-        setExistingImages(updatedImages);
-      }}
-      className="absolute top-0 right-0 bg-white text-red-500 border border-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
-    >
-      ｘ
-    </button>
-  </div>
-))}
+             {(existingImages.length > 0 || selectedFiles.length > 0) && (
+  <div className="mt-4 grid grid-cols-4 gap-2">
+    {/* Existing Images with Remove Button */}
+    {existingImages.map((img, i) => (
+      <div key={`old-${i}`} className="relative w-20 h-20">
+        <img
+          src={img.url}
+          alt={`Existing ${i}`}
+          className="w-full h-full object-cover rounded border"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            const updatedImages = existingImages.filter((_, index) => index !== i);
+            setExistingImages(updatedImages);
+          }}
+          className="absolute top-0 right-0 bg-white text-red-600 border border-red-600 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
+        >
+          ✖
+        </button>
+      </div>
+    ))}
 
-                </div>
-              )}
+    {/* New Selected Files with Remove Button */}
+    {selectedFiles.map((file, i) => (
+      <div key={`new-${i}`} className="relative w-20 h-20">
+        <img
+          src={URL.createObjectURL(file)}
+          alt={`New ${i}`}
+          className="w-full h-full object-cover rounded border-2 border-primary-600"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            const updatedFiles = selectedFiles.filter((_, index) => index !== i);
+            setSelectedFiles(updatedFiles);
+          }}
+          className="absolute top-0 right-0 bg-white text-red-600 border border-red-600 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
+        >
+          ✖
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
 
               {/* Amenities */}
               <div className="mt-4">
