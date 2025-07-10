@@ -88,6 +88,30 @@ const FeaturedProjects = () => {
               const imageObj = project.images?.[0];
               const imageUrl = imageObj?.url || '/images/image1.jpg';
 
+              const imageContent = (
+                <div
+                  className={`relative h-64 overflow-hidden ${
+                    project.explore ? 'cursor-pointer' : 'cursor-default'
+                  }`}
+                >
+                  <img
+                    src={imageUrl}
+                    alt={project.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                    }}
+                  />
+                  <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
+                    {project.status}
+                  </div>
+                  <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
+                    {project.category}
+                  </div>
+                </div>
+              );
+
               return (
                 <motion.div
                   key={project._id}
@@ -100,45 +124,12 @@ const FeaturedProjects = () => {
                   onMouseLeave={() => setHoveredProject(null)}
                 >
                   <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-2">
-                    
                     {project.explore ? (
                       <Link to={`/projects/${project._id}`} className="block">
-                        <div className="relative h-64 overflow-hidden">
-                          <img
-                            src={imageUrl}
-                            alt={project.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = '/images/image1.jpg';
-                            }}
-                          />
-                          <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
-                            {project.status}
-                          </div>
-                          <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
-                            {project.category}
-                          </div>
-                        </div>
+                        {imageContent}
                       </Link>
                     ) : (
-                      <div className="relative h-64 overflow-hidden">
-                        <img
-                          src={imageUrl}
-                          alt={project.name}
-                          loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/images/image1.jpg';
-                          }}
-                        />
-                        <div className="absolute top-4 left-4 bg-[#8a731b] text-white text-xs font-semibold py-1 px-3 rounded capitalize">
-                          {project.status}
-                        </div>
-                        <div className="absolute top-4 right-4 bg-primary-900 text-white text-xs font-semibold py-1 px-3 rounded">
-                          {project.category}
-                        </div>
-                      </div>
+                      imageContent
                     )}
 
                     <div className="p-5 sm:p-6">
