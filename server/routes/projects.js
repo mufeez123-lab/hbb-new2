@@ -14,10 +14,10 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'projects',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
+    allowed_formats: ['jpg', 'jpeg', 'png'],
   },
 });
 
@@ -56,17 +56,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-/* === POST: Create New Project === */
-router.post('/', adminAuth, upload.array('images', 20), 
- async (req, res) => {
-  console.log('REQ.BODY:', req.body);
-console.log('REQ.FILES:', req.files);
-console.log('REQ.PARAMS:', req.params);
-
+/* === POST: Create Project === */
+router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
   try {
     const {
       name,
-      description,  
+      description,
       category,
       status,
       location,
@@ -77,20 +72,10 @@ console.log('REQ.PARAMS:', req.params);
       specifications,
     } = req.body;
 
-const imageFiles = req.files?.images || [];
-
-
-
-
-//this is to handle the case where no images or plans are uploaded
-const images = imageFiles.map((file) => ({
-    url: file.path,
-    public_id: file.filename,
-    type: 'main',
-  }));
-
-
-
+    const images = req.files.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
 
     const amenitiesArray = Array.isArray(amenities)
       ? amenities
@@ -100,10 +85,7 @@ const images = imageFiles.map((file) => ({
 
     let specificationsArray = [];
     if (specifications) {
-      let parsedSpecs =
-        typeof specifications === 'string'
-          ? JSON.parse(specifications)
-          : specifications;
+      const parsedSpecs = typeof specifications === 'string' ? JSON.parse(specifications) : specifications;
 
       specificationsArray = parsedSpecs.map((spec) => ({
         title: spec.title,
@@ -121,9 +103,9 @@ const images = imageFiles.map((file) => ({
       location,
       client,
       price,
+      images,
       amenities: amenitiesArray,
       explore: explore === 'true',
-      images,
       specifications: specificationsArray,
     });
 
@@ -131,19 +113,13 @@ const images = imageFiles.map((file) => ({
     req.app.get('io')?.emit('project:created', project);
     res.status(201).json(project);
   } catch (err) {
-   console.error('❌ POST Error:', err);
-res.status(500).json({ message: err.message || 'Something went wrong!' });
-
+    console.error('❌ POST Error:', err);
+    res.status(500).json({ message: err.message || 'Something went wrong!' });
   }
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images',20),
- async (req, res) => {
-  console.log('REQ.BODY:', req.body);
-  console.log('REQ.FILES:', req.files);
-  console.log('REQ.PARAMS:', req.params);
-
+router.put('/:id', adminAuth, upload.array('images', 20), async (req, res) => {
   try {
     const {
       name,
@@ -169,10 +145,7 @@ router.put('/:id', adminAuth, upload.array('images',20),
 
     let specificationsArray = [];
     if (specifications) {
-      let parsedSpecs =
-        typeof specifications === 'string'
-          ? JSON.parse(specifications)
-          : specifications;
+      const parsedSpecs = typeof specifications === 'string' ? JSON.parse(specifications) : specifications;
 
       specificationsArray = parsedSpecs.map((spec) => ({
         title: spec.title,
@@ -195,30 +168,22 @@ router.put('/:id', adminAuth, upload.array('images',20),
       specifications: specificationsArray,
     };
 
- 
-    const imageFiles = req.files?.images || [];
-
-
-    if (imageFiles.length > 0) {
-      for (const img of existingProject.images || []) {
+    // If new images uploaded, delete old ones and update
+    if (req.files.length > 0) {
+      for (const img of existingProject.images) {
         if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
       }
 
-      updateData.images = imageFiles.map((file) => ({
+      updateData.images = req.files.map((file) => ({
         url: file.path,
         public_id: file.filename,
-        type: 'main',
       }));
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
+    const updated = await Project.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
-    req.app.get('io')?.emit('project:updated', updatedProject);
-    res.json(updatedProject);
+    req.app.get('io')?.emit('project:updated', updated);
+    res.json(updated);
   } catch (err) {
     console.error('❌ PUT Error:', err);
     res.status(500).json({ message: err.message || 'Something went wrong!' });
@@ -243,4 +208,4 @@ router.delete('/:id', adminAuth, async (req, res) => {
   }
 });
 
-module.exports = router;  
+module.exports = router;
