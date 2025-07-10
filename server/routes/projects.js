@@ -64,6 +64,7 @@ router.post('/', adminAuth, upload.fields([
  async (req, res) => {
   console.log('REQ.BODY:', req.body);
 console.log('REQ.FILES:', req.files);
+console.log('REQ.PARAMS:', req.params);
 
   try {
     const {
@@ -138,8 +139,9 @@ const images = [
     req.app.get('io')?.emit('project:created', project);
     res.status(201).json(project);
   } catch (err) {
-    console.error('POST Error:', err);
-    res.status(400).json({ message: err.message });
+   console.error('❌ POST Error:', err);
+res.status(500).json({ message: err.message || 'Something went wrong!' });
+
   }
 });
 
@@ -147,6 +149,7 @@ const images = [
 router.put('/:id', adminAuth, upload.array('images',10), async (req, res) => {
   console.log('REQ.BODY:', req.body);
 console.log('REQ.FILES:', req.files);
+console.log('REQ.PARAMS:', req.params);
 
   try {
     const {
@@ -234,8 +237,9 @@ if (imageFiles.length > 0 || planFiles.length > 0) {
     req.app.get('io')?.emit('project:updated', updatedProject);
     res.json(updatedProject);
   } catch (err) {
-    console.error('PUT Error:', err);
-    res.status(400).json({ message: err.message });
+   console.error('❌ PUT Error:', err);
+    res.status(500).json({ message: err.message || 'Something went wrong!' });
+
   }
 });
 
