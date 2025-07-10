@@ -166,13 +166,29 @@ const ProjectDetailPage = () => {
       </div>
 
      {/* Plans Section */}
-      <div className="bg-white mt-6 p-6 rounded ">
-        <h3 className="text-2xl font-serif text-neutral-500 mb-2">Plans</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
-          <div className="w-full h-64 bg-[#8a731b] rounded "></div>
-        </div>
-      </div>
+<div className="bg-white mt-6 p-6 rounded">
+  <h3 className="text-2xl font-serif text-neutral-500 mb-2">Plans</h3>
+  {project.plans && project.plans.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {project.plans.map((plan, idx) => (
+        <img
+          key={idx}
+          src={plan.url}
+          alt={`plan-${idx}`}
+          className="w-full h-64 object-cover rounded border border-neutral-200"
+          loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/images/image1.jpg';
+          }}
+        />
+      ))}
+    </div>
+  ) : (
+    <p className="text-sm text-neutral-400 italic">No floor plans available.</p>
+  )}
+</div>
+
 
 
       {/* Specifications */}

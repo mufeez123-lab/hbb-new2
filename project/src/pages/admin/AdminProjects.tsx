@@ -48,8 +48,9 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
+  const [selectedPlans,setSelectedPlans]=useState<File[]>([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -85,7 +86,10 @@ const AdminProjects: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
-    if (selectedFile) data.append('images', selectedFile);
+   selectedFile.forEach((file) => data.append('images', file));
+   selectedPlans.forEach((file) => data.append('plans', file));
+
+
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities' && key !== 'specifications') {
@@ -147,7 +151,9 @@ const AdminProjects: React.FC = () => {
       explore: true,
       specifications: [],
     });
-    setSelectedFile(null);
+    setSelectedFile([]);
+    setSelectedPlans([]); 
+
     setOpen(false);
   };
 
@@ -204,7 +210,9 @@ const AdminProjects: React.FC = () => {
                               specifications: project.specifications || [],
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile(null);
+                            setSelectedFile([]);
+                            setSelectedPlans([]); 
+
                             setOpen(true);
                           }}
                           className="text-blue-600 hover:text-blue-800"
@@ -274,9 +282,19 @@ const AdminProjects: React.FC = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+               onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
                   className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
                 />
+                <p>images uploads</p>
+                <input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) => setSelectedPlans(Array.from(e.target.files || []))}
+  className="px-3 py-2 border rounded-md col-span-1 md:col-span-3"
+/>
+<p>Plans uploads</p>
+
               </div>
 
               {/* Amenities */}
