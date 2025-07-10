@@ -78,7 +78,7 @@ console.log('REQ.PARAMS:', req.params);
     } = req.body;
 
 const imageFiles = req.files?.images || [];
-const planFiles = req.files?.plans || [];
+
 
 
 
@@ -195,10 +195,9 @@ router.put('/:id', adminAuth, upload.array('images',20),
       specifications: specificationsArray,
     };
 
-    //this is to handle the case where no images or plans are uploaded
+ 
     const imageFiles = req.files?.images || [];
-    // planFiles is not defined or used, so remove reference to it
-    // const planFiles = req.files?.plans || [];
+
 
     if (imageFiles.length > 0) {
       for (const img of existingProject.images || []) {
