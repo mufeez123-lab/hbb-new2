@@ -80,8 +80,9 @@ console.log('REQ.PARAMS:', req.params);
       specifications,
     } = req.body;
 
-   const imageFiles = req.files || [];
-const planFiles = req.files || [];
+const imageFiles = req.files?.images || [];
+const planFiles = req.files?.plans || [];
+
 
 
 //this is to handle the case where no images or plans are uploaded
@@ -146,7 +147,11 @@ res.status(500).json({ message: err.message || 'Something went wrong!' });
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images',10), async (req, res) => {
+router.put('/:id', adminAuth, upload.fields([
+  { name: 'images', maxCount: 10 },
+  { name: 'plans', maxCount: 10 },
+]),
+ async (req, res) => {
   console.log('REQ.BODY:', req.body);
 console.log('REQ.FILES:', req.files);
 console.log('REQ.PARAMS:', req.params);
