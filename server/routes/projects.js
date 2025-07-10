@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) => {
 });
 
 /* === POST: Create New Project === */
-router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
+router.post('/', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'plans',maxCount:5}]), async (req, res) => {
   try {
     const {
       name,
@@ -72,9 +72,18 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       specifications,
     } = req.body;
 
-    const images = req.files.map((file) => ({
+    //this is for images
+     const imageFiles = req.files['images'] || [];
+    const images = imageFiles.map((file) => ({
       url: file.path,
       public_id: file.filename,
+    }));
+
+    //this is for plans
+      const planFiles = req.files['plans'] || [];
+      const plans = planFiles.map(file => ({
+      url: file.path,
+      public_id: file.filename
     }));
 
     const amenitiesArray = Array.isArray(amenities)
@@ -109,6 +118,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
       amenities: amenitiesArray,
       explore: explore === 'true',
       images,
+      plans,
       specifications: specificationsArray,
     });
 
@@ -122,7 +132,7 @@ router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
+router.put('/:id', adminAuth, upload.fields([{name:'images',maxCount:5},{name:'plans',maxCount:5}]), async (req, res) => {
   try {
     const {
       name,
@@ -174,6 +184,7 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
       specifications: specificationsArray,
     };
 
+    //this is for images
     if (req.files && req.files.length > 0) {
       for (const img of existingProject.images) {
         if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
@@ -184,6 +195,20 @@ router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
         public_id: file.filename,
       }));
     }
+
+    //this is for plans
+    if (req.files?.plans?.length > 0) {
+  // Delete old plans from cloudinary
+  for (const plan of existingProject.plans || []) {
+    if (plan.public_id) await cloudinary.uploader.destroy(plan.public_id);
+  }
+
+  // Add new plans
+  updateData.plans = req.files.plans.map((file) => ({
+    url: file.path,
+    public_id: file.filename,
+  }));
+}
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
