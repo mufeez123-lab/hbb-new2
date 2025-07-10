@@ -16,7 +16,7 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-   images: { url: string; public_id: string }[];
+  images: { url: string; public_id: string }[];
   category: string;
   status: string;
   location: string;
@@ -24,7 +24,7 @@ interface Project {
   price?: string;
   amenities?: string[];
   explore?: boolean;
-    specifications?: { title: string; description: string[] }[]; 
+  specifications?: { title: string; description: string[] }[];
 }
 
 const defaultAmenities = [
@@ -48,13 +48,8 @@ const amenityIcons: { [key: string]: JSX.Element } = {
 const AdminProjects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [open, setOpen] = useState(false);
-const [selectedFile, setSelectedFile] = useState<{ images: File[] }>({
-  images: [],
-});
-
-
+  const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-
 
   const [formData, setFormData] = useState({
     name: '',
@@ -66,7 +61,7 @@ const [selectedFile, setSelectedFile] = useState<{ images: File[] }>({
     price: '',
     amenities: [] as string[],
     explore: true,
-   specifications: [] as { title: string; description: string[] }[],
+    specifications: [] as { title: string; description: string[] }[],
   });
 
   const token = localStorage.getItem('adminToken');
@@ -90,12 +85,10 @@ const [selectedFile, setSelectedFile] = useState<{ images: File[] }>({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
- if (!editingProjectId || selectedFile.images.length > 0 ) {
-  selectedFile.images.forEach((file) => data.append('images', file));
-}
 
-
-
+    if (!editingProjectId || selectedFile.length > 0) {
+      selectedFile.forEach((file) => data.append('images', file));
+    }
 
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'amenities' && key !== 'specifications') {
@@ -157,9 +150,7 @@ const [selectedFile, setSelectedFile] = useState<{ images: File[] }>({
       explore: true,
       specifications: [],
     });
-setSelectedFile({ images: []});
-  
-
+    setSelectedFile([]);
     setOpen(false);
   };
 
@@ -216,9 +207,7 @@ setSelectedFile({ images: []});
                               specifications: project.specifications || [],
                             });
                             setEditingProjectId(project._id);
-                            setSelectedFile({ images: [] });
-                            
-
+                            setSelectedFile([]);
                             setOpen(true);
                           }}
                           className="text-blue-600 hover:text-blue-800"
@@ -241,10 +230,10 @@ setSelectedFile({ images: []});
         </main>
       </div>
 
+      {/* Modal UI remains unchanged except for one file input */}
       {open && (
-       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-  <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">
               {editingProjectId ? 'Update Project' : 'Add New Project'}
             </h2>
@@ -285,27 +274,15 @@ setSelectedFile({ images: []});
                   <option value="completed">Completed</option>
                 </select>
 
-               {/* Main Images Upload */}
-<label className="block mt-4 font-medium">Project Images</label>
-<input
-  key={editingProjectId ? 'edit-images' : 'create-images'}
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) =>
-    setSelectedFile((prev) => ({
-      ...prev,
-      images: Array.from(e.target.files || []),
-    }))
-  }
-  className="px-3 py-2 border rounded-md w-full"
-/>
-
-
-
-
-                
-
+                <label className="block mt-4 font-medium">Project Images</label>
+                <input
+                  key={editingProjectId ? 'edit-images' : 'create-images'}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => setSelectedFile(Array.from(e.target.files || []))}
+                  className="px-3 py-2 border rounded-md w-full"
+                />
               </div>
 
               {/* Amenities */}
