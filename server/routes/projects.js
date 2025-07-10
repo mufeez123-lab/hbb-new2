@@ -76,8 +76,8 @@ router.post('/', adminAuth, upload.fields([
       specifications,
     } = req.body;
 
-   const imageFiles = req.files['images'] || [];
-const planFiles = req.files['plans'] || [];
+   const imageFiles = req.files || [];
+const planFiles = req.files || [];
 
 
 //this is to handle the case where no images or plans are uploaded
@@ -194,8 +194,8 @@ router.put('/:id', adminAuth, upload.array('images',10), async (req, res) => {
     };
 
     //this is to handle the case where no images or plans are uploaded
-const imageFiles = req.files['images'] || [];
-const planFiles = req.files['plans'] || [];
+const imageFiles = req.files || [];
+const planFiles = req.files || [];
 
 
 if (imageFiles.length > 0 || planFiles.length > 0) {
