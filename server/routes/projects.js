@@ -14,10 +14,10 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: cloudinary,
   params: {
     folder: 'projects',
-    allowed_formats: ['jpg', 'jpeg', 'png'],
+    allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
 
@@ -56,8 +56,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-/* === POST: Create Project === */
-router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
+/* === POST: Create New Project === */
+router.post('/', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
     const {
       name,
@@ -74,7 +74,7 @@ router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
 
     const images = req.files.map((file) => ({
       url: file.path,
-      public_id: file.filename || file.public_id,
+      public_id: file.filename,
     }));
 
     const amenitiesArray = Array.isArray(amenities)
@@ -85,7 +85,10 @@ router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
 
     let specificationsArray = [];
     if (specifications) {
-      const parsedSpecs = typeof specifications === 'string' ? JSON.parse(specifications) : specifications;
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
 
       specificationsArray = parsedSpecs.map((spec) => ({
         title: spec.title,
@@ -103,9 +106,9 @@ router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
       location,
       client,
       price,
-      images,
       amenities: amenitiesArray,
       explore: explore === 'true',
+      images,
       specifications: specificationsArray,
     });
 
@@ -113,13 +116,13 @@ router.post('/', adminAuth, upload.array('images', 20), async (req, res) => {
     req.app.get('io')?.emit('project:created', project);
     res.status(201).json(project);
   } catch (err) {
-    console.error('❌ POST Error:', err);
-    res.status(500).json({ message: err.message || 'Something went wrong!' });
+    console.error('POST Error:', err);
+    res.status(400).json({ message: err.message });
   }
 });
 
 /* === PUT: Update Project === */
-router.put('/:id', adminAuth, upload.array('images', 20), async (req, res) => {
+router.put('/:id', adminAuth, upload.array('images', 5), async (req, res) => {
   try {
     const {
       name,
@@ -145,7 +148,10 @@ router.put('/:id', adminAuth, upload.array('images', 20), async (req, res) => {
 
     let specificationsArray = [];
     if (specifications) {
-      const parsedSpecs = typeof specifications === 'string' ? JSON.parse(specifications) : specifications;
+      let parsedSpecs =
+        typeof specifications === 'string'
+          ? JSON.parse(specifications)
+          : specifications;
 
       specificationsArray = parsedSpecs.map((spec) => ({
         title: spec.title,
@@ -168,8 +174,7 @@ router.put('/:id', adminAuth, upload.array('images', 20), async (req, res) => {
       specifications: specificationsArray,
     };
 
-    // If new images uploaded, delete old ones and update
-    if (req.files.length > 0) {
+    if (req.files && req.files.length > 0) {
       for (const img of existingProject.images) {
         if (img.public_id) await cloudinary.uploader.destroy(img.public_id);
       }
@@ -180,13 +185,17 @@ router.put('/:id', adminAuth, upload.array('images', 20), async (req, res) => {
       }));
     }
 
-    const updated = await Project.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
 
-    req.app.get('io')?.emit('project:updated', updated);
-    res.json(updated);
+    req.app.get('io')?.emit('project:updated', updatedProject);
+    res.json(updatedProject);
   } catch (err) {
-    console.error('❌ PUT Error:', err);
-    res.status(500).json({ message: err.message || 'Something went wrong!' });
+    console.error('PUT Error:', err);
+    res.status(400).json({ message: err.message });
   }
 });
 
