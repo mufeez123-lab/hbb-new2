@@ -60,29 +60,32 @@ const BoardOfDirectorDetailPage = () => {
         &larr; Back to About
       </Link>
 
-      <div className="flex flex-col md:flex-row gap-10 items-start bg-white p-6 rounded-lg shadow-md">
-        <div className="md:w-1/3 w-full">
-          <img
-            src={imageURL}
-            alt={director.name}
-            className="w-full h-auto object-cover rounded-md shadow-sm"
-          />
-        </div>
+      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row gap-6 items-start">
+  {/* Profile Image */}
+  <div className="md:w-1/3 w-full">
+    <img
+      src={imageURL}
+      alt={director.name}
+      className="w-full h-auto object-cover rounded-md border border-gray-200"
+    />
+  </div>
 
-        <div className="md:w-2/3 w-full">
-          <h1 className="text-2xl font-semibold text-neutral-800 mb-1">{director.name}</h1>
-          <p className="text-sm text-neutral-600 font-medium mb-6">{director.position}</p>
+  {/* Info Section */}
+  <div className="md:w-2/3 w-full">
+    <h1 className="text-3xl font-bold text-neutral-800 mb-1">{director.name}</h1>
+    <p className="text-lg text-gray-600 font-medium mb-4">{director.position}</p>
 
-          {director.bio ? (
-            <div
-              className="prose max-w-none text-neutral-800"
-              dangerouslySetInnerHTML={{ __html: director.bio }}
-            />
-          ) : (
-            <p className="text-neutral-500 italic">Bio not available.</p>
-          )}
-        </div>
-      </div>
+    {director.bio ? (
+      <div
+        className="text-sm leading-[1.9] text-justify text-neutral-800 space-y-4"
+        dangerouslySetInnerHTML={{ __html: director.bio }}
+      />
+    ) : (
+      <p className="text-neutral-500 italic">Bio not available.</p>
+    )}
+  </div>
+</div>
+
     </div>
   );
 };
