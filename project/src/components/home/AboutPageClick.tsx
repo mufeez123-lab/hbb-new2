@@ -172,27 +172,32 @@ const AboutPageClick = () => {
                     : '/default-avatar.png';
 
                 return (
-                  <Link to={`/board/${director._id}`} key={director._id} className="block">
-                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden hover:shadow-lg transition duration-300">
-                      <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden p-1">
-                        <img
-                          src={imageURL}
-                          alt={director.name || 'Director'}
-                          className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105 rounded-lg"
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.src = '/default-avatar.png';
-                          }}
-                        />
-                      </div>
-                      <div className="p-3 text-center">
-                        <h4 className="text-lg font-semibold text-[#8a6c1a]">
-                          {director.name}
-                        </h4>
-                        <p className="text-neutral-600 text-sm">{director.position}</p>
-                      </div>
-                    </div>
-                  </Link>
+               <Link to={`/board/${director._id}`} key={director._id} className="block group">
+  <div className="bg-white border border-neutral-200 overflow-hidden transition duration-300">
+    <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden relative p-1">
+      <img
+        src={imageURL}
+        alt={director.name || 'Director'}
+        className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+        loading="lazy"
+        onError={(e) => {
+          e.currentTarget.src = '/default-avatar.png';
+        }}
+      />
+      {/* Hover overlay icon */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <span className="text-white text-xl  bg-opacity-50 p-0 ">
+          +
+        </span>
+      </div>
+    </div>
+    <div className="p-3 text-center">
+      <h4 className="text-lg font-semibold text-[#8a6c1a]">{director.name}</h4>
+      <p className="text-neutral-600 text-sm">{director.position}</p>
+    </div>
+  </div>
+</Link>
+
                 );
               })}
             </div>
