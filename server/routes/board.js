@@ -33,6 +33,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ==== PUBLIC: Get a single board member by ID ====
+router.get('/:id', async (req, res) => {
+  try {
+    const member = await BoardMember.findById(req.params.id);
+    if (!member) {
+      return res.status(404).json({ message: 'Board member not found' });
+    }
+    res.json(member);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching board member' });
+  }
+});
+
 // ==== ADMIN: Create board member ====
 router.post('/', adminAuth, upload.single('image'), async (req, res) => {
   try {
