@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-quill/dist/quill.snow.css';
+
 
 interface Director {
   _id: string;
@@ -190,16 +193,25 @@ const BoardOfDirectorsPage: React.FC = () => {
                   className="w-full px-3 py-2 border rounded-md"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-                <textarea
-                  value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  rows={4}
-                  placeholder="Include heading, subheading or description"
-                  className="w-full px-3 py-2 border rounded-md resize-y"
-                />
-              </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+  <ReactQuill
+    theme="snow"
+    value={formData.bio}
+    onChange={(value) => setFormData({ ...formData, bio: value })}
+    className="bg-white rounded-md"
+    placeholder="Include heading, subheading or description"
+    modules={{
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'clean'],
+      ],
+    }}
+  />
+</div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Photo</label>
                 <input
