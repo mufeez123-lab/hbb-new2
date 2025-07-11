@@ -69,7 +69,7 @@ const ProjectDetailPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
-      <div className="bg-white shadow-lg overflow-hidden rounded-lg h-full pb-8">
+      <div className="bg-white shadow-lg overflow-hidden h-full pb-8">
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[400px]">
             <Slider dots infinite speed={1000} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={3000} lazyLoad="progressive" className="h-full">
