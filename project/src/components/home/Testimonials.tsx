@@ -2,8 +2,6 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const Testimonials = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <section className="bg-white text-black py-16 px-6 md:px-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
@@ -29,28 +27,24 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
-        {/* Right Side - AutoPlay Video */}
+        {/* Right Side - Static Image with Play Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-          <div className="relative w-full aspect-video max-w-xl rounded-xl overflow-hidden shadow-lg">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source
-                src="/test1.mp4"
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
+          <div className="relative w-full max-w-xl rounded-xl overflow-hidden shadow-lg">
+            <img
+              src="/your-image.jpg"  // Replace with your image path
+              alt="Testimonial Image"
+              className="w-full h-auto object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+              <button className="text-white text-4xl">
+                <span className="material-icons">play_circle_filled</span>
+              </button>
+            </div>
           </div>
         </motion.div>
 
