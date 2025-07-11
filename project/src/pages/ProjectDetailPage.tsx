@@ -139,19 +139,29 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       )}
-      {galleryImages.length > 0 && (
-        <div className="bg-white mt-6 px-6 py-8 rounded">
-          <div className="flex items-center gap-4 mb-6">
-            <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
-            <div className="flex-1 border-t border-neutral-200" />
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {galleryImages.map((img, idx) => (
-              <img key={idx} src={img.url} alt={`gallery-${idx}`} className="w-full h-56 object-cover rounded border border-neutral-200" loading="lazy" />
-            ))}
-          </div>
-        </div>
-      )}
+    {galleryImages.length > 0 && (
+  <div className="bg-white mt-6 px-6 py-8 rounded">
+    <div className="w-3/4 mx-auto">
+      <div className="flex items-center gap-4 mb-6">
+        <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
+        <div className="flex-1 border-t border-neutral-200" />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {galleryImages.map((img, idx) => (
+          <img
+            key={idx}
+            src={img.url}
+            alt={`gallery-${idx}`}
+            className="w-full h-56 object-cover rounded border border-neutral-200"
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+
     </motion.div>
   );
 };
