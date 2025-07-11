@@ -114,7 +114,7 @@ const ProjectDetailPage = () => {
   <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
   <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
   <div
-    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-base [&_ul]:list-disc [&_ul]:pl-5 [&_li]:text-black"
+    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_li]:text-black"
     dangerouslySetInnerHTML={{ __html: project.description }}
   />
 </div>
@@ -142,24 +142,25 @@ const ProjectDetailPage = () => {
       )}
     {galleryImages.length > 0 && (
   <div className="bg-white mt-6 px-6 py-8 rounded">
-    <div className="w-3/4 mx-auto">
-      <div className="flex items-center gap-4 mb-6">
-        <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
-        <div className="flex-1 border-t border-neutral-200" />
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {galleryImages.map((img, idx) => (
-          <img
-            key={idx}
-            src={img.url}
-            alt={`gallery-${idx}`}
-            className="w-full h-56 object-cover rounded border border-neutral-200"
-            loading="lazy"
-          />
-        ))}
-      </div>
+  <div className="w-3/4 mx-auto">
+    <div className="flex items-center gap-4 mb-6">
+      <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
+      <div className="flex-1 border-t border-neutral-200" />
+    </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {galleryImages.map((img, idx) => (
+        <img
+          key={idx}
+          src={img.url}
+          alt={`gallery-${idx}`}
+          className="w-40 h-40 object-cover rounded border border-neutral-200"
+          loading="lazy"
+        />
+      ))}
     </div>
   </div>
+</div>
+
 )}
 
 
