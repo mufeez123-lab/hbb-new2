@@ -21,7 +21,7 @@ const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
       <Link to="/" className="hover:text-[#8a6c1a]">Home</Link> 
       <Link to="/aboutclick" className="hover:text-[#8a6c1a]">About</Link> 
       <Link to="/aboutclick" className="hover:text-[#8a6c1a]">Awards</Link>
-      <Link to="/brands" className="hover:text-[#8a6c1a]">Our Brands</Link>
+      <Link to="/projects" className="hover:text-[#8a6c1a]">Projects</Link>
       <Link to="/faqs" className="hover:text-[#8a6c1a]">FAQs</Link>
       <Link to="/contact" className="hover:text-[#8a6c1a]">Contact</Link>
 
