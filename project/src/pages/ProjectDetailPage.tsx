@@ -75,9 +75,24 @@ const ProjectDetailPage = () => {
       <div className="bg-white shadow-lg overflow-hidden h-full pb-8">
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[400px]">
-            <Slider dots infinite speed={1000} slidesToShow={1} slidesToScroll={1} autoplay autoplaySpeed={3000} lazyLoad="progressive" className="h-full">
+            <Slider
+              dots
+              infinite
+              speed={1000}
+              slidesToShow={1}
+              slidesToScroll={1}
+              autoplay
+              autoplaySpeed={3000}
+              lazyLoad="progressive"
+              className="h-full"
+            >
               {galleryImages.map((img, idx) => (
-                <img key={idx} src={img.url} alt={`${project.name}-${idx}`} className="object-cover w-full h-[400px]" />
+                <img
+                  key={idx}
+                  src={img.url}
+                  alt={`${project.name}-${idx}`}
+                  className="object-cover w-full h-[400px]"
+                />
               ))}
             </Slider>
           </div>
@@ -93,7 +108,10 @@ const ProjectDetailPage = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-0">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
-                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center hover:shadow transition h-24 p-2">
+                    <div
+                      key={idx}
+                      className="border border-neutral-200 flex flex-col justify-center items-center text-center hover:shadow transition h-24 p-2"
+                    >
                       {amenityIcons[item] || <div className="text-xl text-gray-400 mb-1">❓</div>}
                       <span className="text-xs text-neutral-700 mt-1 text-center">{item}</span>
                     </div>
@@ -115,7 +133,7 @@ const ProjectDetailPage = () => {
         </div>
       </div>
 
-      {/* About Section */}
+      {/* About */}
       <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
         <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
         <div
@@ -130,7 +148,10 @@ const ProjectDetailPage = () => {
           <h3 className="text-2xl font-serif text-neutral-800 mb-4">Specifications</h3>
           <div className="divide-y border rounded border-neutral-200 w-3/4">
             {project.specifications.map((spec, index) => (
-              <details key={index} className="group p-4 hover:bg-neutral-50 transition duration-300">
+              <details
+                key={index}
+                className="group p-4 hover:bg-neutral-50 transition duration-300"
+              >
                 <summary className="cursor-pointer flex justify-between items-center font-medium text-[#8a731b]">
                   {spec.title}
                   <span className="text-black transition-transform group-open:rotate-90 text-xl">▶</span>
@@ -146,7 +167,7 @@ const ProjectDetailPage = () => {
         </div>
       )}
 
-      {/* Gallery with Modal */}
+      {/* Gallery */}
       {galleryImages.length > 0 && (
         <div className="bg-white mt-6 px-6 py-8 rounded">
           <div className="w-3/4 ml-0">
@@ -156,14 +177,23 @@ const ProjectDetailPage = () => {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {galleryImages.map((img, idx) => (
-                <img
+                <div
                   key={idx}
-                  src={img.url}
-                  alt={`gallery-${idx}`}
-                  className="w-full h-40 object-cover rounded border border-neutral-200 cursor-pointer"
-                  loading="lazy"
+                  className="relative cursor-pointer group"
                   onClick={() => setSelectedImage(img.url)}
-                />
+                >
+                  <img
+                    src={img.url}
+                    alt={`gallery-${idx}`}
+                    className="w-full h-40 object-cover rounded border border-neutral-200 group-hover:opacity-75 transition"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                    <span className="text-white text-3xl bg-black bg-opacity-50 p-2 rounded-full">
+                      🔍
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -180,7 +210,11 @@ const ProjectDetailPage = () => {
             >
               ×
             </button>
-            <img src={selectedImage} alt="Enlarged" className="w-full max-h-[90vh] object-contain rounded shadow-lg" />
+            <img
+              src={selectedImage}
+              alt="Enlarged"
+              className="w-full max-h-[90vh] object-contain rounded shadow-lg"
+            />
           </div>
         </div>
       )}
