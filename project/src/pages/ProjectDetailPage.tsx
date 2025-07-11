@@ -1,10 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { projectsAPI } from '../services/api';
-import { FiPhone } from 'react-icons/fi';
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom'; 
 import {
   FaSwimmingPool,
   FaCar,
@@ -43,6 +41,7 @@ const ProjectDetailPage = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -64,11 +63,15 @@ const ProjectDetailPage = () => {
   if (loading) return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
   if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
 
-  // Ensure updated (newest) images appear last
   const galleryImages = project.images;
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="container mx-auto px-4 py-12 mt-20">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="container mx-auto px-4 py-12 mt-20"
+    >
       <div className="bg-white shadow-lg overflow-hidden h-full pb-8">
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[400px]">
@@ -90,7 +93,7 @@ const ProjectDetailPage = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-0">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
-                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center  hover:shadow transition h-24 p-2">
+                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center hover:shadow transition h-24 p-2">
                       {amenityIcons[item] || <div className="text-xl text-gray-400 mb-1">❓</div>}
                       <span className="text-xs text-neutral-700 mt-1 text-center">{item}</span>
                     </div>
@@ -101,25 +104,27 @@ const ProjectDetailPage = () => {
               </div>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-             <Link
-  to="/contact"
-  className=" block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
->
-  Contact Us
-</Link>
+              <Link
+                to="/contact"
+                className="block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
         </div>
       </div>
-  <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
-  <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
-  <div
-    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_li]:text-black"
-    dangerouslySetInnerHTML={{ __html: project.description }}
-  />
-</div>
 
+      {/* About Section */}
+      <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
+        <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
+        <div
+          className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_li]:text-black"
+          dangerouslySetInnerHTML={{ __html: project.description }}
+        />
+      </div>
 
+      {/* Specifications */}
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
           <h3 className="text-2xl font-serif text-neutral-800 mb-4">Specifications</h3>
@@ -140,30 +145,45 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       )}
-    {galleryImages.length > 0 && (
-  <div className="bg-white mt-6 px-6 py-8 rounded">
-  <div className="w-3/4 ml-0">
-    <div className="flex items-center gap-4 mb-6">
-      <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
-      <div className="flex-1 border-t border-neutral-200" />
-    </div>
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-      {galleryImages.map((img, idx) => (
-        <img
-          key={idx}
-          src={img.url}
-          alt={`gallery-${idx}`}
-          className="w-30 h-40 object-cover rounded border border-neutral-200"
-          loading="lazy"
-        />
-      ))}
-    </div>
-  </div>
-</div>
 
-)}
+      {/* Gallery with Modal */}
+      {galleryImages.length > 0 && (
+        <div className="bg-white mt-6 px-6 py-8 rounded">
+          <div className="w-3/4 ml-0">
+            <div className="flex items-center gap-4 mb-6">
+              <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
+              <div className="flex-1 border-t border-neutral-200" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {galleryImages.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img.url}
+                  alt={`gallery-${idx}`}
+                  className="w-full h-40 object-cover rounded border border-neutral-200 cursor-pointer"
+                  loading="lazy"
+                  onClick={() => setSelectedImage(img.url)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
-
+      {/* Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="relative max-w-4xl w-full mx-4">
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-2 right-4 text-white text-3xl font-bold hover:text-red-500"
+            >
+              ×
+            </button>
+            <img src={selectedImage} alt="Enlarged" className="w-full max-h-[90vh] object-contain rounded shadow-lg" />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
