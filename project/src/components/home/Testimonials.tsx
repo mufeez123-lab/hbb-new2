@@ -1,9 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 const Testimonials = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <section className="bg-white text-black py-16 px-6 md:px-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
@@ -21,15 +19,15 @@ const Testimonials = () => {
             What Our Customer Say<span className="text-primary-600">?</span>
           </h2>
           <p className="text-lg leading-relaxed mb-4">
-            Mr. Mahammad, a happy owner speaking about their experience staying at his extravagant property
-            <span className="font-bold"> "Bawa Heights"</span>.
+            A happy owner speaking about their experience staying at his extravagant property
+            <span className="font-bold"> "Hindustan Builders"</span>.
           </p>
           <p className="text-md text-gray-700">
             Choose not just a house, but a lifestyle — your dream home begins with a wise choice.
           </p>
         </motion.div>
 
-        {/* Right Side - AutoPlay Video */}
+        {/* Right Side - YouTube Embed */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -37,21 +35,14 @@ const Testimonials = () => {
           className="flex justify-center"
         >
           <div className="relative w-full aspect-video max-w-xl rounded-xl overflow-hidden shadow-lg">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source
-                src="/HINDUSTAN BUILDERS.webm" type="video/webm" />
-                <source 
-                src="/HINDUSTAN BUILDERS.mp4" type="video/mp4" />
-              
-              Your browser does not support the video tag.
-            </video>
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/V0DbTALQ9oQ?autoplay=1&mute=1&loop=1&playlist=V0DbTALQ9oQ"
+              title="Customer Testimonial"
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            ></iframe>
           </div>
         </motion.div>
 
