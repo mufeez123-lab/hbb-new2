@@ -29,22 +29,21 @@ const Testimonials = () => {
 
         {/* Right Side - YouTube Embed */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center"
-        >
-          <div className="relative w-full aspect-video max-w-xl rounded-xl overflow-hidden shadow-lg">
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/V0DbTALQ9oQ?autoplay=1&mute=1&loop=1&playlist=V0DbTALQ9oQ"
-              title="Customer Testimonial"
-              frameBorder="0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </motion.div>
+  initial={{ opacity: 0, scale: 0.8 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.6 }}
+  className="flex justify-center"
+>
+  <div className="relative w-full aspect-video max-w-xl rounded-xl overflow-hidden shadow-lg">
+    <iframe
+      className="w-full h-full border-0"
+      src="https://www.youtube.com/embed/V0DbTALQ9oQ?autoplay=1&mute=1&loop=1&playlist=V0DbTALQ9oQ&controls=0&showinfo=0&modestbranding=1&rel=0"
+      title="Testimonial Video"
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+    ></iframe>
+  </div>
+</motion.div>
 
       </div>
     </section>
