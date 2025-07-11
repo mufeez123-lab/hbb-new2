@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 interface DirectorImage {
@@ -163,9 +164,7 @@ const AboutPageClick = () => {
               Our leadership team is being updated — check back shortly.
             </div>
           ) : (
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full px-4 sm:px-6 md:px-8">
-
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full px-4 sm:px-6 md:px-8">
               {directors.map((director) => {
                 const imageURL =
                   typeof director.image === 'object' && director.image.url
@@ -173,28 +172,27 @@ const AboutPageClick = () => {
                     : '/default-avatar.png';
 
                 return (
-                  <div
-                    key={director._id}
-                    className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden"
-                  >
-                    <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden p-1">
-                      <img
-                        src={imageURL}
-                        alt={director.name || 'Director'}
-                        className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105 rounded-lg"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.src = '/default-avatar.png';
-                        }}
-                      />
+                  <Link to={`/board/${director._id}`} key={director._id} className="block">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden hover:shadow-lg transition duration-300">
+                      <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden p-1">
+                        <img
+                          src={imageURL}
+                          alt={director.name || 'Director'}
+                          className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105 rounded-lg"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.src = '/default-avatar.png';
+                          }}
+                        />
+                      </div>
+                      <div className="p-3 text-center">
+                        <h4 className="text-lg font-semibold text-[#8a6c1a]">
+                          {director.name}
+                        </h4>
+                        <p className="text-neutral-600 text-sm">{director.position}</p>
+                      </div>
                     </div>
-                    <div className="p-3 text-center">
-                      <h4 className="text-lg font-semibold text-[#8a6c1a]">
-                        {director.name}
-                      </h4>
-                      <p className="text-neutral-600 text-sm">{director.position}</p>
-                    </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
