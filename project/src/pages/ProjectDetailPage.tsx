@@ -87,10 +87,10 @@ const ProjectDetailPage = () => {
             </div>
             <div className="mt-4">
               <h3 className="text-xl font-serif text-neutral-800 mb-2">Amenities</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-0">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-0">
                 {project.amenities && project.amenities.length > 0 ? (
                   project.amenities.map((item, idx) => (
-                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center rounded hover:shadow transition h-24 p-2">
+                    <div key={idx} className="border border-neutral-200 flex flex-col justify-center items-center text-center  hover:shadow transition h-24 p-2">
                       {amenityIcons[item] || <div className="text-xl text-gray-400 mb-1">❓</div>}
                       <span className="text-xs text-neutral-700 mt-1 text-center">{item}</span>
                     </div>
