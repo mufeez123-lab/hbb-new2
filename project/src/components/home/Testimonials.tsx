@@ -36,7 +36,7 @@ const Testimonials = () => {
         >
           <div className="relative w-full max-w-xl rounded-xl overflow-hidden shadow-lg">
             <img
-              src="/your-image.jpg"  // Replace with your image path
+              src="/logo-SVG.svg"  // Replace with your image path
               alt="Testimonial Image"
               className="w-full h-auto object-cover"
             />
