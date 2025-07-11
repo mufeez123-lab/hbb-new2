@@ -13,15 +13,16 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'board',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
+    allowed_formats: ['jpg', 'jpeg', 'png'],
   },
 });
 
 const upload = multer({ storage });
 const router = express.Router();
+
 
 // ==== PUBLIC: Get all active board members ====
 router.get('/', async (req, res) => {
@@ -32,6 +33,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // ==== PUBLIC: Get a single board member by ID ====
 router.get('/:id', async (req, res) => {
@@ -46,23 +48,26 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
 // ==== ADMIN: Create board member ====
 router.post('/', adminAuth, upload.single('image'), async (req, res) => {
   try {
-    const { name, position, order } = req.body;
+    const { name, position, order, bio } = req.body;
 
     if (!name || !position || !req.file) {
-      return res.status(400).json({ message: 'Please provide all required fields including an image file' });
+      return res.status(400).json({ message: 'Please provide all required fields including an image' });
     }
 
     const member = new BoardMember({
       name,
       position,
+      order: order || 0,
+      bio,
       image: {
         url: req.file.path,
         public_id: req.file.filename,
       },
-      order: order || 0,
+      isActive: true,
     });
 
     await member.save();
@@ -72,24 +77,26 @@ router.post('/', adminAuth, upload.single('image'), async (req, res) => {
   }
 });
 
+
 // ==== ADMIN: Update board member ====
 router.put('/:id', adminAuth, upload.single('image'), async (req, res) => {
   try {
-    const { name, position, order, isActive } = req.body;
+    const { name, position, order, bio, isActive } = req.body;
 
     const member = await BoardMember.findById(req.params.id);
     if (!member) {
       return res.status(404).json({ message: 'Board member not found' });
     }
 
-    // Delete previous image from Cloudinary if a new image is uploaded
-    if (req.file && member.image && member.image.public_id) {
+    // If new image is uploaded, delete the old one
+    if (req.file && member.image?.public_id) {
       await cloudinary.uploader.destroy(member.image.public_id);
     }
 
     member.name = name || member.name;
     member.position = position || member.position;
     member.order = order !== undefined ? order : member.order;
+    member.bio = bio !== undefined ? bio : member.bio;
     member.isActive = isActive !== undefined ? isActive : member.isActive;
 
     if (req.file) {
@@ -106,6 +113,7 @@ router.put('/:id', adminAuth, upload.single('image'), async (req, res) => {
   }
 });
 
+
 // ==== ADMIN: Delete board member ====
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
@@ -114,8 +122,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
       return res.status(404).json({ message: 'Board member not found' });
     }
 
-    // Delete image from Cloudinary
-    if (member.image && member.image.public_id) {
+    if (member.image?.public_id) {
       await cloudinary.uploader.destroy(member.image.public_id);
     }
 
