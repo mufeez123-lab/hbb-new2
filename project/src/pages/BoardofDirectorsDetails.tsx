@@ -52,7 +52,7 @@ const BoardOfDirectorDetailPage = () => {
       : '/default-avatar.png';
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-20">
+    <div className="max-w-6xl mx-auto px-4 py-20 mt-20">
       <Link
         to="/about"
         className="text-sm text-blue-600 mb-6 inline-block hover:underline"
