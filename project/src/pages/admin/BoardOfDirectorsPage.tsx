@@ -8,6 +8,7 @@ interface Director {
   _id: string;
   name: string;
   position: string;
+  bio?: string;
   image: {
     url: string;
     public_id?: string;
@@ -18,7 +19,7 @@ const BoardOfDirectorsPage: React.FC = () => {
   const [directors, setDirectors] = useState<Director[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState({ name: '', position: '' });
+  const [formData, setFormData] = useState({ name: '', position: '', bio: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const token = localStorage.getItem('adminToken');
@@ -47,6 +48,7 @@ const BoardOfDirectorsPage: React.FC = () => {
     const data = new FormData();
     data.append('name', formData.name);
     data.append('position', formData.position);
+    data.append('bio', formData.bio);
     if (selectedFile) data.append('image', selectedFile);
 
     try {
@@ -71,7 +73,7 @@ const BoardOfDirectorsPage: React.FC = () => {
       await fetchDirectors();
       setOpen(false);
       setSelectedFile(null);
-      setFormData({ name: '', position: '' });
+      setFormData({ name: '', position: '', bio: '' });
       setEditingId(null);
     } catch (err) {
       console.error(err);
@@ -103,7 +105,7 @@ const BoardOfDirectorsPage: React.FC = () => {
               <button
                 onClick={() => {
                   setOpen(true);
-                  setFormData({ name: '', position: '' });
+                  setFormData({ name: '', position: '', bio: '' });
                   setSelectedFile(null);
                   setEditingId(null);
                 }}
@@ -126,11 +128,18 @@ const BoardOfDirectorsPage: React.FC = () => {
                   </div>
                   <div className="p-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-1">{director.name}</h3>
-                    <p className="text-sm text-gray-500 mb-4">{director.position}</p>
+                    <p className="text-sm text-gray-500 mb-1">{director.position}</p>
+                    {director.bio && (
+                      <p className="text-xs text-gray-600 mb-2 line-clamp-3">{director.bio}</p>
+                    )}
                     <div className="flex justify-end space-x-4">
                       <button
                         onClick={() => {
-                          setFormData({ name: director.name, position: director.position });
+                          setFormData({
+                            name: director.name,
+                            position: director.position,
+                            bio: director.bio || '',
+                          });
                           setSelectedFile(null);
                           setOpen(true);
                           setEditingId(director._id);
@@ -182,6 +191,16 @@ const BoardOfDirectorsPage: React.FC = () => {
                 />
               </div>
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  rows={4}
+                  placeholder="Include heading, subheading or description"
+                  className="w-full px-3 py-2 border rounded-md resize-y"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Photo</label>
                 <input
                   type="file"
@@ -217,7 +236,6 @@ const BoardOfDirectorsPage: React.FC = () => {
         </div>
       )}
 
-      {/* 🛎️ Toast messages container */}
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
