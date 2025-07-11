@@ -54,7 +54,7 @@ const BoardOfDirectorDetailPage = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-20 mt-20">
       <Link
-        to="/about"
+        to="/aboutclick"
         className="text-sm text-blue-600 mb-6 inline-block hover:underline"
       >
         &larr; Back to About
