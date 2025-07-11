@@ -57,39 +57,8 @@ const Brands = () => {
         />
       </div>
 
-      {/* Scrolling Logos */}
+      {/* Scrolling Logos - Scroll Right Only */}
       <div className="relative w-full overflow-hidden">
-        {/* Scroll Left */}
-        <motion.div
-          className="flex space-x-4 md:space-x-6 lg:space-x-8 py-4"
-          animate={{ x: [0, -1000] }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 20,
-              ease: 'linear',
-            },
-          }}
-        >
-          {[...visibleBrands, ...visibleBrands].map((brand, index) => (
-            <div
-              key={`left-${index}`}
-              className="flex-shrink-0 w-24 h-24 flex items-center justify-center"
-            >
-              <img
-                src={getImageUrl(brand.image)}
-                alt="Brand Logo"
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.src = '/default-avatar.png';
-                }}
-              />
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Scroll Right */}
         <motion.div
           className="flex space-x-4 md:space-x-6 lg:space-x-8 py-4"
           animate={{ x: [-1000, 0] }}
