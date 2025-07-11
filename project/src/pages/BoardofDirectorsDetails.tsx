@@ -74,11 +74,10 @@ const BoardOfDirectorDetailPage = () => {
           <p className="text-sm text-neutral-600 font-medium mb-6">{director.position}</p>
 
           {director.bio ? (
-            <div className="text-base text-neutral-700 leading-relaxed space-y-5">
-              {director.bio.split('\n').map((para, index) => (
-                <p key={index} className="text-justify">{para}</p>
-              ))}
-            </div>
+            <div
+              className="prose max-w-none text-neutral-800"
+              dangerouslySetInnerHTML={{ __html: director.bio }}
+            />
           ) : (
             <p className="text-neutral-500 italic">Bio not available.</p>
           )}
