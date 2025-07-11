@@ -111,13 +111,14 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       </div>
-    <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
+  <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
   <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
   <div
-    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-base"
+    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-base [&_ul]:list-disc [&_ul]:pl-5 [&_li]:text-black"
     dangerouslySetInnerHTML={{ __html: project.description }}
   />
 </div>
+
 
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
