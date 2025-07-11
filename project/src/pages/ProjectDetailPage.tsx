@@ -111,14 +111,14 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       </div>
-      <div className="bg-white mt-4 p-6 rounded">
-        <h3 className="text-2xl font-serif text-[#8a731b] mb-2">About {project.name}</h3>
-     <div
-  className="prose prose-sm sm:prose-base max-w-none text-neutral-700"
-  dangerouslySetInnerHTML={{ __html: project.description }}
-/>
+    <div className="bg-white mt-6 px-6 py-8 rounded-lg shadow-sm">
+  <h3 className="text-2xl font-serif text-[#8a731b] mb-4">About {project.name}</h3>
+  <div
+    className="text-justify text-neutral-700 leading-relaxed text-sm sm:text-base"
+    dangerouslySetInnerHTML={{ __html: project.description }}
+  />
+</div>
 
-      </div>
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
           <h3 className="text-2xl font-serif text-neutral-800 mb-4">Specifications</h3>
