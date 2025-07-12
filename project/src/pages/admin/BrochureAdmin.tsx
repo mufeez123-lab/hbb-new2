@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Sidebar from '../../components/admin/Sidebar';
 
 interface Project {
   _id: string;
@@ -20,8 +21,8 @@ const BrochureAdmin: React.FC = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await axios.get(`/admin/projects`);
-        setProject(res.data.project || res.data); // Adjust if backend sends { project: { ... } }
+        const res = await axios.get(`/admin/projects/${projectId}`);
+        setProject(res.data.project || res.data);
       } catch (err) {
         console.error('Failed to fetch project:', err);
         setMessage('Project not found ❌');
@@ -50,7 +51,7 @@ const BrochureAdmin: React.FC = () => {
     try {
       setUploading(true);
       setMessage('');
-       await axios.post('/brochures/upload', formData, {
+      await axios.post('/api/brochures/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage('Brochure uploaded successfully ✅');
@@ -64,35 +65,41 @@ const BrochureAdmin: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto bg-white shadow-md rounded mt-10">
-      <h2 className="text-2xl font-semibold mb-4">Upload Brochure</h2>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 p-6 sm:p-10">
+        <h2 className="text-2xl font-bold mb-6">Upload Brochure</h2>
 
-      {project ? (
-        <div className="mb-4">
-          <p><strong>Project:</strong> {project.name}</p>
-          <p><strong>Category:</strong> {project.category}</p>
-          <p><strong>Location:</strong> {project.location}</p>
+        {/* Project Info */}
+        {project ? (
+          <div className="mb-6">
+            <p><strong>Project:</strong> {project.name}</p>
+            <p><strong>Category:</strong> {project.category}</p>
+            <p><strong>Location:</strong> {project.location}</p>
+          </div>
+        ) : (
+          <p className="text-red-600 mb-6">{message || 'Loading project details...'}</p>
+        )}
+
+        {/* Upload Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={handleFileChange}
+            className="border rounded px-4 py-2"
+          />
+          <button
+            onClick={handleUpload}
+            disabled={uploading || !project}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded disabled:opacity-50"
+          >
+            {uploading ? 'Uploading...' : 'Upload Brochure'}
+          </button>
         </div>
-      ) : (
-        <p className="text-red-600">{message || 'Loading project details...'}</p>
-      )}
 
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={handleFileChange}
-        className="block mb-4"
-      />
-
-      <button
-        onClick={handleUpload}
-        disabled={uploading || !project}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-      >
-        {uploading ? 'Uploading...' : 'Upload Brochure'}
-      </button>
-
-      {message && <p className="mt-4 text-sm">{message}</p>}
+        {message && <p className="mt-2 text-sm">{message}</p>}
+      </div>
     </div>
   );
 };
