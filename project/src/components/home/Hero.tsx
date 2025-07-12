@@ -75,10 +75,10 @@ const Hero = () => {
               <div className="absolute inset-0 bg-black/50 z-10" />
               <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  Welcome to Hindustan Builders
+
                 </h1>
                 <p className="text-lg md:text-xl mb-6">
-                  Building Excellence. Crafting Dreams.
+
                 </p>
               </div>
             </div>
