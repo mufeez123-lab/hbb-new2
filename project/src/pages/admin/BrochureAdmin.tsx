@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 
 interface Project {
@@ -11,56 +10,52 @@ interface Project {
 }
 
 const BrochureAdmin: React.FC = () => {
-  const { projectId } = useParams<{ projectId: string }>();
-  const [project, setProject] = useState<Project | null>(null);
-  const [pdf, setPdf] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<{ [key: string]: File | null }>({});
+  const [uploading, setUploading] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
-  // Fetch project details from /admin/projects/:id
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchProjects = async () => {
       try {
-        const res = await axios.get(`/admin/projects/${projectId}`);
-        setProject(res.data);
+        const res = await axios.get('/admin/projects');
+        setProjects(res.data);
       } catch (err) {
-        console.error('Failed to fetch project:', err);
-        setMessage('Project not found ❌');
+        console.error('Failed to fetch projects:', err);
+        setMessage('Could not load projects ❌');
       }
     };
 
-    if (projectId) fetchProject();
-  }, [projectId]);
+    fetchProjects();
+  }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setPdf(e.target.files[0]);
-    }
+  const handleFileChange = (projectId: string, file: File | null) => {
+    setSelectedFiles((prev) => ({ ...prev, [projectId]: file }));
   };
 
-  const handleUpload = async () => {
-    if (!pdf) {
-      setMessage('Please select a PDF file');
+  const handleUpload = async (projectId: string) => {
+    const file = selectedFiles[projectId];
+    if (!file) {
+      alert('Please select a PDF');
       return;
     }
 
     const formData = new FormData();
-    formData.append('pdf', pdf);
-    formData.append('projectId', projectId || '');
+    formData.append('pdf', file);
+    formData.append('projectId', projectId);
 
     try {
-      setUploading(true);
-      setMessage('');
+      setUploading(projectId);
       await axios.post('/brochures/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage('Brochure uploaded successfully ✅');
-      setPdf(null);
+      setSelectedFiles((prev) => ({ ...prev, [projectId]: null }));
     } catch (err) {
-      console.error(err);
+      console.error('Upload failed:', err);
       setMessage('Upload failed ❌');
     } finally {
-      setUploading(false);
+      setUploading(null);
     }
   };
 
@@ -68,37 +63,35 @@ const BrochureAdmin: React.FC = () => {
     <div className="flex">
       <Sidebar />
       <div className="flex-1 p-6 sm:p-10">
-        <h2 className="text-2xl font-bold mb-6">Upload Brochure</h2>
+        <h2 className="text-2xl font-bold mb-6">Upload Brochures to Projects</h2>
 
-        {/* Project Info */}
-        {project ? (
-          <div className="mb-6">
-            <p><strong>Project:</strong> {project.name}</p>
-            <p><strong>Category:</strong> {project.category}</p>
-            <p><strong>Location:</strong> {project.location}</p>
-          </div>
-        ) : (
-          <p className="text-red-600 mb-6">{message || 'Loading project details...'}</p>
-        )}
+        {message && <p className="mb-4 text-sm text-green-600">{message}</p>}
 
-        {/* Upload Section */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={handleFileChange}
-            className="border rounded px-4 py-2"
-          />
-          <button
-            onClick={handleUpload}
-            disabled={uploading || !project}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded disabled:opacity-50"
-          >
-            {uploading ? 'Uploading...' : 'Upload Brochure'}
-          </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            <div key={project._id} className="bg-white border p-4 rounded shadow">
+              <h3 className="text-lg font-semibold mb-1">{project.name}</h3>
+              <p className="text-sm text-gray-600 mb-2">{project.category} – {project.location}</p>
+
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(e) =>
+                  handleFileChange(project._id, e.target.files?.[0] || null)
+                }
+                className="mb-3"
+              />
+
+              <button
+                onClick={() => handleUpload(project._id)}
+                disabled={uploading === project._id}
+                className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {uploading === project._id ? 'Uploading...' : 'Upload Brochure'}
+              </button>
+            </div>
+          ))}
         </div>
-
-        {message && <p className="mt-2 text-sm">{message}</p>}
       </div>
     </div>
   );
