@@ -56,15 +56,15 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[250px] md:h-screen overflow-hidden mt-24">
+    <section className="relative h-[300px] md:h-screen overflow-hidden mt-24">
       {images.length === 0 ? (
-        <div className="h-[250px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
+        <div className="h-[300px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
         </div>
       ) : (
         <Slider {...settings}>
           {images.map((img, index) => (
-            <div key={img.public_id || index} className="relative h-[250px] md:h-screen w-full">
+            <div key={img.public_id || index} className="relative h-[300px] md:h-screen w-full">
               <div
                 className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover  z-0"
                 style={{
