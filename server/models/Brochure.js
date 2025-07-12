@@ -9,6 +9,8 @@ const brochureSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+   projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
+   
   uploadedAt: {
     type: Date,
     default: Date.now,
