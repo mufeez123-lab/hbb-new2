@@ -67,7 +67,7 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
 // DELETE: Remove a specific image by public_id
 router.delete('/:id', adminAuth, async (req, res) => {
   try {
-    const imageDoc = await HeroImage.findById(req.params.id);
+    const imageDoc = await HeroSection.findById(req.params.id);
     if (!imageDoc) return res.status(404).json({ message: 'Image not found' });
 
     await cloudinary.uploader.destroy(imageDoc.image.public_id);
