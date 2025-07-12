@@ -49,7 +49,8 @@ const HeroSectionPage: React.FC = () => {
 
   const handleDelete = async (public_id: string) => {
     try {
-      await api.delete(`/admin/hero/${public_id}`,
+      const cleanId = public_id.split('/').pop();
+      await api.delete(`/admin/hero/${cleanId}`, 
         {
            headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
