@@ -98,6 +98,7 @@ app.use('/api/admin/brands', brandRoutes);
 app.use('/api/admin/about', aboutRoutes);
 app.use('/api/admin/hero', heroRoutes);
 app.use('/api/admin/board', boardRoutes);
+app.use('/api/admin/brochures', brochureRoutes);
 app.use('/admin/testimonials', adminTestimonialsRoutes);
 
 // ✅ Public API routes
