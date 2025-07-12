@@ -22,7 +22,7 @@ const BrochureAdmin: React.FC = () => {
     const fetchProject = async () => {
       try {
         const res = await axios.get(`/admin/projects/${projectId}`);
-        setProject(res.data.project || res.data);
+        setProject(res.data);
       } catch (err) {
         console.error('Failed to fetch project:', err);
         setMessage('Project not found ❌');
@@ -51,7 +51,7 @@ const BrochureAdmin: React.FC = () => {
     try {
       setUploading(true);
       setMessage('');
-      await axios.post('/api/brochures/upload', formData, {
+      await axios.post('/brochures/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage('Brochure uploaded successfully ✅');
