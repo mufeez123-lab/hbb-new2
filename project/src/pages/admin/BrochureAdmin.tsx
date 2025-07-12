@@ -19,7 +19,7 @@ const BrochureAdmin: React.FC = () => {
     const fetchProjects = async () => {
       try {
         const res = await axios.get('/admin/projects');
-        setProjects(res.data);
+ setProjects(res.data.projects || res.data); 
       } catch (err) {
         console.error('Failed to fetch projects:', err);
         setMessage('Could not load projects ❌');
