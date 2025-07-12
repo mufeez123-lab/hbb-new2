@@ -65,7 +65,7 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
 });
 
 // DELETE: Remove a specific image by public_id
-router.delete('/:public_id', adminAuth, async (req, res) => {
+router.delete('/:public_id(*)', adminAuth, async (req, res) => {
   try {
     const public_id = req.params.public_id;
 
