@@ -49,7 +49,7 @@ const HeroSectionPage: React.FC = () => {
 
   const handleDelete = async (public_id: string) => {
     try {
-      await api.delete(`/admin/hero/${public_id}`);
+      await api.delete(`/admin/${public_id}`);
       setHeroImages((prev) => prev.filter(img => img.public_id !== public_id));
     } catch (err) {
       console.error('Delete failed:', err);
