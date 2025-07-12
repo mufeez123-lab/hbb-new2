@@ -3,6 +3,9 @@ import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 import {
   FaSwimmingPool,
   FaCar,
@@ -226,9 +229,28 @@ const AdminProjects: React.FC = () => {
             <h2 className="text-xl font-bold mb-4">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['name','description','location','client','price'].map(field => (
-                  <input key={field} type="text" placeholder={field.charAt(0).toUpperCase()+field.slice(1)} value={(formData as any)[field]} onChange={e=>setFormData({...formData,[field]:e.target.value})} className="px-3 py-2 border rounded-md" />
-                ))}
+              {['name', 'location', 'client', 'price'].map((field) => (
+  <input
+    key={field}
+    type="text"
+    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+    value={(formData as any)[field]}
+    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+    className="px-3 py-2 border rounded-md"
+  />
+))}
+
+/* Description Field Using ReactQuill */
+<div className="md:col-span-3">
+  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+  <ReactQuill
+    theme="snow"
+    value={formData.description}
+    onChange={(value) => setFormData({ ...formData, description: value })}
+    className="bg-white rounded-md"
+  />
+</div>
+
                 <select value={formData.category} onChange={e=>setFormData({...formData,category:e.target.value})} className="px-3 py-2 border rounded-md">
                   <option value="">Select Category</option>
                   <option value="Residential">Residential</option>
