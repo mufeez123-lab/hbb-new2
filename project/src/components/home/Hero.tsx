@@ -56,7 +56,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[70vh] md:h-screen overflow-hidden">
+    <section className="relative h-[70vh] md:h-screen overflow-hidden flex items-center" >
       {images.length === 0 ? (
         <div className="h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
@@ -65,14 +65,14 @@ const Hero = () => {
         <Slider {...settings}>
           {images.map((img, index) => (
             <div key={img.public_id || index} className="relative h-screen w-full">
-             <div
-  className="absolute inset-0 bg-center bg-no-repeat w-full h-full z-0
-             bg-contain md:bg-cover"
+    <div
+  className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-contain md:bg-cover z-0"
   style={{
     backgroundImage: `url(${img.url})`,
     filter: 'brightness(1.3)',
   }}
 />
+
 
               <div className="absolute inset-0 bg-black/50 z-10" />
               <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
