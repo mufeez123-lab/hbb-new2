@@ -15,7 +15,7 @@ const HeroSectionPage: React.FC = () => {
 
   const fetchHeroImages = async () => {
     try {
-      const res = await api.get('/hero');
+      const res = await api.get('/');
       setHeroImages(res.data?.images || []);
     } catch (err) {
       console.error('Fetch hero failed:', err);
@@ -49,7 +49,7 @@ const HeroSectionPage: React.FC = () => {
 
   const handleDelete = async (public_id: string) => {
     try {
-      await api.delete(`/admin/${public_id}`);
+      await api.delete(`/admin/hero/${public_id}`);
       setHeroImages((prev) => prev.filter(img => img.public_id !== public_id));
     } catch (err) {
       console.error('Delete failed:', err);
