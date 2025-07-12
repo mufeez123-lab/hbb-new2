@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import api from '../../services/api'; // adjust path as needed
-import '/src/index.css'; // assuming slick-carousel CSS is imported globally
+import api from '../../services/api'; // adjust path if needed
+import '/src/index.css'; // slick-carousel CSS should be globally imported
+
+interface HeroImage {
+  url: string;
+  public_id: string;
+}
 
 const Hero = () => {
-  const [heroImage, setHeroImage] = useState<string | null>(null);
+  const [images, setImages] = useState<HeroImage[]>([]);
 
   useEffect(() => {
     api
       .get('/hero')
       .then((res) => {
-        if (res.data?.backgroundImage?.url) {
-          setHeroImage(res.data.backgroundImage.url);
+        if (Array.isArray(res.data?.images)) {
+          setImages(res.data.images);
         }
       })
-      .catch((err) => console.error('Failed to fetch hero image:', err));
+      .catch((err) => console.error('Failed to fetch hero images:', err));
   }, []);
 
   const PrevArrow = (props: any) => (
@@ -52,12 +57,12 @@ const Hero = () => {
   return (
     <section className="relative h-[70vh] overflow-hidden">
       <Slider {...settings}>
-        {heroImage && (
-          <div className="relative h-[70vh] w-full">
+        {images.map((img, index) => (
+          <div key={img.public_id || index} className="relative h-[70vh] w-full">
             <div
               className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
               style={{
-                backgroundImage: `url(${heroImage})`,
+                backgroundImage: `url(${img.url})`,
                 filter: 'brightness(1.3)',
               }}
             />
@@ -71,7 +76,7 @@ const Hero = () => {
               </p>
             </div>
           </div>
-        )}
+        ))}
       </Slider>
     </section>
   );

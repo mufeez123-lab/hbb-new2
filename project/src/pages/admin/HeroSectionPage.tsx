@@ -3,46 +3,56 @@ import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 
 interface HeroImage {
-  _id: string;
-  backgroundImage: {
-    url: string;
-    public_id: string;
-  };
-  createdAt?: string;
-  updatedAt?: string;
+  url: string;
+  public_id: string;
 }
 
 const HeroSectionPage: React.FC = () => {
-  const [hero, setHero] = useState<HeroImage | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  const fetchHeroImages = async () => {
+    try {
+      const res = await api.get('/hero');
+      setHeroImages(res.data?.images || []);
+    } catch (err) {
+      console.error('Fetch hero failed:', err);
+    }
+  };
+
   useEffect(() => {
-    api
-      .get('/hero')
-      .then((res) => setHero(res.data))
-      .catch((err) => console.error('Fetch hero failed:', err));
+    fetchHeroImages();
   }, []);
 
-  const handleSubmit = async () => {
-    if (!selectedFile) return;
+  const handleUpload = async () => {
+    if (!selectedFiles || selectedFiles.length === 0) return;
 
     const formData = new FormData();
-    formData.append('backgroundImage', selectedFile);
+    Array.from(selectedFiles).forEach(file => formData.append('images', file));
 
     try {
       setUploading(true);
-      const res = await api.put('/admin/hero', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const res = await api.post('/admin/hero', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setHero(res.data);
+      setHeroImages(res.data?.images || []);
       setOpen(false);
-      setSelectedFile(null);
+      setSelectedFiles(null);
     } catch (err) {
-      console.error('Update failed:', err);
+      console.error('Upload failed:', err);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDelete = async (public_id: string) => {
+    try {
+      await api.delete(`/admin/hero/${public_id}`);
+      setHeroImages((prev) => prev.filter(img => img.public_id !== public_id));
+    } catch (err) {
+      console.error('Delete failed:', err);
     }
   };
 
@@ -51,27 +61,37 @@ const HeroSectionPage: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 ml-64">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-semibold">Hero Section</h1>
               <button
                 onClick={() => setOpen(true)}
                 className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none"
               >
-                {hero ? 'Update Hero Image' : 'Add Hero Image'}
+                Upload Images
               </button>
             </div>
 
-            {hero && hero.backgroundImage?.url ? (
-              <div className="bg-white rounded-lg shadow overflow-hidden">
-                <img
-                  src={hero.backgroundImage.url}
-                  alt="Hero"
-                  className="w-full h-96 object-cover"
-                />
+            {heroImages.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {heroImages.map((img) => (
+                  <div key={img.public_id} className="relative bg-white shadow rounded overflow-hidden">
+                    <img
+                      src={img.url}
+                      alt="Hero"
+                      className="w-full h-64 object-cover"
+                    />
+                    <button
+                      onClick={() => handleDelete(img.public_id)}
+                      className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
               </div>
             ) : (
-              <p className="text-gray-500">No hero image uploaded yet.</p>
+              <p className="text-gray-500">No hero images uploaded yet.</p>
             )}
           </div>
         </main>
@@ -80,37 +100,35 @@ const HeroSectionPage: React.FC = () => {
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Upload Hero Image</h2>
+            <h2 className="text-xl font-bold mb-4">Upload Hero Images</h2>
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                  className="w-full border px-3 py-2 rounded-md"
-                />
-              </div>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setSelectedFiles(e.target.files)}
+                className="w-full border px-3 py-2 rounded-md"
+              />
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => {
                     setOpen(false);
-                    setSelectedFile(null);
+                    setSelectedFiles(null);
                   }}
                   className="px-4 py-2 text-gray-600 hover:text-gray-800"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleSubmit}
-                  disabled={!selectedFile || uploading}
+                  onClick={handleUpload}
+                  disabled={!selectedFiles || uploading}
                   className={`px-4 py-2 rounded-md text-white ${
-                    selectedFile && !uploading
+                    selectedFiles && !uploading
                       ? 'bg-primary-600 hover:bg-primary-700'
                       : 'bg-gray-400 cursor-not-allowed'
                   }`}
                 >
-                  {uploading ? 'Uploading...' : hero ? 'Update Image' : 'Add Image'}
+                  {uploading ? 'Uploading...' : 'Upload'}
                 </button>
               </div>
             </div>
