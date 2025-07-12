@@ -66,7 +66,7 @@ const Hero = () => {
           {images.map((img, index) => (
             <div key={img.public_id || index} className="relative h-[250px] md:h-screen w-full">
               <div
-                className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-contain md:bg-cover z-0"
+                className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover  z-0"
                 style={{
                   backgroundImage: `url(${img.url})`,
                   filter: 'brightness(1.3)',
