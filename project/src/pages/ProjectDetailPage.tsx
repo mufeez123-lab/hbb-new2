@@ -136,20 +136,12 @@ useEffect(() => {
               </div>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-            {brochureUrl ? (
-  <a
-    href={brochureUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    download
-    className="block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
-  >
-    Download Brochure
-  </a>
-) : (
-  <p className="text-sm text-gray-400">Brochure not available</p>
-)}
-
+              <Link
+                to="/contact"
+                className="block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
         </div>

@@ -31,7 +31,7 @@ const menuItems = [
   { text: 'Projects', icon: <ProjectsIcon />, path: '/admin/projects' },
   { text: 'Brands', icon: <BrandsIcon />, path: '/admin/brands' },
   { text: 'About', icon: <AboutIcon />, path: '/admin/about' },
-    { text: 'Add Brochure', icon: <InsertDriveFileIcon />, path: '/admin/brochure' },
+    // { text: 'Add Brochure', icon: <InsertDriveFileIcon />, path: '/admin/brochure' },
   // { text: 'Hero Section', icon: <HeroIcon />, path: '/admin/hero' },
   // { text: 'Testimonials', icon: <MessageSquareQuote size={20} />, path: '/admin/testimonials' }, // ✅ Testimonials with icon
 ];

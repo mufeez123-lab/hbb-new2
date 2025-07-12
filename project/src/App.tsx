@@ -38,7 +38,7 @@ import AboutStatsPage from './pages/admin/AboutStatsPage';
 import HeroSectionPage from './pages/admin/HeroSectionPage';
 import BoardMembersPage from './pages/admin/BoardOfDirectorsPage';
 import AdminRoute from './components/auth/AdminRoute';
-import BrochureAdmin from './pages/admin/BrochureAdmin';
+// import BrochureAdmin from './pages/admin/BrochureAdmin';
 
 // Context
 import { AuthProvider } from './context/AuthContext';
@@ -123,7 +123,7 @@ function App() {
               <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} />
               <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} />
               <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} />
-              <Route path="/admin/brochure" element={<AdminRoute><BrochureAdmin /></AdminRoute>} />
+              {/* <Route path="/admin/brochure" element={<AdminRoute><BrochureAdmin /></AdminRoute>} /> */}
 
 
             </Routes>
