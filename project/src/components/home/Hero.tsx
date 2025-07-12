@@ -45,7 +45,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[70vh] pt-28 overflow-hidden">
+    <section className="relative h-[70vh] overflow-hidden">
       <Slider {...settings}>
         {images.map((img, index) => (
           <div key={index} className="relative h-[70vh] w-full">
