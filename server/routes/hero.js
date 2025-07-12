@@ -1,35 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const { adminAuth } = require('../middleware/auth');
 const HeroSection = require('../models/HeroSection');
+const { adminAuth } = require('../middleware/auth');
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-// Configure multer for background image upload
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../uploads/hero'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
+// Cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'));
-    }
+// Storage setup
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'hero',
+    allowed_formats: ['jpg', 'jpeg', 'png'],
   },
-  limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
-  }
 });
+const upload = multer({ storage });
 
-// Get hero section
+// GET: Fetch hero section
 router.get('/', async (req, res) => {
   try {
     const hero = await HeroSection.findOne();
@@ -39,42 +34,54 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Update hero section
-router.put('/', adminAuth, upload.single('backgroundImage'), async (req, res) => {
+// POST: Upload & replace all images
+router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
-    const {
-      title,
-      subtitle,
-      description,
-      buttonText,
-      buttonLink
-    } = req.body;
-
-    const updateData = {
-      title,
-      subtitle,
-      description,
-      buttonText,
-      buttonLink
-    };
-
-    if (req.file) {
-      updateData.backgroundImage = `/uploads/hero/${req.file.filename}`;
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'No images uploaded.' });
     }
+
+    const uploadedImages = req.files.map(file => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
 
     const hero = await HeroSection.findOneAndUpdate(
       {},
-      updateData,
+      { images: uploadedImages },
       { new: true, upsert: true }
     );
 
-    // Emit real-time update
-    req.app.get('io').emit('hero:updated', hero);
+    req.app.get('io')?.emit('hero:updated', hero);
 
-    res.json(hero);
+    res.status(201).json(hero);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-module.exports = router; 
+// DELETE: Remove a specific image by public_id
+router.delete('/:public_id', adminAuth, async (req, res) => {
+  try {
+    const public_id = req.params.public_id;
+
+    // Delete from Cloudinary
+    await cloudinary.uploader.destroy(public_id);
+
+    // Remove image from MongoDB
+    const hero = await HeroSection.findOneAndUpdate(
+      {},
+      { $pull: { images: { public_id } } },
+      { new: true }
+    );
+
+    req.app.get('io')?.emit('hero:updated', hero);
+
+    res.json({ message: 'Image deleted successfully', hero });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
