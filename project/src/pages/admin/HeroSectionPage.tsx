@@ -3,6 +3,7 @@ import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 
 interface HeroImage {
+  _id: string;
   url: string;
   public_id: string;
 }
@@ -47,10 +48,9 @@ const HeroSectionPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (public_id: string) => {
+  const handleDelete = async (id: string) => {
     try {
-      const cleanId = public_id.split('/').pop();
-      await api.delete(`/admin/hero/${cleanId}`, 
+      await api.delete(`/admin/hero/${id}`, 
         {
            headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -59,7 +59,7 @@ const HeroSectionPage: React.FC = () => {
         
     
       
-      setHeroImages((prev) => prev.filter(img => img.public_id !== public_id));
+      setHeroImages((prev) => prev.filter(img => img._id !== id));
     } catch (err) {
       console.error('Delete failed:', err);
     }
@@ -91,7 +91,7 @@ const HeroSectionPage: React.FC = () => {
                       className="w-full h-64 object-cover"
                     />
                     <button
-                      onClick={() => handleDelete(img.public_id)}
+                      onClick={() => handleDelete(img._id)}
                       className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700"
                     >
                       ✕
