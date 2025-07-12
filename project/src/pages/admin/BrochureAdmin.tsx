@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Sidebar from '../../components/admin/Sidebar';
+import api from '../../services/api'; // ✅ Use your centralized API instance
 
 interface Project {
   _id: string;
@@ -18,10 +18,7 @@ const BrochureAdmin: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get('/admin/projects');
-        console.log('✅ API Response:', res.data);
-
-        // Handle response shape
+        const res = await api.get('/admin/projects'); // ✅ API call using axios instance
         const data = res.data;
         if (Array.isArray(data)) {
           setProjects(data);
@@ -29,7 +26,7 @@ const BrochureAdmin: React.FC = () => {
           setProjects(data.projects);
         } else {
           console.error('❌ Unexpected format:', data);
-          setProjects([]); // fallback
+          setProjects([]);
         }
       } catch (err) {
         console.error('Failed to fetch projects:', err);
@@ -41,15 +38,12 @@ const BrochureAdmin: React.FC = () => {
   }, []);
 
   const handleFileChange = (projectId: string, file: File | null) => {
-    setSelectedFiles((prev) => ({ ...prev, [projectId]: file }));
+    setSelectedFiles(prev => ({ ...prev, [projectId]: file }));
   };
 
   const handleUpload = async (projectId: string) => {
     const file = selectedFiles[projectId];
-    if (!file) {
-      alert('Please select a PDF');
-      return;
-    }
+    if (!file) return alert('Please select a PDF');
 
     const formData = new FormData();
     formData.append('pdf', file);
@@ -57,11 +51,11 @@ const BrochureAdmin: React.FC = () => {
 
     try {
       setUploading(projectId);
-      await axios.post('/admin/brochures/upload', formData, {
+      await api.post('/admin/brochures/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage('Brochure uploaded successfully ✅');
-      setSelectedFiles((prev) => ({ ...prev, [projectId]: null }));
+      setSelectedFiles(prev => ({ ...prev, [projectId]: null }));
     } catch (err) {
       console.error('Upload failed:', err);
       setMessage('Upload failed ❌');
@@ -79,7 +73,7 @@ const BrochureAdmin: React.FC = () => {
         {message && <p className="mb-4 text-sm text-green-600">{message}</p>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {Array.isArray(projects) && projects.length > 0 ? (
+          {projects.length > 0 ? (
             projects.map((project) => (
               <div key={project._id} className="bg-white border p-4 rounded shadow">
                 <h3 className="text-lg font-semibold mb-1">{project.name}</h3>
