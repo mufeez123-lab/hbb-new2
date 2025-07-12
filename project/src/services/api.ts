@@ -91,6 +91,14 @@ export const authAPI = {
   },
 };
 
+
+
+export const brochureAPI = {
+  getByProjectId: async (projectId: string) => {
+    const res = await api.get(`/brochures?projectId=${projectId}`);
+    return res.data;
+  },
+};
 // Projects API
 export const projectsAPI = {
   getAll: async () => {

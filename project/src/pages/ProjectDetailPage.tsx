@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { projectsAPI } from '../services/api';
+import { projectsAPI, brochureAPI } from '../services/api';
 import Slider from 'react-slick';
 import {
   FaSwimmingPool,
@@ -43,22 +43,36 @@ const ProjectDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        setLoading(true);
-        const data = await projectsAPI.getById(id);
-        setProject(data);
-      } catch (err) {
-        console.error('Error fetching project:', err);
-        setError('Unable to load project details.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [brochureUrl, setBrochureUrl] = useState<string | null>(null);
 
-    if (id) fetchProject();
-  }, [id]);
+useEffect(() => {
+  const fetchProject = async () => {
+    try {
+      setLoading(true);
+      const data = await projectsAPI.getById(id);
+      setProject(data);
+    } catch (err) {
+      setError('Unable to load project details.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchBrochure = async () => {
+    try {
+      const res = await brochureAPI.getByProjectId(id);
+      if (res.length > 0) setBrochureUrl(res[0].pdfUrl);
+    } catch (err) {
+      console.error('Brochure fetch failed:', err);
+    }
+  };
+
+  if (id) {
+    fetchProject();
+    fetchBrochure();
+  }
+}, [id]);
+
 
   if (loading) return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
   if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
@@ -122,12 +136,20 @@ const ProjectDetailPage = () => {
               </div>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/contact"
-                className="block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
-              >
-                Contact Us
-              </Link>
+            {brochureUrl ? (
+  <a
+    href={brochureUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    download
+    className="block w-full sm:w-full px-4 py-2 bg-[#8a731b] text-white text-sm text-center hover:bg-[#745e16]"
+  >
+    Download Brochure
+  </a>
+) : (
+  <p className="text-sm text-gray-400">Brochure not available</p>
+)}
+
             </div>
           </div>
         </div>
