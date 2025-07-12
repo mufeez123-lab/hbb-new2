@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { projectsAPI, brochureAPI } from '../services/api';
+import { projectsAPI } from '../services/api';
 import Slider from 'react-slick';
 import {
   FaSwimmingPool,
@@ -43,7 +43,7 @@ const ProjectDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const [brochureUrl, setBrochureUrl] = useState<string | null>(null);
+  // const [brochureUrl, setBrochureUrl] = useState<string | null>(null);
 
 useEffect(() => {
   const fetchProject = async () => {
@@ -58,18 +58,18 @@ useEffect(() => {
     }
   };
 
-  const fetchBrochure = async () => {
-    try {
-      const res = await brochureAPI.getByProjectId(id);
-      if (res.length > 0) setBrochureUrl(res[0].pdfUrl);
-    } catch (err) {
-      console.error('Brochure fetch failed:', err);
-    }
-  };
+  // const fetchBrochure = async () => {
+  //   try {
+  //     const res = await brochureAPI.getByProjectId(id);
+  //     if (res.length > 0) setBrochureUrl(res[0].pdfUrl);
+  //   } catch (err) {
+  //     console.error('Brochure fetch failed:', err);
+  //   }
+  // };
 
   if (id) {
     fetchProject();
-    fetchBrochure();
+    // fetchBrochure();
   }
 }, [id]);
 

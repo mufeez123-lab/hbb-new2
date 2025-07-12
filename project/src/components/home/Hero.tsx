@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
+import Slider from 'react-slick';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import '/src/index.css';
+import '/src/index.css'; // assuming slick-carousel CSS is imported globally
 
 const Hero = () => {
   const images = [
@@ -11,77 +11,63 @@ const Hero = () => {
     '/images/3159227.jpg',
   ];
 
-  const [currentImage, setCurrentImage] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Custom Arrows
+  const PrevArrow = (props: any) => (
+    <button
+      onClick={props.onClick}
+      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
+    >
+      <ArrowLeft size={24} />
+    </button>
+  );
 
-  const startSlideshow = () => {
-    intervalRef.current = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }, 10000); // 10 seconds
-  };
+  const NextArrow = (props: any) => (
+    <button
+      onClick={props.onClick}
+      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
+    >
+      <ArrowRight size={24} />
+    </button>
+  );
 
-  const resetSlideshow = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    startSlideshow();
-  };
-
-  useEffect(() => {
-    startSlideshow();
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
-
-  const goToPrevious = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
-    resetSlideshow();
-  };
-
-  const goToNext = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length);
-    resetSlideshow();
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 1000,
+    autoplay: true,
+    autoplaySpeed: 10000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    fade: true,
   };
 
   return (
-    <section className="relative h-[70vh] flex items-center justify-center text-center pt-28">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center w-full h-full z-0 transition-all duration-700"
-        style={{
-          backgroundImage: `url(${images[currentImage]})`,
-          filter: 'brightness(1.3)',
-        }}
-      />
-
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10" />
-
-      {/* Centered Content */}
-      <div className="relative z-20 px-4 max-w-4xl">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          {/* Welcome to Hindustan Builders */}
-        </h1>
-        <p className="text-lg text-white mb-6">
-          {/* Building Excellence. Crafting Dreams. */}
-        </p>
-      </div>
-
-      {/* Left/Right Arrows */}
-      <button
-        onClick={goToPrevious}
-        className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
-        aria-label="Previous Slide"
-      >
-        <ArrowLeft size={24} />
-      </button>
-
-      <button
-        onClick={goToNext}
-        className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
-        aria-label="Next Slide"
-      >
-        <ArrowRight size={24} />
-      </button>
+    <section className="relative h-[70vh] pt-28 overflow-hidden">
+      <Slider {...settings}>
+        {images.map((img, index) => (
+          <div key={index} className="relative h-[70vh] w-full">
+            <div
+              className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
+              style={{
+                backgroundImage: `url(${img})`,
+                filter: 'brightness(1.3)',
+              }}
+            />
+            <div className="absolute inset-0 bg-black/50 z-10" />
+            <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                {/* Welcome to Hindustan Builders */}
+              </h1>
+              <p className="text-lg mb-6">
+                {/* Building Excellence. Crafting Dreams. */}
+              </p>
+            </div>
+          </div>
+        ))}
+      </Slider>
     </section>
   );
 };
