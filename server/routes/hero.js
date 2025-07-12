@@ -41,16 +41,20 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
       return res.status(400).json({ message: 'No images uploaded.' });
     }
 
-    const uploadedImages = req.files.map(file => ({
+   const newImages = req.files.map(file => ({
       url: file.path,
       public_id: file.filename,
     }));
 
-    const hero = await HeroSection.findOneAndUpdate(
-      {},
-      { images: uploadedImages },
-      { new: true, upsert: true }
-    );
+    // Find existing or create new
+    let hero = await HeroSection.findOne();
+    if (!hero) {
+      hero = new HeroSection({ images: newImages });
+    } else {
+      hero.images = [...hero.images, ...newImages]; // Append
+    }
+
+    await hero.save();
 
     req.app.get('io')?.emit('hero:updated', hero);
 
