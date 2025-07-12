@@ -15,7 +15,7 @@ const HeroSectionPage: React.FC = () => {
 
   const fetchHeroImages = async () => {
     try {
-      const res = await api.get('/');
+      const res = await api.get('/admin/hero');
       setHeroImages(res.data?.images || []);
     } catch (err) {
       console.error('Fetch hero failed:', err);
