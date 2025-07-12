@@ -1,17 +1,23 @@
+import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import api from '../../services/api'; // adjust path as needed
 import '/src/index.css'; // assuming slick-carousel CSS is imported globally
 
 const Hero = () => {
-  const images = [
-    '/images/image3.jpg',
-    '/images/3159182.jpg',
-    '/images/image1.jpg',
-    '/images/393076.jpg',
-    '/images/3159227.jpg',
-  ];
+  const [heroImage, setHeroImage] = useState<string | null>(null);
 
-  // Custom Arrows
+  useEffect(() => {
+    api
+      .get('/hero')
+      .then((res) => {
+        if (res.data?.backgroundImage?.url) {
+          setHeroImage(res.data.backgroundImage.url);
+        }
+      })
+      .catch((err) => console.error('Failed to fetch hero image:', err));
+  }, []);
+
   const PrevArrow = (props: any) => (
     <button
       onClick={props.onClick}
@@ -41,18 +47,17 @@ const Hero = () => {
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    // fade: true,
   };
 
   return (
     <section className="relative h-[70vh] overflow-hidden">
       <Slider {...settings}>
-        {images.map((img, index) => (
-          <div key={index} className="relative h-[70vh] w-full">
+        {heroImage && (
+          <div className="relative h-[70vh] w-full">
             <div
               className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
               style={{
-                backgroundImage: `url(${img})`,
+                backgroundImage: `url(${heroImage})`,
                 filter: 'brightness(1.3)',
               }}
             />
@@ -66,7 +71,7 @@ const Hero = () => {
               </p>
             </div>
           </div>
-        ))}
+        )}
       </Slider>
     </section>
   );

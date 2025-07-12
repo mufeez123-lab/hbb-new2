@@ -18,10 +18,7 @@ import {
   Info as AboutIcon,
   Image as HeroIcon,
   People as BoardIcon,
-   InsertDriveFile as InsertDriveFileIcon,
 } from '@mui/icons-material';
-
-import { MessageSquareQuote } from 'lucide-react'; // ✅ Import Lucide icon
 
 const drawerWidth = 240;
 
@@ -32,7 +29,7 @@ const menuItems = [
   { text: 'Brands', icon: <BrandsIcon />, path: '/admin/brands' },
   { text: 'About', icon: <AboutIcon />, path: '/admin/about' },
     // { text: 'Add Brochure', icon: <InsertDriveFileIcon />, path: '/admin/brochure' },
-  // { text: 'Hero Section', icon: <HeroIcon />, path: '/admin/hero' },
+  { text: 'Hero Section', icon: <HeroIcon />, path: '/admin/hero' },
   // { text: 'Testimonials', icon: <MessageSquareQuote size={20} />, path: '/admin/testimonials' }, // ✅ Testimonials with icon
 ];
 
