@@ -240,7 +240,7 @@ const AdminProjects: React.FC = () => {
   />
 ))}
 
-/* Description Field Using ReactQuill */
+Description Field 
 <div className="md:col-span-3">
   <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
   <ReactQuill
