@@ -65,27 +65,20 @@ router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
 });
 
 // DELETE: Remove a specific image by public_id
-router.delete('/:public_id(*)', adminAuth, async (req, res) => {
+router.delete('/:id', adminAuth, async (req, res) => {
   try {
-    const public_id = req.params.public_id;
+    const imageDoc = await HeroImage.findById(req.params.id);
+    if (!imageDoc) return res.status(404).json({ message: 'Image not found' });
 
-    // Delete from Cloudinary
-    await cloudinary.uploader.destroy(public_id);
+    await cloudinary.uploader.destroy(imageDoc.image.public_id);
+    await imageDoc.deleteOne();
 
-    // Remove image from MongoDB
-    const hero = await HeroSection.findOneAndUpdate(
-      {},
-      { $pull: { images: { public_id } } },
-      { new: true }
-    );
-
-    req.app.get('io')?.emit('hero:updated', hero);
-
-    res.json({ message: 'Image deleted successfully', hero });
+    res.json({ message: 'Deleted successfully' });
   } catch (err) {
     console.error('Delete error:', err);
     res.status(500).json({ message: err.message });
   }
 });
+
 
 module.exports = router;
