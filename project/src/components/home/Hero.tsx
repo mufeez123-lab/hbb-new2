@@ -58,7 +58,7 @@ const Hero = () => {
     <section className="relative h-screen overflow-hidden">
       <Slider {...settings}>
         {images.map((img, index) => (
-          <div key={img.public_id || index} className="relative h-[70vh] w-full">
+          <div key={img.public_id || index} className="relative h-screen w-full">
             <div
               className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
               style={{
