@@ -57,7 +57,7 @@ const BrochureAdmin: React.FC = () => {
 
     try {
       setUploading(projectId);
-      await axios.post('/api/brochures/upload', formData, {
+      await axios.post('/admin/brochures/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage('Brochure uploaded successfully ✅');
