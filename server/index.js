@@ -107,6 +107,7 @@ app.use('/api/brands', brandRoutes);
 app.use('/api/about', aboutRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/brochures', brochureRoutes);
+app.use('/api/hero', heroRoutes);
 
 // Root check route
 app.get('/', (req, res) => {
