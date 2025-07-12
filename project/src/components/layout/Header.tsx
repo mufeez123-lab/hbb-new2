@@ -37,7 +37,7 @@ const Header = () => {
           ${isScrolled ? 'bg-white/30 backdrop-blur-md shadow-md' : 'bg-white/20 backdrop-blur-md'} 
           lg:bg-transparent`}
       >
-        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-4">
+        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-1">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img src="/logo-SVG.svg" alt="Logo" className="h-16 w-auto" />
