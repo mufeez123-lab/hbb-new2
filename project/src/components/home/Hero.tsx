@@ -56,7 +56,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[70vh] md:h-screen overflow-hidden flex items-center" >
+    <section className="relative h-auto md:h-screen overflow-hidden" >
       {images.length === 0 ? (
         <div className="h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
@@ -66,12 +66,13 @@ const Hero = () => {
           {images.map((img, index) => (
             <div key={img.public_id || index} className="relative h-screen w-full">
     <div
-  className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-contain md:bg-cover z-0"
+  className="relative w-full h-[250px] md:h-full bg-center bg-no-repeat bg-contain md:bg-cover z-0"
   style={{
     backgroundImage: `url(${img.url})`,
     filter: 'brightness(1.3)',
   }}
 />
+
 
 
               <div className="absolute inset-0 bg-black/50 z-10" />
