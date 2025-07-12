@@ -90,7 +90,6 @@ useEffect(() => {
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[400px]">
             <Slider
-              dots
               infinite
               speed={1000}
               slidesToShow={1}

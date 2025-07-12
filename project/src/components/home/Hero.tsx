@@ -26,7 +26,7 @@ const Hero = () => {
   const PrevArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
+      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-black/50 rounded-full p-2"
     >
       <ArrowLeft size={24} />
     </button>
@@ -35,7 +35,7 @@ const Hero = () => {
   const NextArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 text-white bg-black/30 hover:bg-black/50 rounded-full p-2"
+      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-black/50 rounded-full p-2"
     >
       <ArrowRight size={24} />
     </button>
@@ -52,32 +52,39 @@ const Hero = () => {
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
+    lazyLoad: 'progressive',
   };
 
   return (
     <section className="relative h-screen overflow-hidden">
-      <Slider {...settings}>
-        {images.map((img, index) => (
-          <div key={img.public_id || index} className="relative h-screen w-full">
-            <div
-              className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
-              style={{
-                backgroundImage: `url(${img.url})`,
-                filter: 'brightness(1.3)',
-              }}
-            />
-            <div className="absolute inset-0 bg-black/50 z-10" />
-            <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                {/* Welcome to Hindustan Builders */}
-              </h1>
-              <p className="text-lg mb-6">
-                {/* Building Excellence. Crafting Dreams. */}
-              </p>
+      {images.length === 0 ? (
+        <div className="h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
+          Loading...
+        </div>
+      ) : (
+        <Slider {...settings}>
+          {images.map((img, index) => (
+            <div key={img.public_id || index} className="relative h-screen w-full">
+              <div
+                className="absolute inset-0 bg-cover bg-center w-full h-full z-0"
+                style={{
+                  backgroundImage: `url(${img.url})`,
+                  filter: 'brightness(1.3)',
+                }}
+              />
+              <div className="absolute inset-0 bg-black/50 z-10" />
+              <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                  Welcome to Hindustan Builders
+                </h1>
+                <p className="text-lg md:text-xl mb-6">
+                  Building Excellence. Crafting Dreams.
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      )}
     </section>
   );
 };

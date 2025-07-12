@@ -43,10 +43,10 @@ const FeaturedProjects = () => {
 
   if (loading) {
     return (
-      <section className="py-20 bg-neutral-50">
+      <section className="py-20 bg-neutral-50 mt-10">
         <div className="container mx-auto px-4 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-700 mx-auto"></div>
-          <p className="mt-10 text-neutral-600">Loading amazing spaces...</p>
+          <p className=" text-neutral-600">Loading amazing spaces...</p>
         </div>
       </section>
     );
