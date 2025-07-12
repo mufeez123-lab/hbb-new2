@@ -56,32 +56,29 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-auto md:h-screen overflow-hidden" >
+    <section className="relative h-[250px] md:h-screen overflow-hidden">
       {images.length === 0 ? (
-        <div className="h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
+        <div className="h-[250px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
         </div>
       ) : (
         <Slider {...settings}>
           {images.map((img, index) => (
-            <div key={img.public_id || index} className="relative h-screen w-full">
-    <div
-  className="relative w-full h-[250px] md:h-full bg-center bg-no-repeat bg-contain md:bg-cover z-0"
-  style={{
-    backgroundImage: `url(${img.url})`,
-    filter: 'brightness(1.3)',
-  }}
-/>
-
-
-
+            <div key={img.public_id || index} className="relative h-[250px] md:h-screen w-full">
+              <div
+                className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-contain md:bg-cover z-0"
+                style={{
+                  backgroundImage: `url(${img.url})`,
+                  filter: 'brightness(1.3)',
+                }}
+              />
               <div className="absolute inset-0 bg-black/50 z-10" />
               <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-
+                  {/* Heading goes here */}
                 </h1>
                 <p className="text-lg md:text-xl mb-6">
-
+                  {/* Subheading or caption goes here */}
                 </p>
               </div>
             </div>
