@@ -20,7 +20,7 @@ const BrochureAdmin: React.FC = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await axios.get(`/admin/projects/${projectId}`);
+        const res = await axios.get(`/admin/projects`);
         setProject(res.data.project || res.data); // Adjust if backend sends { project: { ... } }
       } catch (err) {
         console.error('Failed to fetch project:', err);
