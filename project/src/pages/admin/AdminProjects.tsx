@@ -74,13 +74,6 @@ const AdminProjects: React.FC = () => {
     fetchProjects();
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
   const fetchProjects = async () => {
     try {
       const res = await api.get('/admin/projects', {
@@ -97,10 +90,14 @@ const AdminProjects: React.FC = () => {
     e.preventDefault();
     const data = new FormData();
 
+    console.log('Submitting form:', { selectedFiles, formData });
+
+    // Append new images only if selected
     if (selectedFiles.length > 0) {
       selectedFiles.forEach(file => data.append('images', file));
     }
 
+    // Append other fields
     Object.entries(formData).forEach(([key, value]) => {
       if (key === 'amenities') {
         (value as string[]).forEach(item => data.append(key, item));
@@ -227,10 +224,164 @@ const AdminProjects: React.FC = () => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[999] flex items-start sm:items-center justify-start sm:justify-center p-0 sm:p-4">
-          <div className="bg-white rounded-none sm:rounded-lg p-4 sm:p-6 w-full h-full sm:h-auto sm:max-w-2xl overflow-y-auto sm:max-h-[90vh]">
-            {/* Insert the same form JSX block you already have here */}
-            {/* No changes needed inside the form */}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start sm:items-center justify-start sm:justify-center z-[999] p-0 sm:p-4">
+
+<div className="bg-white rounded-lg p-4 sm:p-6 ml-4 w-[calc(100%-1rem)] sm:ml-0 h-full sm:h-auto sm:w-full max-w-2xl overflow-y-auto sm:max-h-[90vh]">
+
+
+            <h2 className="text-xl font-bold mb-4">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {['name', 'location', 'client', 'price'].map((field) => (
+  <input
+    key={field}
+    type="text"
+    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+    value={(formData as any)[field]}
+    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+    className="px-3 py-2 border rounded-md"
+  />
+))}
+
+Description Field 
+<div className="md:col-span-3">
+  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+  <ReactQuill
+    theme="snow"
+    value={formData.description}
+    onChange={(value) => setFormData({ ...formData, description: value })}
+    className="bg-white rounded-md"
+  />
+</div>
+
+                <select value={formData.category} onChange={e=>setFormData({...formData,category:e.target.value})} className="px-3 py-2 border rounded-md">
+                  <option value="">Select Category</option>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Luxury villa">Luxury Villa</option>
+                </select>
+                <select value={formData.status} onChange={e=>setFormData({...formData,status:e.target.value})} className="px-3 py-2 border rounded-md">
+                  <option value="">Select Status</option>
+                  <option value="upcoming">Upcoming</option>
+                  <option value="ongoing">Ongoing</option>
+                  <option value="featured">Featured</option>
+                  <option value="ready to move">Ready to Move</option>
+                  <option value="completed">Completed</option>
+                </select>
+                <input type="file" accept="image/*" multiple onChange={e=>setSelectedFiles(Array.from(e.target.files||[]))} className="px-3 py-2 border rounded-md w-full" />
+              </div>
+
+              {/* Show both existing and new images */}
+             {(existingImages.length > 0 || selectedFiles.length > 0) && (
+  <div className="mt-4 grid grid-cols-4 gap-2">
+    {/* Existing Images with Remove Button */}
+    {existingImages.map((img, i) => (
+      <div key={`old-${i}`} className="relative w-20 h-20">
+        <img
+          src={img.url}
+          alt={`Existing ${i}`}
+          className="w-full h-full object-cover rounded border"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            const updatedImages = existingImages.filter((_, index) => index !== i);
+            setExistingImages(updatedImages);
+          }}
+          className="absolute top-0 right-0 bg-white text-red-600 border border-red-600 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
+        >
+          ✖
+        </button>
+      </div>
+    ))}
+
+    {/* New Selected Files with Remove Button */}
+    {selectedFiles.map((file, i) => (
+      <div key={`new-${i}`} className="relative w-20 h-20">
+        <img
+          src={URL.createObjectURL(file)}
+          alt={`New ${i}`}
+          className="w-full h-full object-cover rounded border-2 border-primary-600"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            const updatedFiles = selectedFiles.filter((_, index) => index !== i);
+            setSelectedFiles(updatedFiles);
+          }}
+          className="absolute top-0 right-0 bg-white text-red-600 border border-red-600 rounded-full w-5 h-5 text-xs flex items-center justify-center -translate-y-1/2 translate-x-1/2 shadow"
+        >
+          ✖
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
+
+              {/* Amenities */}
+              <div className="mt-4">
+                <label className="block font-medium mb-2">Amenities</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-sm">
+                  {defaultAmenities.map(amenity=>(
+                    <label key={amenity} className={`flex flex-col items-center text-center border rounded p-3 cursor-pointer hover:shadow transition ${formData.amenities.includes(amenity)?'bg-primary-100 border-primary-400':'border-neutral-200'}`}>                    
+                      <input type="checkbox" checked={formData.amenities.includes(amenity)} onChange={e=>{
+                        const updated = e.target.checked?[...formData.amenities,amenity]:formData.amenities.filter(a=>a!==amenity);
+                        setFormData({...formData,amenities:updated});
+                      }} className="hidden" />
+                      {amenityIcons[amenity]||<div className="text-xl mb-1">❓</div>}
+                      <span className="text-xs text-neutral-700 mt-2">{amenity}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Specifications */}
+              <div className="mt-4">
+                <label className="block font-medium mb-2">Specifications</label>
+                {formData.specifications.map((spec, specIdx)=>(
+                  <div key={specIdx} className="bg-gray-50 p-3 rounded-md mb-3 border border-gray-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <input type="text" placeholder="Title" value={spec.title} onChange={e=>{
+                        const upd=[...formData.specifications]; upd[specIdx].title=e.target.value; setFormData({...formData,specifications:upd});
+                      }} className="px-3 py-2 border rounded-md w-full mr-2" />
+                      <button type="button" onClick={()=>{
+                        const upd=formData.specifications.filter((_,i)=>i!==specIdx); setFormData({...formData,specifications:upd});
+                      }} className="text-red-500 hover:text-red-700 p-2">✖</button>
+                    </div>
+                    {spec.description.map((desc, descIdx)=>(
+                      <div key={descIdx} className="flex items-center mb-2">
+                        <input type="text" placeholder={`Description ${descIdx+1}`} value={desc} onChange={e=>{
+                          const upd=[...formData.specifications]; upd[specIdx].description[descIdx]=e.target.value; setFormData({...formData,specifications:upd});
+                        }} className="px-3 py-2 border rounded-md w-full mr-2" />
+                        <button type="button" onClick={()=>{
+                          const upd=[...formData.specifications]; upd[specIdx].description = upd[specIdx].description.filter((_,i)=>i!==descIdx); setFormData({...formData,specifications:upd});
+                        }} className="text-red-500 hover:text-red-700 p-2">-</button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={()=>{
+                      const upd=[...formData.specifications]; upd[specIdx].description.push(''); setFormData({...formData,specifications:upd});
+                    }} className="mt-2 text-sm text-primary-600 hover:underline px-2 py-1 border rounded">+ Add Description</button>
+                  </div>
+                ))}
+                <button type="button" onClick={()=>{
+                  setFormData({...formData,specifications:[...formData.specifications,{title:'',description:['']}]});
+                }} className="mt-2 text-sm text-primary-600 hover:underline px-3 py-2 border rounded-md">+ Add New Specification</button>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center space-x-2 mt-4">
+                <input type="checkbox" checked={formData.explore} onChange={e=>setFormData({...formData,explore:e.target.checked})} id="explore" />
+                <label htmlFor="explore" className="text-sm">Show on Explore Page</label>
+              </div>
+
+              <div className="flex justify-end space-x-4 mt-6">
+                <button onClick={closeModal} type="button" className="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+                <button type="submit" disabled={!formData.name||!formData.status} className={`px-4 py-2 rounded-md text-white ${formData.name&&formData.status?'bg-primary-600 hover:bg-primary-700':'bg-gray-400 cursor-not-allowed'}`}>
+                  {editingProjectId?'Update Project':'Add Project'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -238,4 +389,4 @@ const AdminProjects: React.FC = () => {
   );
 };
 
-export default AdminProjects;
+export default AdminProjects;  
