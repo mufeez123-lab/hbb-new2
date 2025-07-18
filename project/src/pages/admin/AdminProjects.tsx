@@ -224,8 +224,10 @@ const AdminProjects: React.FC = () => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 w-full h-full sm:h-auto max-w-2xl overflow-y-auto sm:max-h-[90vh]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start sm:items-center justify-start sm:justify-center z-[999] p-0 sm:p-4">
+
+<div className="bg-white rounded-lg p-4 sm:p-6 ml-4 w-[calc(100%-1rem)] sm:ml-0 h-full sm:h-auto sm:w-full max-w-2xl overflow-y-auto sm:max-h-[90vh]">
+
 
             <h2 className="text-xl font-bold mb-4">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
             <form onSubmit={handleSubmit}>
