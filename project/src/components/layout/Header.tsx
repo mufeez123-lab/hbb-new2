@@ -9,19 +9,22 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
+  // Close mobile menu on route change
   useEffect(() => {
-    setIsOpen(false); // Close menu on route change
+    setIsOpen(false);
   }, [location]);
 
+  // Scroll event to toggle header styles
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // ✅ Initialize scroll position on load
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full">
-      {/* Top Nav - visible only on desktop */}
+      {/* Top Nav - Desktop only */}
       <div className="bg-black text-white text-sm uppercase py-1 px-4 lg:px-8 hidden lg:block">
         <div className="container mx-auto flex justify-end space-x-6 font-semibold">
           <Link to="/" className="hover:text-gray-300">Home</Link>
@@ -34,7 +37,7 @@ const Header = () => {
       {/* Main Header */}
       <div
         className={`transition-all duration-300 fixed w-full z-50 
-          ${isScrolled ? 'bg-white/30 backdrop-blur-md shadow-md' : 'bg-white/20 backdrop-blur-md'} 
+          ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-white/60 backdrop-blur-md'} 
           lg:bg-transparent`}
       >
         <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-4">
@@ -54,7 +57,7 @@ const Header = () => {
           </div>
 
           {/* Hamburger - Mobile only */}
-          <div className="lg:hidden flex items-center">
+          <div className="lg:hidden flex items-center z-50">
             <AnimatedHamburger isOpen={isOpen} toggle={() => setIsOpen(!isOpen)} />
           </div>
         </div>
