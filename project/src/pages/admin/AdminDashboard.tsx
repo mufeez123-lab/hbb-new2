@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import BrandsPage from './BrandsPage';
 import BoardOfDirectorsPage from './BoardOfDirectorsPage';
-import HeroSectionPage from './HeroSectionPage';
+// import HeroSectionPage from './HeroSectionPage';
 import AboutStatsPage from './AboutStatsPage';
 import api from '../../services/api';
 import {
@@ -16,14 +16,14 @@ import {
 const AdminDashboard: React.FC = () => {
   const [boardCount, setBoardCount] = useState(0);
   const [projectCount, setProjectCount] = useState(0);
-  const [heroImageCount, setHeroImageCount] = useState(0);
+  // const [heroImageCount, setHeroImageCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
 
   useEffect(() => {
     // Fetch all admin metrics
     api.get('/admin/board').then((res) => setBoardCount(res.data.length));
     api.get('/admin/projects').then((res) => setProjectCount(res.data.length));
-    api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
+    // api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
     api.get('/admin/brands').then((res) => setBrandCount(res.data.length));
   }, []);
 
@@ -40,12 +40,7 @@ const AdminDashboard: React.FC = () => {
       icon: <BusinessIcon fontSize="large" />,
       color: '#2e7d32',
     },
-    {
-      title: 'Hero Images',
-      value: heroImageCount,
-      icon: <ImageIcon fontSize="large" />,
-      color: '#ed6c02',
-    },
+  
     {
       title: 'Brands',
       value: brandCount,
@@ -85,7 +80,7 @@ const AdminDashboard: React.FC = () => {
           <Routes>
             <Route path="/brands" element={<BrandsPage />} />
             <Route path="/board" element={<BoardOfDirectorsPage />} />
-            <Route path="/hero" element={<HeroSectionPage />} />
+            {/* <Route path="/hero" element={<HeroSectionPage />} /> */}
             <Route path="/about-stats" element={<AboutStatsPage />} />
           </Routes>
         </main>
