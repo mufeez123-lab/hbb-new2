@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
 import { ArrowRight } from 'lucide-react';
@@ -72,17 +71,12 @@ const FeaturedProjects = () => {
           content="Explore our featured residential, commercial, and luxury real estate projects. Hindustan Builders brings your dream space to life."
         />
       </Helmet>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.2 }}
-          className="text-left mb-10"
-        >
-          <h2 className="text-2xl  mt-10">Our Projects</h2>
+        <div className="text-left mb-10">
+          <h2 className="text-2xl mt-10">Our Projects</h2>
           <div className="w-20 h-1 bg-[#8a731b] mt-2"></div>
-        </motion.div>
+        </div>
 
         {projects.length === 0 ? (
           <div className="text-center">
@@ -92,7 +86,7 @@ const FeaturedProjects = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => {
+            {projects.map((project) => {
               const imageObj = project.images?.[0];
               const imageUrl = imageObj?.url || '/images/image1.jpg';
 
@@ -121,12 +115,8 @@ const FeaturedProjects = () => {
               );
 
               return (
-                <motion.div
+                <div
                   key={project._id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="group"
                   onMouseEnter={() => setHoveredProject(project._id)}
                   onMouseLeave={() => setHoveredProject(null)}
@@ -152,24 +142,24 @@ const FeaturedProjects = () => {
                             ? `BUA: ${project.price}${/\d$/.test(project.price) ? ' sqft' : ''}`
                             : project.client}
                         </div>
-                          {project.explore && (
-    <Link
-      to={`/projects/${project._id}`}
-      className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
-    >
-      Explore
-      <ArrowRight
-        size={16}
-        className={`ml-1 transition-transform duration-300 ${
-          hoveredProject === project._id ? 'translate-x-1' : ''
-        }`}
-      />
-    </Link>
-  )}
-</div>
+                        {project.explore && (
+                          <Link
+                            to={`/projects/${project._id}`}
+                            className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
+                          >
+                            Explore
+                            <ArrowRight
+                              size={16}
+                              className={`ml-1 transition-transform duration-300 ${
+                                hoveredProject === project._id ? 'translate-x-1' : ''
+                              }`}
+                            />
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
