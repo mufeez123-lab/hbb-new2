@@ -192,7 +192,7 @@ const AdminProjects: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-6 md:ml-0 md:mr-10">
-          <div className="max-w-10xl mx-auto">
+          <div className="max-w-10xl mx-auto mt-10">
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-2xl font-semibold">Projects</h1>
               <button onClick={startAdd} className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700">
