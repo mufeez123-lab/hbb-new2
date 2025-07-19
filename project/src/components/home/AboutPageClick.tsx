@@ -148,9 +148,10 @@ const AboutPageClick = () => {
 
         {/* Board of Directors Section */}
         <div className="mt-20">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-center text-neutral-800 mb-10">
+          <h2 className="text-2xl sm:text-3xl  text-center  mb-10">
             Board of Directors
           </h2>
+           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
 
           {loading ? (
             <div className="text-center py-8">

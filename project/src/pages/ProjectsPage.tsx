@@ -72,7 +72,7 @@ const FeaturedProjects = () => {
           transition={{ duration: 0.2 }}
           className="text-left mb-10"
         >
-          <h2 className="text-2xl font-semibold text-neutral-800 mt-10">Our Projects</h2>
+          <h2 className="text-2xl  mt-10">Our Projects</h2>
           <div className="w-20 h-1 bg-[#8a731b] mt-2"></div>
         </motion.div>
 
