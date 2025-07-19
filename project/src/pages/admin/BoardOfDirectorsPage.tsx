@@ -102,7 +102,7 @@ const BoardOfDirectorsPage: React.FC = () => {
       <div className="flex">
         <Sidebar />
         <main className="flex-1 p-4 ">
-          <div className="max-w-6xl mx-auto mt-10">
+          <div className="max-w-6xl mx-auto mt-20">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-semibold">Board of Directors</h1>
               <button

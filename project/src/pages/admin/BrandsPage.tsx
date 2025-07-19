@@ -79,7 +79,7 @@ const BrandsPage = () => {
           <button
             onClick={handleUpload}
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded disabled:opacity-50"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded disabled:opacity-50"
           >
             {loading ? 'Uploading...' : 'Upload'}
           </button>

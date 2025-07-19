@@ -82,7 +82,7 @@ const AboutStatsPage: React.FC = () => {
               <h1 className="text-3xl font-semibold">About Page Stats</h1>
               <button
                 onClick={handleClickOpen}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700"
               >
                 {stats ? 'Edit Stats' : 'Add Stats'}
               </button>
