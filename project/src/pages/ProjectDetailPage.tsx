@@ -36,46 +36,60 @@ const amenityIcons: { [key: string]: JSX.Element } = {
   'Park Area': <FaTree className="text-2xl text-black" />,
 };
 
+// Custom slider arrows
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-4xl text-white cursor-pointer z-10 hover:text-yellow-500"
+      onClick={onClick}
+    >
+      ›
+    </div>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="absolute left-2 top-1/2 transform -translate-y-1/2 text-4xl text-white cursor-pointer z-10 hover:text-yellow-500"
+      onClick={onClick}
+    >
+      ‹
+    </div>
+  );
+};
+
 const ProjectDetailPage = () => {
   const { id } = useParams();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
-  // const [brochureUrl, setBrochureUrl] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        setLoading(true);
+        const data = await projectsAPI.getById(id);
+        setProject(data);
+      } catch (err) {
+        setError('Unable to load project details.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-useEffect(() => {
-  const fetchProject = async () => {
-    try {
-      setLoading(true);
-      const data = await projectsAPI.getById(id);
-      setProject(data);
-    } catch (err) {
-      setError('Unable to load project details.');
-    } finally {
-      setLoading(false);
+    if (id) {
+      fetchProject();
     }
-  };
+  }, [id]);
 
-  // const fetchBrochure = async () => {
-  //   try {
-  //     const res = await brochureAPI.getByProjectId(id);
-  //     if (res.length > 0) setBrochureUrl(res[0].pdfUrl);
-  //   } catch (err) {
-  //     console.error('Brochure fetch failed:', err);
-  //   }
-  // };
-
-  if (id) {
-    fetchProject();
-    // fetchBrochure();
-  }
-}, [id]);
-
-
-  if (loading) return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
-  if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
+  if (loading)
+    return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
+  if (error || !project)
+    return <div className="py-20 text-center text-red-600">{error}</div>;
 
   const galleryImages = project.images;
 
@@ -88,7 +102,7 @@ useEffect(() => {
     >
       <div className="bg-white shadow-lg overflow-hidden h-full pb-8">
         <div className="flex flex-col lg:flex-row">
-          <div className="w-full lg:w-3/5 h-[400px]">
+          <div className="w-full lg:w-3/5 h-[400px] relative">
             <Slider
               infinite
               speed={1000}
@@ -98,6 +112,8 @@ useEffect(() => {
               autoplaySpeed={3000}
               lazyLoad="progressive"
               className="h-full"
+              nextArrow={<NextArrow />}
+              prevArrow={<PrevArrow />}
             >
               {galleryImages.map((img, idx) => (
                 <img
@@ -193,7 +209,7 @@ useEffect(() => {
                 <div
                   key={idx}
                   className="relative cursor-pointer group"
-                  onClick={() => setSelectedImage(img.url)}
+                  onClick={() => setSelectedImageIndex(idx)}
                 >
                   <img
                     src={img.url}
@@ -201,12 +217,9 @@ useEffect(() => {
                     className="w-full h-40 object-cover rounded border border-neutral-200 group-hover:opacity-75 transition"
                     loading="lazy"
                   />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-  <span className="text-white text-xl  bg-opacity-50 p-0 ">
-    +
-  </span>
-</div>
-
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                    <span className="text-white text-xl bg-opacity-50 p-0">+</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -215,17 +228,40 @@ useEffect(() => {
       )}
 
       {/* Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="relative max-w-4xl w-full mx-4">
+      {selectedImageIndex !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <div className="relative w-full max-w-5xl mx-4">
             <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-2 right-4 text-white text-3xl font-bold hover:text-red-500"
+              onClick={() => setSelectedImageIndex(null)}
+              className="absolute top-2 right-4 text-white text-3xl font-bold hover:text-red-500 z-50"
             >
               ×
             </button>
+
+            {selectedImageIndex > 0 && (
+              <button
+                onClick={() =>
+                  setSelectedImageIndex((prev) => (prev !== null ? prev - 1 : null))
+                }
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-4xl z-50"
+              >
+                ‹
+              </button>
+            )}
+
+            {selectedImageIndex < galleryImages.length - 1 && (
+              <button
+                onClick={() =>
+                  setSelectedImageIndex((prev) => (prev !== null ? prev + 1 : null))
+                }
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-4xl z-50"
+              >
+                ›
+              </button>
+            )}
+
             <img
-              src={selectedImage}
+              src={galleryImages[selectedImageIndex].url}
               alt="Enlarged"
               className="w-full max-h-[90vh] object-contain rounded shadow-lg"
             />
