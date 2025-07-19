@@ -228,7 +228,7 @@ const AdminProjects: React.FC = () => {
          <div className="bg-white rounded-lg p-4 sm:p-6 ml-4 w-[calc(100%-1rem)] sm:ml-0 h-full sm:h-auto sm:w-full max-w-2xl overflow-y-auto sm:max-h-[90vh]"> 
 
 
-            <h2 className="text-xl font-bold mb-4">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
+            <h2 className="text-xl font-bold mb-4 mt-10">{editingProjectId ? 'Update Project' : 'Add New Project'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {['name', 'location', 'client', 'price'].map((field) => (
