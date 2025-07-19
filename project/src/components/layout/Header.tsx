@@ -46,7 +46,7 @@ const Header = () => {
           {/* Right Controls - Desktop only */}
           <div className="hidden lg:flex items-center space-x-4 relative">
             <Link
-              to="/upcoming-projects"
+              to="/contact"
               className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white transition"
             >
               Upcoming Projects
