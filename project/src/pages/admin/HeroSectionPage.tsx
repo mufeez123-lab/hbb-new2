@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface HeroImage {
   _id: string;
@@ -31,7 +33,7 @@ const HeroSectionPage: React.FC = () => {
     if (!selectedFiles || selectedFiles.length === 0) return;
 
     const formData = new FormData();
-    Array.from(selectedFiles).forEach(file => formData.append('images', file));
+    Array.from(selectedFiles).forEach((file) => formData.append('images', file));
 
     try {
       setUploading(true);
@@ -41,8 +43,10 @@ const HeroSectionPage: React.FC = () => {
       setHeroImages(res.data?.images || []);
       setOpen(false);
       setSelectedFiles(null);
+      toast.success('Images uploaded successfully!');
     } catch (err) {
       console.error('Upload failed:', err);
+      toast.error('Image upload failed.');
     } finally {
       setUploading(false);
     }
@@ -50,18 +54,17 @@ const HeroSectionPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/admin/hero/${id}`, 
-        {
-           headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-        
-    
-      
-      setHeroImages((prev) => prev.filter(img => img._id !== id));
+      await api.delete(`/admin/hero/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      setHeroImages((prev) => prev.filter((img) => img._id !== id));
+      toast.success('Image deleted successfully!');
     } catch (err) {
       console.error('Delete failed:', err);
+      toast.error('Failed to delete image.');
     }
   };
 
@@ -144,6 +147,8 @@ const HeroSectionPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
