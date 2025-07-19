@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Sidebar from '../../components/admin/Sidebar';
 import api from '../../services/api';
 
 interface AboutStats {
@@ -57,7 +58,6 @@ const AboutStatsPage: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('Submitting formData:', formData);
     try {
       if (stats?._id) {
         await api.put('/admin/about', { ...formData, _id: stats._id });
@@ -72,39 +72,46 @@ const AboutStatsPage: React.FC = () => {
   };
 
   return (
-    <div className="ml-20">
-      <div className="flex justify-between mt-44 mb-5 mr-5">
-        <h1 className="text-3xl font-semibold">About Page Stats Admin</h1>
-        <button
-          onClick={handleClickOpen}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          {stats ? 'Edit Stats' : 'Add Stats'}
-        </button>
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      <div className="flex">
+        <Sidebar />
 
-      {stats && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="bg-white shadow-md rounded p-6">
-            <h2 className="text-lg font-bold mb-2">
-              Experience: {stats.yearsOfExperience} years
-            </h2>
-            <p>Projects: {stats.completedProjects}</p>
-            <p>Clients: {stats.happyClients}</p>
-            <p>Awards: {stats.awardsWon}</p>
-            <div className="mt-4 text-right">
+        <main className="flex-1 p-6 ml-0 mt-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex justify-between mb-6">
+              <h1 className="text-3xl font-semibold">About Page Stats</h1>
               <button
                 onClick={handleClickOpen}
-                className="text-blue-600 hover:underline"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
-                Edit
+                {stats ? 'Edit Stats' : 'Add Stats'}
               </button>
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* Modal */}
+            {stats && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="bg-white shadow-md rounded p-6">
+                  <h2 className="text-lg font-bold mb-2">
+                    Experience: {stats.yearsOfExperience} years
+                  </h2>
+                  <p>Projects: {stats.completedProjects}</p>
+                  <p>Clients: {stats.happyClients}</p>
+                  <p>Awards: {stats.awardsWon}</p>
+                  <div className="mt-4 text-right">
+                    <button
+                      onClick={handleClickOpen}
+                      className="text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+
       {open && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
