@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../../services/api';
@@ -68,15 +67,8 @@ const FeaturedProjects = () => {
     <section className="py-16 bg-neutral-50">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.2 }}
-          >
-            <h2 className="text-xl sm:text-2xl  text-center ">Featured Projects</h2>
-            <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
-          </motion.div>
+          <h2 className="text-xl sm:text-2xl">Featured Projects</h2>
+          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
         </div>
 
         {mainFeatured.length === 0 ? (
@@ -87,7 +79,7 @@ const FeaturedProjects = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {mainFeatured.map((project, index) => {
+            {mainFeatured.map((project) => {
               const imageObj = project.images?.[0];
               const imageUrl =
                 typeof imageObj === 'object' && imageObj?.url
@@ -120,12 +112,8 @@ const FeaturedProjects = () => {
               );
 
               return (
-                <motion.div
+                <div
                   key={project._id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="group"
                   onMouseEnter={() => setHoveredProject(project._id)}
                   onMouseLeave={() => setHoveredProject(null)}
@@ -167,7 +155,7 @@ const FeaturedProjects = () => {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
