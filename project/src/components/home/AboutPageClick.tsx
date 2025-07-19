@@ -92,6 +92,7 @@ const AboutPageClick = () => {
       className="bg-white pb-2 pt-32"
     >
       <Helmet>
+         <title>About Us | Hindustan Builders</title>
         <meta
           name="description"
           content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."

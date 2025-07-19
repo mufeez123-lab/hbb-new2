@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
 import { ArrowRight } from 'lucide-react';
+import { Helmet } from 'react-helmet';
 
 interface Project {
   _id: string;
@@ -64,6 +65,13 @@ const FeaturedProjects = () => {
 
   return (
     <section className="py-16 bg-neutral-50 mt-10">
+      <Helmet>
+        <title>Our Projects | Hindustan Builders</title>
+        <meta
+          name="description"
+          content="Explore our featured residential, commercial, and luxury real estate projects. Hindustan Builders brings your dream space to life."
+        />
+      </Helmet>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
