@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font and base smoothing */
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
@@ -9,6 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* AOS fade-in effect */
 [data-aos].aos-animate {
   opacity: 1;
   transition: opacity 0.6s ease-in;
@@ -18,7 +20,18 @@ body {
   opacity: 0;
   transition: opacity 0.6s ease-out;
 }
-[data-aos]:not(.aos-animate) {
-  opacity: 0;
-  transition: opacity 0.6s ease-out;
+
+/* ScrollSmoother required styles */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#smooth-wrapper {
+  height: 100%;
+  overflow: hidden;
+}
+
+#smooth-content {
+  will-change: transform;
 }
