@@ -29,10 +29,12 @@ html, body {
 }
 
 [data-scroll-container] {
+  height: auto;
+  min-height: 100vh;
   will-change: transform;
-  height: 100%;
   overflow: hidden;
 }
+
 
 /* Optional: smooth transition effect for parallax elements */
 [data-scroll] {
