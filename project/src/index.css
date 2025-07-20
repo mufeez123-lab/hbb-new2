@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font and base smoothing */
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
@@ -10,7 +9,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* AOS animations - smooth fade */
 [data-aos].aos-animate {
   opacity: 1;
   transition: opacity 0.6s ease-in;
@@ -20,14 +18,7 @@ body {
   opacity: 0;
   transition: opacity 0.6s ease-out;
 }
-
-/* Locomotive Scroll styles */
-html, body {
-  overflow: hidden; /* Prevent native scroll */
-}
-
-[data-scroll-container] {
-  overflow: hidden;
-  will-change: transform;
-  /* Optional performance boost for hardware acceleration */
+[data-aos]:not(.aos-animate) {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
 }
