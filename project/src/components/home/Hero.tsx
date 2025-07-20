@@ -56,7 +56,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[500px] md:h-screen overflow-hidden mt-24 md:mt-0 ">
+    <section className="relative h-[500px] md:h-screen overflow-hidden mt-24 md:mt-0   data-scroll-section">
       {images.length === 0 ? (
         <div className="h-[300px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
@@ -64,7 +64,7 @@ const Hero = () => {
       ) : (
         <Slider {...settings}>
           {images.map((img, index) => (
-            <div key={img.public_id || index} className="relative h-[500px] md:h-screen w-full">
+            <div key={img.public_id || index} className="relative h-[500px] md:h-screen w-full" data-scroll data-scroll-speed="1">
               <div
                 className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover  z-0"
                 style={{
@@ -73,8 +73,8 @@ const Hero = () => {
                 }}
               />
               <div className="absolute inset-0 bg-black/50 z-10" />
-              <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white"  data-scroll data-scroll-speed="2">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4"   data-scroll data-scroll-direction="vertical" data-scroll-speed="3" >
                   {/* Heading goes here */}
                 </h1>
                 <p className="text-lg md:text-xl mb-6">
