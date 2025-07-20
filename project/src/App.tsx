@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { LocomotiveProvider } from './components/utils/LocomotiveProvider';
+// import { LocomotiveProvider } from './components/utils/LocomotiveProvider';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "slick-carousel/slick/slick.css"; 
@@ -97,7 +97,6 @@ function App() {
       <ProjectProvider>
         <ScrollToTop />
         {!isAdminPage && <Header />}
-         <LocomotiveProvider>
         <main className="min-h-screen">
           <AnimatePresence mode="wait">
             <Routes>
@@ -134,7 +133,7 @@ function App() {
         </main> 
        
         {!isAdminPage && <Footer />}
-         </LocomotiveProvider>
+
       </ProjectProvider>
     </AuthProvider>
   );
