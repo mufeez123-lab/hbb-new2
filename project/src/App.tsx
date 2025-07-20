@@ -5,7 +5,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import LocomotiveScrollProvider from './components/utils/LocomotiveScrollProvider';
 
 
 // Components
@@ -96,7 +95,6 @@ function App() {
       <ProjectProvider>
         <ScrollToTop />
         {!isAdminPage && <Header />}
-          <LocomotiveScrollProvider>
         <main className="min-h-screen">
           <AnimatePresence mode="wait">
             <Routes>
@@ -131,7 +129,6 @@ function App() {
             </Routes>
           </AnimatePresence>
         </main> 
-          </LocomotiveScrollProvider>
         {!isAdminPage && <Footer />}
       </ProjectProvider>
     </AuthProvider>
