@@ -132,8 +132,9 @@ function App() {
             </Routes>
           </AnimatePresence>
         </main> 
-        </LocomotiveProvider>
+       
         {!isAdminPage && <Footer />}
+         </LocomotiveProvider>
       </ProjectProvider>
     </AuthProvider>
   );
