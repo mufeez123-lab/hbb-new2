@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html {
+  scroll-behavior: smooth; /* ✅ Enables native smooth scrolling */
+}
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
