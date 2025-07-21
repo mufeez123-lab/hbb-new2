@@ -96,6 +96,7 @@ function App() {
     <AuthProvider>
       <ProjectProvider>
         <ScrollToTop />
+        <div data-scroll-container>
         {!isAdminPage && <Header />}
         <main className="min-h-screen">
           <AnimatePresence mode="wait">
@@ -133,7 +134,7 @@ function App() {
         </main> 
        
         {!isAdminPage && <Footer />}
-
+</div>
       </ProjectProvider>
     </AuthProvider>
   );
