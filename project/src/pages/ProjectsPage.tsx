@@ -63,7 +63,7 @@ const FeaturedProjects = () => {
   }
 
   return (
-    <section className="py-16 bg-neutral-50 mt-10">
+    <section className="py-16 bg-neutral-50 mt-10" >
       <Helmet>
         <title>Our Projects | Hindustan Builders</title>
         <meta
