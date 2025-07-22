@@ -87,8 +87,8 @@ const Hero = () => {
       )}
        {/* Scroll Down Suggestion */}
   <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
-    <span className="text-sm mb-1">Scroll Down</span>
-    <svg
+    <span className="text-sm mb-1">🡣</span>
+    {/* <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-5 w-5"
       fill="none"
@@ -96,7 +96,7 @@ const Hero = () => {
       stroke="currentColor"
     >
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-    </svg>
+    </svg> */}
   </div>
     </section>
   );
