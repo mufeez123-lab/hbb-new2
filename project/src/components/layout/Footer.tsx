@@ -144,16 +144,12 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-neutral-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm mb-4 md:mb-0">
-            &copy; {currentYear} Hindustan Builders. All rights reserved.
-          </p>
-          <div className="flex space-x-4 text-sm text-gray-300">
-            <Link to="/privacy" className="hover:text-secondary-500 transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-secondary-500 transition-colors">Terms of Service</Link>
-            <Link to="/sitemap" className="hover:text-secondary-500 transition-colors">Sitemap</Link>
-          </div>
-        </div>
+      <div className="border-t border-neutral-700 mt-12 pt-6 flex justify-center items-center">
+  <p className="text-gray-300 text-sm text-center">
+    &copy; {currentYear} Hindustan Builders. All rights reserved.
+  </p>
+</div>
+
       </div>
     </footer>
   );
