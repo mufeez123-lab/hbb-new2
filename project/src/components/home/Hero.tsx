@@ -86,7 +86,7 @@ const Hero = () => {
         </Slider>
       )}
        {/* Scroll Down Suggestion */}
-  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
+  <div className=" hidden md:flex absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
     <span className="text-sm mb-1">🡣</span>
     {/* <svg
       xmlns="http://www.w3.org/2000/svg"
