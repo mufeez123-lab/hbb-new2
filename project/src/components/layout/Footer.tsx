@@ -73,7 +73,7 @@ const Footer = () => {
             <h3 className="text-xl font-poppins mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
+                <Link to="/" onClick={()=> window.scrollTo({top:0, behavior:'smooth'})} className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
                   <HomeIcon size={16} className="mr-2 text-[#8a6c1a]" /> Home
                 </Link>
               </li>
