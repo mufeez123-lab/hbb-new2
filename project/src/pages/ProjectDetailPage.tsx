@@ -175,7 +175,7 @@ const ProjectDetailPage = () => {
       {project.specifications && project.specifications.length > 0 && (
         <div className="bg-white mt-6 p-6 rounded">
           <h3 className="text-2xl font-serif text-neutral-800 mb-4">Specifications</h3>
-          <div className="divide-y border rounded border-neutral-200 w-3/4">
+          <div className="divide-y border rounded border-neutral-200 w-full sm:w-3/4">
             {project.specifications.map((spec, index) => (
               <details
                 key={index}
@@ -199,7 +199,7 @@ const ProjectDetailPage = () => {
       {/* Gallery */}
       {galleryImages.length > 0 && (
         <div className="bg-white mt-6 px-6 py-8 rounded">
-          <div className="w-3/4 ml-0">
+          <div className="w-full sm:w-3/4 ml-0">
             <div className="flex items-center gap-4 mb-6">
               <h3 className="text-2xl font-serif text-neutral-800">Gallery</h3>
               <div className="flex-1 border-t border-neutral-200" />
