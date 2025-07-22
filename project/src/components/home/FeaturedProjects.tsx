@@ -134,7 +134,7 @@ const FeaturedProjects = () => {
                       <div className="text-neutral-500 text-sm mb-2">{project.location}</div>
 
                       <div className="flex justify-between items-center">
-                        <div className="text-primary-700 font-semibold text-sm sm:text-base">
+                        <div className="text-primary-700 font-semibold text-sm">
                           {project.price ? `BUA: ${project.price} sqft` : project.client}
                         </div>
 

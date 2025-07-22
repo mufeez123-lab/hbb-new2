@@ -92,7 +92,7 @@ const FeaturedProjects = () => {
 
               const imageContent = (
                 <div
-                  className={`relative h-64 overflow-hidden ${
+                  className={`relative h-48 overflow-hidden ${
                     project.explore ? 'cursor-pointer' : 'cursor-default'
                   }`}
                 >
