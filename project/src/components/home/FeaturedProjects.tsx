@@ -127,13 +127,13 @@ const FeaturedProjects = () => {
                       imageContent
                     )}
 
-                    <div className="p-4 sm:p-6">
+                    <div className="p-5 sm:p-6">
                       <h3 className="text-lg font-serif font-bold text-primary-800 mb-1">
                         {project.name}
                       </h3>
-                      <div className="text-neutral-500 text-sm mb-2">{project.location}</div>
+                      <div className="text-neutral-500 text-sm mb-1">{project.location}</div>
 
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center mt-3">
                         <div className="text-primary-700 font-semibold text-sm">
                           {project.price ? `BUA: ${project.price} sqft` : project.client}
                         </div>
