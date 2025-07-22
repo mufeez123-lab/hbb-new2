@@ -118,7 +118,7 @@ const FeaturedProjects = () => {
                   onMouseEnter={() => setHoveredProject(project._id)}
                   onMouseLeave={() => setHoveredProject(null)}
                 >
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+                  <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-2">
                     {project.explore ? (
                       <Link to={`/projects/${project._id}`} className="block">
                         {imageContent}
