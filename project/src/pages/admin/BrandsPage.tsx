@@ -1,43 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { brandsAPI } from '../../services/api'; // adjust path as needed
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { brandsAPI } from '../../services/api';
+import Sidebar from '../../components/admin/Sidebar';
 
 interface Brand {
   _id: string;
-  name: string;
-  logo?: string;
+  image: {
+    url: string;
+    public_id: string;
+  };
 }
 
-export default function BrandList() {
+const BrandsPage = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [deletingIds, setDeletingIds] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchBrands = async () => {
-    setLoading(true);
     try {
-      const response = await brandsAPI.admin.getAll();
-      setBrands(response.data || []);
+      const data = await brandsAPI.admin.getAll();
+      setBrands(data);
     } catch (error) {
-      console.error('Error fetching brands:', error);
-      toast.error('Failed to load brands');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    setDeletingIds((prev) => [...prev, id]); // Show "Deleting..."
-
-    try {
-      await brandsAPI.admin.delete(id);
-      toast.success('Brand deleted successfully');
-      await fetchBrands();
-    } catch (error) {
-      console.error('Delete failed:', error);
-      toast.error('Failed to delete brand');
-    } finally {
-      setDeletingIds((prev) => prev.filter((delId) => delId !== id)); // Remove from deleting list
+      console.error('Failed to fetch brands:', error);
     }
   };
 
@@ -45,50 +28,90 @@ export default function BrandList() {
     fetchBrands();
   }, []);
 
-  return (
-    <div className="p-6">
-      <h1 className="text-lg font-semibold mb-4">Brands</h1>
+  const handleUpload = async () => {
+    if (!selectedFiles || selectedFiles.length === 0) {
+      alert('Please select at least one image.');
+      return;
+    }
 
-      {loading ? (
-        <p>Loading brands...</p>
-      ) : (
-        <table className="w-full border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 border">Logo</th>
-              <th className="p-2 border">Name</th>
-              <th className="p-2 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {brands.map((brand) => (
-              <tr key={brand._id} className="border-b">
-                <td className="p-2 border text-center">
-                  {brand.logo ? (
-                    <img
-                      src={brand.logo}
-                      alt={brand.name}
-                      className="w-12 h-12 object-cover rounded"
-                    />
-                  ) : (
-                    'No logo'
-                  )}
-                </td>
-                <td className="p-2 border">{brand.name}</td>
-                <td className="p-2 border text-center">
-                  <button
-                    onClick={() => handleDelete(brand._id)}
-                    className="text-sm text-red-600 hover:underline disabled:opacity-50"
-                    disabled={deletingIds.includes(brand._id)}
-                  >
-                    {deletingIds.includes(brand._id) ? 'Deleting...' : 'Delete'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    const formData = new FormData();
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append('images', selectedFiles[i]);
+    }
+
+    setLoading(true);
+    try {
+      await brandsAPI.admin.create(formData);
+      setSelectedFiles(null);
+      await fetchBrands();
+    } catch (error) {
+      console.error('Upload failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await brandsAPI.admin.delete(id);
+      await fetchBrands();
+    } catch (error) {
+      console.error('Delete failed:', error);
+    }
+  };
+
+  const getImageUrl = (image: any) => image?.url || '/default-avatar.png';
+
+  return (
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 p-6 sm:p-10">
+        <h2 className="text-2xl font-bold mb-6">Manage Brands</h2>
+
+        {/* Upload Section */}
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <input
+            type="file"
+            multiple
+            onChange={(e) => setSelectedFiles(e.target.files)}
+            className="border rounded px-4 py-2"
+          />
+          <button
+            onClick={handleUpload}
+            disabled={loading}
+            className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded disabled:opacity-50"
+          >
+            {loading ? 'Uploading...' : 'Upload'}
+          </button>
+        </div>
+
+        {/* Brand Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
+          {brands.map((brand) => (
+            <div
+              key={brand._id}
+              className="bg-white border p-4 shadow rounded flex flex-col items-center justify-between"
+            >
+              <img
+                src={getImageUrl(brand.image)}
+                alt="Brand"
+                className="w-24 h-24 object-contain mb-3"
+                onError={(e) => {
+                  e.currentTarget.src = '/default-avatar.png';
+                }}
+              />
+              <button
+                onClick={() => handleDelete(brand._id)}
+                className="text-sm text-red-600 hover:underline"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default BrandsPage;
