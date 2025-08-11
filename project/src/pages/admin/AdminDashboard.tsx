@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import BrandsPage from './BrandsPage';
 import BoardOfDirectorsPage from './BoardOfDirectorsPage';
-// import HeroSectionPage from './HeroSectionPage';
+import HeroSectionPage from './HeroSectionPage';
 import AboutStatsPage from './AboutStatsPage';
 import api from '../../services/api';
 import {
@@ -11,19 +11,20 @@ import {
   Business as BusinessIcon,
   Image as ImageIcon,
   BrandingWatermark as BrandingWatermarkIcon,
+  Hero as HeroIcon
 } from '@mui/icons-material';
 
 const AdminDashboard: React.FC = () => {
   const [boardCount, setBoardCount] = useState(0);
   const [projectCount, setProjectCount] = useState(0);
-  // const [heroImageCount, setHeroImageCount] = useState(0);
+  const [heroImageCount, setHeroImageCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
 
   useEffect(() => {
     // Fetch all admin metrics
     api.get('/admin/board').then((res) => setBoardCount(res.data.length));
     api.get('/admin/projects').then((res) => setProjectCount(res.data.length));
-    // api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
+    api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
     api.get('/admin/brands').then((res) => setBrandCount(res.data.length));
   }, []);
 
@@ -45,6 +46,12 @@ const AdminDashboard: React.FC = () => {
       title: 'Brands',
       value: brandCount,
       icon: <BrandingWatermarkIcon fontSize="large" />,
+      color: '#9c27b0',
+    },
+     {
+      title: 'Hero Section',
+      value: heroImageCount,
+      icon: <HeroIcon fontSize="large" />,
       color: '#9c27b0',
     },
   ];
