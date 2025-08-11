@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Send, Phone, Mail, MapPin } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { contactAPI, ContactFormData } from '../../services/api';  // import contactAPI and ContactFormData
 
 const ContactSection = () => {
   const controls = useAnimation();
@@ -36,33 +36,44 @@ const ContactSection = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    emailjs
-      .send(
-        'service_r4lw7nn',         // ✅ your EmailJS service ID
-        'template_35v4jap',         // ✅ your EmailJS template ID
-        formData,
-        'wUdeNSJ0V6jqmnIBC'     // ✅ your EmailJS public key
-      )
-      .then(() => {
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            message: '',
-            interest: 'general',
-          });
-        }, 3000);
-      })
-      .catch((error) => {
-        console.error('EmailJS Error:', error);
-        alert('Failed to send message');
-      });
+    const dataToSend: ContactFormData = {
+      fullName: formData.name,
+      emailAddress: formData.email,
+      phoneNumber: formData.phone,
+      enquiryType:
+        formData.interest === 'general'
+          ? 'General Enquiry'
+          : formData.interest === 'commercial'
+          ? 'Commercial Properties'
+          : formData.interest === 'residential'
+          ? 'Residential Properties'
+          : formData.interest === 'investment'
+          ? 'Investment Opportunities'
+          : formData.interest,
+      message: formData.message,
+    };
+
+    try {
+      await contactAPI.sendEnquiry(dataToSend);  // Use contactAPI here
+
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          interest: 'general',
+        });
+      }, 3000);
+    } catch (error) {
+      console.error('Error sending enquiry:', error);
+      alert('Failed to send message. Please try again later.');
+    }
   };
 
   return (
@@ -93,7 +104,6 @@ const ContactSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Call Us</h3>
                   <p className="text-neutral-600">+91-9961258523</p>
-                  
                 </div>
               </div>
 
@@ -104,7 +114,6 @@ const ContactSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Email Us</h3>
                   <p className="text-neutral-600">info@hindustanbawa.com</p>
-                  {/* <p className="text-neutral-600">sales@hindustanbawa.com</p> */}
                 </div>
               </div>
 
@@ -216,7 +225,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                     >
-                      <option value="general">General Inquiry</option>
+                      <option value="general">General Enquiry</option>
                       <option value="residential">Residential Properties</option>
                       <option value="commercial">Commercial Properties</option>
                       <option value="luxury">Luxury Villas</option>
@@ -237,7 +246,7 @@ const ContactSection = () => {
                       rows={5}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                       placeholder="How can we help you?"
-                    ></textarea>
+                    />
                   </div>
 
                   <button

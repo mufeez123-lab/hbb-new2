@@ -16,6 +16,8 @@ const heroRoutes = require('./routes/hero');
 const boardRoutes = require('./routes/board');
 const adminTestimonialsRoutes = require('./routes/adminTestimonials');
 const brochureRoutes = require('./routes/brochure');
+const contactRoutes=require('./routes/contact');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -110,6 +112,7 @@ app.use('/api/about', aboutRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/brochures', brochureRoutes);
 app.use('/api/hero', heroRoutes);
+app.use('/api/contact',contactRoutes)
 
 // Root check route
 app.get('/', (req, res) => {

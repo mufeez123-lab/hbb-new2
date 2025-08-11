@@ -90,7 +90,22 @@ export const authAPI = {
     return response.data;
   },
 };
+// Contact API data interface
+export interface ContactFormData {
+  fullName: string;
+  emailAddress: string;
+  phoneNumber: string;
+  enquiryType: string;
+  message: string;
+}
 
+// Contact API
+export const contactAPI = {
+  sendContactEnquiry: async (data: ContactFormData) => {
+    const response = await api.post('/contact', data);
+    return response.data;
+  },
+};
 
 
 export const brochureAPI = {
