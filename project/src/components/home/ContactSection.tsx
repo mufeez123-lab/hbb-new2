@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Send, Phone, Mail, MapPin } from 'lucide-react';
-import { contactAPI, ContactFormData } from '../../services/api';  // import contactAPI and ContactFormData
+import { contactAPI, ContactFormData } from '../../services/api'; // import contactAPI and ContactFormData
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactSection = () => {
   const controls = useAnimation();
@@ -18,6 +21,7 @@ const ContactSection = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (isInView) {
       controls.start({ opacity: 1, y: 0, pointerEvents: 'auto' });
@@ -56,7 +60,7 @@ const ContactSection = () => {
       message: formData.message,
     };
 
-   try {
+    try {
       setIsSubmitting(true);
       await contactAPI.sendContactEnquiry(dataToSend);
 
@@ -64,6 +68,7 @@ const ContactSection = () => {
       setTimeout(() => {
         setIsSubmitted(true);
         setIsSubmitting(false);
+        toast.success("Thank you! Your message has been sent successfully.");
 
         // Hide thank you message and reset form after 3 seconds
         setTimeout(() => {
@@ -79,10 +84,11 @@ const ContactSection = () => {
       }, 20000);
     } catch (error) {
       console.error('Error sending enquiry:', error);
-      alert('Failed to send message. Please try again later.');
+      toast.error("Failed to send message. Please try again later.");
       setIsSubmitting(false);
     }
   };
+
   return (
     <section ref={ref} className="py-20 bg-neutral-100 ">
       <motion.div
@@ -184,6 +190,7 @@ const ContactSection = () => {
                       required
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                       placeholder="Your name"
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -201,6 +208,7 @@ const ContactSection = () => {
                         required
                         className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                         placeholder="Your email"
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -217,6 +225,7 @@ const ContactSection = () => {
                         required
                         className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                         placeholder="Your phone"
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
@@ -231,6 +240,7 @@ const ContactSection = () => {
                       value={formData.interest}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                      disabled={isSubmitting}
                     >
                       <option value="general">General Enquiry</option>
                       <option value="residential">Residential Properties</option>
@@ -253,14 +263,18 @@ const ContactSection = () => {
                       rows={5}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                       placeholder="How can we help you?"
+                      disabled={isSubmitting}
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-[#8a6c1a] text-white py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center"
+                    className={`w-full bg-[#8a6c1a] text-white py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center ${
+                      isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isSubmitting}
                   >
-                    Send Message
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                     <Send size={18} className="ml-2" />
                   </button>
                 </form>
@@ -269,6 +283,20 @@ const ContactSection = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </section>
   );
 };
