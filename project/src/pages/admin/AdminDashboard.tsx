@@ -11,7 +11,7 @@ import {
   Business as BusinessIcon,
   Image as ImageIcon,
   BrandingWatermark as BrandingWatermarkIcon,
-  Hero as HeroIcon
+  PhotoLibrary as PhotoLibraryIcon
 } from '@mui/icons-material';
 
 const AdminDashboard: React.FC = () => {
@@ -51,7 +51,7 @@ const AdminDashboard: React.FC = () => {
      {
       title: 'Hero Section',
       value: heroImageCount,
-      icon: <HeroIcon fontSize="large" />,
+      icon: <PhotoLibraryIcon fontSize="large" />,
       color: '#9c27b0',
     },
   ];
