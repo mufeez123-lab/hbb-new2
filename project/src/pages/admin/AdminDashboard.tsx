@@ -87,7 +87,7 @@ const AdminDashboard: React.FC = () => {
           <Routes>
             <Route path="/brands" element={<BrandsPage />} />
             <Route path="/board" element={<BoardOfDirectorsPage />} />
-            {/* <Route path="/hero" element={<HeroSectionPage />} /> */}
+            <Route path="/hero" element={<HeroSectionPage />} />
             <Route path="/about-stats" element={<AboutStatsPage />} />
           </Routes>
         </main>
