@@ -17,7 +17,6 @@ const ContactSection = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false); // optional: to disable button during wait
 
   useEffect(() => {
     if (isInView) {
@@ -58,30 +57,22 @@ const ContactSection = () => {
     };
 
     try {
-      setIsSubmitting(true);
-      await contactAPI.sendContactEnquiry(dataToSend);
+      await contactAPI.sendContactEnquiry(dataToSend);  // Use contactAPI here
 
-      // Wait 20 seconds before showing thank you message
+      setIsSubmitted(true);
       setTimeout(() => {
-        setIsSubmitted(true);
-        setIsSubmitting(false);
-
-        // Hide thank you message and reset form after 3 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            message: '',
-            interest: 'general',
-          });
-        }, 3000);
-      }, 20000);
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          interest: 'general',
+        });
+      }, 3000);
     } catch (error) {
       console.error('Error sending enquiry:', error);
       alert('Failed to send message. Please try again later.');
-      setIsSubmitting(false);
     }
   };
 
@@ -186,7 +177,6 @@ const ContactSection = () => {
                       required
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                       placeholder="Your name"
-                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -204,7 +194,6 @@ const ContactSection = () => {
                         required
                         className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                         placeholder="Your email"
-                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -221,7 +210,6 @@ const ContactSection = () => {
                         required
                         className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                         placeholder="Your phone"
-                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
@@ -236,7 +224,6 @@ const ContactSection = () => {
                       value={formData.interest}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
-                      disabled={isSubmitting}
                     >
                       <option value="general">General Enquiry</option>
                       <option value="residential">Residential Properties</option>
@@ -259,19 +246,15 @@ const ContactSection = () => {
                       rows={5}
                       className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
                       placeholder="How can we help you?"
-                      disabled={isSubmitting}
                     />
                   </div>
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full bg-[#8a6c1a] text-white py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center ${
-                      isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
+                    className="w-full bg-[#8a6c1a] text-white py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center"
                   >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                    {!isSubmitting && <Send size={18} className="ml-2" />}
+                    Send Message
+                    <Send size={18} className="ml-2" />
                   </button>
                 </form>
               )}
