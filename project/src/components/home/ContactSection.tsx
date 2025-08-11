@@ -57,7 +57,7 @@ const ContactSection = () => {
     };
 
     try {
-      await contactAPI.sendEnquiry(dataToSend);  // Use contactAPI here
+      await contactAPI.sendContactEnquiry(dataToSend);  // Use contactAPI here
 
       setIsSubmitted(true);
       setTimeout(() => {
