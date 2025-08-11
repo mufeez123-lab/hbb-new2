@@ -20,7 +20,7 @@ const Footer = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <footer className="relative bg-neutral-900 text-white pt-16 pb-8 overflow-hidden">
+    <footer id="footer" className="relative bg-neutral-900 text-white pt-16 pb-8 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full z-0">
         <img 
