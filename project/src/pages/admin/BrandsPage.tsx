@@ -27,32 +27,17 @@ export default function BrandList() {
   };
 
   const handleDelete = async (id: string) => {
-    // Optimistic UI update: remove brand from UI immediately
-    setDeletingIds((prev) => [...prev, id]);
-    const originalBrands = [...brands];
-    setBrands((prev) => prev.filter((b) => b._id !== id));
+    setDeletingIds((prev) => [...prev, id]); // Show "Deleting..."
 
-    const toastId = toast.loading('Deleting...');
     try {
       await brandsAPI.admin.delete(id);
-      toast.update(toastId, {
-        render: 'Brand deleted successfully ✅',
-        type: 'success',
-        isLoading: false,
-        autoClose: 2000
-      });
+      toast.success('Brand deleted successfully');
+      await fetchBrands();
     } catch (error) {
       console.error('Delete failed:', error);
-      // Restore the brand if deletion fails
-      setBrands(originalBrands);
-      toast.update(toastId, {
-        render: 'Failed to delete brand ❌',
-        type: 'error',
-        isLoading: false,
-        autoClose: 3000
-      });
+      toast.error('Failed to delete brand');
     } finally {
-      setDeletingIds((prev) => prev.filter((delId) => delId !== id));
+      setDeletingIds((prev) => prev.filter((delId) => delId !== id)); // Remove from deleting list
     }
   };
 
@@ -66,8 +51,6 @@ export default function BrandList() {
 
       {loading ? (
         <p>Loading brands...</p>
-      ) : brands.length === 0 ? (
-        <p className="text-gray-500">No brands found.</p>
       ) : (
         <table className="w-full border border-gray-200">
           <thead>
@@ -86,9 +69,6 @@ export default function BrandList() {
                       src={brand.logo}
                       alt={brand.name}
                       className="w-12 h-12 object-cover rounded"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/default-avatar.png';
-                      }}
                     />
                   ) : (
                     'No logo'
