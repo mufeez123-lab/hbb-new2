@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import api from '../../services/api'; // adjust path if needed
 import '/src/index.css'; // slick-carousel CSS should be globally imported
 
+
+
 interface HeroImage {
   url: string;
   public_id: string;
