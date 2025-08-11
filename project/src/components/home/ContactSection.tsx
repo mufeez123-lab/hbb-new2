@@ -17,7 +17,7 @@ const ContactSection = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
     if (isInView) {
       controls.start({ opacity: 1, y: 0, pointerEvents: 'auto' });
@@ -56,26 +56,33 @@ const ContactSection = () => {
       message: formData.message,
     };
 
-    try {
-      await contactAPI.sendContactEnquiry(dataToSend);  // Use contactAPI here
+   try {
+      setIsSubmitting(true);
+      await contactAPI.sendContactEnquiry(dataToSend);
 
-      setIsSubmitted(true);
+      // Wait 20 seconds before showing thank you message
       setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: '',
-          interest: 'general',
-        });
-      }, 3000);
+        setIsSubmitted(true);
+        setIsSubmitting(false);
+
+        // Hide thank you message and reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            message: '',
+            interest: 'general',
+          });
+        }, 3000);
+      }, 20000);
     } catch (error) {
       console.error('Error sending enquiry:', error);
       alert('Failed to send message. Please try again later.');
+      setIsSubmitting(false);
     }
   };
-
   return (
     <section ref={ref} className="py-20 bg-neutral-100 ">
       <motion.div
