@@ -105,43 +105,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-xl font-poppins mb-6 text-white">Newsletter</h3>
-            <p className="text-gray-300 mb-4">Subscribe to our newsletter for the latest updates.</p>
-            <form 
-              className="mb-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (email.trim() === '') return;
-                setSubscribed(true);
-                setEmail('');
-                setTimeout(() => setSubscribed(false), 3000);
-              }}
-            >
-              <div className="flex">
-                <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email" 
-                  className="w-full px-4 py-2 text-neutral-700 bg-white rounded-l focus:outline-none focus:ring-2 focus:ring-secondary-500" 
-                  required
-                />
-                <button 
-                  type="submit" 
-                  className="bg-[#8a6c1a] hover:bg-secondary-600 px-4 py-2 rounded-r transition-colors duration-300"
-                >
-                  <ArrowRight size={20} className="text-white" />
-                </button>
-              </div>
-            </form>
-            {subscribed ? (
-              <p className="text-sm text-green-400 mt-2 transition-all duration-300">Thanks for subscribing!</p>
-            ) : (
-              <p className="text-xs text-gray-400 mt-2">By subscribing, you agree to our Privacy Policy.</p>
-            )}
-          </div>
+       
         </div>
 
       <div className="border-t border-neutral-700 mt-12 pt-6 flex justify-center items-center">
