@@ -24,7 +24,10 @@ const AdminDashboard: React.FC = () => {
     // Fetch all admin metrics
     api.get('/admin/board').then((res) => setBoardCount(res.data.length));
     api.get('/admin/projects').then((res) => setProjectCount(res.data.length));
-    api.get('/admin/hero').then((res) => setHeroImageCount(res.data.length));
+api.get('/admin/hero').then((res) => {
+  setHeroImageCount(res.data.images ? res.data.images.length : 0);
+});
+
     api.get('/admin/brands').then((res) => setBrandCount(res.data.length));
   }, []);
 
