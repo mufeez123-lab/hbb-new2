@@ -46,14 +46,7 @@ const HomePage = () => {
       <Brands />
 
       {/* Scroll to Footer Button */}
-      <button
-        onClick={scrollToFooter}
-        className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-black text-white hover:bg-gray-800 shadow-lg"
-        aria-label="Scroll to footer"
-        title="Scroll to footer"
-      >
-        ⬇️
-      </button>
+     
     </motion.div>
   );
 };
