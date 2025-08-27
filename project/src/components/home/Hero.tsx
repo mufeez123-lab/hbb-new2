@@ -40,7 +40,7 @@ const NextArrow = (props: any) => (
     onClick={props.onClick}
     className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 
                w-10 h-10 flex items-center justify-center 
-               rounded-full bg-black/40 hover:bg-black/60 text-white transition"
+                text-white "
   >
     <span className="text-xl font-bold">›</span>
   </button>
