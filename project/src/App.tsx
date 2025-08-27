@@ -75,7 +75,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
+      <div className="fixed inset-0 flex items-center justify-center bg-transparent">
         <div className="text-center flex flex-col items-center space-y-3">
           <div className="flex items-center space-x-3">
             <img
