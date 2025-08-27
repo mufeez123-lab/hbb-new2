@@ -12,8 +12,14 @@ const imageSchema = new mongoose.Schema({
 });
 
 const heroSectionSchema = new mongoose.Schema({
-  desktopImages: [imageSchema],
-  mobileImages: [imageSchema],
+  desktopImage: {
+    type: imageSchema,
+    required: false, // Set to false since a user may not upload one immediately
+  },
+  mobileImage: {
+    type: imageSchema,
+    required: false, // Set to false for the same reason
+  },
   isActive: {
     type: Boolean,
     default: true,
