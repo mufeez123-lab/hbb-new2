@@ -107,7 +107,7 @@ const AboutPage = () => {
               to="/aboutclick"
               className="inline-flex items-center text-[#8a6c1a] hover:underline mt-2"
             >
-              SEE DETAILS <ArrowRight size={16} className="ml-2" />
+              SEE MORE <ArrowRight size={16} className="ml-2" />
             </Link>
           </div>
 
