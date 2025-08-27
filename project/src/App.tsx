@@ -75,18 +75,25 @@ function App() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-transparent">
-        <div className="text-center flex flex-col items-center space-y-3">
-          <div className="flex items-center space-x-3">
-            <img
-              src="/logo-SVG.svg"
-              alt="Logo"
-              className="h-20 w-20" data-aos="fade-up" data-aos-delay="300" 
-            />
-          </div>
-          <p className="text-neutral-600" data-aos="fade-up" data-aos-delay="300">Building Dreams, Delivering Excellence</p>
-        </div>
-      </div>
+     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md z-50">
+  <div className="text-center flex flex-col items-center space-y-3">
+    <div className="flex items-center space-x-3">
+      <img
+        src="/logo-SVG.svg"
+        alt="Logo"
+        className="h-20 w-20"
+        data-aos="fade-up"
+      />
+    </div>
+    <p
+      className="text-neutral-100 font-medium"
+      data-aos="fade-up"
+    >
+      Building Dreams, Delivering Excellence
+    </p>
+  </div>
+</div>
+
     );
   }
 
