@@ -34,8 +34,8 @@ const Hero = () => {
     const fetchImages = async () => {
       try {
         const [desktopRes, mobileRes] = await Promise.all([
-          api.get('/'),
-          api.get('/'),
+          api.get('/desktop'),
+          api.get('/mobile'),
         ]);
 
         if (Array.isArray(desktopRes.data.images)) {
