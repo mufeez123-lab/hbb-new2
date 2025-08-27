@@ -75,7 +75,7 @@ const FeaturedProjects = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          OUR HOLDINGS
+          FEATURED PROJECTS
         </motion.h2>
           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
         </div>
