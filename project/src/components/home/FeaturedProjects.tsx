@@ -67,7 +67,7 @@ const FeaturedProjects = () => {
     <section className="py-16 bg-neutral-50">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-xl sm:text-2xl">Featured Projects</h2>
+          <h2 className="text-xl sm:text-2xl f">Featured Projects</h2>
           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
         </div>
 
