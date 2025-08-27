@@ -16,14 +16,16 @@ const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
       exit="exit"
       variants={menuVariants}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
-      className="fixed top-0 right-0 w-72 sm:w-96 h-full bg-neutral-800 text-white p-8 z-40 flex flex-col gap-5 mt-24"
+      className="fixed top-0 right-0 w-72 sm:w-96 h-full 
+                 bg-black/40 backdrop-blur-md 
+                 text-white p-8 z-40 flex flex-col gap-5 mt-24"
     >
-      <Link to="/" className="hover:text-[#8a6c1a]">Home</Link> 
-      <Link to="/aboutclick" className="hover:text-[#8a6c1a]">About</Link> 
-      <Link to="/aboutclick" className="hover:text-[#8a6c1a]">Awards</Link>
-      <Link to="/projects" className="hover:text-[#8a6c1a]">Projects</Link>
-      <Link to="/faqs" className="hover:text-[#8a6c1a]">FAQs</Link>
-      <Link to="/contact" className="hover:text-[#8a6c1a]">Contact</Link>
+      <Link to="/" className="hover:underline decoration-white underline-offset-4">Home</Link> 
+      <Link to="/aboutclick" className="hover:underline decoration-white underline-offset-4">About</Link> 
+      <Link to="/aboutclick" className="hover:underline decoration-white underline-offset-4">Awards</Link>
+      <Link to="/projects" className="hover:underline decoration-white underline-offset-4">Projects</Link>
+      <Link to="/faqs" className="hover:underline decoration-white underline-offset-4">FAQs</Link>
+      <Link to="/contact" className="hover:underline decoration-white underline-offset-4">Contact</Link>
 
       {/* Social Icons */}
       <div className="mt-auto flex gap-4">
