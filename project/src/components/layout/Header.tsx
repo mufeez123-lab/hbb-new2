@@ -37,8 +37,8 @@ const Header = () => {
       {/* Main Header */}
       <div
         className={`transition-all duration-300 fixed w-full z-50 
-          ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-tranparent backdrop-blur-md'} 
-          `}
+          ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent backdrop-blur-md'} 
+          lg:bg-transparent`}
       >
         <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-4">
           {/* Logo */}
