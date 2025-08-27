@@ -34,7 +34,7 @@ const Hero = () => {
     const fetchImages = async () => {
       try {
         const [desktopRes, mobileRes] = await Promise.all([
-          api.get('/hero//desktop'),
+          api.get('/hero/desktop'),
           api.get('/hero/mobile'),
         ]);
 
