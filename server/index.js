@@ -24,7 +24,8 @@ const server = http.createServer(app);
 
 // ✅ Define allowed origins for both local and production
 const allowedOrigins = [
-  'https://hbb-new2-fhnh.vercel.app'
+  'https://hbb-new2-fhnh.vercel.app',
+     
 ];
 
 app.use(cors({
