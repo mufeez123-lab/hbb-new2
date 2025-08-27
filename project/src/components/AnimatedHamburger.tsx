@@ -16,7 +16,7 @@ const AnimatedHamburger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50); // change color after scrolling 50px
+      setIsScrolled(window.scrollY > 250); 
     };
 
     window.addEventListener("scroll", handleScroll);
