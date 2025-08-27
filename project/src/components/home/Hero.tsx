@@ -58,7 +58,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[500px] md:h-screen overflow-hidden mt-24 md:mt-0 ">
+    <section className="relative h-[500px] md:h-screen overflow-hidden mt-0 md:mt-0 ">
       {images.length === 0 ? (
         <div className="h-[300px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
