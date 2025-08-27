@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -67,7 +68,15 @@ const FeaturedProjects = () => {
     <section className="py-16 bg-neutral-50">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-xl sm:text-2xl font-poppins font-bold">Featured Projects</h2>
+        <motion.h2
+          className="text-2xl text-center font-poppins font-bold"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          OUR HOLDINGS
+        </motion.h2>
           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
         </div>
 
