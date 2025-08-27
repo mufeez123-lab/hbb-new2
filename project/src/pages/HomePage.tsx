@@ -42,7 +42,7 @@ const HomePage = () => {
       <Hero />
       <AboutPage />
       <FeaturedProjects />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Brands />
 
       {/* Scroll to Footer Button */}
