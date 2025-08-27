@@ -75,7 +75,7 @@ function App() {
 
   if (loading) {
     return (
-     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md z-50">
+     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-transparent z-50">
   <div className="text-center flex flex-col items-center space-y-3">
     <div className="flex items-center space-x-3">
       <img
@@ -86,13 +86,14 @@ function App() {
       />
     </div>
     <p
-      className="text-neutral-100 font-medium"
+      className="text-neutral-800 font-medium"
       data-aos="fade-up"
     >
       Building Dreams, Delivering Excellence
     </p>
   </div>
 </div>
+
 
     );
   }
