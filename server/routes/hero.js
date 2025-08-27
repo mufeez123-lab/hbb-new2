@@ -7,14 +7,12 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Storage setup
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -24,70 +22,95 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage });
 
-// GET: Fetch hero section
 router.get('/', async (req, res) => {
   try {
-    const hero = await HeroSection.findOne();
-    res.json(hero || {});
+    const hero = await HeroSection.findOne() || { desktopImages: [], mobileImages: [] };
+    res.json(hero);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// POST: Upload & replace all images
-router.post('/', adminAuth, upload.array('images', 10), async (req, res) => {
+router.post('/desktop', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: 'No images uploaded.' });
     }
 
-   const newImages = req.files.map(file => ({
+    const newImages = req.files.map(file => ({
       url: file.path,
       public_id: file.filename,
     }));
 
-    // Find existing or create new
     let hero = await HeroSection.findOne();
     if (!hero) {
-      hero = new HeroSection({ images: newImages });
+      hero = new HeroSection({ desktopImages: newImages });
     } else {
-      hero.images = [...hero.images, ...newImages]; // Append
+      hero.desktopImages = [...hero.desktopImages, ...newImages];
     }
 
     await hero.save();
-
     req.app.get('io')?.emit('hero:updated', hero);
-
-    res.status(201).json(hero);
+    res.status(201).json({ images: hero.desktopImages });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// DELETE: Remove a specific image by image _id
-router.delete('/:id', adminAuth, async (req, res) => {
+router.post('/mobile', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'No images uploaded.' });
+    }
+
+    const newImages = req.files.map(file => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
+
+    let hero = await HeroSection.findOne();
+    if (!hero) {
+      hero = new HeroSection({ mobileImages: newImages });
+    } else {
+      hero.mobileImages = [...hero.mobileImages, ...newImages];
+    }
+
+    await hero.save();
+    req.app.get('io')?.emit('hero:updated', hero);
+    res.status(201).json({ images: hero.mobileImages });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+router.delete('/:type/:id', adminAuth, async (req, res) => {
+  try {
+    const { type, id } = req.params;
     const hero = await HeroSection.findOne();
     if (!hero) return res.status(404).json({ message: 'Hero section not found' });
 
-    // Find the image inside the images array
-    const imageToDelete = hero.images.find(img => img._id.equals(req.params.id));
+    let targetArray;
+    if (type === 'desktop') {
+      targetArray = 'desktopImages';
+    } else if (type === 'mobile') {
+      targetArray = 'mobileImages';
+    } else {
+      return res.status(400).json({ message: 'Invalid image type.' });
+    }
+
+    const imageToDelete = hero[targetArray].find(img => img._id.equals(id));
     if (!imageToDelete) return res.status(404).json({ message: 'Image not found' });
 
-    // Delete from Cloudinary
     await cloudinary.uploader.destroy(imageToDelete.public_id);
 
-    // Remove from the array
-    hero.images = hero.images.filter(img => !img._id.equals(req.params.id));
+    hero[targetArray] = hero[targetArray].filter(img => !img._id.equals(id));
     await hero.save();
 
-    res.json({ message: 'Deleted successfully', images: hero.images });
+    res.json({ message: 'Deleted successfully', images: hero[targetArray] });
   } catch (err) {
     console.error('Delete error:', err);
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 module.exports = router;
