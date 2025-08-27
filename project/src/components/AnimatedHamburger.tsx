@@ -16,7 +16,7 @@ const AnimatedHamburger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 250); 
+      setIsScrolled(window.scrollY > 350); 
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -25,7 +25,7 @@ const AnimatedHamburger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
 
   return (
     <button onClick={toggle} aria-label="Toggle menu" className="z-50">
-      {/* ✅ Reduced height for a flatter look */}
+      
       <svg width="28" height="20" viewBox="0 0 23 18">
         <Path
           stroke={isScrolled ? "black" : "white"}
