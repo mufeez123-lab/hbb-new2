@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
 import api from '../../services/api'; // adjust path if needed
 import '/src/index.css'; // slick-carousel CSS should be globally imported
 
@@ -25,23 +24,28 @@ const Hero = () => {
       .catch((err) => console.error('Failed to fetch hero images:', err));
   }, []);
 
-  const PrevArrow = (props: any) => (
-    <button
-      onClick={props.onClick}
-      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-black/50 rounded-full p-2"
-    >
-      <ArrowLeft size={24} />
-    </button>
-  );
+const PrevArrow = (props: any) => (
+  <button
+    onClick={props.onClick}
+    className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 
+               w-10 h-10 flex items-center justify-center 
+               rounded-full bg-black/40 hover:bg-black/60 text-white transition"
+  >
+    <span className="text-xl font-bold">‹</span>
+  </button>
+);
 
-  const NextArrow = (props: any) => (
-    <button
-      onClick={props.onClick}
-      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-black/50 rounded-full p-2"
-    >
-      <ArrowRight size={24} />
-    </button>
-  );
+const NextArrow = (props: any) => (
+  <button
+    onClick={props.onClick}
+    className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 
+               w-10 h-10 flex items-center justify-center 
+               rounded-full bg-black/40 hover:bg-black/60 text-white transition"
+  >
+    <span className="text-xl font-bold">›</span>
+  </button>
+);
+
 
   const settings = {
     dots: false,
