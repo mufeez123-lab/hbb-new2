@@ -77,7 +77,13 @@ const FeaturedProjects = () => {
         >
           FEATURED PROJECTS
         </motion.h2>
-          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
+           <motion.div
+          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
         </div>
 
         {mainFeatured.length === 0 ? (
