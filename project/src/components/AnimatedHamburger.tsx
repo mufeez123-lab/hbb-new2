@@ -16,7 +16,7 @@ const AnimatedHamburger = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => 
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 350); 
+      setIsScrolled(window.scrollY > 400); 
     };
 
     window.addEventListener("scroll", handleScroll);
