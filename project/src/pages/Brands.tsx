@@ -46,7 +46,7 @@ const Brands = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Our Brands
+          OUR HOLDINGS
         </motion.h2>
         <motion.div
           className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
