@@ -22,6 +22,7 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage });
 
+// GET hero section
 router.get('/', async (req, res) => {
   try {
     const hero = await HeroSection.findOne() || { desktopImages: [], mobileImages: [] };
@@ -31,6 +32,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST desktop images
 router.post('/desktop', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -46,17 +48,18 @@ router.post('/desktop', adminAuth, upload.array('images', 10), async (req, res) 
     if (!hero) {
       hero = new HeroSection({ desktopImages: newImages });
     } else {
-      hero.desktopImages = [...hero.desktopImages, ...newImages];
+      hero.desktopImages.push(...newImages);
     }
 
     await hero.save();
     req.app.get('io')?.emit('hero:updated', hero);
-    res.status(201).json({ images: hero.desktopImages });
+    res.status(201).json({ desktopImages: hero.desktopImages });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
+// POST mobile images
 router.post('/mobile', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -72,17 +75,18 @@ router.post('/mobile', adminAuth, upload.array('images', 10), async (req, res) =
     if (!hero) {
       hero = new HeroSection({ mobileImages: newImages });
     } else {
-      hero.mobileImages = [...hero.mobileImages, ...newImages];
+      hero.mobileImages.push(...newImages);
     }
 
     await hero.save();
     req.app.get('io')?.emit('hero:updated', hero);
-    res.status(201).json({ images: hero.mobileImages });
+    res.status(201).json({ mobileImages: hero.mobileImages });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
+// DELETE specific image by id
 router.delete('/:type/:id', adminAuth, async (req, res) => {
   try {
     const { type, id } = req.params;
@@ -90,13 +94,9 @@ router.delete('/:type/:id', adminAuth, async (req, res) => {
     if (!hero) return res.status(404).json({ message: 'Hero section not found' });
 
     let targetArray;
-    if (type === 'desktop') {
-      targetArray = 'desktopImages';
-    } else if (type === 'mobile') {
-      targetArray = 'mobileImages';
-    } else {
-      return res.status(400).json({ message: 'Invalid image type.' });
-    }
+    if (type === 'desktop') targetArray = 'desktopImages';
+    else if (type === 'mobile') targetArray = 'mobileImages';
+    else return res.status(400).json({ message: 'Invalid image type.' });
 
     const imageToDelete = hero[targetArray].find(img => img._id.equals(id));
     if (!imageToDelete) return res.status(404).json({ message: 'Image not found' });
@@ -113,4 +113,4 @@ router.delete('/:type/:id', adminAuth, async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports=router;

@@ -18,12 +18,12 @@ const HeroSectionPage: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadType, setUploadType] = useState<'desktop' | 'mobile' | null>(null);
 
+  // Fetch hero images from backend
   const fetchHeroImages = async () => {
     try {
-      const desktopRes = await api.get('/admin/hero/desktop');
-      const mobileRes = await api.get('/admin/hero/mobile');
-      setDesktopHeroImages(desktopRes.data.images || []);
-      setMobileHeroImages(mobileRes.data.images || []);
+      const res = await api.get('/admin/hero'); // single endpoint
+      setDesktopHeroImages(res.data.desktopImages || []);
+      setMobileHeroImages(res.data.mobileImages || []);
     } catch (err) {
       console.error('Fetch hero failed:', err);
     }
@@ -43,13 +43,14 @@ const HeroSectionPage: React.FC = () => {
     const formData = new FormData();
     const validFiles: File[] = [];
 
+    // Validate aspect ratio for desktop (landscape) / mobile (portrait)
     const validationPromises = Array.from(selectedFiles).map((file) => {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
         img.onload = () => {
-          if (uploadType === 'desktop' && img.width > img.height) {
+          if (uploadType === 'desktop' && img.width >= img.height) {
             validFiles.push(file);
-          } else if (uploadType === 'mobile' && img.height > img.width) {
+          } else if (uploadType === 'mobile' && img.height >= img.width) {
             validFiles.push(file);
           } else {
             toast.error(
@@ -80,13 +81,16 @@ const HeroSectionPage: React.FC = () => {
       const endpoint =
         uploadType === 'desktop' ? '/admin/hero/desktop' : '/admin/hero/mobile';
       const res = await api.post(endpoint, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       if (uploadType === 'desktop') {
-        setDesktopHeroImages(res.data?.images || []);
+        setDesktopHeroImages(res.data.desktopImages || []);
       } else {
-        setMobileHeroImages(res.data?.images || []);
+        setMobileHeroImages(res.data.mobileImages || []);
       }
 
       setOpen(false);
@@ -105,16 +109,16 @@ const HeroSectionPage: React.FC = () => {
     try {
       const endpoint =
         type === 'desktop' ? `/admin/hero/desktop/${id}` : `/admin/hero/mobile/${id}`;
-      await api.delete(endpoint, {
+      const res = await api.delete(endpoint, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       if (type === 'desktop') {
-        setDesktopHeroImages((prev) => prev.filter((img) => img._id !== id));
+        setDesktopHeroImages(res.data.images || []);
       } else {
-        setMobileHeroImages((prev) => prev.filter((img) => img._id !== id));
+        setMobileHeroImages(res.data.images || []);
       }
 
       toast.success('Image deleted successfully!');
@@ -170,9 +174,7 @@ const HeroSectionPage: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">
-                  No desktop hero images uploaded yet.
-                </p>
+                <p className="text-gray-500">No desktop hero images uploaded yet.</p>
               )}
             </div>
 
@@ -209,9 +211,7 @@ const HeroSectionPage: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">
-                  No mobile hero images uploaded yet.
-                </p>
+                <p className="text-gray-500">No mobile hero images uploaded yet.</p>
               )}
             </div>
           </div>
