@@ -186,7 +186,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
 
 module.exports = router;
-=======
+
 const express = require('express');
 const router = express.Router();
 const HeroSection = require('../models/HeroSection');

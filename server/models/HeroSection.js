@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-<<<<<<< HEAD
 
 
 const heroSectionSchema = new mongoose.Schema({
@@ -37,7 +36,7 @@ const HeroSection = mongoose.model('HeroSection', heroSectionSchema);
 
 module.exports = HeroSection;
 
-=======
+
 const heroSectionSchema = new mongoose.Schema({
   desktopImages: [
     {
