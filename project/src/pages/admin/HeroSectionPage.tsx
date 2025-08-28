@@ -4,7 +4,6 @@ import api from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-<<<<<<< HEAD
 
 interface HeroImage {
 
@@ -304,7 +303,6 @@ const HeroSectionPage: React.FC = () => {
 
 
 export default HeroSectionPage
-=======
 interface HeroImage {
   _id: string;
   url: string;
@@ -567,4 +565,4 @@ const HeroSectionPage: React.FC = () => {
 };
 
 export default HeroSectionPage;
->>>>>>> e881c3a32c2c54c08739016776766e447fd074cd
+
