@@ -1,48 +1,23 @@
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import api from '../../services/api'; // adjust path if needed
-import '/src/index.css'; // slick-carousel CSS should be globally imported
+import api from '../../services/api'; 
+import '/src/index.css'; 
 
 interface HeroImage {
   url: string;
   public_id: string;
 }
 
-const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query);
-    setMatches(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
-    mediaQuery.addListener(handler);
-    return () => mediaQuery.removeListener(handler);
-  }, [query]);
-
-  return matches;
-};
-
 const Hero = () => {
-  const [desktopImages, setDesktopImages] = useState<HeroImage[]>([]);
-  const [mobileImages, setMobileImages] = useState<HeroImage[]>([]);
+  const [images, setImages] = useState<HeroImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const imagesToDisplay = isMobile ? mobileImages : desktopImages;
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const [desktopRes, mobileRes] = await Promise.all([
-          api.get('/hero'),
-          api.get('/hero'),
-        ]);
-
-        if (Array.isArray(desktopRes.data.images)) {
-          setDesktopImages(desktopRes.data.images);
-        }
-        if (Array.isArray(mobileRes.data.images)) {
-          setMobileImages(mobileRes.data.images);
+        const res = await api.get('/hero');  // only fetch once
+        if (Array.isArray(res.data.images)) {
+          setImages(res.data.images);
         }
       } catch (err) {
         console.error('Failed to fetch hero images:', err);
@@ -50,16 +25,13 @@ const Hero = () => {
         setIsLoading(false);
       }
     };
-
     fetchImages();
   }, []);
 
   const PrevArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 
-                 w-10 h-10 flex items-center justify-center 
-                 text-white "
+      className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white"
     >
       <span className="text-xl font-bold">‹</span>
     </button>
@@ -68,9 +40,7 @@ const Hero = () => {
   const NextArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 
-                 w-10 h-10 flex items-center justify-center 
-                 text-white "
+      className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white"
     >
       <span className="text-xl font-bold">›</span>
     </button>
@@ -91,21 +61,21 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[500px] md:h-screen overflow-hidden mt-0 md:mt-0 ">
+    <section className="relative h-[500px] md:h-screen overflow-hidden mt-0">
       {isLoading ? (
         <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
         </div>
-      ) : imagesToDisplay.length === 0 ? (
+      ) : images.length === 0 ? (
         <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-400">
           No hero images available.
         </div>
       ) : (
         <Slider {...settings}>
-          {imagesToDisplay.map((img, index) => (
-            <div key={img.public_id || index} className="relative h-[500px] md:h-screen w-full">
+          {images.map((img, index) => (
+            <div key={img.public_id || index} className="relative h-[450px] md:h-screen w-full">
               <div
-                className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover z-0"
+                className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover lg:bg-cover z-0"
                 style={{
                   backgroundImage: `url(${img.url})`,
                   filter: 'brightness(1.3)',
@@ -114,17 +84,19 @@ const Hero = () => {
               <div className="absolute inset-0 bg-black/50 z-10" />
               <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  {/* Heading goes here */}
+                  {/* Heading */}
                 </h1>
                 <p className="text-lg md:text-xl mb-6">
-                  {/* Subheading or caption goes here */}
+                  {/* Subheading */}
                 </p>
               </div>
             </div>
           ))}
         </Slider>
       )}
-      <div className=" hidden md:flex absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
+
+      {/* scroll down indicator */}
+      <div className="hidden md:flex absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
         <span className="text-sm mb-1">🡣</span>
       </div>
     </section>

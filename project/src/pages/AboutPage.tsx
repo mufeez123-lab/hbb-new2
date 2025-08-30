@@ -70,7 +70,7 @@ const AboutPage = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white py-12"
+      className="bg-white py-0"
     >
       <Helmet>
         <meta
@@ -80,9 +80,11 @@ const AboutPage = () => {
       </Helmet>
 
       <div className="container mx-auto px-6 mb-0">
-        <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-28">
-          About Hindustan Builders
-        </h2>
+       <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-20 
+               text-center sm:text-left sm:ml-28">
+  About Hindustan Builders
+</h2>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Section: Logo + Heading + Paragraph */}
@@ -94,9 +96,10 @@ const AboutPage = () => {
                 className="h-12 w-auto object-contain"
               />
                <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div>
-              <h3 className="text-2xl md:text-1xl font-poppins text-neutral-900 ml-2">
-                Building Landmarks, Crafting Lifestyles
-              </h3>
+             <h3 className="text-xl md:text-2xl font-poppins text-neutral-900 -ml-2">
+  Building Landmarks, Crafting Lifestyles
+</h3>
+
             </div>
 
             <p className="text-base text-neutral-600 leading-relaxed mb-4">

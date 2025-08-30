@@ -25,8 +25,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header */}
-     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md border-b border-gray-300 pt-4 sm:pt-0">
+      {/* Main Header border-b border-gray-300 */}
+     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md  shadow-md pt-4 sm:pt-0">
   <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-2">
     {/* Logo */}
     <Link 

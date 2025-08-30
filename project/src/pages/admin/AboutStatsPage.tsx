@@ -92,7 +92,7 @@ const AboutStatsPage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div className="bg-white shadow-md rounded p-6">
                   <h2 className="text-lg font-bold mb-2">
-                    Experience: {stats.yearsOfExperience} years
+                    Excellence: {stats.yearsOfExperience} years
                   </h2>
                   <p>Projects: {stats.completedProjects}</p>
                   <p>Clients: {stats.happyClients}</p>
