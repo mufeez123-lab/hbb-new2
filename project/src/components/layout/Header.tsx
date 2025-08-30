@@ -26,7 +26,7 @@ const Header = () => {
       </div>
 
       {/* Main Header border-b border-gray-300 */}
-     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md  shadow-md pt-4 sm:pt-0">
+     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md  shadow-md pt-4 sm:pt-0 sm:pb-2 sm:pt-0">
   <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-2">
     {/* Logo */}
     <Link 
@@ -37,7 +37,7 @@ const Header = () => {
     </Link>
 
           {/* Right Controls - Desktop only */}
-          <div className="hidden lg:flex items-end space-x-4 ml-auto">
+          <div className="hidden lg:flex items-end space-x-4 ml-auto ">
             <Link
               to="/contact"
               className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white transition"
