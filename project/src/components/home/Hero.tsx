@@ -97,7 +97,7 @@ const Hero = () => {
           Loading...
         </div>
       ) : imagesToDisplay.length === 0 ? (
-        <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
+        <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-400">
           No hero images available.
         </div>
       ) : (

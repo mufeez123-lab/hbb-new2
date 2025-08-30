@@ -26,15 +26,18 @@ const Header = () => {
       </div>
 
       {/* Main Header */}
-      <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md">
-        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-4">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src="/logo-SVG.svg" alt="Logo" className="h-16 w-auto" />
-          </Link>
+     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md border-b border-gray-300 pt-4 sm:pt-0">
+  <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-2">
+    {/* Logo */}
+    <Link 
+      to="/" 
+      className="flex items-center bg-white border-2 border-b border-r border-l px-1 py-2 absolute  -top-8 left-4 mt-6 sm:mt-0 sm:left-16"
+    >
+      <img src="/logo-SVG.svg" alt="Logo" className="h-20 sm:h-24 w-auto" />
+    </Link>
 
           {/* Right Controls - Desktop only */}
-          <div className="hidden lg:flex items-center space-x-4 relative">
+          <div className="hidden lg:flex items-end space-x-4 ml-auto">
             <Link
               to="/contact"
               className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white transition"
@@ -44,7 +47,7 @@ const Header = () => {
           </div>
 
           {/* Hamburger - Mobile only */}
-          <div className="lg:hidden flex items-center z-50">
+          <div className="lg:hidden flex items-center z-50 ml-auto mb-2">
             <AnimatedHamburger isOpen={isOpen} toggle={() => setIsOpen(!isOpen)} />
           </div>
         </div>
