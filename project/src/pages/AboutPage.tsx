@@ -80,7 +80,7 @@ const AboutPage = () => {
       </Helmet>
 
       <div className="container mx-auto px-6 mb-0">
-       <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-20 
+       <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-20 sm:mt-10 
                text-center sm:text-left sm:ml-28">
   About Hindustan Builders
 </h2>

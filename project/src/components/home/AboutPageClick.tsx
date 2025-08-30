@@ -2,7 +2,12 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 import api from '../../services/api';
+import Brands from '../home/Brands';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 interface DirectorImage {
   url: string;
@@ -83,6 +88,44 @@ const AboutPageClick = () => {
     fetchData();
   }, []);
 
+// Custom arrows
+const PrevArrow = (props: any) => (
+  <button
+    onClick={props.onClick}
+    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 text-3xl text-neutral-700 hover:text-[#8a6c1a] transition"
+  >
+    ‹
+  </button>
+);
+
+const NextArrow = (props: any) => (
+  <button
+    onClick={props.onClick}
+    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 text-3xl text-neutral-700 hover:text-[#8a6c1a] transition"
+  >
+    ›
+  </button>
+);
+
+// Slider settings
+const sliderSettings = {
+  dots: false,          // ❌ remove carousel dots
+  infinite: true,
+  speed: 800,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  arrows: true,         // ✅ enable arrows
+  prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 2 } },
+    { breakpoint: 640, settings: { slidesToShow: 1 } },
+  ],
+};
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -92,7 +135,7 @@ const AboutPageClick = () => {
       className="bg-white pb-2 pt-32"
     >
       <Helmet>
-         <title>About Us | Hindustan Builders</title>
+        <title>About Us | Hindustan Builders</title>
         <meta
           name="description"
           content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
@@ -147,12 +190,49 @@ const AboutPageClick = () => {
           </div>
         </div>
 
+               {/* Chairman's Message Section */}
+        <div className="mt-20">
+          <h2 className="text-2xl sm:text-3xl text-center mb-2">
+            Chairman’s Message
+          </h2>
+          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-10"></div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            {/* Image */}
+            <div className="md:col-span-1 flex justify-center">
+              <img
+                src="/images/chairman.jpg"  // 👉 replace with your chairman's image
+                alt="Chairman"
+                className="w-70 h-70 object-cover rounded-full shadow-md border-4 border-[#8a6c1a]/20"
+              />
+            </div>
+
+            {/* Message */}
+            <div className="md:col-span-2">
+              <p className="text-neutral-700 leading-relaxed text-lg font-poppins">
+                “At Hindustan Builders, we don’t just construct buildings —
+                we build trust, relationships, and communities. Our vision is
+                to create enduring landmarks that reflect our commitment to
+                quality, innovation, and sustainability. With every project,
+                we strive to bring lasting value to the families and businesses
+                who choose to grow with us.”
+              </p>
+              <p className="mt-4 text-[#8a6c1a] font-semibold text-lg">
+                — Mr. [Chairman’s Name], Chairman
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+
+
         {/* Board of Directors Section */}
         <div className="mt-20">
-          <h2 className="text-2xl sm:text-3xl  text-center  mb-10">
+          <h2 className="text-2xl sm:text-3xl text-center mb-2">
             Board of Directors
           </h2>
-           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-4"></div>
+          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-14"></div>
 
           {loading ? (
             <div className="text-center py-8">
@@ -166,46 +246,53 @@ const AboutPageClick = () => {
               Our leadership team is being updated — check back shortly.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full px-4 sm:px-6 md:px-8">
-              {directors.map((director) => {
-                const imageURL =
-                  typeof director.image === 'object' && director.image.url
-                    ? director.image.url
-                    : '/default-avatar.png';
+            <Slider {...sliderSettings} className="relative px-8">
+  {directors.map((director) => {
+    const imageURL =
+      typeof director.image === 'object' && director.image.url
+        ? director.image.url
+        : '/default-avatar.png';
 
-                return (
-               <Link to={`/board/${director._id}`} key={director._id} className="block group">
-  <div className="bg-white border border-neutral-200 overflow-hidden transition duration-300">
-    <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden relative p-1">
-      <img
-        src={imageURL}
-        alt={director.name || 'Director'}
-        className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-        loading="lazy"
-        onError={(e) => {
-          e.currentTarget.src = '/default-avatar.png';
-        }}
-      />
-      {/* Hover overlay icon */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-        <span className="text-white text-xl  bg-opacity-50 p-0 ">
-          +
-        </span>
-      </div>
-    </div>
-    <div className="p-3 text-center">
-      <h4 className="text-lg font-semibold text-[#8a6c1a]">{director.name}</h4>
-      <p className="text-neutral-600 text-sm">{director.position}</p>
-    </div>
-  </div>
-</Link>
-
-                );
-              })}
+    return (
+      <Link
+        to={`/board/${director._id}`}
+        key={director._id}
+        className="block group px-2"
+      >
+        <div className="bg-white border border-neutral-200 overflow-hidden transition duration-300 rounded-lg shadow-sm">
+          <div className="w-full h-72 sm:h-80 bg-neutral-100 overflow-hidden relative p-1">
+            <img
+              src={imageURL}
+              alt={director.name || 'Director'}
+              className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = '/default-avatar.png';
+              }}
+            />
+            {/* Hover overlay icon */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+              <span className="text-white text-xl bg-black/40 px-3 py-1 rounded-full">
+                +
+              </span>
             </div>
+          </div>
+          <div className="p-3 text-center">
+            <h4 className="text-lg font-semibold text-[#8a6c1a]">
+              {director.name}
+            </h4>
+            <p className="text-neutral-600 text-sm">{director.position}</p>
+          </div>
+        </div>
+      </Link>
+    );
+  })}
+</Slider>
+
           )}
         </div>
       </div>
+      <Brands />
     </motion.div>
   );
 };

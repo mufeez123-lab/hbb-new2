@@ -245,7 +245,7 @@ const ContactSection = () => {
                       <option value="general">General Enquiry</option>
                       <option value="residential">Residential Properties</option>
                       <option value="commercial">Commercial Properties</option>
-                      <option value="luxury">Luxury Villas</option>
+                     
                       <option value="investment">Investment Opportunities</option>
                     </select>
                   </div>

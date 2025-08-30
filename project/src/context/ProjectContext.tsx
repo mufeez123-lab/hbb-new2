@@ -14,48 +14,7 @@ interface Project {
   updatedAt: string;
 }
 
-// Sample projects data
-const initialProjects: Project[] = [
-  {
-    _id: '1',
-    name: 'Bawa Heights',
-    description: 'Luxury apartments with modern amenities and breathtaking sea views.',
-    status: 'ongoing',
-    images: ['https://images.pexels.com/photos/1082326/pexels-photo-1082326.jpeg'],
-    client: 'Bawa Developers',
-    location: 'Mumbai',
-    completionDate: '2024-06-30',
-    category: 'Apartment',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    _id: '2',
-    name: 'Bawa Business Park',
-    description: 'Premium office spaces designed for modern businesses with state-of-the-art facilities.',
-    status: 'completed',
-    images: ['https://images.pexels.com/photos/158571/architecture-about-building-modern-158571.jpeg'],
-    client: 'Bawa Developers',
-    location: 'Mumbai',
-    completionDate: '2023-06-30',
-    category: 'Office',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    _id: '3',
-    name: 'Bawa Royal Villas',
-    description: 'Exclusive villas surrounded by nature offering privacy and luxury living.',
-    status: 'upcoming',
-    images: ['https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg'],
-    client: 'Bawa Developers',
-    location: 'Mumbai',
-    completionDate: '2025-06-30',
-    category: 'Villa',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+
 
 interface ProjectContextType {
   projects: Project[];
