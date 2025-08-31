@@ -6,12 +6,27 @@ import MobileMenu from '../MobileMenu';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
   // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
+
+  // Detect scroll (only apply effect on desktop)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20 && window.innerWidth >= 1024) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full ">
@@ -25,19 +40,24 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header border-b border-gray-300 */}
-     <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md    border-gray-900 border-b pt-4 sm:pt-0 sm:pb-4 sm:pt-0">
-  <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-2">
-    {/* Logo */}
-    <Link 
-      to="/" 
-      className="flex items-center bg-white border-2 border-b border-r border-l px-1 py-3 absolute  -top-8 left-4 mt-6 sm:mt-0 sm:left-20"
-    >
-      <img src="/logo-SVG.svg" alt="Logo" className="h-20 sm:h-24 w-auto" />
-    </Link>
+      {/* Main Header */}
+      <div className="transition-all duration-300 fixed w-full z-50 bg-transparent backdrop-blur-md border-gray-900 border-b pt-4 sm:pt-0 sm:pb-3">
+        <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-2">
+          {/* Logo */}
+          <Link
+            to="/"
+            className={`flex items-center bg-gray-200 border-b border-r border-l absolute -top-8 left-4 mt-6 sm:mt-0 sm:left-20 transition-all duration-300
+              ${scrolled ? "px-2 py-5" : "px-1 py-3"}`}
+          >
+            <img
+              src="/logo-SVG.svg"
+              alt="Logo"
+              className={`w-auto transition-all duration-300 ${scrolled ? "h-16" : "h-20 sm:h-24"}`}
+            />
+          </Link>
 
           {/* Right Controls - Desktop only */}
-          <div className="hidden lg:flex items-end space-x-4 ml-auto ">
+          <div className="hidden lg:flex items-end space-x-4 ml-auto">
             <Link
               to="/contact"
               className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white transition"

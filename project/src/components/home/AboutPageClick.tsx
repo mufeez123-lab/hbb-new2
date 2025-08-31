@@ -192,10 +192,25 @@ const sliderSettings = {
 
                {/* Chairman's Message Section */}
         <div className="mt-20">
-          <h2 className="text-2xl sm:text-3xl text-center mb-2">
-            Chairman’s Message
-          </h2>
-          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-10"></div>
+         <div className="container mx-auto px-4 mb-10">
+        <motion.h2
+          className="text-2xl text-center font-poppins font-bold uppercase"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Words of leadership
+        </motion.h2>
+        <motion.div
+          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
+      </div>
+         
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             {/* Image */}
@@ -208,8 +223,8 @@ const sliderSettings = {
             </div>
 
             {/* Message */}
-            <div className="md:col-span-2">
-              <p className="text-neutral-700 leading-relaxed text-lg font-poppins">
+            <div className="md:col-span-2 ">
+              <p className="text-neutral-700 leading-relaxed text-lg font-poppins -mt-18 ">
                 “At Hindustan Builders, we don’t just construct buildings —
                 we build trust, relationships, and communities. Our vision is
                 to create enduring landmarks that reflect our commitment to
@@ -229,10 +244,25 @@ const sliderSettings = {
 
         {/* Board of Directors Section */}
         <div className="mt-20">
-          <h2 className="text-2xl sm:text-3xl text-center mb-2">
-            Board of Directors
-          </h2>
-          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mt-2 mb-14"></div>
+         <div className="container mx-auto px-4 mb-10">
+        <motion.h2
+          className="text-2xl text-center font-poppins font-bold uppercase"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Board of directors
+        </motion.h2>
+        <motion.div
+          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
+      </div>
+        
 
           {loading ? (
             <div className="text-center py-8">

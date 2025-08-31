@@ -19,8 +19,25 @@ const ContactPage = () => {
       <div className="pt-20 bg-neutral-50">
         <div className="container mx-auto px-4 md:px-8 py-12">
           <div className="text-center mb-0">
-          <h1 className="text-3xl sm:text-2xl  text-center">Contact Us</h1>
-          <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-6"></div>
+         <div className="container mx-auto px-4 mb-10">
+        <motion.h2
+          className="text-2xl text-center font-poppins font-bold uppercase"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          contact us
+        </motion.h2>
+        <motion.div
+          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
+      </div>
+          {/* <div className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-6"></div> */}
 
             <div className="w-20 h-1 bg-dark-500 mx-auto mb-6"></div>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto">

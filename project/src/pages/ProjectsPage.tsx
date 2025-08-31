@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
@@ -74,8 +75,25 @@ const FeaturedProjects = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left mb-10">
-          <h2 className="text-2xl mt-10">Our Projects</h2>
-          <div className="w-20 h-1 bg-[#8a731b] mt-2"></div>
+           <div className="container mx-auto px-4 mb-10">
+        <motion.h2
+          className="text-2xl text-start font-poppins font-bold uppercase mt-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} 
+          transition={{ duration: 0.6 }}
+        >
+          Our projects
+        </motion.h2>
+        <motion.div
+          className="w-20 h-1 start bg-[#8a6c1a] mr-auto mb-3"
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
+      </div>
+          
         </div>
 
         {projects.length === 0 ? (
