@@ -1,6 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
 
 // Import User model
 const User = require('../models/User');
@@ -8,7 +10,7 @@ const User = require('../models/User');
 const createAdmin = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://mufeez:786313Mufeez@cluster0.lvkokln.mongodb.net/', {
+    await mongoose.connect(process.env.MONGODB_URI || {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -37,8 +39,8 @@ const createAdmin = async () => {
 
     await adminUser.save();
     console.log('Admin user created successfully!');
-    console.log('Email: adminhindustan@gmail.com');
-    console.log('Password: newAdmin123');
+      console.log(`Email: ${adminEmail}`);
+  console.log(`Password: ${adminPassword}`);
     
     process.exit(0);
   } catch (error) {
