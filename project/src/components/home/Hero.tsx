@@ -61,7 +61,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[500px] md:h-screen overflow-hidden mt-0">
+    <section className="relative h-[77vh] md:h-screen overflow-hidden mt-0">
       {isLoading ? (
         <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
