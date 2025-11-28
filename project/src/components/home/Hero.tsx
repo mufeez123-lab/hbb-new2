@@ -61,9 +61,9 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[77vh] md:h-screen overflow-hidden mt-0">
+    <section className="relative h-[77vh]  overflow-hidden mt-0">
       {isLoading ? (
-        <div className="h-[500px] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
+        <div className="h-[77vh] md:h-screen flex items-center justify-center text-white text-xl bg-neutral-900">
           Loading...
         </div>
       ) : images.length === 0 ? (
@@ -73,7 +73,7 @@ const Hero = () => {
       ) : (
         <Slider {...settings}>
           {images.map((img, index) => (
-            <div key={img.public_id || index} className="relative h-[450px] md:h-screen w-full">
+            <div key={img.public_id || index} className="relative h-[77vh] md:h-screen w-full">
               <div
                 className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover lg:bg-cover z-0"
                 style={{
