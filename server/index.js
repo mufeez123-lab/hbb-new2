@@ -25,6 +25,7 @@ const server = http.createServer(app);
 // ✅ Define allowed origins for both local and production
 const allowedOrigins = [
   'https://hbb-new2-fhnh.vercel.app',
+  'https://hindustanbuilders.in',
   'http://localhost:3000',
   'http://localhost:5000',
 ];
