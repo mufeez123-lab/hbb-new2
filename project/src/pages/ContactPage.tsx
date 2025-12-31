@@ -15,11 +15,25 @@ const ContactPage = () => {
         <title>Contact Us | Hindustan Builders</title>
         <meta name="description" content="Get in touch with Hindustan Builders. Contact us for inquiries about our residential, commercial, and luxury real estate projects." />
       </Helmet>
-
+<section className="py-10 mt-[54px]">
+  <div
+    className="relative px-4 w-full h-[300px] flex items-center justify-center bg-center bg-cover"
+    style={{
+      backgroundImage:
+        "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/image1.jpg')",
+    }}
+  >
+    <h1 className="text-4xl font-extrabold text-center uppercase text-white">
+      Contact Us
+    </h1>
+  </div>
+</section>
       <div className="pt-20 bg-neutral-50">
         <div className="container mx-auto px-4 md:px-8 py-12">
           <div className="text-center mb-0">
+            
          <div className="container mx-auto px-4 mb-10">
+          
         <motion.h2
           className="text-2xl text-center font-poppins font-bold uppercase"
           initial={{ opacity: 0, y: 20 }}

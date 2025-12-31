@@ -65,6 +65,8 @@ const FeaturedProjects = () => {
   const mainFeatured = projects.slice(0, 9);
 
   return (
+    <>
+    
     <section className="py-16 bg-neutral-50">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10">
@@ -187,6 +189,7 @@ const FeaturedProjects = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
