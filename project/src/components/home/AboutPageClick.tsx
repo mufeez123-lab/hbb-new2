@@ -141,11 +141,27 @@ const sliderSettings = {
           content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
         />
       </Helmet>
+<section className="py-10 -mt-[75px]">
+  <div
+    className="relative px-4 w-full h-[400px] flex items-center justify-center bg-center bg-cover"
+    style={{
+      backgroundImage:
+        "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/image3.jpg')",
+    }}
+  >
+    <h1 className="text-4xl font-extrabold text-center uppercase text-white">
+      About Us
+    </h1>
+  </div>
+</section>
+
+
 
       <div className="container mx-auto px-4 mt-22">
         <h2 className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-4 ml-1">
           About Hindustan Builders
         </h2>
+      
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">

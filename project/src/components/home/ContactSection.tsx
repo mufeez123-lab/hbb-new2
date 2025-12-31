@@ -90,13 +90,18 @@ const ContactSection = () => {
   };
 
   return (
+    
+    <>
+    
     <section ref={ref} className="py-20 bg-neutral-100 ">
+      
       <motion.div
         animate={controls}
         initial={{ opacity: 0, y: 30, pointerEvents: 'none' }}
         transition={{ duration: 0.1 }}
         className="container mx-auto px-4 md:px-8"
       >
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Column - Contact Info */}
           <div>
@@ -166,8 +171,11 @@ const ContactSection = () => {
           </div>
 
           {/* Right Column - Contact Form */}
+          
           <div>
+            
             <div className="bg-white rounded-lg shadow-lg p-8">
+              
               <h1 className="text-2xl mb-4 font-poppins">Contact Us</h1>
 
               {isSubmitted ? (
@@ -297,7 +305,7 @@ const ContactSection = () => {
         pauseOnHover
         theme="light"
       />
-    </section>
+    </section> </>
   );
 };
 
