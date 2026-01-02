@@ -9,6 +9,7 @@ import Brands from '../components/home/Brands';
 
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import Whychooseus from '../components/home/Whychooseus';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -42,6 +43,7 @@ const HomePage = () => {
       <Hero />
       <AboutPage />
       <FeaturedProjects />
+      {/* <Whychooseus /> */}
       {/* <Testimonials /> */}
       <Brands />
 
