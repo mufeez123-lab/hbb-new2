@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { projectsAPI } from '../../services/api';
 
 interface Project {
   _id: string;
@@ -18,170 +17,225 @@ interface Project {
 }
 
 const FeaturedProjects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const data = await projectsAPI.getAll();
-        const featured = data.filter((p: Project) => p.status === 'featured');
-        setProjects(featured);
-      } catch (err) {
-        console.error('Error fetching featured projects:', err);
-        setError('Unable to fetch project highlights at this time.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  // 👉 FRONTEND STATIC DATA
+const projects: Project[] = [
+  {
+    _id: '1',
+    name: 'Hindustan Heights',
+    description: 'Luxury residential apartments',
+    images: [{ url: '/images/image1.jpg', public_id: 'img1' }],
+    category: 'Residential',
+    status: 'featured',
+    location: 'Mangalore',
+    client: 'Private',
+    price: '1450',
+    explore: true,
+  },
+  {
+    _id: '2',
+    name: 'Hindustan Plaza',
+    description: 'Premium commercial complex',
+    images: [{ url: '/images/image2.jpg', public_id: 'img2' }],
+    category: 'Commercial',
+    status: 'featured',
+    location: 'Udupi',
+    client: 'Corporate',
+    price: '2100',
+    explore: true,
+  },
+  {
+    _id: '3',
+    name: 'Hindustan Elite',
+    description: 'Modern urban villas',
+    images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
+    category: 'Villa',
+    status: 'featured',
+    location: 'Bangalore',
+    client: 'Luxury Client',
+    explore: true,
+  },
+  {
+    _id: '4',
+    name: 'Hindustan Residency',
+    description: 'Affordable family homes',
+    images: [{ url: '/images/image4.jpg', public_id: 'img4' }],
+    category: 'Residential',
+    status: 'featured',
+    location: 'Kasargod',
+    client: 'Private',
+    price: '1200',
+    explore: true,
+  },
+  {
+    _id: '5',
+    name: 'Hindustan Square',
+    description: 'Retail & office spaces',
+    images: [{ url: '/images/image5.jpg', public_id: 'img5' }],
+    category: 'Commercial',
+    status: 'featured',
+    location: 'Mysore',
+    client: 'Business Group',
+    price: '1800',
+    explore: true,
+  },
+  {
+    _id: '6',
+    name: 'Hindustan Gardens',
+    description: 'Green living residential enclave',
+    images: [{ url: '/images/image6.jpg', public_id: 'img6' }],
+    category: 'Residential',
+    status: 'featured',
+    location: 'Shimoga',
+    client: 'Private',
+    price: '1350',
+    explore: true,
+  },
+  {
+    _id: '7',
+    name: 'Hindustan Corporate Hub',
+    description: 'Grade-A office infrastructure',
+    images: [{ url: '/images/image7.jpg', public_id: 'img7' }],
+    category: 'Commercial',
+    status: 'featured',
+    location: 'Bangalore',
+    client: 'IT Firm',
+    price: '2500',
+    explore: true,
+  },
+  {
+    _id: '8',
+    name: 'Hindustan Serenity',
+    description: 'Premium villas with landscape views',
+    images: [{ url: '/images/image8.jpg', public_id: 'img8' }],
+    category: 'Villa',
+    status: 'featured',
+    location: 'Coorg',
+    client: 'Luxury Client',
+    explore: true,
+  },
+  {
+    _id: '9',
+    name: 'Hindustan Towers',
+    description: 'High-rise residential landmark',
+    images: [{ url: '/images/image9.jpg', public_id: 'img9' }],
+    category: 'Residential',
+    status: 'featured',
+    location: 'Mangalore',
+    client: 'Private',
+    price: '1650',
+    explore: true,
+  },
+];
 
-    fetchProjects();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className="py-20 bg-neutral-50">
-        <div className="container mx-auto px-4 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-700 mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading amazing spaces...</p>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="py-20 bg-neutral-50">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-red-600">{error}</p>
-        </div>
-      </section>
-    );
-  }
-
-  const mainFeatured = projects.slice(0, 9);
+  const mainFeatured = projects.filter(p => p.status === 'featured').slice(0, 9);
 
   return (
-    <>
-    
     <section className="py-16 bg-neutral-50">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
+        {/* Heading */}
         <div className="text-center mb-10">
-        <motion.h2
-          className="text-2xl text-center font-poppins font-bold"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          FEATURED PROJECTS
-        </motion.h2>
-           <motion.div
-          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
-          initial={{ opacity: 0, scaleX: 0 }}
-          whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        />
+          <motion.h2
+            className="text-2xl font-poppins font-bold"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            FEATURED PROJECTS
+          </motion.h2>
+
+          <motion.div
+            className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          />
         </div>
 
-        {mainFeatured.length === 0 ? (
-          <div className="text-center">
-            <p className="text-neutral-600">
-              We're currently curating some standout properties. Please check back soon!
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {mainFeatured.map((project) => {
-              const imageObj = project.images?.[0];
-              const imageUrl =
-                typeof imageObj === 'object' && imageObj?.url
-                  ? imageObj.url
-                  : '/images/image1.jpg';
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {mainFeatured.map((project) => {
+            const imageObj = project.images?.[0];
+            const imageUrl = imageObj?.url || '/images/image1.jpg';
 
-              const imageContent = (
-                <div
-                  className={`relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden ${
-                    project.explore ? 'cursor-pointer' : 'cursor-default'
-                  }`}
-                >
-                  <img
-                    src={imageUrl}
-                    alt={project.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/images/image1.jpg';
-                    }}
-                  />
-                  <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
-                    {project.status}
-                  </div>
-                  <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
-                    {project.category}
-                  </div>
+            const imageContent = (
+              <div className="relative h-48 sm:h-52 md:h-60 lg:h-52 overflow-hidden">
+                <img
+                  src={imageUrl}
+                  alt={project.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                  }}
+                />
+                <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
+                  {project.status}
                 </div>
-              );
+                <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
+                  {project.category}
+                </div>
+              </div>
+            );
 
-              return (
-                <div
-                  key={project._id}
-                  className="group"
-                  onMouseEnter={() => setHoveredProject(project._id)}
-                  onMouseLeave={() => setHoveredProject(null)}
-                >
-                  <div className="bg-white rounded-md overflow-hidden shadow-lg hover:shadow-xl border border-gray-700 transition-transform duration-300 hover:-translate-y-2">
-                    {project.explore ? (
-                      <Link to={`/projects/${project._id}`} className="block">
-                        {imageContent}
-                      </Link>
-                    ) : (
-                      imageContent
-                    )}
+            return (
+              <div
+                key={project._id}
+                className="group"
+                onMouseEnter={() => setHoveredProject(project._id)}
+                onMouseLeave={() => setHoveredProject(null)}
+              >
+                <div className="bg-white rounded-md overflow-hidden shadow-lg hover:shadow-xl border border-gray-700 transition-transform duration-300 hover:-translate-y-2">
+                  {project.explore ? (
+                    <Link to={`/projects/${project._id}`}>
+                      {imageContent}
+                    </Link>
+                  ) : (
+                    imageContent
+                  )}
 
-                    <div className="p-5 sm:p-6">
-                      <h3 className="text-lg font-poppins  text-primary-800 mb-1">
-                        {project.name}
-                      </h3>
-                      <div className="text-neutral-500 text-sm mb-1">{project.location}</div>
+                  <div className="p-5 sm:p-6">
+                    <h3 className="text-lg font-poppins text-primary-800 mb-1">
+                      {project.name}
+                    </h3>
+                    <div className="text-neutral-500 text-sm mb-1">
+                      {project.location}
+                    </div>
 
-                      <div className="flex justify-between items-center mt-3">
-                        <div className="text-primary-700 font-semibold text-sm">
-                          {project.price ? `BUA: ${project.price} sqft` : project.client}
-                        </div>
-
-                        {project.explore && (
-                          <Link
-                            to={`/projects/${project._id}`}
-                            className="text-[#8a731b] hover:text-[#8a731b] inline-flex items-center font-medium focus:outline-none focus:ring-2 focus:ring-secondary-500 rounded"
-                          >
-                            Explore
-                            <ArrowRight
-                              size={16}
-                              className={`ml-1 transition-transform duration-300 ${
-                                hoveredProject === project._id ? 'translate-x-1' : ''
-                              }`}
-                            />
-                          </Link>
-                        )}
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="text-primary-700 font-semibold text-sm">
+                        {project.price ? `BUA: ${project.price} sqft` : project.client}
                       </div>
+
+                      {project.explore && (
+                        <Link
+                          to={`/projects/${project._id}`}
+                          className="text-[#8a731b] inline-flex items-center font-medium"
+                        >
+                          Explore
+                          <ArrowRight
+                            size={16}
+                            className={`ml-1 transition-transform duration-300 ${
+                              hoveredProject === project._id ? 'translate-x-1' : ''
+                            }`}
+                          />
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
 
+        {/* CTA */}
         <div className="text-center mt-12">
           <Link
             to="/projects"
-            className="inline-flex items-center justify-center bg-[#a0841f] hover:bg-[#8a731b] text-white px-5 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#a0841f]"
+            className="inline-flex items-center justify-center bg-[#a0841f] hover:bg-[#8a731b] text-white px-5 py-2 sm:px-6 sm:py-2.5 rounded transition-colors duration-300"
           >
             Browse All Projects
             <ArrowRight size={16} className="ml-2" />
@@ -189,7 +243,6 @@ const FeaturedProjects = () => {
         </div>
       </div>
     </section>
-    </>
   );
 };
 

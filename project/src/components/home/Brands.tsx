@@ -1,6 +1,4 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import api from '../../services/api'; // adjust path if needed
 
 interface BrandImage {
   url: string;
@@ -13,32 +11,43 @@ interface Brand {
 }
 
 const Brands = () => {
-  const [brands, setBrands] = useState<Brand[]>([]);
+  // 👉 FRONTEND STATIC DATA
+  const brands: Brand[] = [
+    {
+      _id: '1',
+      image: { url: '/images/1089.jpg', public_id: 'b1' },
+    },
+    {
+      _id: '2',
+      image: { url: '/images/1089.jpg', public_id: 'b2' },
+    },
+    {
+      _id: '3',
+      image: { url: '/images/1089.jpg', public_id: 'b3' },
+    },
+    {
+      _id: '4',
+      image: { url: '/images/1089.jpg', public_id: 'b4' },
+    },
+    {
+      _id: '5',
+      image: { url: '/images/1089.jpg', public_id: 'b5' },
+    },
+    {
+      _id: '6',
+      image: { url: '/images/1089.jpg', public_id: 'b6' },
+    },
+  ];
 
-  // Fetch brand data
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const res = await api.get('/brands'); // Make sure this is your public endpoint
-        setBrands(res.data || []);
-      } catch (error) {
-        console.error('Failed to load brands:', error);
-      }
-    };
-
-    fetchBrands();
-  }, []);
-
-  // Ensure safe image access
   const getImageUrl = (image?: BrandImage) =>
     image?.url || '/default-avatar.png';
 
   const visibleBrands = brands.filter((brand) => brand?.image?.url);
 
   return (
-    <section className="py-12 relative overflow-hidden">
+    <section className="py-8 relative overflow-hidden">
       {/* Section Header */}
-      <div className="container mx-auto px-4 mb-10">
+      <div className="container mx-auto px-4 mb-2">
         <motion.h2
           className="text-2xl text-center font-poppins font-bold"
           initial={{ opacity: 0, y: 20 }}
@@ -48,6 +57,7 @@ const Brands = () => {
         >
           OUR HOLDINGS
         </motion.h2>
+
         <motion.div
           className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
           initial={{ opacity: 0, scaleX: 0 }}
@@ -57,7 +67,7 @@ const Brands = () => {
         />
       </div>
 
-      {/* Scrolling Logos - Scroll Right Only */}
+      {/* Scrolling Logos */}
       <div className="relative w-full overflow-hidden">
         <motion.div
           className="flex space-x-4 md:space-x-6 lg:space-x-8 py-4"
@@ -73,7 +83,7 @@ const Brands = () => {
         >
           {[...visibleBrands, ...visibleBrands].map((brand, index) => (
             <div
-              key={`right-${index}`}
+              key={index}
               className="flex-shrink-0 w-24 h-24 flex items-center justify-center"
             >
               <img

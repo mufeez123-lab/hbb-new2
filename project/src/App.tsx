@@ -16,6 +16,7 @@ import ScrollToTop from './components/utils/ScrollToTop';
 
 
 
+
 // Pages
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -28,6 +29,7 @@ import  FaqsPage  from './pages/FaqsPage';
 import Brands from './pages/Brands';
 import NotFoundPage from './pages/NotFoundPage';
 import BoardOfDirectorDetailPage from './pages/BoardofDirectorsDetails';
+
 
 
 // Admin Pages

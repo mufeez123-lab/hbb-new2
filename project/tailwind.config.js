@@ -46,6 +46,7 @@ export default {
         sans: ['Inter', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        display: ['Argesta', 'sans-serif'],
 
       },
       spacing: {

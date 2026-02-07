@@ -6,7 +6,8 @@ import AboutPage from '../pages/AboutPage';
 import FeaturedProjects from '../components/home/FeaturedProjects';
 import Testimonials from '../components/home/Testimonials';
 import Brands from '../components/home/Brands';
-
+import Accordian from '../components/home/Accordian'
+import Parallex from '../components/home/Parallex';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Whychooseus from '../components/home/Whychooseus';
@@ -44,7 +45,9 @@ const HomePage = () => {
       <AboutPage />
       <FeaturedProjects />
       {/* <Whychooseus /> */}
+      <Accordian/>
       {/* <Testimonials /> */}
+      <Parallex />
       <Brands />
 
       {/* Scroll to Footer Button */}

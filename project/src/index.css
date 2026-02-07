@@ -24,3 +24,11 @@ body {
   opacity: 0;
   transition: opacity 0.6s ease-out;
 }
+
+@font-face {
+  font-family: 'Argesta';
+  src: url('../public/fonts/Argesta-Display.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
