@@ -32,7 +32,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full ">
       {/* Top Nav - Desktop only */}
       <div className="bg-black text-white text-sm uppercase py-1 px-4 lg:px-8 hidden lg:block">
-        <div className="container mx-auto flex justify-end space-x-6 font-semibold">
+        <div className="container mx-auto flex justify-end font-poppins space-x-6 font-semibold">
           <Link to="/" className="hover:text-gray-300">Home</Link>
           <Link to="/aboutclick" className="hover:text-gray-300">About Us</Link>
           <Link to="/projects" className="hover:text-gray-300">Projects</Link>
@@ -60,7 +60,7 @@ const Header = () => {
           <div className="hidden lg:flex items-end space-x-4 ml-auto">
             <Link
               to="/contact"
-              className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white transition"
+              className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white font-poppins transition"
             >
               Upcoming Projects
             </Link>
