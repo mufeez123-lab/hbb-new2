@@ -46,7 +46,7 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            className={`flex items-center bg-gray-200 border-b border-r border-l absolute -top-8 left-4 mt-6 sm:mt-0 sm:left-20 transition-all duration-300
+            className={`flex items-center bg-gray-200 border-b border-r border-l absolute -top-8 left-4 mt-6 sm:mt-0 sm:left-48 transition-all duration-300
               ${scrolled ? "px-2 py-5" : "px-1 py-3"}`}
           >
             <img
