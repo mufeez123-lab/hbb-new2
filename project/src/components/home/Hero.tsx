@@ -87,10 +87,10 @@ const Hero = () => {
 
               {/* Bottom-Left Text Container */}
               <div className="relative z-20 container  px-6 md:px-10 h-full flex flex-col items-start justify-end pb-16 md:pb-[100px]">
-                <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-2 text-white border-l-2 border-[#8a6c1a] pl-4  tracking-wider">
+                <h1 className="text-2xl md:text-5xl font-poppins font-bold md:mb-2 text-white border-l-2 border-[#8a6c1a] pl-4  ">
                   {img.title}
                 </h1>
-                <p className="text-4xl md:text-5xl font-poppins font-semibold mb-2 text-white  pl-4  tracking-wider">
+                <p className="text-2xl md:text-5xl font-poppins font-semibold mb-2 text-white  pl-4  tracking-wider">
                   {img.subtitle}
                 </p>
               </div>

@@ -1,10 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-
-import crisilLogo from '/logo-SVG.svg';
+import { useState, useEffect, useRef } from 'react';
 
 interface AboutStats {
   yearsOfExperience: number;
@@ -13,40 +11,43 @@ interface AboutStats {
   awardsWon: number;
 }
 
-interface CountUpNumberProps {
-  end: number;
-}
-
-const CountUpNumber = ({ end }: CountUpNumberProps) => {
+const CountUpNumber = ({ end }: { end: number }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     let startTime: number;
     let animationFrame: number;
-
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / 2000, 1);
       setCount(Math.floor(progress * end));
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
+      if (progress < 1) animationFrame = requestAnimationFrame(animate);
     };
-
     animationFrame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrame);
   }, [end]);
 
   return (
-    <div className="text-5xl font-light text-neutral-900 font-playfair mb-2">
-      {count}
-      <span className="text-[#8a6c1a]">+</span>
+    <div className="text-4xl md:text-5xl font-light text-neutral-900 mb-2">
+      {count}<span className="text-[#8a6c1a]">+</span>
     </div>
   );
 };
 
 const AboutPage = () => {
-  // 👉 FRONTEND STATIC DATA
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress of this specific section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Transform values: Starts rounded/inset, ends full-width/sharp
+  const borderRadius = useTransform(scrollYProgress, [0.3, 0.5], ["40px", "0px"]);
+  const scale = useTransform(scrollYProgress, [0.3, 0.5], [0.92, 1]);
+  const marginX = useTransform(scrollYProgress, [0.3, 0.5], ["20px", "0px"]);
+
   const stats: AboutStats = {
     yearsOfExperience: 25,
     completedProjects: 120,
@@ -55,82 +56,82 @@ const AboutPage = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white py-10"
-    >
+    <section ref={containerRef} className="bg-transparent  overflow-hidden">
       <Helmet>
-        <meta
-          name="description"
-          content="Learn about Hindustan Builders' legacy of excellence in real estate development, our values, and commitment to quality construction."
-        />
+        <title>About | Hindustan Builders</title>
+        <meta name="description" content="Learn about Hindustan Builders' legacy of excellence." />
       </Helmet>
 
-      <div className="container mx-auto px-6 mb-0">
-        <h2
-          className="text-sm font-bold font-display tracking-widest uppercase text-[#8a6c1a] mb-2 ml-0 md:ml-5 sm:mt-10 
-           "
-        >
-          About Hindustan Builders
-        </h2>
+      <motion.div
+        style={{
+          borderRadius,
+          scale,
+          marginLeft: marginX,
+          marginRight: marginX,
+        }}
+        className="bg-white shadow-2xl py-16 md:py-24 border border-neutral-200 sticky top-0"
+      >
+        <div className="container mx-auto px-6 md:px-12">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-sm font-bold tracking-widest uppercase font-poppins text-[#8a6c1a] mb-4"
+          >
+            About Hindustan Builders
+          </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Section */}
-          <div className="lg:col-span-2 border-r border-neutral-300 pr-6 pl-4">
-            <div className="flex items-center gap-4 mb-4">
-              {/* <img
-                src={crisilLogo}
-                alt="CRISIL Logo"
-                className="h-12 w-auto object-contain"
-              /> */}
-              {/* <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div> */}
-              <h3 className="text-xl md:text-4xl font-poppins text-neutral-900 font-semibold ">
-                Building Landmarks, <br /> <span>Crafting Lifestyles</span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+            {/* Left Section */}
+            <div className="lg:col-span-2 lg:border-r lg:border-neutral-200 lg:pr-12">
+              <h3 className="text-3xl md:text-5xl font-poppins text-neutral-900 font-semibold mb-8 leading-tight">
+                Building Landmarks, <br /> 
+                <span className="text-[#8a6c1a]">Crafting Lifestyles</span>
               </h3>
+
+              <p className="text-lg text-neutral-600 font-display leading-relaxed mb-8">
+                One of India's most trusted and respected names in Real Estate – 
+                <strong> Hindustan Builders, Mangalore</strong> is synonymous with innovation 
+                and luxurious living. Since its inception, we have played a vital role in shaping 
+                the landscape of Modern Urban India through transformative technologies.
+              </p>
+
+              <Link
+                to="/aboutclick"
+                className="group inline-flex items-center font-medium font-poppins tracking-tighter text-[#8a6c1a] transition-all"
+              >
+                EXPLORE OUR LEGACY 
+                <ArrowRight size={18} className="ml-2 transition-transform group-hover:translate-x-2" />
+              </Link>
             </div>
 
-            <p className="text-base text-neutral-600 font-display leading-relaxed mb-4">
-              One of India's most trusted and respected names in Real Estate – Hindustan Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations.
-            </p>
+            {/* Right Section: Stats */}
+            <div className="lg:pl-6">
+              <div className="grid grid-cols-2 gap-y-12 gap-x-8">
+                <div className="text-center font-poppins md:text-left">
+                  <CountUpNumber end={stats.yearsOfExperience} />
+                  <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-2 font-display">Years of Excellence</p>
+                </div>
 
-            <Link
-              to="/aboutclick"
-              className="inline-flex items-center font-display text-[#8a6c1a] hover:underline mt-2"
-            >
-              SEE MORE <ArrowRight size={16} className="ml-2" />
-            </Link>
-          </div>
+                <div className="text-center font-poppins md:text-left">
+                  <CountUpNumber end={stats.completedProjects} />
+                  <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-2 font-display">Projects Completed</p>
+                </div>
 
-          {/* Right Section: Stats */}
-          <div className="lg:pl-6">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="text-center font-display">
-                <CountUpNumber  end={stats.yearsOfExperience} />
-                <p className="text-neutral-600 text-sm font-display">Years of Excellence</p>
-              </div>
+                <div className="text-center font-poppins md:text-left">
+                  <CountUpNumber end={stats.happyClients} />
+                  <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-2 font-display">Happy Families</p>
+                </div>
 
-              <div className="text-center font-display">
-                <CountUpNumber end={stats.completedProjects} />
-                <p className="text-neutral-600 text-sm font-display">Projects Completed</p>
-              </div>
-
-              <div className="text-center font-display">
-                <CountUpNumber end={stats.happyClients} />
-                <p className="text-neutral-600 text-sm font-display">Happy Families</p>
-              </div>
-
-              <div className="text-center font-display">
-                <CountUpNumber end={stats.awardsWon} />
-                <p className="text-neutral-600 text-sm font-display">Awards Won</p>
+                <div className="text-center font-poppins md:text-left">
+                  <CountUpNumber end={stats.awardsWon} />
+                  <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-2 font-display">Awards Won</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </section>
   );
 };
 

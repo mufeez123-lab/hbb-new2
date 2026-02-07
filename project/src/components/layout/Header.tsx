@@ -67,7 +67,7 @@ const Header = () => {
     text-sm font-semibold font-poppins
     rounded-none 
     hover:rounded-full 
-    hover:bg-black 
+    hover:bg-black
     hover:text-white 
     transition-all duration-500 ease-in-out
   "
