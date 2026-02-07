@@ -58,12 +58,22 @@ const Header = () => {
 
           {/* Right Controls - Desktop only */}
           <div className="hidden lg:flex items-end space-x-4 ml-auto">
-            <Link
-              to="/contact"
-              className="border border-black px-4 py-2 text-sm font-semibold hover:bg-black hover:text-white font-poppins transition"
-            >
-              Upcoming Projects
-            </Link>
+          <Link
+  to="/contact"
+  className="
+    inline-block
+    border border-black 
+    px-6 py-2 
+    text-sm font-semibold font-poppins
+    rounded-none 
+    hover:rounded-full 
+    hover:bg-black 
+    hover:text-white 
+    transition-all duration-500 ease-in-out
+  "
+>
+  Upcoming Projects
+</Link>
           </div>
 
           {/* Hamburger - Mobile only */}

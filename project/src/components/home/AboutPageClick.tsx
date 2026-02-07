@@ -183,7 +183,7 @@ const AboutPageClick = () => {
   className="relative px-4 w-full h-[300px] flex flex-col items-center justify-center bg-center bg-cover"
   style={{
     backgroundImage:
-      "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/image3.jpg')",
+      "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/abt.jpg')",
   }}
 >
   <h1 className="text-4xl font-extrabold text-center uppercase text-white">

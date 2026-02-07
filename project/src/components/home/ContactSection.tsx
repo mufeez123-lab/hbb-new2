@@ -93,11 +93,11 @@ const ContactSection = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* LEFT SECTION */}
-            <div>
+            <div className='bg-[#d1e6c3] p-6 rounded-lg shadow-lg'>
               <h2 className="text-2xl md:text-4xl font-poppins text-[#8a6c1a] mb-4">
                 Get in Touch
               </h2>
-              <p className="text-neutral-600 mb-8">
+              <p className="text-neutral-600 mb-8 font-display">
                 Whether you're interested in our projects or have questions, we’re here to help.
               </p>
 
@@ -107,8 +107,8 @@ const ContactSection = () => {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Call Us</h3>
-                    <p className="text-neutral-600">+91-9961258523</p>
+                    <h3 className="text-lg font-semibold font-poppins text-[#8a6c1a] mb-1">Call Us</h3>
+                    <p className="text-neutral-600 font-display">+91-9961258523</p>
                   </div>
                 </div>
 
@@ -117,8 +117,8 @@ const ContactSection = () => {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Email Us</h3>
-                    <p className="text-neutral-600">info@hindustanbuilders.com</p>
+                    <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1 font-poppins">Email Us</h3>
+                    <p className="text-neutral-600 font-display">info@hindustanbuilders.com</p>
                   </div>
                 </div>
 
@@ -127,8 +127,8 @@ const ContactSection = () => {
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Visit Us</h3>
-                    <p className="text-neutral-600">
+                    <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1 font-poppins">Visit Us</h3>
+                    <p className="text-neutral-600 font-display">
                       Kingdom Tower, NH 66, <br />
                       Thokkottu, Mangaluru 575020
                     </p>
@@ -149,7 +149,7 @@ const ContactSection = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-poppins">
                       <input
                         type="text"
                         name="name"
@@ -177,7 +177,7 @@ const ContactSection = () => {
                       onChange={handleChange}
                       required
                       placeholder="Your phone number"
-                      className="w-full mb-4 px-4 py-3 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none"
+                      className="w-full mb-4 px-4 py-3 border border-neutral-200 placeholder:font-poppins rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none"
                     />
 
                     {/* UPDATED: General Enquiry Input Box */}
@@ -187,7 +187,7 @@ const ContactSection = () => {
                       value={formData.interest}
                       onChange={handleChange}
                       placeholder="Enquiry Type (e.g., Residential, Commercial, Investment)"
-                      className="w-full mb-4 px-4 py-3 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none"
+                      className="w-full mb-4 px-4 py-3 border border-neutral-200 placeholder:font-poppins rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none"
                     />
 
                     <textarea
@@ -197,13 +197,13 @@ const ContactSection = () => {
                       required
                       rows={4}
                       placeholder="Your message"
-                      className="w-full mb-6 px-4 py-3 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none resize-none"
+                      className="w-full mb-6 px-4 py-3 border placeholder:font-poppins border-neutral-200 rounded-lg focus:ring-2 focus:ring-[#8a6c1a] outline-none resize-none"
                     />
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-[#8a6c1a] text-white py-3 rounded-lg flex justify-center items-center hover:bg-[#745e16] transition-colors font-semibold"
+                      className="w-full bg-[#8a6c1a] text-white py-3 rounded-lg flex justify-center items-center hover:bg-[#745e16] transition-colors font-poppins font-semibold"
                     >
                       {isSubmitting ? 'Sending...' : 'Send Message'}
                       <Send size={18} className="ml-2" />

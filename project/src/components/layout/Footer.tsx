@@ -44,7 +44,7 @@ const Footer = () => {
        
               />
             </div>
-            <p className="text-gray-300 mb-6 font-display" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
+            <p className="text-gray-300 mb-6 font-poppins text-md leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
               Building landmarks of excellence and delivering exceptional quality in every project since 1995.
             </p>
             <div className="flex space-x-4">
