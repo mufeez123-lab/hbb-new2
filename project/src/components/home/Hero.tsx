@@ -11,15 +11,15 @@ const Hero = () => {
   // 👉 Frontend images (local or CDN)
   const [images] = useState<HeroImage[]>([
     {
-      url: '/uploads/img1.jpg',
+      url: '/images/img1.jpg',
       public_id: 'hero-1',
     },
     {
-      url: '/uploads/img1.jpg',
+      url: '/images/img1.jpg',
       public_id: 'hero-2',
     },
     {
-      url: '/uploads/img1.jpg',
+      url: '/images/img1.jpg',
       public_id: 'hero-3',
     },
   ]);
