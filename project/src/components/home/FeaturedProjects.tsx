@@ -22,6 +22,27 @@ interface Project {
 const FeaturedProjects = () => {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
 
+
+
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Delay between each project card
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
   // 👉 FULL PROJECT DATA (Consolidated)
   const projects: Project[] = [
     {
@@ -127,22 +148,53 @@ const FeaturedProjects = () => {
   const mainFeatured = projects.filter(p => p.status === 'featured').slice(0, 9);
 
   return (
-    <section className="py-16 bg-white">
+   <section className="py-16 bg-white overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
+        
+        {/* Header Animation */}
         <div className="text-center mb-10">
-          <motion.h2 className="text-2xl font-poppins font-bold uppercase" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <motion.h2 
+            className="text-2xl font-poppins font-bold uppercase"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             FEATURED PROJECTS
           </motion.h2>
-          <motion.div className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3" initial={{ opacity: 0, scaleX: 0 }} whileInView={{ opacity: 1, scaleX: 1 }} viewport={{ once: true }} />
+          <motion.div 
+            className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* 2. Apply Staggered Fade-in to the Grid */}
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }} // Starts when 10% of the grid is visible
+        >
           {mainFeatured.map((project) => (
-            <div key={project._id} className="group" onMouseEnter={() => setHoveredProject(project._id)} onMouseLeave={() => setHoveredProject(null)}>
-              <div className="bg-white rounded-md overflow-hidden shadow-md  hover:shadow-xl border border-gray-400 transition-all duration-300 hover:-translate-y-2">
+            <motion.div 
+              key={project._id} 
+              variants={itemVariants} // 3. Each child uses itemVariants
+              className="group" 
+              onMouseEnter={() => setHoveredProject(project._id)} 
+              onMouseLeave={() => setHoveredProject(null)}
+            >
+              <div className="bg-white rounded-md overflow-hidden shadow-md hover:shadow-xl border border-gray-400 transition-all duration-300 hover:-translate-y-2">
                 <Link to={`/projects/${project._id}`}>
                   <div className="relative h-48 sm:h-52 md:h-60 overflow-hidden">
-                    <img src={project.images[0].url} alt={project.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img 
+                      src={project.images[0].url} 
+                      alt={project.name} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    />
                     <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize font-display">
                       {project.status}
                     </div>
@@ -157,14 +209,18 @@ const FeaturedProjects = () => {
                       {project.price ? `BUA: ${project.price} sqft` : project.client}
                     </div>
                     <Link to={`/projects/${project._id}`} className="text-[#8a731b] inline-flex font-display items-center font-medium">
-                      Explore <ArrowRight size={16} className={`ml-1 transition-transform ${hoveredProject === project._id ? 'translate-x-1' : ''}`} />
+                      Explore 
+                      <ArrowRight 
+                        size={16} 
+                        className={`ml-1 transition-transform ${hoveredProject === project._id ? 'translate-x-1' : ''}`} 
+                      />
                     </Link>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
