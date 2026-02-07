@@ -213,7 +213,30 @@ const FeaturedProjects = () => {
           content="Explore our residential, commercial, and luxury real estate projects. Hindustan Builders brings your dream space to life."
         />
       </Helmet>
+ <section className="py-10 -mt-[56px]">
+    <div
+  className="relative px-4 w-full h-[300px] flex flex-col items-center justify-center bg-center bg-cover"
+  style={{
+    backgroundImage:
+      "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/image3.jpg')",
+  }}
+>
+  <h1 className="text-4xl font-extrabold text-center uppercase text-white">
+  Our Projects
+  </h1>
 
+  {/* Breadcrumb */}
+  <div className="mt-2 text-sm text-white/80">
+    <Link to="/" className="hover:text-white transition">
+      Home
+    </Link>
+    <span className="mx-2">/</span>
+    <span className="text-white font-medium">Projects</span>
+  </div>
+</div>
+
+        
+      </section>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="mb-10">

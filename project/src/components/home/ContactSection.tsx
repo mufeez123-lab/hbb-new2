@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Send, Phone, Mail, MapPin } from 'lucide-react';
-import { contactAPI, ContactFormData } from '../../services/api';
-
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const GOOGLE_FORM_BASE_URL =
-  'https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url';
+// Google Form Action URL
+const GOOGLE_FORM_ACTION_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScEyNly6ROJE-bJHXwQWvYelPdJFz31Z3fkVojF9HKBwTypfw/formResponse';
 
 const ContactSection = () => {
   const controls = useAnimation();
@@ -44,34 +43,29 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    // 🔹 Google Form Prefilled URL
-    const googleFormURL =
-      `${GOOGLE_FORM_BASE_URL}` +
-      `&entry.111111=${encodeURIComponent(formData.name)}` +
-      `&entry.222222=${encodeURIComponent(formData.email)}` +
-      `&entry.333333=${encodeURIComponent(formData.phone)}` +
-      `&entry.444444=${encodeURIComponent(formData.interest)}` +
-      `&entry.555555=${encodeURIComponent(formData.message)}`;
-
-    // 🔹 Send entry to Google Form
-    window.open(googleFormURL, '_blank');
-
-    const dataToSend: ContactFormData = {
-      fullName: formData.name,
-      emailAddress: formData.email,
-      phoneNumber: formData.phone,
-      enquiryType: formData.interest,
-      message: formData.message,
-    };
+    // Prepare data for Google Forms
+    const googleFormData = new FormData();
+    googleFormData.append('entry.281785921', formData.name);
+    googleFormData.append('entry.398950261', formData.email);
+    googleFormData.append('entry.1646278928', formData.phone);
+    googleFormData.append('entry.1120006159', formData.interest);
+    googleFormData.append('entry.1901800010', formData.message);
 
     try {
-      setIsSubmitting(true);
-      await contactAPI.sendContactEnquiry(dataToSend);
+      // Submit to Google Forms silently (no-cors)
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: googleFormData,
+      });
 
+      // Show success message
       setIsSubmitted(true);
       toast.success('Thank you! Your message has been sent successfully.');
 
+      // Reset form after delay
       setTimeout(() => {
         setIsSubmitted(false);
         setFormData({
@@ -82,8 +76,9 @@ const ContactSection = () => {
           interest: 'general',
         });
       }, 3000);
+
     } catch (error) {
-      console.error(error);
+      console.error('Submission failed', error);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -160,8 +155,6 @@ const ContactSection = () => {
               <div className="bg-white rounded-lg shadow-lg p-8">
                 <h1 className="text-2xl mb-2 font-poppins">Contact Us</h1>
 
-           
-
                 {isSubmitted ? (
                   <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 text-center">
                     <h4 className="font-semibold mb-2">Thank You!</h4>
@@ -224,7 +217,7 @@ const ContactSection = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-[#8a6c1a] text-white py-3 rounded-lg flex justify-center items-center"
+                      className="w-full bg-[#8a6c1a] text-white py-3 rounded-lg flex justify-center items-center hover:bg-[#745e16] transition-colors"
                     >
                       {isSubmitting ? 'Sending...' : 'Send Message'}
                       <Send size={18} className="ml-2" />
