@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { projectsAPI } from '../services/api';
+// import { projectsAPI } from '../services/api'; // Removed API import
 import Slider from 'react-slick';
 import {
   FaSwimmingPool,
@@ -25,7 +25,205 @@ interface Project {
     title: string;
     description?: string[];
   }[];
+  // specific fields from your other pages
+  status?: string;
+  client?: string;
 }
+
+// --- STATIC DATA (Merged from your FeaturedProjects) ---
+const projectsData: Project[] = [
+  {
+    _id: '1',
+    name: 'Hindustan Heights',
+    description: 'Luxury residential apartments designed for modern living.',
+    images: [{ url: '/images/image1.jpg', public_id: 'p1' }],
+    category: 'Residential',
+    status: 'ongoing',
+    location: 'Mangalore',
+    client: 'Private',
+    price: '1450',
+    amenities: ['Swimming Pool', 'Gym', '24x7 Security'],
+    specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Solid block masonry'] },
+        { title: 'Flooring', description: ['Vitrified tiles in living/dining', 'Ceramic tiles in balconies'] }
+    ]
+  },
+  {
+    _id: '2',
+    name: 'Hindustan Plaza',
+    description: 'Premium commercial complex situated in the heart of the city.',
+    images: [{ url: '/images/image2.jpg', public_id: 'p2' }],
+    category: 'Commercial',
+    status: 'completed',
+    location: 'Udupi',
+    client: 'Corporate',
+    price: '2100',
+    amenities: ['Covered Parking', '24x7 Security'],
+    specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Glass facade'] },
+        { title: 'Power', description: ['100% DG Backup', 'High speed elevators'] }
+    ]
+  },
+  {
+    _id: '3',
+    name: 'Hindustan Elite Villas',
+    description: 'Exclusive luxury villas offering privacy and elegance.',
+    images: [{ url: '/images/image3.jpg', public_id: 'p3' }],
+    category: 'Villa',
+    status: 'featured',
+    location: 'Bangalore',
+    client: 'Luxury Client',
+    price: '3200',
+    amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
+    specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] },
+        { title: 'Flooring', description: ['Italian Marble', 'Wooden flooring in master bedroom'] }
+    ]
+  },
+  {
+    _id: '4',
+    name: 'Hindustan Greens',
+    description: 'Eco-friendly residential project surrounded by nature.',
+    images: [{ url: '/images/image4.jpg', public_id: 'p4' }],
+    category: 'Residential',
+    status: 'upcoming',
+    location: 'Mysore',
+    client: 'Private',
+    amenities: ['Park Area', 'Children’s Play Area'],
+  },
+  {
+    _id: '5',
+    name: 'Hindustan Trade Center',
+    description: 'State-of-the-art business and office spaces.',
+    images: [{ url: '/images/image5.jpg', public_id: 'p5' }],
+    category: 'Commercial',
+    status: 'ongoing',
+    location: 'Hubli',
+    client: 'Enterprise',
+    price: '1800',
+    amenities: ['Covered Parking', '24x7 Security'],
+  },
+  {
+    _id: '6',
+    name: 'Hindustan Serenity',
+    description: 'Premium retirement living with peaceful surroundings.',
+    images: [{ url: '/images/image6.jpg', public_id: 'p6' }],
+    category: 'Residential',
+    status: 'completed',
+    location: 'Manipal',
+    client: 'Private',
+    price: '1250',
+    amenities: ['Park Area', '24x7 Security', 'Gym'],
+  },
+  {
+    _id: '7',
+    name: 'Hindustan Aura',
+    description: 'Modern urban apartments with smart home features.',
+    images: [{ url: '/images/image7.jpg', public_id: 'p7' }],
+    category: 'Residential',
+    status: 'featured',
+    location: 'Mangalore',
+    client: 'Private',
+    price: '1600',
+    amenities: ['Swimming Pool', 'Gym', 'Covered Parking'],
+  },
+  {
+    _id: '8',
+    name: 'Hindustan Corporate Park',
+    description: 'IT & corporate office hub designed for productivity.',
+    images: [{ url: '/images/image8.jpg', public_id: 'p8' }],
+    category: 'Commercial',
+    status: 'ongoing',
+    location: 'Bangalore',
+    client: 'IT Firms',
+    price: '2400',
+    amenities: ['Covered Parking', '24x7 Security', 'Gym'],
+  },
+  {
+    _id: '9',
+    name: 'Hindustan Grand Avenue',
+    description: 'High-end mixed-use development combining retail and living.',
+    images: [{ url: '/images/image9.jpg', public_id: 'p9' }],
+    category: 'Commercial',
+    status: 'featured',
+    location: 'Chennai',
+    client: 'Corporate',
+    price: '2800',
+    amenities: ['Swimming Pool', 'Covered Parking'],
+  },
+  {
+    _id: '10',
+    name: 'Hindustan Palm Retreat',
+    description: 'Luxury villas with private gardens and pools.',
+    images: [{ url: '/images/image10.jpg', public_id: 'p10' }],
+    category: 'Villa',
+    status: 'completed',
+    location: 'Goa',
+    client: 'Luxury Client',
+    price: '4500',
+    amenities: ['Swimming Pool', 'Park Area', '24x7 Security'],
+  },
+  {
+    _id: '11',
+    name: 'Hindustan Lake View',
+    description: 'Apartments overlooking a scenic lake.',
+    images: [{ url: '/images/image11.jpg', public_id: 'p11' }],
+    category: 'Residential',
+    status: 'ongoing',
+    location: 'Udupi',
+    client: 'Private',
+    price: '1700',
+    amenities: ['Park Area', 'Children’s Play Area'],
+  },
+  {
+    _id: '12',
+    name: 'Hindustan Sky Towers',
+    description: 'High-rise luxury residences with skyline views.',
+    images: [{ url: '/images/image12.jpg', public_id: 'p12' }],
+    category: 'Residential',
+    status: 'upcoming',
+    location: 'Bangalore',
+    client: 'Private',
+    amenities: ['Swimming Pool', 'Gym', 'Covered Parking', '24x7 Security'],
+  },
+  {
+    _id: '13',
+    name: 'Hindustan Business Bay',
+    description: 'Retail & office commercial hub.',
+    images: [{ url: '/images/image13.jpg', public_id: 'p13' }],
+    category: 'Commercial',
+    status: 'completed',
+    location: 'Kochi',
+    client: 'Enterprise',
+    price: '1950',
+    amenities: ['Covered Parking', '24x7 Security'],
+  },
+  {
+    _id: '14',
+    name: 'Hindustan Heritage Villas',
+    description: 'Premium villas inspired by heritage design architecture.',
+    images: [{ url: '/images/image14.jpg', public_id: 'p14' }],
+    category: 'Villa',
+    status: 'ongoing',
+    location: 'Mysore',
+    client: 'Luxury Client',
+    price: '3800',
+    amenities: ['Swimming Pool', 'Park Area', 'Children’s Play Area'],
+  },
+  {
+    _id: '15',
+    name: 'Hindustan Central Square',
+    description: 'Integrated commercial & retail destination.',
+    images: [{ url: '/images/image15.jpg', public_id: 'p15' }],
+    category: 'Commercial',
+    status: 'featured',
+    location: 'Hyderabad',
+    client: 'Corporate',
+    price: '2600',
+    amenities: ['Covered Parking', '24x7 Security'],
+  },
+];
+// ---------------------------------------------------
 
 const amenityIcons: { [key: string]: JSX.Element } = {
   'Swimming Pool': <FaSwimmingPool className="text-2xl text-black" />,
@@ -69,11 +267,20 @@ const ProjectDetailPage = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
+    // UPDATED: Fetch logic now looks up from the local static array
     const fetchProject = async () => {
       try {
         setLoading(true);
-        const data = await projectsAPI.getById(id);
-        setProject(data);
+        // Simulate network delay if desired, or just set immediately
+        await new Promise(resolve => setTimeout(resolve, 300)); 
+        
+        const data = projectsData.find(p => p._id === id);
+        
+        if (data) {
+            setProject(data);
+        } else {
+            setError('Project not found.');
+        }
       } catch (err) {
         setError('Unable to load project details.');
       } finally {
@@ -121,6 +328,9 @@ const ProjectDetailPage = () => {
                   src={img.url}
                   alt={`${project.name}-${idx}`}
                   className="object-cover w-full h-[400px]"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                  }}
                 />
               ))}
             </Slider>
@@ -216,6 +426,9 @@ const ProjectDetailPage = () => {
                     alt={`gallery-${idx}`}
                     className="w-full h-40 object-cover rounded border border-neutral-200 group-hover:opacity-75 transition"
                     loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/images/image1.jpg';
+                    }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                     <span className="text-white text-xl bg-opacity-50 p-0">+</span>
@@ -264,6 +477,9 @@ const ProjectDetailPage = () => {
               src={galleryImages[selectedImageIndex].url}
               alt="Enlarged"
               className="w-full max-h-[90vh] object-contain rounded shadow-lg"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/images/image1.jpg';
+              }}
             />
           </div>
         </div>
