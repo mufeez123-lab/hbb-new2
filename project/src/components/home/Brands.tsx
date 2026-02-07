@@ -87,7 +87,7 @@ const Brands = () => {
   const visibleBrands = brands.filter((brand) => brand?.image?.url);
 
   return (
-    <section className="py-8 relative overflow-hidden">
+    <section className="py-8 relative overflow-hidden ">
       {/* Section Header */}
       <div className="container mx-auto px-4 mb-2">
         <motion.h2

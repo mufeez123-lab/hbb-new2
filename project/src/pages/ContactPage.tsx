@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import ContactSection from '../components/home/ContactSection';
+import Map from '../components/Map';
 import '/src/index.css';
 import { Link } from 'react-router-dom';
 
@@ -44,6 +45,7 @@ const ContactPage = () => {
       
 
         <ContactSection />
+        <Map/>
 
     </motion.div>
   );
