@@ -12,32 +12,74 @@ interface Brand {
 
 const Brands = () => {
   // 👉 FRONTEND STATIC DATA
-  const brands: Brand[] = [
-    {
-      _id: '1',
-      image: { url: '/images/1089.jpg', public_id: 'b1' },
-    },
-    {
-      _id: '2',
-      image: { url: '/images/1089.jpg', public_id: 'b2' },
-    },
-    {
-      _id: '3',
-      image: { url: '/images/1089.jpg', public_id: 'b3' },
-    },
-    {
-      _id: '4',
-      image: { url: '/images/1089.jpg', public_id: 'b4' },
-    },
-    {
-      _id: '5',
-      image: { url: '/images/1089.jpg', public_id: 'b5' },
-    },
-    {
-      _id: '6',
-      image: { url: '/images/1089.jpg', public_id: 'b6' },
-    },
-  ];
+ const brands: Brand[] = [
+  {
+    _id: '1',
+    image: { url: '/images/barbe.jpg', public_id: 'b1' },
+  },
+  {
+    _id: '2',
+    image: { url: '/images/bawalogo.png', public_id: 'b2' },
+  },
+  {
+    _id: '3',
+    image: { url: '/images/bird_2.jpg', public_id: 'b3' },
+  },
+  {
+    _id: '4',
+    image: { url: '/images/pngtree.png', public_id: 'b4' },
+  },
+  {
+    _id: '5',
+    image: { url: '/images/7299.png', public_id: 'b5' },
+  },
+  {
+    _id: '6',
+    image: { url: '/images/8207.jpg', public_id: 'b6' },
+  },
+
+  {
+    _id: '7',
+    image: { url: '/images/1089.jpg', public_id: 'b7' },
+  },
+  {
+    _id: '8',
+    image: { url: '/images/bawalogo.png', public_id: 'b8' },
+  },
+  {
+    _id: '9',
+    image: { url: '/images/barbe.jpg', public_id: 'b9' },
+  },
+  {
+    _id: '10',
+    image: { url: '/images/bird_2.jpg', public_id: 'b10' },
+  },
+  {
+    _id: '11',
+    image: { url: '/images/pngtree.png', public_id: 'b11' },
+  },
+  {
+    _id: '12',
+    image: { url: '/images/7299.png', public_id: 'b12' },
+  },
+  {
+    _id: '13',
+    image: { url: '/images/8207.jpg', public_id: 'b13' },
+  },
+  {
+    _id: '14',
+    image: { url: '/images/1089.jpg', public_id: 'b14' },
+  },
+  {
+    _id: '15',
+    image: { url: '/images/bawalogo.png', public_id: 'b15' },
+  },
+  {
+    _id: '16',
+    image: { url: '/images/barbe.jpg', public_id: 'b16' },
+  },
+];
+
 
   const getImageUrl = (image?: BrandImage) =>
     image?.url || '/default-avatar.png';
@@ -68,36 +110,35 @@ const Brands = () => {
       </div>
 
       {/* Scrolling Logos */}
-      <div className="relative w-full overflow-hidden">
-        <motion.div
-          className="flex space-x-4 md:space-x-6 lg:space-x-8 py-4"
-          animate={{ x: [-1000, 0] }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 20,
-              ease: 'linear',
-            },
+   <div className="relative w-full overflow-hidden">
+  <motion.div
+    className="flex w-max gap-6 py-4"
+    animate={{ x: ["0%", "-50%"] }}
+    transition={{
+      repeat: Infinity,
+      repeatType: "loop",
+      duration: 20,
+      ease: "linear",
+    }}
+  >
+    {[...visibleBrands, ...visibleBrands].map((brand, index) => (
+      <div
+        key={index}
+        className="flex-shrink-0 w-32 h-32 flex items-center justify-center"
+      >
+        <img
+          src={getImageUrl(brand.image)}
+          alt="Brand Logo"
+          className="w-full h-full object-contain"
+          onError={(e) => {
+            e.currentTarget.src = "/default-avatar.png";
           }}
-        >
-          {[...visibleBrands, ...visibleBrands].map((brand, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 w-24 h-24 flex items-center justify-center"
-            >
-              <img
-                src={getImageUrl(brand.image)}
-                alt="Brand Logo"
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.src = '/default-avatar.png';
-                }}
-              />
-            </div>
-          ))}
-        </motion.div>
+        />
       </div>
+    ))}
+  </motion.div>
+</div>
+
     </section>
   );
 };
