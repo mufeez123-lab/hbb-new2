@@ -33,16 +33,16 @@ import BoardOfDirectorDetailPage from './pages/BoardofDirectorsDetails';
 
 
 // Admin Pages
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminProjects from './pages/admin/AdminProjects';
-// import ProjectForm from './pages/admin/ProjectForm';
-import BrandsPage from './pages/admin/BrandsPage';
-import AboutStatsPage from './pages/admin/AboutStatsPage';
-import HeroSectionPage from './pages/admin/HeroSectionPage';
-import BoardMembersPage from './pages/admin/BoardOfDirectorsPage';
-import AdminRoute from './components/auth/AdminRoute';
-// import BrochureAdmin from './pages/admin/BrochureAdmin';
+// import AdminLogin from './pages/admin/AdminLogin';
+// import AdminDashboard from './pages/admin/AdminDashboard';
+// import AdminProjects from './pages/admin/AdminProjects';
+// // import ProjectForm from './pages/admin/ProjectForm';
+// import BrandsPage from './pages/admin/BrandsPage';
+// import AboutStatsPage from './pages/admin/AboutStatsPage';
+// import HeroSectionPage from './pages/admin/HeroSectionPage';
+// import BoardMembersPage from './pages/admin/BoardOfDirectorsPage';
+// import AdminRoute from './components/auth/AdminRoute';
+// // import BrochureAdmin from './pages/admin/BrochureAdmin';
 
 // Context
 import { AuthProvider } from './context/AuthContext';
@@ -125,16 +125,16 @@ function App() {
 
 
               {/* Admin Routes */}
-              <Route path="/786313login" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-              <Route path="/admin/board" element={<AdminRoute><BoardMembersPage /></AdminRoute>} />
-              <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} />
+              {/* <Route path="/786313login" element={<AdminLogin />} /> */}
+              {/* <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} /> */}
+              {/* <Route path="/admin/board" element={<AdminRoute><BoardMembersPage /></AdminRoute>} /> */}
+              {/* <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} /> */}
               {/* <Route path="/admin/projects/add" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
               {/* <Route path="/admin/projects/edit/:id" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
-              <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} />
-              <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} />
-              <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} />
-              <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} />
+              {/* <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} /> */}
+              {/* <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} /> */}
+              {/* <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} /> */}
+              {/* <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} /> */}
               {/* <Route path="/admin/brochure" element={<AdminRoute><BrochureAdmin /></AdminRoute>} /> */}
 
 

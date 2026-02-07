@@ -76,7 +76,7 @@ const Brands = () => {
   },
   {
     _id: '16',
-    image: { url: '/images/barbe.jpg', public_id: 'b16' },
+    image: { url: '/images/8207.jpg', public_id: 'b16' },
   },
 ];
 

@@ -55,13 +55,13 @@ const AccordionSection = () => {
 
         {/* LEFT SIDE CONTENT */}
         <div className="text-center lg:text-left">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="text-3xl lg:text-4xl font-poppins font-semibold mb-4">
             Hindustan Builders
           </h2>
 
           <div className="w-20 h-1 bg-[#8a6c1a] mx-auto lg:mx-0 mb-6" />
 
-          <p className="text-gray-600 text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
+          <p className="text-gray-600 text-lg  max-w-md font-display mx-auto lg:mx-0">
             Building landmarks with trust, quality, and innovation. We craft
             spaces that define modern living and long-term value.
           </p>
@@ -80,12 +80,12 @@ const AccordionSection = () => {
               >
                 <div className="flex items-center gap-4">
                   {/* ICON */}
-                  <div className="text-[#8a6c1a]">
+                  <div className="text-[#8a6c1a] ">
                     {item.icon}
                   </div>
 
                   {/* TITLE */}
-                  <span className="font-medium text-gray-800">
+                  <span className="font-medium font-display text-gray-800">
                     {item.title}
                   </span>
                 </div>
@@ -99,7 +99,7 @@ const AccordionSection = () => {
               </button>
 
               {activeIndex === index && (
-                <div className="px-5 pb-5 text-gray-600 leading-relaxed whitespace-pre-line">
+                <div className="px-5 pb-5 text-gray-600 leading-relaxed font-display whitespace-pre-line">
                   {item.content}
                 </div>
               )}

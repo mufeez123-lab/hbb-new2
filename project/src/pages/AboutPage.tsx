@@ -60,7 +60,7 @@ const AboutPage = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white py-0"
+      className="bg-white py-10"
     >
       <Helmet>
         <meta
@@ -71,8 +71,8 @@ const AboutPage = () => {
 
       <div className="container mx-auto px-6 mb-0">
         <h2
-          className="text-sm font-bold font-poppins tracking-widest uppercase text-[#8a6c1a] mb-2 ml-20 sm:mt-10 
-          text-center sm:text-left sm:ml-28"
+          className="text-sm font-bold font-display tracking-widest uppercase text-[#8a6c1a] mb-2 ml-0 md:ml-5 sm:mt-10 
+           "
         >
           About Hindustan Builders
         </h2>
@@ -81,24 +81,24 @@ const AboutPage = () => {
           {/* Left Section */}
           <div className="lg:col-span-2 border-r border-neutral-300 pr-6 pl-4">
             <div className="flex items-center gap-4 mb-4">
-              <img
+              {/* <img
                 src={crisilLogo}
                 alt="CRISIL Logo"
                 className="h-12 w-auto object-contain"
-              />
-              <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div>
-              <h3 className="text-xl md:text-2xl font-poppins text-neutral-900 -ml-2">
-                Building Landmarks, Crafting Lifestyles
+              /> */}
+              {/* <div className="w-[0.5px] h-10 bg-[#8A6C4B] ml-2"></div> */}
+              <h3 className="text-xl md:text-4xl font-poppins text-neutral-900 font-semibold ">
+                Building Landmarks, <br /> <span>Crafting Lifestyles</span>
               </h3>
             </div>
 
-            <p className="text-base text-neutral-600 leading-relaxed mb-4">
+            <p className="text-base text-neutral-600 font-display leading-relaxed mb-4">
               One of India's most trusted and respected names in Real Estate – Hindustan Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations.
             </p>
 
             <Link
               to="/aboutclick"
-              className="inline-flex items-center text-[#8a6c1a] hover:underline mt-2"
+              className="inline-flex items-center font-display text-[#8a6c1a] hover:underline mt-2"
             >
               SEE MORE <ArrowRight size={16} className="ml-2" />
             </Link>
@@ -107,24 +107,24 @@ const AboutPage = () => {
           {/* Right Section: Stats */}
           <div className="lg:pl-6">
             <div className="grid grid-cols-2 gap-6">
-              <div className="text-center">
-                <CountUpNumber end={stats.yearsOfExperience} />
-                <p className="text-neutral-600 text-sm">Years of Excellence</p>
+              <div className="text-center font-display">
+                <CountUpNumber  end={stats.yearsOfExperience} />
+                <p className="text-neutral-600 text-sm font-display">Years of Excellence</p>
               </div>
 
-              <div className="text-center">
+              <div className="text-center font-display">
                 <CountUpNumber end={stats.completedProjects} />
-                <p className="text-neutral-600 text-sm">Projects Completed</p>
+                <p className="text-neutral-600 text-sm font-display">Projects Completed</p>
               </div>
 
-              <div className="text-center">
+              <div className="text-center font-display">
                 <CountUpNumber end={stats.happyClients} />
-                <p className="text-neutral-600 text-sm">Happy Families</p>
+                <p className="text-neutral-600 text-sm font-display">Happy Families</p>
               </div>
 
-              <div className="text-center">
+              <div className="text-center font-display">
                 <CountUpNumber end={stats.awardsWon} />
-                <p className="text-neutral-600 text-sm">Awards Won</p>
+                <p className="text-neutral-600 text-sm font-display">Awards Won</p>
               </div>
             </div>
           </div>

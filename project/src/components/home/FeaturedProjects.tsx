@@ -171,10 +171,10 @@ const projects: Project[] = [
                     (e.target as HTMLImageElement).src = '/images/image1.jpg';
                   }}
                 />
-                <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize">
+                <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 font-display rounded capitalize">
                   {project.status}
                 </div>
-                <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs py-1 px-3 rounded">
+                <div className="absolute top-3 right-3 bg-primary-900 text-white text-xs font-display py-1 px-3 rounded">
                   {project.category}
                 </div>
               </div>
@@ -197,22 +197,22 @@ const projects: Project[] = [
                   )}
 
                   <div className="p-5 sm:p-6">
-                    <h3 className="text-lg font-poppins text-primary-800 mb-1">
+                    <h3 className="text-lg font-display text-primary-800 mb-1">
                       {project.name}
                     </h3>
-                    <div className="text-neutral-500 text-sm mb-1">
+                    <div className="text-neutral-500 font-display text-sm mb-1">
                       {project.location}
                     </div>
 
                     <div className="flex justify-between items-center mt-3">
-                      <div className="text-primary-700 font-semibold text-sm">
+                      <div className="text-primary-700 font-display font-semibold text-sm">
                         {project.price ? `BUA: ${project.price} sqft` : project.client}
                       </div>
 
                       {project.explore && (
                         <Link
                           to={`/projects/${project._id}`}
-                          className="text-[#8a731b] inline-flex items-center font-medium"
+                          className="text-[#8a731b] inline-flex font-display items-center font-medium"
                         >
                           Explore
                           <ArrowRight
@@ -235,7 +235,7 @@ const projects: Project[] = [
         <div className="text-center mt-12">
           <Link
             to="/projects"
-            className="inline-flex items-center justify-center bg-[#a0841f] hover:bg-[#8a731b] text-white px-5 py-2 sm:px-6 sm:py-2.5 rounded transition-colors duration-300"
+            className="inline-flex items-center justify-center bg-[#a0841f] font-display hover:bg-[#8a731b] text-white px-5 py-2 sm:px-6 sm:py-2.5 rounded transition-colors duration-300"
           >
             Browse All Projects
             <ArrowRight size={16} className="ml-2" />

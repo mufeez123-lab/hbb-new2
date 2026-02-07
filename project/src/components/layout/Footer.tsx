@@ -12,6 +12,7 @@ import {
   Package as PackageIcon,
   PhoneCall as PhoneCallIcon,
   ArrowRight,
+  MessageCircle,
 } from 'lucide-react';
 
 const Footer = () => {
@@ -39,14 +40,11 @@ const Footer = () => {
               <img 
                 src="/logo-SVG.svg"
                 alt="Hindustan Bawa Logo"
-                className="h-12 object-contain"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-delay="100"
-                data-aos-once="true"
+                className="h-20 object-contain"
+       
               />
             </div>
-            <p className="text-gray-300 mb-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
+            <p className="text-gray-300 mb-6 font-display" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
               Building landmarks of excellence and delivering exceptional quality in every project since 1995.
             </p>
             <div className="flex space-x-4">
@@ -65,6 +63,11 @@ const Footer = () => {
                 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" data-aos-once="true">
                 <LinkedinIcon size={18} className="text-white" />
               </a>
+              <a href="https://wa.me/919961258523" target="_blank" rel="noopener noreferrer"
+                className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
+    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="700" data-aos-once="true">
+    <MessageCircle size={18} className="text-white" />
+  </a>
             </div>
           </div>
 
@@ -73,22 +76,22 @@ const Footer = () => {
             <h3 className="text-xl font-poppins mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" onClick={()=> window.scrollTo({top:0, behavior:'smooth'})} className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
-                  <HomeIcon size={16} className="mr-2 text-[#8a6c1a]" /> Home
+                <Link to="/" onClick={()=> window.scrollTo({top:0, behavior:'smooth'})} className="inline-flex items-center font-display text-gray-300 hover:text-[#8a6c1a] transition-colors">
+                  <HomeIcon size={16} className="mr-2 text-[#8a6c1a] " /> Home
                 </Link>
               </li>
               <li>
-                <Link to="/aboutclick" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
+                <Link to="/aboutclick" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
                   <InfoIcon size={16} className="mr-2 text-[#8a6c1a]" /> About Us
                 </Link>
               </li>
               <li>
-                <Link to="/projects" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
+                <Link to="/projects" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
                   <PackageIcon size={16} className="mr-2 text-[#8a6c1a]" /> Projects
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] transition-colors">
+                <Link to="/contact" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
                   <PhoneCallIcon size={16} className="mr-2 text-[#8a6c1a]" /> Contact
                 </Link>
               </li>
@@ -99,17 +102,22 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-poppins mb-6 text-white">Contact Us</h3>
             <ul className="space-y-4">
-              <li className="flex"><MapPin size={20} className="text-[#8a6c1a] mr-3 mt-1" /><span className="text-gray-300">Kingdom Tower, NH 66,<br />Thokkottu, Mangaluru 575020, India</span></li>
-              <li className="flex items-center"><Phone size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300">+91 9961258523</span></li>
-              <li className="flex items-center"><Mail size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300">info@hindustanbawa.com</span></li>
+              <li className="flex items-center"><Phone size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300 font-display">+91 9961258523</span></li>
+              <li className="flex items-center"><Mail size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300 font-display">info@hindustanbuilders.com</span></li>
             </ul>
           </div>
 
-       
+         <div>
+            <h3 className="text-xl font-poppins mb-6 text-white">Address</h3>
+            <ul className="space-y-4">
+                           <li className="flex"><MapPin size={20} className="text-[#8a6c1a] mr-3 mt-1" /><span className="text-gray-300 font-display">Kingdom Tower, NH 66,<br />Thokkottu, Mangaluru 575020, India</span></li>
+
+            </ul>
+          </div>
         </div>
 
       <div className="border-t border-neutral-700 mt-12 pt-6 flex justify-center items-center">
-  <p className="text-gray-300 text-sm text-center">
+  <p className="text-gray-300 text-sm text-center font-display">
     &copy; {currentYear} Hindustan Builders. All rights reserved.
   </p>
 </div>

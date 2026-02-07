@@ -28,13 +28,13 @@ const ParallaxContact = () => {
           >
             <div className="w-20 h-1 bg-[#8a6c1a] mb-4" />
 
-            <p className="text-3xl md:text-4xl font-bold text-white leading-tight">
+            <p className="text-3xl md:text-4xl font-bold font-poppins text-white leading-tight">
               Let’s build spaces that
               <br />
               define lifestyle & legacy.
             </p>
 
-            <p className="mt-4 text-gray-200 text-base md:text-lg font-medium">
+            <p className="mt-4 text-gray-200 text-base font-display md:text-lg font-medium">
               Reach out to Hindustan Builders and take the first step towards your
               dream property.
             </p>

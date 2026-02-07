@@ -48,7 +48,7 @@ const mockDirectors: Director[] = [
     _id: '1',
     name: 'Mr. A. Rahman',
     position: 'Chairman',
-    image: '/images/chairman.jpg',
+    image: '/images/c.png',
     order: 1,
     isActive: true,
   },
@@ -56,7 +56,7 @@ const mockDirectors: Director[] = [
     _id: '2',
     name: 'Mr. S. Khan',
     position: 'Managing Director',
-    image: '/images/chairman.jpg',
+    image: '/images/c.png',
     order: 2,
     isActive: true,
   },
@@ -64,7 +64,7 @@ const mockDirectors: Director[] = [
     _id: '3',
     name: 'Ms. R. Shaikh',
     position: 'Executive Director',
-    image: '/images/chairman.jpg',
+    image: '/images/c.png',
     order: 3,
     isActive: true,
   },
@@ -72,7 +72,7 @@ const mockDirectors: Director[] = [
     _id: '4',
     name: 'Mr. N. Patel',
     position: 'Director – Projects',
-    image: '/images/chairman.jpg',
+    image: '/images/c.png',
     order: 4,
     isActive: true,
   },
@@ -167,7 +167,7 @@ const AboutPageClick = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="bg-white pb-2 pt-32"
+      className="bg-white pb-2 pt-32 py-10"
     >
       <Helmet>
         <title>About Us | Hindustan Builders</title>
@@ -192,11 +192,11 @@ const AboutPageClick = () => {
 
   {/* Breadcrumb */}
   <div className="mt-2 text-sm text-white/80">
-    <Link to="/" className="hover:text-white transition">
+    <Link to="/" className="font-display hover:text-white transition">
       Home
     </Link>
     <span className="mx-2">/</span>
-    <span className="text-white font-medium">About Us</span>
+    <span className="text-white font-medium font-display">About Us</span>
   </div>
 </div>
 
@@ -205,51 +205,72 @@ const AboutPageClick = () => {
 
       {/* ABOUT CONTENT */}
       <div className="container mx-auto px-4 mt-22">
-        <h2 className="text-sm font-bold tracking-widest uppercase text-[#8a6c1a] mb-4 ml-1">
+       <h2
+          className="text-sm font-bold font-display tracking-widest uppercase text-[#8a6c1a] mb-4 ml-0  
+           "
+        >
           About Hindustan Builders
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-poppins text-neutral-900 mb-2">
-              Building Landmarks, Crafting Lifestyles
-            </h3>
+            <h3 className="text-xl md:text-4xl mb-2 font-poppins text-neutral-900 font-semibold ">
+                Building Landmarks, <br /> <span>Crafting Lifestyles</span>
+              </h3>
 
-            <p className="text-base text-neutral-600 leading-relaxed mb-3">
-              For over two decades, Hindustan Builders has been shaping
-              high-quality residential and commercial developments across
-              Karnataka with a strong commitment to trust, design, and
-              sustainability.
+            <p className="text-base text-neutral-600 font-display leading-relaxed mb-3">
+           One of India's most trusted and respected names in Real Estate – Hindustan Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations.
             </p>
           </div>
 
-          <div className="lg:col-span-1 border-l border-neutral-300 pl-4">
+          {/* <div className="lg:col-span-1 border-l border-neutral-300 pl-4">
             {stats && (
               <div className="grid grid-cols-2 gap-3">
-                <div className="text-center">
+                <div className="text-center font-display">
                   <CountUpNumber end={stats.yearsOfExperience} suffix="+" />
                   <p className="text-sm text-neutral-600">Years of Excellence</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center font-display">
                   <CountUpNumber end={stats.completedProjects} suffix="+" />
                   <p className="text-sm text-neutral-600">Projects Completed</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center   font-display">
                   <CountUpNumber end={stats.happyClients} suffix="+" />
                   <p className="text-sm text-neutral-600">Happy Families</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center font-display">
                   <CountUpNumber end={stats.awardsWon} suffix="+" />
                   <p className="text-sm text-neutral-600">Awards Won</p>
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
+          <div className="lg:col-span-1 border-l border-neutral-300 pl-4 flex items-center justify-center">
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+    className="relative w-full h-full min-h-[300px]"
+  >
+    <img
+      src="/images/about-excellence.jpg" // Replace with your actual image path
+      alt="Hindustan Builders Excellence"
+      className="w-full h-full object-cover rounded-lg shadow-md"
+      onError={(e) => {
+        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000'; // Fallback high-quality building image
+      }}
+    />
+    {/* Optional Overlay Tag */}
+    <div className="absolute bottom-4 left-4 bg-[#8a6c1a]/90 text-white px-4 py-2 rounded text-sm font-poppins">
+      Building Dreams Since 1995
+    </div>
+  </motion.div>
+</div>
         </div>
 
         {/* BOARD OF DIRECTORS */}
         <div className="mt-20">
-          <h2 className="text-2xl text-center font-bold uppercase mb-6">
+          <h2 className="text-2xl text-center font-poppins font-bold uppercase mb-6">
             Board of Directors
           </h2>
 

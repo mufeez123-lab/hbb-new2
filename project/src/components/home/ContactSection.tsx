@@ -118,7 +118,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-[#8a6c1a] mb-1">Email Us</h3>
-                    <p className="text-neutral-600">info@hindustanbawa.com</p>
+                    <p className="text-neutral-600">info@hindustanbuilders.com</p>
                   </div>
                 </div>
 

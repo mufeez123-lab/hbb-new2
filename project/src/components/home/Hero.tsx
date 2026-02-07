@@ -5,40 +5,47 @@ import '/src/index.css';
 interface HeroImage {
   url: string;
   public_id: string;
+  title: string;      // Added title field
+  subtitle: string;   // Added subtitle field
 }
 
 const Hero = () => {
-  // 👉 Frontend images (local or CDN)
   const [images] = useState<HeroImage[]>([
     {
       url: '/images/image3.jpg',
       public_id: 'hero-1',
+      title: 'Hindustan Heights',
+      subtitle: 'Modern living Experience'
     },
     {
       url: '/images/img1.jpg',
       public_id: 'hero-2',
+      title: 'Luxury Villas',
+      subtitle: 'Experience elegance '
     },
     {
       url: '/images/image1.jpg',
       public_id: 'hero-3',
+      title: 'Premium Spaces',
+      subtitle: 'Crafting excellence '
     },
   ]);
 
   const PrevArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white"
+      className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white hover:text-[#8a6c1a] transition-colors"
     >
-      <span className="text-xl font-bold">‹</span>
+      <span className="text-3xl">‹</span>
     </button>
   );
 
   const NextArrow = (props: any) => (
     <button
       onClick={props.onClick}
-      className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white"
+      className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center text-white hover:text-[#8a6c1a] transition-colors"
     >
-      <span className="text-xl font-bold">›</span>
+      <span className="text-3xl">›</span>
     </button>
   );
 
@@ -53,7 +60,7 @@ const Hero = () => {
     arrows: true,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-    lazyLoad: 'progressive',
+    fade: true, // Smoother transition for text overlays
   };
 
   return (
@@ -66,21 +73,25 @@ const Hero = () => {
         <Slider {...settings}>
           {images.map((img, index) => (
             <div key={img.public_id || index} className="relative h-[77vh] md:h-screen w-full">
+              {/* Background Image */}
               <div
                 className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover z-0"
                 style={{
                   backgroundImage: `url(${img.url})`,
-                  filter: 'brightness(1.3)',
+                  filter: 'brightness(0.9)', // Slightly darker for better text contrast
                 }}
               />
-              <div className="absolute inset-0 bg-black/50 z-10" />
+              
+              {/* Gradient Overlay for better readability at the bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
 
-              <div className="relative z-20 px-4 max-w-4xl mx-auto h-full flex flex-col items-center justify-center text-center text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  {/* Heading */}
+              {/* Bottom-Left Text Container */}
+              <div className="relative z-20 container  px-6 md:px-10 h-full flex flex-col items-start justify-end pb-16 md:pb-[100px]">
+                <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-2 text-white border-l-2 border-[#8a6c1a] pl-4  tracking-wider">
+                  {img.title}
                 </h1>
-                <p className="text-lg md:text-xl mb-6">
-                  {/* Subheading */}
+                <p className="text-4xl md:text-5xl font-poppins font-semibold mb-2 text-white  pl-4  tracking-wider">
+                  {img.subtitle}
                 </p>
               </div>
             </div>
@@ -89,8 +100,9 @@ const Hero = () => {
       )}
 
       {/* Scroll indicator */}
-      <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-white animate-bounce">
-        <span className="text-sm mb-1">🡣</span>
+      <div className="hidden md:flex absolute bottom-6 right-12 z-30 flex flex-col items-center text-white animate-bounce">
+        <span className="text-xs uppercase tracking-widest mb-1 opacity-70">Scroll</span>
+        <span className="text-sm">🡣</span>
       </div>
     </section>
   );
