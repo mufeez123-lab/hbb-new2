@@ -68,7 +68,7 @@ const FeaturedProjects = () => {
     status: 'upcoming',
     location: 'Mysore',
     client: 'Private',
-    explore: false,
+    explore: true,
   },
   {
     _id: '5',
