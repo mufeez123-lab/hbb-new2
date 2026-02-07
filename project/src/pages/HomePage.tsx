@@ -45,9 +45,10 @@ const HomePage = () => {
       <AboutPage />
       <FeaturedProjects />
       {/* <Whychooseus /> */}
-      <Accordian/>
+   
       {/* <Testimonials /> */}
       <Parallex />
+         <Accordian/>
       <Brands />
 
       {/* Scroll to Footer Button */}

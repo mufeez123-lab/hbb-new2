@@ -72,14 +72,62 @@ const FeaturedProjects = () => {
       specifications: [
         { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
       ]
-    }
-    // ... Add other projects (4-15) here following this same structure
+    },
+    {
+      _id: '4',
+      name: 'Hindustan Elite',
+      description: 'Exclusive luxury villas offering privacy and elegance.',
+      images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
+      category: 'Villa',
+      status: 'featured',
+      location: 'Bangalore',
+      client: 'Luxury Client',
+      price: '3200',
+      explore: true,
+      amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
+      specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
+      ]
+    },
+    {
+      _id: '5',
+      name: 'Hindustan Elite',
+      description: 'Exclusive luxury villas offering privacy and elegance.',
+      images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
+      category: 'Villa',
+      status: 'featured',
+      location: 'Bangalore',
+      client: 'Luxury Client',
+      price: '3200',
+      explore: true,
+      amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
+      specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
+      ]
+    },
+     {
+      _id: '6',
+      name: 'Hindustan Plaza',
+      description: 'Premium commercial complex situated in the heart of the city.',
+      images: [{ url: '/images/img1.jpg', public_id: 'img2' }],
+      category: 'Commercial',
+      status: 'featured',
+      location: 'Udupi',
+      client: 'Corporate',
+      price: '2100',
+      explore: true,
+      amenities: ['Covered Parking', '24x7 Security'],
+      specifications: [
+        { title: 'Structure', description: ['RCC framed structure', 'Glass facade'] }
+      ]
+    },
+  
   ];
 
   const mainFeatured = projects.filter(p => p.status === 'featured').slice(0, 9);
 
   return (
-    <section className="py-16 bg-neutral-50">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10">
           <motion.h2 className="text-2xl font-poppins font-bold uppercase" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -91,7 +139,7 @@ const FeaturedProjects = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {mainFeatured.map((project) => (
             <div key={project._id} className="group" onMouseEnter={() => setHoveredProject(project._id)} onMouseLeave={() => setHoveredProject(null)}>
-              <div className="bg-white rounded-md overflow-hidden shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-300 hover:-translate-y-2">
+              <div className="bg-white rounded-md overflow-hidden shadow-md  hover:shadow-xl border border-gray-400 transition-all duration-300 hover:-translate-y-2">
                 <Link to={`/projects/${project._id}`}>
                   <div className="relative h-48 sm:h-52 md:h-60 overflow-hidden">
                     <img src={project.images[0].url} alt={project.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
