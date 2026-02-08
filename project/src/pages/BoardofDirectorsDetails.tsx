@@ -1,91 +1,76 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import api from '../services/api';
-
-interface DirectorImage {
-  url: string;
-  public_id: string;
-}
-
-interface Director {
-  _id: string;
-  name: string;
-  position: string;
-  bio?: string;
-  image: string | DirectorImage;
-  order: number;
-  isActive: boolean;
-}
+import { directorsData, Director } from '../data/directors';
 
 const BoardOfDirectorDetailPage = () => {
-  const { id } = useParams();
-  const [director, setDirector] = useState<Director | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams<{ id: string }>();
 
-  useEffect(() => {
-    const fetchDirector = async () => {
-      try {
-        const res = await api.get(`/board/${id}`);
-        setDirector(res.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Unable to fetch director details.');
-        setLoading(false);
-      }
-    };
+  const director: Director | undefined = directorsData.find(
+    (item) => item._id === id
+  );
 
-    fetchDirector();
-  }, [id]);
-
-  if (loading) {
-    return <div className="text-center mt-16">Loading...</div>;
-  }
-
-  if (error || !director) {
-    return <div className="text-center mt-16 text-red-600">{error}</div>;
+  if (!director) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p className="text-neutral-600 mb-4">
+          Director details not found.
+        </p>
+        <Link to="/about" className="text-sm underline">
+          Go back to About
+        </Link>
+      </div>
+    );
   }
 
   const imageURL =
-    typeof director.image === 'object' && director.image.url
-      ? director.image.url
-      : '/default-avatar.png';
+    typeof director.image === 'string'
+      ? director.image
+      : director.image.url;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-20 mt-20">
+    <div className="max-w-7xl mx-auto px-4 py-28">
+      {/* Back Link */}
       <Link
-        to="/aboutclick"
-        className="text-sm text-black mb-6 inline-block hover:underline"
+        to="/about"
+        className="text-sm text-neutral-100 hover:underline md:ml-56 py-2 px-2 rounded-md  bg-[#b57c6b]"
       >
-        &larr; Back to About
+        ← Back 
       </Link>
 
-      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row gap-6 items-start">
-  {/* Profile Image */}
-  <div className="md:w-1/3 w-full">
-    <img
-      src={imageURL}
-      alt={director.name}
-      className="w-full h-auto object-cover rounded-md border border-gray-200"
-    />
-  </div>
+      {/* Main Card */}
+      <div className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="flex flex-col md:flex-row">
+          {/* LEFT: IMAGE */}
+          <div className="md:w-1/3 w-full bg-neutral-100 font-poppins">
+            <img
+              src={imageURL}
+              alt={director.name}
+              className="w-full h-full min-h-[420px]  object-cover object-top"
+            />
+          </div>
 
-  {/* Info Section */}
-  <div className="md:w-2/3 w-full">
-    <h1 className="text-3xl font-bold text-neutral-800 mb-1">{director.name}</h1>
-    <p className="text-lg text-gray-600 font-medium mb-4">{director.position}</p>
+          {/* RIGHT: DETAILS */}
+          <div className="md:w-2/3 w-full p-6 md:p-10">
+            <h1 className="text-3xl font-bold text-neutral-800 mb-2">
+              {director.name}
+            </h1>
 
-    {director.bio ? (
-      <div
-        className="text-sm leading-[1.9] text-justify text-neutral-800 space-y-4"
-        dangerouslySetInnerHTML={{ __html: director.bio }}
-      />
-    ) : (
-      <p className="text-neutral-500 italic">Bio not available.</p>
-    )}
-  </div>
-</div>
+            <p className="text-lg font-medium text-[#8a6c1a] mb-6">
+              {director.position}
+            </p>
 
+            {director.bio ? (
+              <div
+                className="text-neutral-700 leading-relaxed text-justify space-y-4"
+                dangerouslySetInnerHTML={{ __html: director.bio }}
+              />
+            ) : (
+              <p className="italic text-neutral-500">
+                Bio information is not available.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

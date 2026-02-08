@@ -42,7 +42,7 @@ const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
           <nav className="flex flex-col gap-6 text-lg font-medium">
             {[
               { to: "/", icon: Home, label: "Home" },
-              { to: "/aboutclick", icon: User, label: "About" },
+              { to: "/about", icon: User, label: "About" },
               { to: "/projects", icon: Building2, label: "Projects" },
               { to: "/contact", icon: PhoneCall, label: "Contact" }
             ].map((link, idx) => (

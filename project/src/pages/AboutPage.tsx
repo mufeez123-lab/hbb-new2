@@ -96,7 +96,7 @@ const AboutPage = () => {
               </p>
 
               <Link
-                to="/aboutclick"
+                to="/about"
                 className="group inline-flex items-center font-medium font-poppins tracking-tighter text-[#8a6c1a] transition-all"
               >
                 EXPLORE OUR LEGACY 

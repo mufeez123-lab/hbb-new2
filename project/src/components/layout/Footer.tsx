@@ -81,7 +81,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/aboutclick" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
+                <Link to="/about" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
                   <InfoIcon size={16} className="mr-2 text-[#8a6c1a]" /> About Us
                 </Link>
               </li>

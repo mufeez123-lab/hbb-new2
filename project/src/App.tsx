@@ -20,7 +20,7 @@ import CustomCursor from "./components/Cursor/CursorPointer";
 
 // Pages
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
+// import AboutPage from './pages/AboutPage';
 import AboutPageClick from './components/home/AboutPageClick';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
@@ -115,8 +115,8 @@ function App() {
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/aboutclick" element={<AboutPageClick />} />
+              {/* <Route path="/about" element={<AboutPage />} /> */}
+              <Route path="/about" element={<AboutPageClick />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
               <Route path="/contact" element={<ContactPage />} />

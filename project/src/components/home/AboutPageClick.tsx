@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import Brands from '../home/Brands';
+import { directorsData } from '../../data/directors';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -43,40 +44,6 @@ const mockStats: AboutStats = {
   awardsWon: 18,
 };
 
-const mockDirectors: Director[] = [
-  {
-    _id: '1',
-    name: 'Mr. A. Rahman',
-    position: 'Chairman',
-    image: '/images/c.png',
-    order: 1,
-    isActive: true,
-  },
-  {
-    _id: '2',
-    name: 'Mr. S. Khan',
-    position: 'Managing Director',
-    image: '/images/c.png',
-    order: 2,
-    isActive: true,
-  },
-  {
-    _id: '3',
-    name: 'Ms. R. Shaikh',
-    position: 'Executive Director',
-    image: '/images/c.png',
-    order: 3,
-    isActive: true,
-  },
-  {
-    _id: '4',
-    name: 'Mr. N. Patel',
-    position: 'Director – Projects',
-    image: '/images/c.png',
-    order: 4,
-    isActive: true,
-  },
-];
 
 /* ------------------ COUNT UP COMPONENT ------------------ */
 
@@ -118,7 +85,7 @@ const AboutPageClick = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setDirectors(mockDirectors);
+      setDirectors(directorsData);
       setStats(mockStats);
       setLoading(false);
     }, 500);

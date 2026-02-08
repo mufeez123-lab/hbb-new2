@@ -34,7 +34,7 @@ const Header = () => {
       <div className="bg-black text-white text-sm uppercase py-1 px-4 lg:px-8 hidden lg:block">
         <div className="container mx-auto flex justify-end font-poppins space-x-6 font-semibold">
           <Link to="/" className="hover:text-gray-300">Home</Link>
-          <Link to="/aboutclick" className="hover:text-gray-300">About Us</Link>
+          <Link to="/about" className="hover:text-gray-300">About Us</Link>
           <Link to="/projects" className="hover:text-gray-300">Projects</Link>
           <Link to="/contact" className="hover:text-gray-300">Contact Us</Link>
         </div>
