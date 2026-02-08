@@ -32,3 +32,9 @@ body {
   font-style: normal;
   font-display: swap;
 }
+
+/* @layer base {
+  body {
+    cursor: none;
+  }
+} */

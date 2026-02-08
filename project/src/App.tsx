@@ -13,6 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/utils/ScrollToTop';
+import CustomCursor from "./components/Cursor/CursorPointer";
 
 
 
@@ -77,7 +78,7 @@ function App() {
 
   if (loading) {
     return (
-     <div className="fixed inset-0 flex items-center justify-center bg-white/10 backdrop-blur-lg bg-transparent z-50">
+     <div className="fixed cursor-dot inset-0 flex items-center justify-center bg-white/10 backdrop-blur-lg bg-transparent z-50">
   <div className="text-center flex flex-col items-center space-y-3">
     <div className="flex items-center space-x-3">
       <img
@@ -103,8 +104,10 @@ function App() {
   const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/786313login';
 
   return (
+    
     <AuthProvider>
       <ProjectProvider>
+         <CustomCursor />
         <ScrollToTop />
         {!isAdminPage && <Header />}
         <main className="min-h-screen">
