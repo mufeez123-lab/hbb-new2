@@ -33,6 +33,7 @@ import { BiSolidCctv, BiHomeSmile } from "react-icons/bi";
 import { Phone } from 'lucide-react';
 
 import { getProjectById } from '../service/ProjectService';
+import { projectsAPI } from '../services/api';
 
 interface Project {
   _id: string;
@@ -132,7 +133,7 @@ const ProjectDetailPage = () => {
   if (loading) return <div className="py-20 text-center text-neutral-600">Loading project details...</div>;
   if (error || !project) return <div className="py-20 text-center text-red-600">{error}</div>;
 
-  const allImages = [...(project.images || []), ...(project.gallery || [])];
+  const allImages = [...(project.images || [])];
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container max-w-[130vh] mx-auto py-12 mt-20 px-4">
@@ -142,7 +143,7 @@ const ProjectDetailPage = () => {
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[450px] relative shadow-lg">
             <Slider infinite speed={1000} slidesToShow={1} slidesToScroll={1} autoplay nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
-              {allImages.map((img, idx) => (
+              {project.images.map((img, idx) => (
                 <img key={idx} src={img.url} className="object-cover w-full h-[450px]" />
               ))}
             </Slider>
@@ -196,9 +197,11 @@ const ProjectDetailPage = () => {
           ))}
         </div>
            {/* Gallery Section */}
-      <div>
+   
+      </div>
+   <div>
         <h2 className="text-xl font-semibold mb-4">Gallery</h2>
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {project.gallery?.map(img => (
             <img
               key={img.public_id}
@@ -209,8 +212,6 @@ const ProjectDetailPage = () => {
           ))}
         </div>
       </div>
-      </div>
-
     </motion.div>
   );
 };

@@ -3,7 +3,11 @@
     "_id": "1",
     "name": "Hindustan Heights",
     "description": "Luxury residential apartments designed for modern living.",
-    "images": [{ "url": "/images/image1.jpg", "public_id": "p1" }],
+"images": [
+  { "url": "/images/image1.jpg", "public_id": "p1" },
+  { "url": "/images/image3.jpg", "public_id": "p1_2" },
+  { "url": "/images/img1.jpg", "public_id": "p1_3" }
+],
     "category": "Residential",
     "status": "featured",
     "location": "Mangalore",
@@ -17,8 +21,8 @@
       }
     ],
     "gallery": [
-      { "url": "/images/image1.jpg", "public_id": "g1" },
-      { "url": "/images/image3.jpg", "public_id": "g2" },
+      { "url": "/images/plan1.jpg", "public_id": "g1" },
+      { "url": "/images/plan2.webp", "public_id": "g2" },
       { "url": "/images/img1.jpg", "public_id": "g3" }
     ]
   },
@@ -40,8 +44,8 @@
       }
     ],
     "gallery": [
-      { "url": "/images/image3.jpg", "public_id": "g4" },
-      { "url": "/images/image1.jpg", "public_id": "g5" },
+      { "url": "/images/plan2.webp", "public_id": "g4" },
+      { "url": "/images/plan1.jpg", "public_id": "g5" },
       { "url": "/images/img1.jpg", "public_id": "g6" }
     ]
   },
