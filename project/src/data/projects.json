@@ -3,13 +3,14 @@
     "_id": "1",
     "name": "Hindustan Heights",
     "description": "Luxury residential apartments designed for modern living.",
-"images": [
-  { "url": "/images/image1.jpg", "public_id": "p1" },
-  { "url": "/images/image3.jpg", "public_id": "p1_2" },
-  { "url": "/images/img1.jpg", "public_id": "p1_3" }
-],
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p1" },
+      { "url": "/images/image3.jpg", "public_id": "p1_2" },
+      { "url": "/images/img1.jpg", "public_id": "p1_3" }
+    ],
     "category": "Residential",
     "status": "featured",
+    "explore": true,
     "location": "Mangalore",
     "client": "Private",
     "price": "1450",
@@ -30,9 +31,12 @@
     "_id": "2",
     "name": "Ocean Pearl Residency",
     "description": "Premium seaside apartments with stunning ocean views.",
-    "images": [{ "url": "/images/image3.jpg", "public_id": "p2" }],
+    "images": [
+      { "url": "/images/image3.jpg", "public_id": "p2" }
+    ],
     "category": "Residential",
     "status": "featured",
+    "explore": true,
     "location": "Ullal, Mangalore",
     "client": "Private",
     "price": "1650",
@@ -53,9 +57,12 @@
     "_id": "3",
     "name": "Green Valley Enclave",
     "description": "Eco-friendly homes surrounded by lush greenery.",
-    "images": [{ "url": "/images/img1.jpg", "public_id": "p3" }],
+    "images": [
+      { "url": "/images/img1.jpg", "public_id": "p3" }
+    ],
     "category": "Residential",
     "status": "normal",
+    "explore": false,
     "location": "Moodbidri",
     "client": "Private",
     "price": "1250",
@@ -76,9 +83,12 @@
     "_id": "4",
     "name": "City Center Plaza",
     "description": "Modern commercial spaces in the heart of the city.",
-    "images": [{ "url": "/images/image1.jpg", "public_id": "p4" }],
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p4" }
+    ],
     "category": "Commercial",
     "status": "featured",
+    "explore": false,
     "location": "Mangalore City",
     "client": "Corporate",
     "price": "2200",

@@ -1,6 +1,7 @@
 import projects from '../data/projects.json';
 
 export interface Project {
+  explore: any;
   _id: string;
   name: string;
   description: string;

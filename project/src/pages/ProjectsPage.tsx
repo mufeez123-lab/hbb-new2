@@ -20,11 +20,11 @@ const ProjectsPage = () => {
               onMouseLeave={() => setHovered(null)}
               className="group"
             >
-              <div className="bg-white border rounded-lg shadow hover:shadow-xl transition">
+              <div className="bg-white border group-hover:scale-105 transition-transform duration-700 rounded-lg shadow hover:shadow-xl transition">
                 <Link to={`/projects/${project._id}`}>
                   <img
                     src={project.images[0].url}
-                    className="h-52 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="h-52 w-full object-cover "
                   />
                 </Link>
 
@@ -37,18 +37,12 @@ const ProjectsPage = () => {
                       {project.price ? `BUA: ${project.price} sqft` : project.client}
                     </span>
 
-                    <Link
-                      to={`/projects/${project._id}`}
-                      className="flex items-center text-[#8a731b]"
-                    >
-                      Explore
-                      <ArrowRight
-                        size={16}
-                        className={`ml-1 transition ${
-                          hovered === project._id ? 'translate-x-1' : ''
-                        }`}
-                      />
+                    {project.explore && (
+  <Link to={`/projects/${project._id}`} className="btn text-[#b57c6b]">
+    More
+                   
                     </Link>
+                    )}
                   </div>
                 </div>
               </div>

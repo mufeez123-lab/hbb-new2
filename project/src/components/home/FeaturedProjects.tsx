@@ -23,11 +23,11 @@ const FeaturedProjects = () => {
               onMouseEnter={() => setHoveredProject(project._id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition">
+              <div className="border rounded-lg overflow-hidden group-hover:scale-105 transition-transform duration-700 shadow hover:shadow-xl transition">
                 <Link to={`/projects/${project._id}`}>
                   <img
                     src={project.images[0].url}
-                    className="h-56 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="h-56 w-full object-cover "
                   />
                 </Link>
 
@@ -39,18 +39,12 @@ const FeaturedProjects = () => {
                     <span className="text-sm font-semibold">
                       BUA: {project.price} sqft
                     </span>
-                    <Link
-                      to={`/projects/${project._id}`}
-                      className="flex items-center text-[#8a731b]"
-                    >
-                      Explore
-                      <ArrowRight
-                        size={16}
-                        className={`ml-1 transition ${
-                          hoveredProject === project._id ? 'translate-x-1' : ''
-                        }`}
-                      />
+                {project.explore && (
+  <Link to={`/projects/${project._id}`} className="btn text-[#b57c6b]">
+    More
+                   
                     </Link>
+                    )}
                   </div>
                 </div>
               </div>
