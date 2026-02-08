@@ -2,225 +2,61 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-interface Project {
-  _id: string;
-  name: string;
-  description: string;
-  images: { url: string; public_id: string }[];
-  category: string;
-  status: string;
-  location: string;
-  client: string;
-  price?: string;
-  explore?: boolean;
-  // Detailed fields used only in Detail Page
-  amenities?: string[];
-  specifications?: { title: string; description?: string[] }[];
-}
+import { getFeaturedProjects, Project } from '../../service/ProjectService';
 
 const FeaturedProjects = () => {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-
-
-
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2, // Delay between each project card
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-  // 👉 FULL PROJECT DATA (Consolidated)
-  const projects: Project[] = [
-    {
-      _id: '1',
-      name: 'Hindustan Heights',
-      description: 'Luxury residential apartments designed for modern living.',
-      images: [{ url: '/images/image1.jpg', public_id: 'img1' }],
-      category: 'Residential',
-      status: 'featured',
-      location: 'Mangalore',
-      client: 'Private',
-      price: '1450',
-      explore: true,
-      amenities: ['Swimming Pool', 'Gym', '24x7 Security'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Solid block masonry'] },
-        { title: 'Flooring', description: ['Vitrified tiles in living/dining'] }
-      ]
-    },
-    {
-      _id: '2',
-      name: 'Hindustan Plaza',
-      description: 'Premium commercial complex situated in the heart of the city.',
-      images: [{ url: '/images/img1.jpg', public_id: 'img2' }],
-      category: 'Commercial',
-      status: 'featured',
-      location: 'Udupi',
-      client: 'Corporate',
-      price: '2100',
-      explore: true,
-      amenities: ['Covered Parking', '24x7 Security'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Glass facade'] }
-      ]
-    },
-    {
-      _id: '3',
-      name: 'Hindustan Elite',
-      description: 'Exclusive luxury villas offering privacy and elegance.',
-      images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
-      category: 'Villa',
-      status: 'featured',
-      location: 'Bangalore',
-      client: 'Luxury Client',
-      price: '3200',
-      explore: true,
-      amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
-      ]
-    },
-    {
-      _id: '4',
-      name: 'Hindustan Elite',
-      description: 'Exclusive luxury villas offering privacy and elegance.',
-      images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
-      category: 'Villa',
-      status: 'featured',
-      location: 'Bangalore',
-      client: 'Luxury Client',
-      price: '3200',
-      explore: true,
-      amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
-      ]
-    },
-    {
-      _id: '5',
-      name: 'Hindustan Elite',
-      description: 'Exclusive luxury villas offering privacy and elegance.',
-      images: [{ url: '/images/image3.jpg', public_id: 'img3' }],
-      category: 'Villa',
-      status: 'featured',
-      location: 'Bangalore',
-      client: 'Luxury Client',
-      price: '3200',
-      explore: true,
-      amenities: ['Swimming Pool', 'Park Area', 'Gym', 'Children’s Play Area'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Teak wood doors'] }
-      ]
-    },
-     {
-      _id: '6',
-      name: 'Hindustan Plaza',
-      description: 'Premium commercial complex situated in the heart of the city.',
-      images: [{ url: '/images/img1.jpg', public_id: 'img2' }],
-      category: 'Commercial',
-      status: 'featured',
-      location: 'Udupi',
-      client: 'Corporate',
-      price: '2100',
-      explore: true,
-      amenities: ['Covered Parking', '24x7 Security'],
-      specifications: [
-        { title: 'Structure', description: ['RCC framed structure', 'Glass facade'] }
-      ]
-    },
-  
-  ];
-
-  const mainFeatured = projects.filter(p => p.status === 'featured').slice(0, 9);
+  const projects: Project[] = getFeaturedProjects();
 
   return (
-   <section className="py-16 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8">
-        
-        {/* Header Animation */}
-        <div className="text-center mb-10">
-          <motion.h2 
-            className="text-2xl font-poppins font-bold uppercase"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            FEATURED PROJECTS
-          </motion.h2>
-          <motion.div 
-            className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          />
-        </div>
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-2xl font-bold uppercase mb-6 text-center">
+          Featured Projects
+        </h2>
 
-        {/* 2. Apply Staggered Fade-in to the Grid */}
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }} // Starts when 10% of the grid is visible
-        >
-          {mainFeatured.map((project) => (
-            <motion.div 
-              key={project._id} 
-              variants={itemVariants} // 3. Each child uses itemVariants
-              className="group" 
-              onMouseEnter={() => setHoveredProject(project._id)} 
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map(project => (
+            <div
+              key={project._id}
+              className="group"
+              onMouseEnter={() => setHoveredProject(project._id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="bg-white rounded-md overflow-hidden shadow-md hover:shadow-xl border border-gray-400 transition-all duration-300 hover:-translate-y-2">
+              <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition">
                 <Link to={`/projects/${project._id}`}>
-                  <div className="relative h-48 sm:h-52 md:h-60 overflow-hidden">
-                    <img 
-                      src={project.images[0].url} 
-                      alt={project.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    />
-                    <div className="absolute top-3 left-3 bg-[#8a731b] text-white text-xs py-1 px-3 rounded capitalize font-display">
-                      {project.status}
-                    </div>
-                  </div>
+                  <img
+                    src={project.images[0].url}
+                    className="h-56 w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
                 </Link>
 
                 <div className="p-5">
-                  <h3 className="text-lg font-display text-primary-800 mb-1">{project.name}</h3>
-                  <div className="text-neutral-500 font-display text-sm">{project.location}</div>
-                  <div className="flex justify-between items-center mt-3">
-                    <div className="text-primary-700 font-display font-semibold text-sm">
-                      {project.price ? `BUA: ${project.price} sqft` : project.client}
-                    </div>
-                    <Link to={`/projects/${project._id}`} className="text-[#8a731b] inline-flex font-display items-center font-medium">
-                      Explore 
-                      <ArrowRight 
-                        size={16} 
-                        className={`ml-1 transition-transform ${hoveredProject === project._id ? 'translate-x-1' : ''}`} 
+                  <h3 className="text-lg font-semibold">{project.name}</h3>
+                  <p className="text-sm text-gray-500">{project.location}</p>
+
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-sm font-semibold">
+                      BUA: {project.price} sqft
+                    </span>
+                    <Link
+                      to={`/projects/${project._id}`}
+                      className="flex items-center text-[#8a731b]"
+                    >
+                      Explore
+                      <ArrowRight
+                        size={16}
+                        className={`ml-1 transition ${
+                          hoveredProject === project._id ? 'translate-x-1' : ''
+                        }`}
                       />
                     </Link>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
