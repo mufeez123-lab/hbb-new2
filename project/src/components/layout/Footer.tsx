@@ -44,28 +44,28 @@ const Footer = () => {
        
               />
             </div>
-            <p className="text-gray-300 mb-6 font-poppins text-md leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
+            <p className="text-gray-300 mb-6 font-poppins text-md leading-tight" >
               Building landmarks of excellence and delivering exceptional quality in every project since 1995.
             </p>
             <div className="flex space-x-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
                 className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-                data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" data-aos-once="true">
+              >
                 <FacebookIcon size={18} className="text-white" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
                 className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-                data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500" data-aos-once="true">
+              >
                 <InstagramIcon size={18} className="text-white" />
               </a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
                 className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-                data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" data-aos-once="true">
+            >
                 <LinkedinIcon size={18} className="text-white" />
               </a>
               <a href="https://wa.me/919961258523" target="_blank" rel="noopener noreferrer"
                 className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="700" data-aos-once="true">
+>
     <MessageCircle size={18} className="text-white" />
   </a>
             </div>
