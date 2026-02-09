@@ -2,7 +2,7 @@
   {
     "_id": "1",
     "name": "Hindustan Heights",
-    "description": "Luxury residential apartments designed for modern living.",
+    "description": "Each residence features expansive floor-to-ceiling windows that invite natural light and frame breathtaking urban vistas. Premium finishes, including Italian marble flooring and custom cabinetry, elevate the aesthetic of every room. Integrated smart-home technology allows for seamless control of climate, lighting, and security at your fingertips. Residents enjoy exclusive access to world-class amenities, including a private rooftop infinity pool and a state-of-the-art wellness center. These homes redefine urban elegance, offering a sophisticated sanctuary in the heart of the city’s most vibrant district.",
     "category": "Residential",
     "status": "featured",
     "explore": true,
@@ -15,17 +15,33 @@
     ],
     "plans": [
       { "url": "/images/plan1.jpg", "title": "Typical Floor Plan", "public_id": "pl1_1" },
-      { "url": "/images/plan2.webp", "title": "Unit A Layout", "public_id": "pl1_2" }
+      { "url": "/images/plan2.webp", "title": "Unit A Layout", "public_id": "pl1_2" },
+      { "url": "/images/plan1.jpg", "title": "Unit A Layout", "public_id": "pl1_3" }
     ],
     "amenities": ["Swimming Pool", "Gym", "24x7 Security"],
     "specifications": [
       {
         "title": "Structure",
         "description": ["RCC framed structure", "Solid block masonry"]
+      },
+        {
+        "title": "Design",
+        "description": ["RCC framed structure", "Solid block masonry"]
+      },
+        {
+        "title": "Develop",
+        "description": ["RCC framed structure", "Solid block masonry"]
+      },
+        {
+        "title": "Architect",
+        "description": ["RCC framed structure", "Solid block masonry"]
       }
     ],
     "gallery": [
-      { "url": "/images/img1.jpg", "public_id": "g3" }
+      { "url": "/images/img1.jpg", "public_id": "g3" },
+      { "url": "/images/image1.jpg", "public_id": "g4" },
+      { "url": "/images/image3.jpg", "public_id": "g5" },
+      { "url": "/images/abt.jpg", "public_id": "g6" }
     ]
   },
   {
@@ -80,10 +96,12 @@
     "client": "Private",
     "price": "1250",
     "images": [
-      { "url": "/images/img1.jpg", "public_id": "p3" }
+      { "url": "/images/abt.jpg", "public_id": "p3" }
     ],
     "plans": [
-      { "url": "/images/plan-eco.jpg", "title": "Landscape Plan", "public_id": "pl3_1" }
+      { "url": "/images/plan1.jpg", "title": "Landscape Plan", "public_id": "pl3_1" },
+      { "url": "/images/plan2.webp", "title": "Landscape Plan", "public_id": "pl3_2" },
+      { "url": "/images/plan1.jpg", "title": "Landscape Plan", "public_id": "pl3_3" }
     ],
     "amenities": ["Gym", "Park Area", "Rainwater Harvesting"],
     "specifications": [
@@ -108,11 +126,15 @@
     "client": "Corporate",
     "price": "2200",
     "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" }
+      { "url": "/images/image1.jpg", "public_id": "p4" },
+      { "url": "/images/image3.jpg", "public_id": "p5_1" },
+      { "url": "/images/abt.jpg", "public_id": "p6" },
+      { "url": "/images/img1.jpg", "public_id": "p7" }
     ],
     "plans": [
-      { "url": "/images/comm-plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
-      { "url": "/images/comm-plan2.jpg", "title": "Parking Map", "public_id": "pl4_2" }
+      { "url": "/images/plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
+      { "url": "/images/plan2.webp", "title": "Parking Map", "public_id": "pl4_2" },
+      { "url": "/images/plan1.jpg", "title": "Parking Map", "public_id": "pl4_3" }
     ],
     "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
     "specifications": [

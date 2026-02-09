@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowRight, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getFeaturedProjects, Project } from '../../service/ProjectService';
@@ -10,11 +11,15 @@ import 'swiper/css/navigation';
 
 const FeaturedProjects = () => {
   const projects: Project[] = getFeaturedProjects();
+  
+  // Create state to hold navigation elements
+  const [prevEl, setPrevEl] = useState<HTMLElement | null>(null);
+  const [nextEl, setNextEl] = useState<HTMLElement | null>(null);
 
   return (
     <section className="py-16 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-         <header className="flex items-center mb-16">
+        <header className="flex items-center mb-16">
           <div className="flex-grow h-px bg-gray-300"></div>
           <h2 className="px-6 text-lg uppercase tracking-[0.2em] font-medium text-gray-800 text-center">
             Our featured projects
@@ -27,9 +32,14 @@ const FeaturedProjects = () => {
           spaceBetween={30}
           slidesPerView={1}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          navigation={{
-            nextEl: '.swiper-button-next-custom',
-            prevEl: '.swiper-button-prev-custom',
+          // Link navigation to our state elements
+          navigation={{ prevEl, nextEl }}
+          onBeforeInit={(swiper) => {
+            // Re-assign navigation elements just before initialization
+            if (typeof swiper.params.navigation !== 'boolean') {
+              swiper.params.navigation!.prevEl = prevEl;
+              swiper.params.navigation!.nextEl = nextEl;
+            }
           }}
           breakpoints={{
             640: { slidesPerView: 2 },
@@ -64,7 +74,7 @@ const FeaturedProjects = () => {
                       {project.explore && (
                         <Link 
                           to={`/projects/${project._id}`} 
-                          className="btn text-[#b57c6b] font-poppins flex items-center gap-1 hover:gap-2 transition-all"
+                          className="text-[#b57c6b] font-poppins flex items-center gap-1 hover:gap-2 transition-all"
                         >
                           More <ArrowRight size={14} />
                         </Link>
@@ -75,17 +85,23 @@ const FeaturedProjects = () => {
               </div>
             </SwiperSlide>
           ))}
-
-          {/* Custom Navigation Arrows */}
-          <div className="flex justify-center gap-4 mt-4">
-            <button className="swiper-button-prev-custom p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
-              <ChevronLeft size={20} />
-            </button>
-            <button className="swiper-button-next-custom p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors">
-              <ChevronRight size={20} />
-            </button>
-          </div>
         </Swiper>
+
+        {/* Custom Navigation Arrows with Refs */}
+        <div className="flex justify-center gap-4 mt-4">
+          <button 
+            ref={(node) => setPrevEl(node)}
+            className="p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button 
+            ref={(node) => setNextEl(node)}
+            className="p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
       </div>
     </section>
   );

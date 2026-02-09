@@ -23,8 +23,8 @@ interface MediaContentCollection {
 
 const sampleMediaContent: MediaContentCollection = {
   image: {
-    src: '/images/image3.jpg',
-    background: '/images/image1.jpg',
+    src: '/images/image1.jpg',
+    background: '/images/abt.jpg',
     title: 'Get in touch with us ',
     date: 'Underwater Adventure',
     scrollToExpand: 'Scroll to Expand Demo',

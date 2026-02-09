@@ -16,6 +16,7 @@ import { Phone, MapPin, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { getProjectById } from '../service/ProjectService';
 import ContactSection from '../components/home/ContactSection';
+import { Helmet } from 'react-helmet';
 
 /* ------------------ INTERFACES ------------------ */
 
@@ -136,6 +137,9 @@ const ProjectDetailPage = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container max-w-[130vh] mx-auto py-12 mt-20 px-4">
+         <Helmet>
+        <title>Property Details | Hindustan Builders</title>
+      </Helmet>
       
       {/* 1. HERO SECTION */}
       <div className="bg-white overflow-hidden pb-8">

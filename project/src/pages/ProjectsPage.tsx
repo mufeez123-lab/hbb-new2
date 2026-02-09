@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getAllProjects, Project } from '../service/ProjectService';
 // import Scroll from '../components/ScrollReavel.tsx/Scroll';
 import Demo from '../components/ScrollReavel.tsx/Demo1';
+import { Helmet } from 'react-helmet';
 
 const ProjectsPage = () => {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -11,6 +12,9 @@ const ProjectsPage = () => {
 
   return (
     <>
+       <Helmet>
+        <title>Properties | Hindustan Builders</title>
+      </Helmet>
     <Demo/>
     <section className="py-28 bg-neutral-50">
    

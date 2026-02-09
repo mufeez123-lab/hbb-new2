@@ -126,7 +126,7 @@ const Footer = () => {
         {/* Bottom Section: Copyright */}
         <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[11px] text-gray-400 uppercase tracking-widest">
-            &copy; {currentYear} Hindustan Limited. All rights reserved.
+            &copy; {currentYear}. Hindustan Limited. All rights reserved.
           </p>
           <div className="flex gap-6 text-[11px] text-gray-400 uppercase tracking-widest">
             <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
