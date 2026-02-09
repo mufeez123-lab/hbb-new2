@@ -43,7 +43,7 @@ const CustomCursor: React.FC = () => {
       <img 
         src="/newlogo.png" 
         alt="cursor" 
-        className="w-full h-full object-contain"
+        className="w-full h-full object-contain hidden md:block"
         // If your logo is dark, you can add a filter to make it pop
         // className="w-full h-full object-contain invert" 
       />
