@@ -1,20 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const CustomCursor: React.FC = () => {
-  useEffect(() => {
-    const cursor = document.querySelector<HTMLDivElement>(".cursor");
-    const dot = document.querySelector<HTMLDivElement>(".cursor-dot");
+  const cursorRef = useRef<HTMLDivElement>(null);
 
-    if (!cursor || !dot) return;
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
 
     const moveCursor = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-
-      dot.style.left = `${clientX}px`;
-      dot.style.top = `${clientY}px`;
-
-      cursor.style.left = `${clientX}px`;
-      cursor.style.top = `${clientY}px`;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Update position using requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        if (cursor) {
+          cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+        }
+      });
     };
 
     window.addEventListener("mousemove", moveCursor);
@@ -22,38 +27,27 @@ const CustomCursor: React.FC = () => {
   }, []);
 
   return (
-    <>
-      {/* Dot */}
-      <div
-        className="
-          cursor-dot
-          fixed
-          left-0 top-0
-          w-1.5 h-1.5
-          bg-[#63b545]
-          rounded-full
-          pointer-events-none
-          -translate-x-1/2 -translate-y-1/2
-          z-[10000]
-        "
+    <div
+      ref={cursorRef}
+      className="
+        fixed
+        left-0 top-0
+        w-8 h-8
+        pointer-events-none
+        z-[99999]
+        will-change-transform
+      "
+      // style={{ transition: 'transform 0.1s ease-out' }} // Smooth follow effect
+    >
+      {/* Your Logo Here */}
+      <img 
+        src="/newlogo.png" 
+        alt="cursor" 
+        className="w-full h-full object-contain"
+        // If your logo is dark, you can add a filter to make it pop
+        // className="w-full h-full object-contain invert" 
       />
-
-      {/* Outer circle */}
-      <div
-        className="
-          cursor
-          fixed
-          left-0 top-0
-          w-8 h-8
-          border-2 border-[#ed8439]
-          rounded-full
-          pointer-events-none
-          -translate-x-1/2 -translate-y-1/2
-          transition-transform duration-300 ease-out
-          z-[9999]
-        "
-      />
-    </>
+    </div>
   );
 };
 

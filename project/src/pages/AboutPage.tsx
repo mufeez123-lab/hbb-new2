@@ -48,19 +48,19 @@ const AboutPage = () => {
   const scale = useTransform(scrollYProgress, [0.3, 0.5], [0.92, 1]);
   const marginX = useTransform(scrollYProgress, [0.3, 0.5], ["20px", "0px"]);
 
-  const stats: AboutStats = {
-    yearsOfExperience: 25,
-    completedProjects: 120,
-    happyClients: 1500,
-    awardsWon: 18,
-  };
+  // const stats: AboutStats = {
+  //   yearsOfExperience: 25,
+  //   completedProjects: 120,
+  //   happyClients: 1500,
+  //   awardsWon: 18,
+  // };
 
   return (
-    <section ref={containerRef} className="bg-transparent  overflow-hidden">
-      <Helmet>
-        <title>About | Hindustan Builders</title>
-        <meta name="description" content="Learn about Hindustan Builders' legacy of excellence." />
-      </Helmet>
+<section 
+      ref={containerRef} 
+      className="relative overflow-hidden bg-cover bg-center bg-no-repeat py-20"
+      style={{ backgroundImage: "url('/images/abt1.webp')" }} // Add your BG path here
+    >     
 
       <motion.div
         style={{
@@ -69,43 +69,55 @@ const AboutPage = () => {
           marginLeft: marginX,
           marginRight: marginX,
         }}
-        className="bg-white shadow-2xl py-16 md:py-24 border border-neutral-200 sticky top-0"
+        className="bg-transparent  py-16 md:py-24  sticky top-0 min-h-[70vh] flex items-center"
       >
         <div className="container mx-auto px-6 md:px-12">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-sm font-bold tracking-widest uppercase font-poppins text-[#8a6c1a] mb-4"
-          >
-            About Hindustan Builders
-          </motion.h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Content Section */}
+            <div className="z-10">
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className="text-sm font-bold tracking-[0.3em] uppercase font-poppins text-[#8a6c1a] mb-6"
+              >
+                
+              </motion.h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-            {/* Left Section */}
-            <div className="lg:col-span-2 lg:border-r lg:border-neutral-200 lg:pr-12">
-              <h3 className="text-3xl md:text-5xl font-poppins text-neutral-900 font-semibold mb-8 leading-tight">
-                Building Landmarks, <br /> 
-                <span className="text-[#8a6c1a]">Crafting Lifestyles</span>
+              <h3 className="text-4xl md:text-6xl font-light text-neutral-900 mb-8 leading-[1.1] font-poppins">
+                Building Landmarks <br /> 
+                <span className="italic font-serif">Crafting</span> <span className="font-semibold uppercase tracking-tighter ">LifeStyles</span>
               </h3>
 
-              <p className="text-lg text-neutral-600 font-display leading-relaxed mb-8">
+              <p className="text-base md:text-lg text-neutral-600 font-poppins font-light leading-relaxed mb-10 max-w-xl">
                 One of India's most trusted and respected names in Real Estate – 
-                <strong> Hindustan Builders, Mangalore</strong> is synonymous with innovation 
-                and luxurious living. Since its inception, we have played a vital role in shaping 
-                the landscape of Modern Urban India through transformative technologies.
+                <strong> Hindustan Builders, Mangalore</strong>. We understand that true excellence lies in the meticulous 
+                attention to detail and the artistry of craftsmanship. Since our inception, we have played a vital role in shaping 
+                the landscape of Modern Urban India.
               </p>
 
               <Link
                 to="/about"
-                className="group inline-flex items-center font-medium font-poppins tracking-tighter text-[#8a6c1a] transition-all"
+                className="group inline-flex items-center tracking-[0.2em] text-xs font-bold font-poppins border border-neutral-900 rounded-full px-10 py-4   transition-all duration-500"
               >
-                EXPLORE OUR LEGACY 
-                <ArrowRight size={18} className="ml-2 transition-transform group-hover:translate-x-2" />
+                DISCOVER MORE
+                <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
-            {/* Right Section: Stats */}
-            <div className="lg:pl-6">
+            {/* Right Image Section - Blended Design */}
+            {/* <div className="relative h-[350px] lg:h-[550px] w-full lg:pl-6">
+               This gradient creates the "Art of Detail" fade effect
+               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/10 to-transparent z-10 hidden lg:block" />
+               <img 
+                 src="/images/img1.jpg" 
+                 alt="Detail Craftsmanship" 
+                 className="w-full h-full object-cover grayscale-[10%] opacity-95" 
+               />
+            </div> */}
+
+            {/* Right Section: Stats (KEEPING COMMENTED AS REQUESTED) */}
+            {/* <div className="lg:pl-6">
               <div className="grid grid-cols-2 gap-y-12 gap-x-8">
                 <div className="text-center font-poppins md:text-left">
                   <CountUpNumber end={stats.yearsOfExperience} />
@@ -127,7 +139,8 @@ const AboutPage = () => {
                   <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-2 font-display">Awards Won</p>
                 </div>
               </div>
-            </div>
+            </div> */}
+            
           </div>
         </div>
       </motion.div>

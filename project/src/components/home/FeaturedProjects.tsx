@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getFeaturedProjects, Project } from '../../service/ProjectService';
 
@@ -32,15 +32,19 @@ const FeaturedProjects = () => {
                 </Link>
 
                 <div className="p-5">
-                  <h3 className="text-lg font-semibold">{project.name}</h3>
-                  <p className="text-sm text-gray-500">{project.location}</p>
+                  <h3 className="text-lg font-display font-semibold">{project.name}</h3>
+                  
+ <p className="text-sm font-poppins text-gray-500 flex items-center gap-1 mt-1">
+    <MapPin size={14} className="text-gray-400" strokeWidth={2.5} />
+    {project.location}
+  </p>
 
                   <div className="flex justify-between items-center mt-4">
-                    <span className="text-sm font-semibold">
+                    <span className="text-sm font-poppins font-semibold">
                       BUA: {project.price} sqft
                     </span>
                 {project.explore && (
-  <Link to={`/projects/${project._id}`} className="btn text-[#b57c6b]">
+  <Link to={`/projects/${project._id}`} className="btn text-[#b57c6b] font-poppins">
     More
                    
                     </Link>

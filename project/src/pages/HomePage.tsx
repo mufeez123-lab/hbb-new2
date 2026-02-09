@@ -11,6 +11,7 @@ import Parallex from '../components/home/Parallex';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Whychooseus from '../components/home/Whychooseus';
+import Pillars from '../components/home/Pillars';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -43,6 +44,7 @@ const HomePage = () => {
 
       <Hero />
       <AboutPage />
+      <Pillars/>
       <FeaturedProjects />
       {/* <Whychooseus /> */}
    

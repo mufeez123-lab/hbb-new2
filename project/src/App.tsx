@@ -89,7 +89,7 @@ function App() {
       />
     </div>
     <p
-      className="text-neutral-800 font-medium"
+      className="text-neutral-800 font-poppins font-medium"
       data-aos="fade-up"
     >
       Building Dreams, Delivering Excellence

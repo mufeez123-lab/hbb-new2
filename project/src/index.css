@@ -33,8 +33,8 @@ body {
   font-display: swap;
 }
 
-/* @layer base {
+@layer base {
   body {
     cursor: none;
   }
-} */
+}

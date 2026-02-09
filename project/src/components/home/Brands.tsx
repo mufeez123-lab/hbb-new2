@@ -117,7 +117,7 @@ const Brands = () => {
     transition={{
       repeat: Infinity,
       repeatType: "loop",
-      duration: 20,
+      duration: 70,
       ease: "linear",
     }}
   >
