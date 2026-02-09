@@ -1,291 +1,153 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Helmet } from 'react-helmet';
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
 import Brands from '../home/Brands';
-import { directorsData } from '../../data/directors';
+import Demo from '../ScrollReavel.tsx/Demo';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+/* ------------------ REUSABLE COMPONENTS ------------------ */
 
-interface DirectorImage {
-  url: string;
-  public_id: string;
-}
-
-interface Director {
-  _id: string;
-  name: string;
-  position: string;
-  image: string | DirectorImage;
-  order: number;
-  isActive: boolean;
-}
-
-interface AboutStats {
-  yearsOfExperience: number;
-  completedProjects: number;
-  happyClients: number;
-  awardsWon: number;
-}
-
-interface CountUpNumberProps {
-  end: number;
-  suffix?: string;
-}
-
-/* ------------------ STATIC FRONTEND DATA ------------------ */
-
-const mockStats: AboutStats = {
-  yearsOfExperience: 22,
-  completedProjects: 120,
-  happyClients: 950,
-  awardsWon: 18,
-};
-
-
-/* ------------------ COUNT UP COMPONENT ------------------ */
-
-const CountUpNumber = ({ end, suffix = '' }: CountUpNumberProps) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let startTime: number;
-    let animationFrame: number;
-
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / 2000, 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end]);
-
-  return (
-    <div className="text-5xl font-light text-neutral-900 mb-2">
-      {count}
-      <span className="text-[#8a6c1a] font-light">{suffix}</span>
+const RevealSection = ({ children, title }: { children: React.ReactNode; title: string }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+    className="border-t border-gray-100 py-10 group cursor-pointer"
+  >
+    <div className="flex justify-between items-center">
+      <h2 className="text-5xl md:text-7xl font-serif text-gray-200 group-hover:text-[#8a6c1a] transition-colors duration-500">
+        {title}
+      </h2>
+      <div className="text-2xl text-gray-300 group-hover:rotate-45 transition-transform duration-500">+</div>
     </div>
-  );
-};
+    <div className="hidden group-hover:block mt-6 max-w-2xl">
+      {children}
+    </div>
+  </motion.div>
+);
 
 /* ------------------ MAIN COMPONENT ------------------ */
 
 const AboutPageClick = () => {
-  const [directors, setDirectors] = useState<Director[]>([]);
-  const [stats, setStats] = useState<AboutStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error] = useState<string | null>(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setDirectors(directorsData);
-      setStats(mockStats);
-      setLoading(false);
-    }, 500);
-  }, []);
-
-  /* ------------------ SLIDER ARROWS ------------------ */
-
-  const PrevArrow = (props: any) => (
-    <button
-      onClick={props.onClick}
-      className="absolute left-0 top-1/2 -translate-y-1/2 z-20 text-3xl text-neutral-700 hover:text-[#8a6c1a] transition"
-    >
-      ‹
-    </button>
-  );
-
-  const NextArrow = (props: any) => (
-    <button
-      onClick={props.onClick}
-      className="absolute right-0 top-1/2 -translate-y-1/2 z-20 text-3xl text-neutral-700 hover:text-[#8a6c1a] transition"
-    >
-      ›
-    </button>
-  );
-
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 640, settings: { slidesToShow: 1 } },
-    ],
-  };
+  const containerRef = useRef(null);
+  
+  // Parallax for Hero
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
-      className="bg-white pb-2 pt-32 py-10"
-    >
+    <div ref={containerRef} className="bg-white selection:bg-[#8a6c1a] selection:text-white">
       <Helmet>
         <title>About Us | Hindustan Builders</title>
-        <meta
-          name="description"
-          content="Learn about Hindustan Builders' legacy of excellence in real estate development."
-        />
       </Helmet>
 
-      {/* HERO */}
-      <section className="py-10 -mt-[75px]">
-    <div
-  className="relative px-4 w-full h-[300px] flex flex-col items-center justify-center bg-center bg-cover"
-  style={{
-    backgroundImage:
-      "linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(160, 160, 160, 0.3)), url('/images/abt.jpg')",
-  }}
->
-  <h1 className="text-4xl font-extrabold text-center uppercase text-white">
-    About Us
-  </h1>
+      {/* 1. SOBHA STYLE HERO */}
+    <Demo/>
+    
 
-  {/* Breadcrumb */}
-  <div className="mt-2 text-sm text-white/80">
-    <Link to="/" className="font-display hover:text-white transition">
-      Home
-    </Link>
-    <span className="mx-2">/</span>
-    <span className="text-white font-medium font-display">About Us</span>
-  </div>
-</div>
-
-        
+      {/* 2. INTRO WITH ASYMMETRIC GRID */}
+      <section className="py-24 px-6 md:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-4">
+            <motion.h3 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="text-3xl font-serif leading-tight text-gray-900"
+            >
+              Building <br /> Excellence for <br /> Generations
+            </motion.h3>
+          </div>
+          <div className="lg:col-span-8">
+            <p className="text-gray-500 font-light leading-loose max-w-xl text-sm md:text-base">
+              Hindustan Builders is a real estate developer that stands for quality and trust. 
+              Since 1995, we have been reshaping the skyline of Mangaluru with 
+              transformative technologies and an unwavering commitment to luxury living.
+            </p>
+            
+            {/* Quick Stats Row */}
+            <div className="grid grid-cols-3 gap-8 mt-16 border-t border-gray-100 pt-10">
+              <div>
+                <span className="text-2xl font-serif text-gray-900">~8Mn</span>
+                <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-1">Sq. Ft Developed</p>
+              </div>
+              <div>
+                <span className="text-2xl font-serif text-gray-900">~3000</span>
+                <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-1">Homes Built</p>
+              </div>
+              <div>
+                <span className="text-2xl font-serif text-gray-900">~10%</span>
+                <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-1">Market Share</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* ABOUT CONTENT */}
-      <div className="container mx-auto px-4 mt-22">
-       <h2
-          className="text-sm font-bold font-display tracking-widest uppercase text-[#8a6c1a] mb-4 ml-0  
-           "
-        >
-          About Hindustan Builders
-        </h2>
+      {/* 3. INTERACTIVE SECTION ACCORDION (Sobha Vision/Mission) */}
+      <section className="px-6 md:px-24 py-12">
+        <RevealSection title="Our Vision">
+          <p className="text-gray-600 font-light">To be the most trusted name in real estate, creating spaces that inspire and elevate human life.</p>
+        </RevealSection>
+        <RevealSection title="Our Mission">
+          <p className="text-gray-600 font-light">Delivering excellence through innovation, transparency, and high-quality craftsmanship in every project.</p>
+        </RevealSection>
+        <RevealSection title="The Brand Pillars">
+          <p className="text-gray-600 font-light">Integrity, Quality, and Timely Delivery are the cornerstones of our legacy.</p>
+        </RevealSection>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2">
-            <h3 className="text-xl md:text-4xl mb-2 font-poppins text-neutral-900 font-semibold ">
-                Building Landmarks, <br /> <span>Crafting Lifestyles</span>
-              </h3>
-
-            <p className="text-base text-neutral-600 font-display leading-relaxed mb-3">
-           One of India's most trusted and respected names in Real Estate – Hindustan Builders, Mangalore is synonymous with innovation and luxurious living. Since its inception, Hindustan Builders has played a vital role in shaping the landscape of Modern Urban India by consistently introducing and delivering state-of-the-art, transformative real estate concepts, technologies, and innovations.
-            </p>
-          </div>
-
-          {/* <div className="lg:col-span-1 border-l border-neutral-300 pl-4">
-            {stats && (
-              <div className="grid grid-cols-2 gap-3">
-                <div className="text-center font-display">
-                  <CountUpNumber end={stats.yearsOfExperience} suffix="+" />
-                  <p className="text-sm text-neutral-600">Years of Excellence</p>
-                </div>
-                <div className="text-center font-display">
-                  <CountUpNumber end={stats.completedProjects} suffix="+" />
-                  <p className="text-sm text-neutral-600">Projects Completed</p>
-                </div>
-                <div className="text-center   font-display">
-                  <CountUpNumber end={stats.happyClients} suffix="+" />
-                  <p className="text-sm text-neutral-600">Happy Families</p>
-                </div>
-                <div className="text-center font-display">
-                  <CountUpNumber end={stats.awardsWon} suffix="+" />
-                  <p className="text-sm text-neutral-600">Awards Won</p>
-                </div>
+      {/* 4. HORIZONTAL JOURNEY TIMELINE */}
+      <section className="py-24 bg-gray-50 overflow-hidden">
+        <div className="container mx-auto px-6 mb-12">
+          <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400 block mb-2">Our Journey</span>
+          <h2 className="text-3xl font-serif italic">A Journey Through Time,</h2>
+        </div>
+        
+        <div className="flex gap-4 overflow-x-auto pb-12 px-6 no-scrollbar">
+          {[1976, 1995, 2003, 2014, 2016].map((year, idx) => (
+            <motion.div 
+              key={year}
+              whileHover={{ scale: 1.02 }}
+              className={`flex-shrink-0 w-[300px] md:w-[450px] relative h-[300px] md:h-[400px] group overflow-hidden`}
+            >
+              <img 
+                src={`/images/journey-${idx+1}.jpg`} 
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                alt={year.toString()}
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
+              <div className="absolute bottom-10 left-10 text-white">
+                <h4 className="text-4xl font-serif mb-2">{year}</h4>
+                <p className="text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Key Milestone Reached</p>
               </div>
-            )}
-          </div> */}
-          <div className="lg:col-span-1 border-l border-neutral-300 pl-4 flex items-center justify-center">
-  <motion.div 
-    initial={{ opacity: 0, scale: 0.9 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.8 }}
-    className="relative w-full h-full min-h-[300px]"
-  >
-    <img
-      src="/images/about-excellence.jpg" // Replace with your actual image path
-      alt="Hindustan Builders Excellence"
-      className="w-full h-full object-cover rounded-lg shadow-md"
-      onError={(e) => {
-        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000'; // Fallback high-quality building image
-      }}
-    />
-    {/* Optional Overlay Tag */}
-    <div className="absolute bottom-4 left-4 bg-[#8a6c1a]/90 text-white px-4 py-2 rounded text-sm font-poppins">
-      Building Dreams Since 1995
-    </div>
-  </motion.div>
-</div>
+            </motion.div>
+          ))}
         </div>
+      </section>
 
-        {/* BOARD OF DIRECTORS */}
-        <div className="mt-20">
-          <h2 className="text-2xl text-center font-poppins font-bold uppercase mb-6">
-            Board of Directors
-          </h2>
-
-          {loading ? (
-            <p className="text-center">Loading...</p>
-          ) : error ? (
-            <p className="text-center text-red-600">{error}</p>
-          ) : (
-            <Slider {...sliderSettings} className="relative px-8">
-              {directors.map((director) => {
-                const imageURL =
-                  typeof director.image === 'string'
-                    ? director.image
-                    : director.image.url;
-
-                return (
-                  <Link
-                    to={`/board/${director._id}`}
-                    key={director._id}
-                    className="block px-2"
-                  >
-                    <div className="bg-white border rounded-lg overflow-hidden">
-                      <div className="h-80 bg-neutral-100 p-1">
-                        <img
-                          src={imageURL}
-                          alt={director.name}
-                          className="w-full h-full object-cover object-top"
-                        />
-                      </div>
-                      <div className="p-3 text-center">
-                        <h4 className="text-lg font-semibold text-[#8a6c1a]">
-                          {director.name}
-                        </h4>
-                        <p className="text-sm text-neutral-600">
-                          {director.position}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </Slider>
-          )}
+      {/* 5. CHAIRMAN QUOTE (Sobha Style) */}
+      <section className="py-32 flex flex-col items-center justify-center bg-white text-center px-6">
+        <div className="max-w-4xl">
+          <p className="text-xl md:text-3xl font-serif italic text-gray-800 leading-relaxed mb-10">
+            "Perfection is not a dream, but a reality that I strive towards in my work."
+          </p>
+          <img src="/images/chairman-signature.png" alt="Signature" className="h-12 opacity-40 mx-auto" />
+          <div className="mt-12 flex flex-col items-center">
+             <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-[#8a6c1a] p-1">
+                <img src="/images/chairman.jpg" className="w-full h-full object-cover rounded-full" alt="Chairman" />
+             </div>
+             <h5 className="font-serif text-lg text-gray-900">Mr. Name Surname</h5>
+             <span className="text-[10px] uppercase tracking-widest text-gray-400">Founder & Chairman</span>
+          </div>
         </div>
-      </div>
+      </section>
 
       <Brands />
-    </motion.div>
+    </div>
   );
 };
 
