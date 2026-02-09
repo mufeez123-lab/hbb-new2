@@ -104,5 +104,57 @@
       { "url": "/images/image3.jpg", "public_id": "g11" },
       { "url": "/images/img1.jpg", "public_id": "g12" }
     ]
+  },
+   {
+    "_id": "5",
+    "name": "City Center Plaza",
+    "description": "Modern commercial spaces in the heart of the city.",
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p4" }
+    ],
+    "category": "Commercial",
+    "status": "featured",
+    "explore": false,
+    "location": "Mangalore City",
+    "client": "Corporate",
+    "price": "2200",
+    "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
+    "specifications": [
+      {
+        "title": "Facilities",
+        "description": ["High-speed elevators", "24/7 power backup"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/image1.jpg", "public_id": "g10" },
+      { "url": "/images/image3.jpg", "public_id": "g11" },
+      { "url": "/images/img1.jpg", "public_id": "g12" }
+    ]
+  },
+   {
+    "_id": "6",
+    "name": "City Center Plaza",
+    "description": "Modern commercial spaces in the heart of the city.",
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p4" }
+    ],
+    "category": "Commercial",
+    "status": "featured",
+    "explore": false,
+    "location": "Mangalore City",
+    "client": "Corporate",
+    "price": "2200",
+    "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
+    "specifications": [
+      {
+        "title": "Facilities",
+        "description": ["High-speed elevators", "24/7 power backup"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/image1.jpg", "public_id": "g10" },
+      { "url": "/images/image3.jpg", "public_id": "g11" },
+      { "url": "/images/img1.jpg", "public_id": "g12" }
+    ]
   }
 ]

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Phone,
@@ -7,121 +7,132 @@ import {
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
-  Home as HomeIcon,
-  Info as InfoIcon,
-  Package as PackageIcon,
-  PhoneCall as PhoneCallIcon,
-  ArrowRight,
-  MessageCircle,
+  MessageCircle,ArrowUpRight, History, LayoutGrid, Headset
 } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [subscribed, setSubscribed] = useState(false);
-  const [email, setEmail] = useState('');
 
   return (
-    <footer id="footer" className="relative bg-neutral-900 text-white pt-16 pb-8 overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <img 
-          src="/images/3159227.jpg" 
-          alt="Building Background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/90 to-neutral-800/95"></div>
-      </div>
+    <footer id="footer" className="bg-[#fafafa] text-neutral-800 pt-16 pb-8 border-t border-gray-100">
+      <div className="container mx-auto px-4 md:px-8">
+        
+        {/* Top Section: Centered Logo & Luxury Dividers */}
+        <div className="flex items-center justify-center mb-16">
+          <div className="flex-grow h-px bg-gray-200"></div>
+          <div className="px-8 flex flex-col items-center">
+            {/* <img 
+              src="/newlogo.png" 
+              alt="Hindustan Bawa Logo" 
+              className="h-16 md:h-20 object-contain mb-2" 
+            /> */}
+     <div className=' text-black tracking-wide  font-light'>
+             <h1 className=' uppercase font-display text-3xl font-ptserif tracking-widest font-light' >Hindustan</h1>
+            <p className='ml-16 font-display font-light'>LIMITED</p>
+           </div>
+          </div>
+          <div className="flex-grow h-px bg-gray-200"></div>
+        </div>
 
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info with Logo */}
+        {/* Middle Section: Minimalist Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          
+          {/* Column 1: Brand Info */}
           <div>
-            <div className="mb-4">
-              <img 
-                src="/logo-SVG.svg"
-                alt="Hindustan Bawa Logo"
-                className="h-20 object-contain"
-       
-              />
-            </div>
-            <p className="text-gray-300 mb-6 font-poppins text-md leading-tight" >
+            <h3 className="text-xs uppercase tracking-[0.2em] font-bold mb-6 font-poppins text-gray-900">About Us</h3>
+            <p className="text-sm text-gray-500 leading-relaxed font-light font-poppins mb-6">
               Building landmarks of excellence and delivering exceptional quality in every project since 1995.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-                className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-              >
-                <FacebookIcon size={18} className="text-white" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-              >
-                <InstagramIcon size={18} className="text-white" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
-            >
-                <LinkedinIcon size={18} className="text-white" />
-              </a>
-              <a href="https://wa.me/919961258523" target="_blank" rel="noopener noreferrer"
-                className="bg-neutral-800 hover:bg-[#8a6c1a] transition-colors duration-300 h-10 w-10 rounded-full flex items-center justify-center"
->
-    <MessageCircle size={18} className="text-white" />
-  </a>
+            <div className="flex space-x-5">
+              <a href="#" className="text-gray-400 hover:text-[#8a6c1a] transition-colors"><FacebookIcon size={18} /></a>
+              <a href="#" className="text-gray-400 hover:text-[#8a6c1a] transition-colors"><InstagramIcon size={18} /></a>
+              <a href="#" className="text-gray-400 hover:text-[#8a6c1a] transition-colors"><LinkedinIcon size={18} /></a>
+              <a href="#" className="text-gray-400 hover:text-[#8a6c1a] transition-colors"><MessageCircle size={18} /></a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Column 2: Quick Links (Simplified like the image) */}
           <div>
-            <h3 className="text-xl font-poppins mb-6 text-white">Quick Links</h3>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-bold mb-6 text-gray-900 font-poppins">Explore</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" onClick={()=> window.scrollTo({top:0, behavior:'smooth'})} className="inline-flex items-center font-display text-gray-300 hover:text-[#8a6c1a] transition-colors">
-                  <HomeIcon size={16} className="mr-2 text-[#8a6c1a] " /> Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
-                  <InfoIcon size={16} className="mr-2 text-[#8a6c1a]" /> About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
-                  <PackageIcon size={16} className="mr-2 text-[#8a6c1a]" /> Projects
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="inline-flex items-center text-gray-300 hover:text-[#8a6c1a] font-display transition-colors">
-                  <PhoneCallIcon size={16} className="mr-2 text-[#8a6c1a]" /> Contact
-                </Link>
+             <Link 
+        to="/" 
+        className="group flex items-center text-sm text-gray-500 hover:text-[#8a6c1a] transition-colors font-poppins font-light"
+      >
+        <ArrowUpRight size={14} className="mr-2 text-gray-500 group-hover:text-[#8a6c1a] transition-colors" strokeWidth={1.5} />
+        Home
+      </Link>
+    </li>
+    <li>
+      <Link 
+        to="/about" 
+        className="group flex items-center text-sm text-gray-500 hover:text-[#8a6c1a] transition-colors font-poppins font-light"
+      >
+        <History size={14} className="mr-2 text-gray-500 group-hover:text-[#8a6c1a] transition-colors" strokeWidth={1.5} />
+        About Our Heritage
+      </Link>
+    </li>
+    <li>
+      <Link 
+        to="/projects" 
+        className="group flex items-center text-sm text-gray-500 hover:text-[#8a6c1a] transition-colors font-poppins font-light"
+      >
+        <LayoutGrid size={14} className="mr-2 text-gray-500 group-hover:text-[#8a6c1a] transition-colors" strokeWidth={1.5} />
+        Featured Projects
+      </Link>
+    </li>
+    <li>
+      <Link 
+        to="/contact" 
+        className="group flex items-center text-sm text-gray-500 hover:text-[#8a6c1a] transition-colors font-poppins font-light"
+      >
+        <Headset size={14} className="mr-2 text-gray-500 group-hover:text-[#8a6c1a] transition-colors" strokeWidth={1.5} />
+        Contact Us
+      </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Column 3: Contact Details */}
           <div>
-            <h3 className="text-xl font-poppins mb-6 text-white">Contact Us</h3>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-bold mb-6 text-gray-900 font-poppins">Connect</h3>
             <ul className="space-y-4">
-              <li className="flex items-center"><Phone size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300 font-display">+91 9961258523</span></li>
-              <li className="flex items-center"><Mail size={20} className="text-[#8a6c1a] mr-3" /><span className="text-gray-300 font-display">info@hindustanbuilders.com</span></li>
+              <li className="flex items-start gap-3">
+                <Phone size={16} className="text-gray-400 mt-0.5" />
+                <span className="text-sm text-gray-500 font-light font-poppins">+91 9961258523</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mail size={16} className="text-gray-400 mt-0.5" />
+                <span className="text-sm text-gray-500 font-light font-poppins">info@hindustanbuilders.com</span>
+              </li>
             </ul>
           </div>
 
-         <div>
-            <h3 className="text-xl font-poppins mb-6 text-white">Address</h3>
-            <ul className="space-y-4">
-                           <li className="flex"><MapPin size={20} className="text-[#8a6c1a] mr-3 mt-1" /><span className="text-gray-300 font-display">Kingdom Tower, NH 66,<br />Thokkottu, Mangaluru 575020, India</span></li>
-
-            </ul>
+          {/* Column 4: Address */}
+          <div>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-bold mb-6 text-gray-900 font-poppins">Location</h3>
+            <div className="flex items-start gap-3">
+              <MapPin size={16} className="text-gray-400 mt-0.5" />
+              <address className="text-sm font-poppins text-gray-500 not-italic leading-relaxed font-light">
+                Kingdom Tower, NH 66,<br />
+                Thokkottu, Mangaluru 575020,<br />
+                Karnataka, India
+              </address>
+            </div>
           </div>
         </div>
 
-      <div className="border-t border-neutral-700 mt-12 pt-6 flex justify-center items-center">
-  <p className="text-gray-300 text-sm text-center font-display">
-    &copy; {currentYear} Hindustan Builders. All rights reserved.
-  </p>
-</div>
-
+        {/* Bottom Section: Copyright */}
+        <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[11px] text-gray-400 uppercase tracking-widest">
+            &copy; {currentYear} Hindustan Limited. All rights reserved.
+          </p>
+          <div className="flex gap-6 text-[11px] text-gray-400 uppercase tracking-widest">
+            <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-black transition-colors">Terms & Conditions</a>
+          </div>
+        </div>
       </div>
     </footer>
   );

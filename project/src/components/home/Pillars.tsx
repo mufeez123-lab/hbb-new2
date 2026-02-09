@@ -24,8 +24,8 @@ const Pillar: React.FC<PillarProps> = ({ imageSrc, title, description, imageAlt,
       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       {/* Unique Hover Text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className="text-white text-2xl md:text-3xl font-serif tracking-[0.3em] uppercase transform translate-y-12 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out">
+      <div className="absolute inset-0 flex items-end justify-center py-6 pointer-events-none">
+        <span className="text-white text-2xl md:text-xl font-serif tracking-[0.3em] uppercase transform translate-y-12 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out">
           {hoverText}
         </span>
       </div>

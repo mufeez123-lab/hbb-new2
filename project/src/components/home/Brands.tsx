@@ -81,66 +81,77 @@ const Brands = () => {
 ];
 
 
-  const getImageUrl = (image?: BrandImage) =>
-    image?.url || '/default-avatar.png';
-
+ const getImageUrl = (image?: BrandImage) => image?.url || '/default-avatar.png';
   const visibleBrands = brands.filter((brand) => brand?.image?.url);
 
+  // Split brands into two groups for two rows
+  const row1 = visibleBrands.slice(0, Math.ceil(visibleBrands.length / 2));
+  const row2 = visibleBrands.slice(Math.ceil(visibleBrands.length / 2));
+
   return (
-    <section className="py-8 relative overflow-hidden ">
+    <section className="py-8 relative overflow-hidden bg-white">
       {/* Section Header */}
       <div className="container mx-auto px-4 mb-2">
-        <motion.h2
-          className="text-2xl text-center font-poppins font-bold"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          OUR HOLDINGS
-        </motion.h2>
-
-        <motion.div
-          className="w-20 h-1 bg-[#8a6c1a] mx-auto mb-3"
-          initial={{ opacity: 0, scaleX: 0 }}
-          whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        />
+        <header className="flex items-center mb-10">
+          <div className="flex-grow h-px bg-gray-300"></div>
+          <h2 className="px-6 text-lg uppercase tracking-[0.2em] font-medium text-gray-800 text-center">
+            OUR HOLDINGS
+          </h2>
+          <div className="flex-grow h-px bg-gray-300"></div>
+        </header>
       </div>
 
-      {/* Scrolling Logos */}
-   <div className="relative w-full overflow-hidden">
-  <motion.div
-    className="flex w-max gap-6 py-4"
-    animate={{ x: ["0%", "-50%"] }}
-    transition={{
-      repeat: Infinity,
-      repeatType: "loop",
-      duration: 70,
-      ease: "linear",
-    }}
-  >
-    {[...visibleBrands, ...visibleBrands].map((brand, index) => (
-      <div
-        key={index}
-        className="flex-shrink-0 w-32 h-32 flex items-center justify-center"
-      >
-        <img
-          src={getImageUrl(brand.image)}
-          alt="Brand Logo"
-          className="w-full h-full object-contain"
-          onError={(e) => {
-            e.currentTarget.src = "/default-avatar.png";
-          }}
-        />
-      </div>
-    ))}
-  </motion.div>
-</div>
+      {/* Scrolling Logos Container */}
+      <div className="flex flex-col gap-8">
+        
+        {/* ROW 1: Moves Left */}
+        <div className="relative w-full overflow-hidden">
+          <motion.div
+            className="flex w-max gap-8"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 30,
+            }}
+          >
+            {[...row1, ...row1].map((brand, index) => (
+              <LogoItem key={`row1-${index}`} url={getImageUrl(brand.image)} />
+            ))}
+          </motion.div>
+        </div>
 
+        {/* ROW 2: Moves Right */}
+        <div className="relative w-full overflow-hidden">
+          <motion.div
+            className="flex w-max gap-8"
+            animate={{ x: ["-50%", "0%"] }} // Reverse direction
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 45, // Slightly different speed for a natural look
+            }}
+          >
+            {[...row2, ...row2].map((brand, index) => (
+              <LogoItem key={`row2-${index}`} url={getImageUrl(brand.image)} />
+            ))}
+          </motion.div>
+        </div>
+
+      </div>
     </section>
   );
 };
+
+// Helper component to keep code clean
+const LogoItem = ({ url }: { url: string }) => (
+  <div className="flex-shrink-0 w-40 h-36 flex border border-gray-100 items-center justify-center p-4  transition-all duration-300">
+    <img
+      src={url}
+      alt="Brand Logo"
+      className="w-32 h-36 object-contain"
+    />
+  </div>
+);
 
 export default Brands;
