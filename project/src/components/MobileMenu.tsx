@@ -36,7 +36,7 @@ const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
           variants={menuVariants}
           className="fixed top-0 right-0 w-80 sm:w-96 h-full 
                      bg-black/70 backdrop-blur-xl 
-                     text-white p-8 z-40 flex flex-col mt-[50px] shadow-2xl border-l border-white/5"
+                     text-white p-8 z-40 flex flex-col mt-[57px] shadow-2xl border-l border-white/5"
         >
           {/* Navigation Links */}
           <nav className="flex flex-col gap-6 text-lg font-medium">
