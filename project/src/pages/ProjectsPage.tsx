@@ -2,15 +2,20 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { getAllProjects, Project } from '../service/ProjectService';
+// import Scroll from '../components/ScrollReavel.tsx/Scroll';
+import Demo from '../components/ScrollReavel.tsx/Demo1';
 
 const ProjectsPage = () => {
   const [hovered, setHovered] = useState<string | null>(null);
   const projects: Project[] = getAllProjects();
 
   return (
-    <section className="py-16 bg-neutral-50">
+    <>
+    <Demo/>
+    <section className="py-28 bg-neutral-50">
+   
       <div className="container mx-auto px-6">
-        <h2 className="text-2xl font-bold uppercase mb-8">Our Projects</h2>
+        <h2 className="text-2xl font-bold text-center font-poppins uppercase mb-8">Our Projects</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map(project => (
@@ -24,7 +29,7 @@ const ProjectsPage = () => {
                 <Link to={`/projects/${project._id}`}>
                   <img
                     src={project.images[0].url}
-                    className="h-52 w-full object-cover "
+                    className="h-[53vh] w-full object-cover "
                   />
                 </Link>
 
@@ -51,6 +56,7 @@ const ProjectsPage = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
