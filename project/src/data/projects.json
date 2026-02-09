@@ -3,17 +3,20 @@
     "_id": "1",
     "name": "Hindustan Heights",
     "description": "Luxury residential apartments designed for modern living.",
-    "images": [
-      { "url": "/images/image1.jpg", "public_id": "p1" },
-      { "url": "/images/image3.jpg", "public_id": "p1_2" },
-      { "url": "/images/img1.jpg", "public_id": "p1_3" }
-    ],
     "category": "Residential",
     "status": "featured",
     "explore": true,
     "location": "Mangalore",
     "client": "Private",
     "price": "1450",
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p1" },
+      { "url": "/images/image3.jpg", "public_id": "p1_2" }
+    ],
+    "plans": [
+      { "url": "/images/plan1.jpg", "title": "Typical Floor Plan", "public_id": "pl1_1" },
+      { "url": "/images/plan2.webp", "title": "Unit A Layout", "public_id": "pl1_2" }
+    ],
     "amenities": ["Swimming Pool", "Gym", "24x7 Security"],
     "specifications": [
       {
@@ -22,8 +25,6 @@
       }
     ],
     "gallery": [
-      { "url": "/images/plan1.jpg", "public_id": "g1" },
-      { "url": "/images/plan2.webp", "public_id": "g2" },
       { "url": "/images/img1.jpg", "public_id": "g3" }
     ]
   },
@@ -31,15 +32,19 @@
     "_id": "2",
     "name": "Ocean Pearl Residency",
     "description": "Premium seaside apartments with stunning ocean views.",
-    "images": [
-      { "url": "/images/image3.jpg", "public_id": "p2" }
-    ],
     "category": "Residential",
     "status": "featured",
     "explore": true,
     "location": "Ullal, Mangalore",
     "client": "Private",
     "price": "1650",
+    "images": [
+      { "url": "/images/image3.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" }
+    ],
     "amenities": ["Swimming Pool", "24x7 Security", "Park Area"],
     "specifications": [
       {
@@ -48,24 +53,29 @@
       }
     ],
     "gallery": [
-      { "url": "/images/plan2.webp", "public_id": "g4" },
-      { "url": "/images/plan1.jpg", "public_id": "g5" },
-      { "url": "/images/img1.jpg", "public_id": "g6" }
+      { "url": "/images/img1.jpg", "public_id": "g6_1" },
+      { "url": "/images/image1.jpg", "public_id": "g6_2" },
+      { "url": "/images/image3.jpg", "public_id": "g6_4" },
+      { "url": "/images/abt.jpg", "public_id": "g6_5" }
+   
     ]
   },
   {
     "_id": "3",
     "name": "Green Valley Enclave",
     "description": "Eco-friendly homes surrounded by lush greenery.",
-    "images": [
-      { "url": "/images/img1.jpg", "public_id": "p3" }
-    ],
     "category": "Residential",
     "status": "normal",
     "explore": false,
     "location": "Moodbidri",
     "client": "Private",
     "price": "1250",
+    "images": [
+      { "url": "/images/img1.jpg", "public_id": "p3" }
+    ],
+    "plans": [
+      { "url": "/images/plan-eco.jpg", "title": "Landscape Plan", "public_id": "pl3_1" }
+    ],
     "amenities": ["Gym", "Park Area", "Rainwater Harvesting"],
     "specifications": [
       {
@@ -74,7 +84,6 @@
       }
     ],
     "gallery": [
-      { "url": "/images/img1.jpg", "public_id": "g7" },
       { "url": "/images/image1.jpg", "public_id": "g8" },
       { "url": "/images/image3.jpg", "public_id": "g9" }
     ]
@@ -83,15 +92,19 @@
     "_id": "4",
     "name": "City Center Plaza",
     "description": "Modern commercial spaces in the heart of the city.",
-    "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" }
-    ],
     "category": "Commercial",
     "status": "featured",
     "explore": false,
     "location": "Mangalore City",
     "client": "Corporate",
     "price": "2200",
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p4" }
+    ],
+    "plans": [
+      { "url": "/images/comm-plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
+      { "url": "/images/comm-plan2.jpg", "title": "Parking Map", "public_id": "pl4_2" }
+    ],
     "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
     "specifications": [
       {
@@ -100,61 +113,7 @@
       }
     ],
     "gallery": [
-      { "url": "/images/image1.jpg", "public_id": "g10" },
-      { "url": "/images/image3.jpg", "public_id": "g11" },
-      { "url": "/images/img1.jpg", "public_id": "g12" }
-    ]
-  },
-   {
-    "_id": "5",
-    "name": "City Center Plaza",
-    "description": "Modern commercial spaces in the heart of the city.",
-    "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" }
-    ],
-    "category": "Commercial",
-    "status": "featured",
-    "explore": false,
-    "location": "Mangalore City",
-    "client": "Corporate",
-    "price": "2200",
-    "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
-    "specifications": [
-      {
-        "title": "Facilities",
-        "description": ["High-speed elevators", "24/7 power backup"]
-      }
-    ],
-    "gallery": [
-      { "url": "/images/image1.jpg", "public_id": "g10" },
-      { "url": "/images/image3.jpg", "public_id": "g11" },
-      { "url": "/images/img1.jpg", "public_id": "g12" }
-    ]
-  },
-   {
-    "_id": "6",
-    "name": "City Center Plaza",
-    "description": "Modern commercial spaces in the heart of the city.",
-    "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" }
-    ],
-    "category": "Commercial",
-    "status": "featured",
-    "explore": false,
-    "location": "Mangalore City",
-    "client": "Corporate",
-    "price": "2200",
-    "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
-    "specifications": [
-      {
-        "title": "Facilities",
-        "description": ["High-speed elevators", "24/7 power backup"]
-      }
-    ],
-    "gallery": [
-      { "url": "/images/image1.jpg", "public_id": "g10" },
-      { "url": "/images/image3.jpg", "public_id": "g11" },
-      { "url": "/images/img1.jpg", "public_id": "g12" }
+      { "url": "/images/image3.jpg", "public_id": "g11" }
     ]
   }
 ]

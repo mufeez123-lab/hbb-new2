@@ -30,7 +30,7 @@ import {
   MdOutlineWaves
 } from "react-icons/md";
 import { BiSolidCctv, BiHomeSmile } from "react-icons/bi";
-import { Phone } from 'lucide-react';
+import { Phone,MapPin } from 'lucide-react';
 
 import { getProjectById } from '../service/ProjectService';
 import { projectsAPI } from '../services/api';
@@ -51,6 +51,7 @@ interface Project {
   status?: string;
   client?: string;
   gallery?: { url: string; public_id: string }[];
+  plans?: { url: string; title: string; public_id: string }[]; // Add this line
 }
 
 const amenityIcons: { [key: string]: JSX.Element } = {
@@ -139,7 +140,7 @@ const ProjectDetailPage = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container max-w-[130vh] mx-auto py-12 mt-20 px-4">
 
       {/* HERO */}
-      <div className="bg-white border-b overflow-hidden h-full pb-8">
+      <div className="bg-white  overflow-hidden h-full pb-8">
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/5 h-[450px] relative shadow-lg">
             <Slider infinite speed={1000} slidesToShow={1} slidesToScroll={1} autoplay nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
@@ -170,37 +171,18 @@ const ProjectDetailPage = () => {
 
             <div className="hidden lg:flex gap-3">
               <Link to="/contact" className="flex-grow bg-[#8b734b] text-white flex items-center justify-center">Download Brochure</Link>
-              <a href="tel:+1234567890" className="border-2 border-[#8b734b] p-3"><Phone /></a>
+              <a href="tel:+1234567890" className="border-2 border-[#8b734b] p-3"><Phone  /></a>
+              <a href="https://maps.app.goo.gl/FgEr7gvSWAYRBKdi7" target="_blank" className="border-2 border-[#8b734b] p-3"><MapPin /></a>
             </div>
           </div>
         </div>
       </div>
-
-      {/* ABOUT */}
-      <div className="grid lg:grid-cols-3 gap-8 mt-10">
-        <div className="lg:col-span-2 bg-white p-8">
-          <h3 className="text-2xl mb-6">About the Project</h3>
-          <div dangerouslySetInnerHTML={{ __html: project.description }} />
-        </div>
-
-        <div className="bg-[#fcfcfc] p-8">
-          <h3 className="text-xl mb-6">Specifications</h3>
-          {project.specifications?.map((spec, i) => (
-            <div key={i}>
-              <h4 className="font-bold text-[#8a731b]">{spec.title}</h4>
-              <ul>
-                {spec.description?.map((line, j) => (
-                  <li key={j}>• {line}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-           {/* Gallery Section */}
-   
-      </div>
-   <div>
-        <h2 className="text-xl font-semibold mb-4">Gallery</h2>
+   {/* Gallery */}
+        <div>
+   <div className="flex items-center gap-4 mb-8">
+      <h2 className="text-2xl font-display text-gray-800"> Gallery</h2>
+      <div className="flex-grow h-px bg-neutral-200"></div>
+    </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {project.gallery?.map(img => (
             <img
@@ -212,6 +194,65 @@ const ProjectDetailPage = () => {
           ))}
         </div>
       </div>
+
+
+         {/* Plans */}
+{/* --- NEW PLANS SECTION START --- */}
+{project.plans && project.plans.length > 0 && (
+  <div className="mt-16">
+    <div className="flex items-center gap-4 mb-8">
+      <h2 className="text-2xl font-display text-gray-800"> Plans</h2>
+      <div className="flex-grow h-px bg-neutral-200"></div>
+    </div>
+    
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {project.plans.map((plan) => (
+        <div key={plan.public_id} className="group cursor-pointer">
+          <div className="relative overflow-hidden  border border-neutral-200 p-4 rounded-xl transition-all duration-500 group-hover:shadow-xl group-hover:border-[#8b734b]/30">
+            <img
+              src={plan.url}
+              alt={plan.title}
+              className="w-full aspect-[4/3] object-contain transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* View Full Screen Overlay Hint */}
+            <div className="absolute inset-0  group-hover:opacity-100 transition-opacity flex items-center justify-center">
+               <span className=" px-4 py-2 text-xs uppercase tracking-widest font-semibold shadow-sm">+</span>
+            </div>
+          </div>
+    
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+      {/* ABOUT */}
+      <div className="grid lg:grid-cols-3 gap-8 mt-10">
+        <div className="lg:col-span-2 bg-white ">
+          <div className="flex items-center gap-4 mb-8">
+      <h2 className="text-2xl font-display text-gray-800"> About the Project</h2>
+      <div className="flex-grow h-px bg-neutral-200"></div>
+    </div>
+          <div className='font-poppins' dangerouslySetInnerHTML={{ __html: project.description }} />
+        </div>
+
+        <div className="bg-[#fcfcfc] p-8">
+          <h3 className="text-xl mb-6 font-display">Specifications</h3>
+          {project.specifications?.map((spec, i) => (
+            <div key={i}>
+              <h4 className="font-bold font-poppins text-[#8a731b]">{spec.title}</h4>
+              <ul className='font-poppins'>
+                {spec.description?.map((line, j) => (
+                  <li key={j}>• {line}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+          
+   
+      </div>
+       {/* Gallery Section */}
+ 
     </motion.div>
   );
 };
