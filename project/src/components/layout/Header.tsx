@@ -57,17 +57,17 @@ const Header = () => {
           </div>
 
           {/* RIGHT SIDE: Navigation & Actions (Desktop) */}
-          <nav className="hidden lg:flex items-center justify-end space-x-8 flex-1">
-            <Link to="/" className="text-white uppercase tracking-widest text-xs font-semibold hover:opacity-70 transition-opacity">
+          <nav className="hidden lg:flex items-center justify-end space-x-8 font-poppins flex-1">
+            <Link to="/" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
               Home
             </Link>
-            <Link to="/about" className="text-white uppercase tracking-widest text-xs font-semibold hover:opacity-70 transition-opacity">
+            <Link to="/about" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
               About
             </Link>
-            <Link to="/projects" className="text-white uppercase tracking-widest text-xs font-semibold hover:opacity-70 transition-opacity">
+            <Link to="/projects" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
               Properties
             </Link>
-             <Link to="/contact" className="text-white uppercase tracking-widest text-xs font-semibold hover:opacity-70 transition-opacity">
+             <Link to="/contact" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
               Contact Us
             </Link>
             

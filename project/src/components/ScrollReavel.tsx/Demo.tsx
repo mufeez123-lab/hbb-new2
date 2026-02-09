@@ -23,9 +23,9 @@ interface MediaContentCollection {
 
 const sampleMediaContent: MediaContentCollection = {
   image: {
-    src: '/images/abt.jpg',
+    src: '/images/image3.jpg',
     background: '/images/image1.jpg',
-    title: 'Dynamic Image Showcase',
+    title: '50 Years of Incredible Legacy',
     date: 'Underwater Adventure',
     scrollToExpand: 'Scroll to Expand Demo',
     about: {

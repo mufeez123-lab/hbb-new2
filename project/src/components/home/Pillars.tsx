@@ -69,7 +69,7 @@ const SobhaPillars: React.FC = () => {
 
   return (
     <section className="bg-gray-50 py-16 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+      <div className=" mx-auto">
         <header className="flex items-center mb-16">
           <div className="flex-grow h-px bg-gray-300"></div>
           <h2 className="px-6 text-lg uppercase tracking-[0.2em] font-medium text-gray-800 text-center">
@@ -80,7 +80,12 @@ const SobhaPillars: React.FC = () => {
 
         <div className="flex flex-col md:flex-row md:space-x-8 border-r border-b border-l bo lg:space-x-12">
           {pillars.map((pillar, index) => (
+           <div 
+              key={index} 
+              className={`flex-1 ${index === 1 ? 'md:mt-20' : ''}`} // Adds top margin to the middle item on desktop
+            >
             <Pillar key={index} {...pillar} />
+            </div> 
           ))}
         </div>
       </div>
