@@ -84,7 +84,7 @@ const ContactSection = () => {
 
   return (
     <>
-      <section ref={ref} className="py-20 bg-neutral-100">
+      <section ref={ref} className="py-20 bg-white">
         <motion.div
           animate={controls}
           initial={{ opacity: 0, y: 30, pointerEvents: 'none' }}
@@ -93,7 +93,7 @@ const ContactSection = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* LEFT SECTION */}
-            <div className='bg-[#d1e6c3] p-6 rounded-lg shadow-lg'>
+            <div className='bg-[#fbfff7] p-6 rounded-lg shadow-lg'>
               <h2 className="text-2xl md:text-4xl font-poppins text-[#8a6c1a] mb-4">
                 Get in Touch
               </h2>
@@ -140,7 +140,7 @@ const ContactSection = () => {
             {/* RIGHT SECTION (FORM) */}
             <div>
               <div className="bg-white rounded-lg shadow-lg p-8">
-                <h1 className="text-2xl mb-6 font-poppins text-neutral-800">Contact Us</h1>
+                <h1 className="text-2xl mb-6 font-poppins text-neutral-800">Submit Your Query</h1>
 
                 {isSubmitted ? (
                   <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-6 text-center">

@@ -69,25 +69,25 @@ const AccordionSection = () => {
 
         {/* LEFT SIDE CONTENT */}
         <div className="text-center lg:text-left space-y-6">
-          <div className="inline-block px-4 py-1 rounded-full bg-[#8a6c1a]/10 text-[#8a6c1a] text-xs font-bold tracking-widest uppercase mb-2">
+          <div className="inline-block px-4 py-1 rounded-full bg-[#8a6c1a]/10 text-[#8a6c1a] text-xs font-bold font-poppins tracking-widest uppercase mb-2">
             Since 1995
           </div>
           
-          <h2 className="text-4xl lg:text-5xl font-poppins font-bold text-gray-900 leading-tight">
-            Hindustan Builders
+          <h2 className="text-4xl lg:text-5xl font-poppins font-light text-gray-900 leading-tight">
+            Hindustan Limited
           </h2>
 
           <div className="w-20 h-1.5 bg-[#8a6c1a] mx-auto lg:mx-0" />
 
           <p className="text-gray-700 text-xl max-w-md font-display mx-auto lg:mx-0 leading-relaxed">
-            Building landmarks with <span className="text-[#8a6c1a] font-semibold">trust, quality, and innovation</span>. 
+            Building landmarks with <span className="text-black font-semibold">trust, quality, and innovation</span>. 
             We craft spaces that define modern living and long-term value.
           </p>
           
           {/* Decorative subtle line art element */}
           <div className="hidden lg:block pt-4 opacity-20">
             <svg width="200" height="10" viewBox="0 0 200 10">
-               <line x1="0" y1="5" x2="200" y2="5" stroke="#8a6c1a" strokeWidth="2" strokeDasharray="8,8" />
+               <line x1="0" y1="5" x2="200" y2="5" stroke="#000000" strokeWidth="2" strokeDasharray="8,8" />
             </svg>
           </div>
         </div>
@@ -99,7 +99,7 @@ const AccordionSection = () => {
               key={index}
               className={`transition-all duration-300 border ${
                 activeIndex === index 
-                ? "border-[#8a6c1a] bg-white shadow-xl translate-x-2" 
+                ? "border--gray-700 bg-white shadow-xl translate-x-2" 
                 : "border-gray-200 bg-white/40 backdrop-blur-sm"
               } rounded-2xl overflow-hidden`}
             >
