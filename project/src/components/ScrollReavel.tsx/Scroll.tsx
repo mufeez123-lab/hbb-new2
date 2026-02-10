@@ -111,7 +111,7 @@ const ScrollExpandMedia = ({
   const mediaHeight = scrollProgress === 1 ? '100vh' : `${400 + scrollProgress * (isMobileState ? 200 : 500)}px`;
   
   // Text animation: Moves apart AND fades in as expansion completes
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+  const textTranslateX = scrollProgress * (isMobileState ? 80 : 150);
   const textOpacity = scrollProgress; // Starts at 0, ends at 1
 
   const firstWord = title ? title.split(' ')[0] : '';
