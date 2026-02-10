@@ -19,7 +19,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           
           {/* LEFT SIDE: Logo Image (Desktop) */}
-          <div className="hidden lg:flex items-center space-x-8 flex-1">
+          <div className=" lg:flex items-center space-x-8 flex-1">
             <Link to="/">
               <img
                 src="/newlogo.png"
@@ -30,10 +30,10 @@ const Header = () => {
           </div>
 
           {/* CENTER: Text Logo */}
-          <div className="flex justify-center flex-none px-4">
+          <div className="flex justify-center flex-none px-20 md:px-4 lg:px-4"> 
             <Link to="/">
               <div className='text-white tracking-wide font-light text-center'>
-                <h1 className='uppercase font-display text-3xl font-ptserif tracking-widest font-light'>Hindustan</h1>
+                <h1 className='uppercase font-display text-2xl md:text-3xl font-ptserif tracking-widest font-light'>Hindustan</h1>
                 <p className='md:ml-0 font-display font-light'>LIMITED</p>
               </div>
             </Link>
