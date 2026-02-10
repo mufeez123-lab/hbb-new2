@@ -19,10 +19,12 @@ const menuVariants = {
   },
 };
 
+
+
 // Internal Items Variants (staggered effect)
 const itemVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+  hidden: { opacity: 0, x: 20,transition: { duration: 0.3, ease: 'easeInOut' } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }
 };
 
 const MobileMenu = ({ isOpen }: { isOpen: boolean }) => {
