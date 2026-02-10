@@ -30,7 +30,7 @@ const Header = () => {
           </div>
 
           {/* CENTER: Text Logo */}
-          <div className="flex justify-center flex-none px-20 md:px-4 lg:px-4"> 
+          <div className="flex justify-center flex-none px-20 md:px-4 lg:px-4 hidden"> 
             <Link to="/">
               <div className='text-white tracking-wide font-light text-center'>
                 <h1 className='uppercase font-display text-2xl md:text-3xl font-ptserif tracking-widest font-light'>Hindustan</h1>
