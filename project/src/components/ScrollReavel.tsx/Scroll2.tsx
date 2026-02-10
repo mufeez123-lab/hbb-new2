@@ -111,7 +111,7 @@ const ScrollExpandMedia = ({
   const mediaHeight = scrollProgress === 1 ? '100vh' : `${400 + scrollProgress * (isMobileState ? 200 : 500)}px`;
   
   // Text animation: Moves apart AND fades in as expansion completes
-  const textTranslateX = scrollProgress * (isMobileState ? 80 : 70);
+  const textTranslateX = scrollProgress * (isMobileState ? 30 : 70);
   const textOpacity = scrollProgress; // Starts at 0, ends at 1
 
   const firstWord = title ? title.split(' ')[0] : '';
@@ -185,7 +185,7 @@ const ScrollExpandMedia = ({
                 {firstWord}
               </motion.h2>
               <motion.h2
-                className="text-6xl md:text-5xl font-black text-white font-light font-poppins uppercase tracking-wider"
+                className="text-4xl md:text-5xl font-black text-white font-light font-poppins uppercase tracking-wider"
                 style={{ 
                   transform: `translateX(${textTranslateX}px)`,
                   opacity: textOpacity 

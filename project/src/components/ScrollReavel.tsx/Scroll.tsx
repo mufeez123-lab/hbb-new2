@@ -185,7 +185,7 @@ const ScrollExpandMedia = ({
                 {firstWord}
               </motion.h2>
               <motion.h2
-                className="text-6xl md:text-5xl font-black text-white font-light font-poppins uppercase tracking-wider"
+                className="text-3xl md:text-5xl font-black text-white font-light font-poppins uppercase tracking-wider"
                 style={{ 
                   transform: `translateX(${textTranslateX}px)`,
                   opacity: textOpacity 
