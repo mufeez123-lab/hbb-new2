@@ -45,7 +45,7 @@ const Header = () => {
               Home
             </Link>
             <Link to="/about" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
-              About
+              Abouts
             </Link>
             <Link to="/projects" className="text-white uppercase tracking-widest text-xs font-medium hover:opacity-70 transition-opacity">
               Properties
