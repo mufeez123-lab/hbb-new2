@@ -146,5 +146,37 @@
     "gallery": [
       { "url": "/images/image3.jpg", "public_id": "g11" }
     ]
+  },
+  {
+    "_id": "5",
+    "name": "City Center Plaza",
+    "description": "Modern commercial spaces in the heart of the city.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": false,
+    "location": "Mangalore City",
+    "client": "Corporate",
+    "price": "2200",
+    "images": [
+      { "url": "/images/image1.jpg", "public_id": "p4" },
+      { "url": "/images/image3.jpg", "public_id": "p5_1" },
+      { "url": "/images/abt.jpg", "public_id": "p6" },
+      { "url": "/images/img1.jpg", "public_id": "p7" }
+    ],
+    "plans": [
+      { "url": "/images/plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
+      { "url": "/images/plan2.webp", "title": "Parking Map", "public_id": "pl4_2" },
+      { "url": "/images/plan1.jpg", "title": "Parking Map", "public_id": "pl4_3" }
+    ],
+    "amenities": ["CCTV monitoring", "Covered Parking", "High-speed Internet"],
+    "specifications": [
+      {
+        "title": "Facilities",
+        "description": ["High-speed elevators", "24/7 power backup"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/image3.jpg", "public_id": "g11" }
+    ]
   }
 ]
