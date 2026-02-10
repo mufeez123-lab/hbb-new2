@@ -178,5 +178,46 @@
     "gallery": [
       { "url": "/images/image3.jpg", "public_id": "g11" }
     ]
+  },
+  {
+    "_id": "2",
+    "name": "Ocean Pearl Residency",
+    "description": "Premium seaside apartments with stunning ocean views. Wake up to the rhythmic sound of crashing waves and the refreshing scent of the salt air. Floor-to-ceiling windows frame a panoramic horizon where the azure water meets the sky. Each residence features expansive private balconies designed for ultimate relaxation and sunset viewing. This coastal sanctuary combines sophisticated modern architecture with the tranquil essence of shorefront living.",
+    "category": "Residential",
+    "status": "featured",
+    "explore": true,
+    "location": "Ullal, Mangalore",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/image3.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": ["Swimming Pool", "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/img1.jpg", "public_id": "g6_1" },
+      { "url": "/images/image1.jpg", "public_id": "g6_2" },
+      { "url": "/images/image3.jpg", "public_id": "g6_4" },
+      { "url": "/images/abt.jpg", "public_id": "g6_5" }
+   
+    ]
   }
 ]

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, MapPin} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getFeaturedProjects, Project } from '../../service/ProjectService';
 
@@ -34,13 +34,13 @@ const FeaturedProjects = () => {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           // Link navigation to our state elements
           navigation={{ prevEl, nextEl }}
-          onBeforeInit={(swiper) => {
-            // Re-assign navigation elements just before initialization
-            if (typeof swiper.params.navigation !== 'boolean') {
-              swiper.params.navigation!.prevEl = prevEl;
-              swiper.params.navigation!.nextEl = nextEl;
-            }
-          }}
+         onBeforeInit={(swiper) => {
+  const nav = swiper.params.navigation;
+  if (nav && typeof nav !== 'boolean') {
+    nav.prevEl = prevEl;
+    nav.nextEl = nextEl;
+  }
+}}
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
@@ -87,21 +87,7 @@ const FeaturedProjects = () => {
           ))}
         </Swiper>
 
-        {/* Custom Navigation Arrows with Refs */}
-        <div className="flex justify-center gap-4 mt-4">
-          <button 
-            ref={(node) => setPrevEl(node)}
-            className="p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button 
-            ref={(node) => setNextEl(node)}
-            className="p-2 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+     
       </div>
     </section>
   );

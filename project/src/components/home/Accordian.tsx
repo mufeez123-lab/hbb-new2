@@ -1,146 +1,92 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
-import {
-  ChevronDown,
-  Building2,
-  Eye,
-  Star,
-  Hammer,
-} from "lucide-react";
-
-interface AccordionItem {
-  title: string;
-  content: string;
-  icon: React.ReactNode;
-}
-
-const accordionData: AccordionItem[] = [
-  {
-    title: "About Hindustan Builders",
-    content:
-      "Hindustan Builders is a trusted name in real estate, delivering premium residential and commercial projects with a strong focus on quality, transparency, and customer satisfaction.",
-    icon: <Building2 size={20} />,
-  },
-  {
-    title: "Our Vision",
-    content:
-      "To create sustainable, modern, and elegant spaces that enhance lifestyles while maintaining architectural excellence.",
-    icon: <Eye size={20} />,
-  },
-  {
-    title: "Why Choose Us",
-    content:
-      "• High-quality construction\n• On-time delivery\n• Transparent dealings\n• Customer-first approach",
-    icon: <Star size={20} />,
-  },
-  {
-    title: "Our Expertise",
-    content:
-      "We specialize in residential apartments, villas, commercial buildings, and mixed-use developments.",
-    icon: <Hammer size={20} />,
-  },
-];
+import { motion } from "framer-motion";
+import { Building2, Eye, Star, Hammer, ArrowRight } from "lucide-react";
 
 const AccordionSection = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const toggleAccordion = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
+  const items = [
+    {
+      title: "Our Heritage",
+      desc: "Since 1995, delivering premium residential and commercial excellence.",
+      icon: <Building2 />,
+      img: "/images/img1.jpg" // Optional: unique bg for each
+    },
+    {
+      title: "The Vision",
+      desc: "Creating sustainable, modern spaces that redefine architectural beauty.",
+      icon: <Eye />,
+      img: "/images/img1.jpg"
+    },
+    {
+      title: "Our Quality",
+      desc: "High-quality construction and on-time delivery are our core pillars.",
+      icon: <Star />,
+      img: "/images/img1.jpg"
+    },
+    {
+      title: "Expertise",
+      desc: "From luxury villas to commercial hubs, we build with precision.",
+      icon: <Hammer />,
+      img: "/images/img1.jpg"
+    }
+  ];
 
   return (
-  <section className="relative py-24 overflow-hidden">
-      {/* 1. BACKGROUND IMAGE WITH OVERLAY */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{ 
-          backgroundImage: 'url("/images/acc.jpg")', 
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed' // Parallax effect
-        }}
-      >
-        {/* Dark Tint Overlay to ensure text contrast */}
-        <div className="absolute inset-0 bg-white/80 lg:bg-white/76 backdrop-blur-md" />
-      </div>
-
-      <div className="container relative z-10 mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-        {/* LEFT SIDE CONTENT */}
-        <div className="text-center lg:text-left space-y-6">
-          <div className="inline-block px-4 py-1 rounded-full bg-[#8a6c1a]/10 text-[#8a6c1a] text-xs font-bold font-poppins tracking-widest uppercase mb-2">
-            Since 1995
-          </div>
-          
-          <h2 className="text-4xl lg:text-5xl font-poppins font-light text-gray-900 leading-tight">
-            Hindustan Limited
+    <section className="py-16 bg-white text-white overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="mb-16">
+          <h2 className="text-sm uppercase tracking-[0.4em] text-[#8a6c1a] font-bold mb-4">
+            The Hindustan Standard
           </h2>
-
-          <div className="w-20 h-1.5 bg-[#8a6c1a] mx-auto lg:mx-0" />
-
-          <p className="text-gray-700 text-xl max-w-md font-display mx-auto lg:mx-0 leading-relaxed">
-            Building landmarks with <span className="text-black font-semibold">trust, quality, and innovation</span>. 
-            We craft spaces that define modern living and long-term value.
+          <p className="text-4xl font-display text-black font-light max-w-2xl">
+            We don't just build structures; we curate <span className="italic">experiences.</span>
           </p>
-          
-          {/* Decorative subtle line art element */}
-          <div className="hidden lg:block pt-4 opacity-20">
-            <svg width="200" height="10" viewBox="0 0 200 10">
-               <line x1="0" y1="5" x2="200" y2="5" stroke="#000000" strokeWidth="2" strokeDasharray="8,8" />
-            </svg>
-          </div>
         </div>
 
-        {/* RIGHT SIDE ACCORDION */}
-        <div className="space-y-4">
-          {accordionData.map((item, index) => (
-            <div
+        <div className="flex flex-col lg:flex-row h-[900px] lg:h-[500px] gap-4">
+          {items.map((item, index) => (
+            <motion.div
               key={index}
-              className={`transition-all duration-300 border ${
-                activeIndex === index 
-                ? "border--gray-700 bg-white shadow-xl translate-x-2" 
-                : "border-gray-200 bg-white/40 backdrop-blur-sm"
-              } rounded-2xl overflow-hidden`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500"
+              animate={{
+                flex: hoveredIndex === index ? 2 : 1,
+              }}
+              style={{
+                background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url(${item.img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
             >
-              <button
-                onClick={() => toggleAccordion(index)}
-                className="w-full flex items-center justify-between p-6 text-left"
-              >
-                <div className="flex items-center gap-5">
-                  <div className={`p-3 rounded-lg transition-colors ${
-                    activeIndex === index ? "bg-[#8a6c1a] text-white" : "bg-white text-[#8a6c1a] shadow-sm"
-                  }`}>
-                    {item.icon}
-                  </div>
+              {/* Overlay for glass effect */}
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
 
-                  <span className={`text-lg font-semibold font-display tracking-tight ${
-                    activeIndex === index ? "text-gray-900" : "text-gray-700"
-                  }`}>
-                    {item.title}
-                  </span>
+              <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                <div className={`w-12 h-12 rounded-full border border-white/30 flex items-center justify-center bg-white/10 backdrop-blur-md transition-colors ${hoveredIndex === index ? "bg-[#8a6c1a] border-transparent" : ""}`}>
+                  {item.icon}
                 </div>
 
-                <ChevronDown
-                  className={`text-[#8a6c1a] transition-transform duration-500 ${
-                    activeIndex === index ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              <div 
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                  activeIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                <div className="px-6 pb-6 text-gray-600 leading-relaxed font-display text-base">
-                  {item.content}
+                <div>
+                  <h3 className="text-2xl font-poppins font-semibold mb-3">{item.title}</h3>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ 
+                      opacity: hoveredIndex === index ? 1 : 0,
+                      y: hoveredIndex === index ? 0 : 20 
+                    }}
+                    className="text-gray-300 font-poppins leading-relaxed max-w-xs"
+                  >
+                    {item.desc}
+                  </motion.p>
+                  
+             
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );
