@@ -160,12 +160,12 @@ const ProjectDetailPage = () => {
               <p className="text-sm uppercase tracking-widest text-neutral-500">{project.location}</p>
             </div>
 
-            <div className="bg-neutral-50 px-2 py-3 flex gap-6 text-xs font-semibold text-neutral-600">
+            <div className="bg-neutral-50 px-2 py-3 flex gap-6 text-xs font-semibold font-poppins text-neutral-600">
               <div>TYPE: <span className="text-black uppercase">{project.category}</span></div>
               {project.price && <div>BUA: <span className="text-black">{project.price} sqft</span></div>}
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 font-poppins gap-2">
               {project.amenities?.map((item, i) => (
                 <div key={i} className="flex items-center gap-3 p-3 border border-neutral-100 bg-white shadow-sm">
                   {amenityIcons[item]}
@@ -207,7 +207,7 @@ const ProjectDetailPage = () => {
       {project.plans && project.plans.length > 0 && (
         <div className="mt-16">
           <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-2xl font-display text-gray-800">Architectural Plans</h2>
+            <h2 className="text-2xl font-display text-gray-800"> Plans</h2>
             <div className="flex-grow h-px bg-neutral-200"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -216,7 +216,7 @@ const ProjectDetailPage = () => {
                 <div className="relative overflow-hidden border border-neutral-200 p-6 rounded-xl transition-all duration-500 group-hover:shadow-2xl group-hover:border-[#8b734b]/30 bg-[#f9f9f9]">
                   <img src={plan.url} alt={plan.title} className="w-full aspect-[4/3] object-contain transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="bg-white/90 p-3 rounded-full shadow-xl text-[#8a731b] font-bold text-2xl">+</span>
+                    {/* <span className="bg-white/90 p-3 rounded-full shadow-xl text-[#8a731b] font-bold text-2xl">+</span> */}
                   </div>
                 </div>
                 {/* <p className="text-center mt-4 text-sm font-serif uppercase tracking-[0.2em] text-gray-600">{plan.title}</p> */}
