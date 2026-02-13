@@ -57,10 +57,17 @@ const AboutPage = () => {
 
   return (
 <section 
-      ref={containerRef} 
-      className="relative overflow-hidden bg-cover bg-center bg-no-repeat py-0 md:py-20"
-      style={{ backgroundImage: "url('/images/abt1.webp')" }} // Add your BG path here
-    >     
+  ref={containerRef} 
+  className="relative overflow-hidden bg-cover bg-center bg-no-repeat py-0 md:py-20"
+  style={{ 
+    backgroundImage: `linear-gradient(
+      to right, 
+      white 0%, 
+      rgba(255, 255, 255, 0.9) 30%, 
+      transparent 70%
+    ), url('/images/abt3.png')` 
+  }}
+> 
 
       <motion.div
         style={{
@@ -71,7 +78,7 @@ const AboutPage = () => {
         }}
         className="bg-transparent  py-16 md:py-24  sticky top-0 min-h-[70vh] flex items-center"
       >
-        <div className="container mx-auto px-6 md:px-12">
+        <div className="container max-w-[190vh] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             {/* Left Content Section */}
@@ -85,15 +92,12 @@ const AboutPage = () => {
               </motion.h2>
 
               <h3 className="text-4xl md:text-6xl font-light text-neutral-900 mb-8 leading-[1.1] font-poppins">
-                Building Landmarks <br /> 
-                <span className="italic font-serif">Crafting</span> <span className="font-semibold uppercase tracking-tighter ">LifeStyles</span>
+                A Legacy of <br /> 
+                <span className="italic font-serif">Architectural </span> <span className="font-semibold uppercase tracking-tighter ">Exactitude</span>
               </h3>
 
               <p className="text-base md:text-lg text-neutral-600 font-poppins font-light leading-relaxed mb-10 max-w-xl">
-                One of India's most trusted and respected names in Real Estate – 
-                <strong> Hindustan Builders, Mangalore</strong>. We understand that true excellence lies in the meticulous 
-                attention to detail and the artistry of craftsmanship. Since our inception, we have played a vital role in shaping 
-                the landscape of Modern Urban India.
+              At <strong> Hindustan Holdings</strong>, precision is our tradition. Since 1984, we have executed every blueprint with uncompromising accuracy, ensuring that complex architectural visions are transformed into enduring realities through rigorous, flawless construction.
               </p>
 
               <Link

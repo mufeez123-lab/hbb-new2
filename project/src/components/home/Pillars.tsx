@@ -24,9 +24,9 @@ const Pillar: React.FC<PillarProps> = ({ imageSrc, title, description, imageAlt,
       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       {/* Unique Hover Text */}
-      <div className="absolute inset-0 flex items-end justify-center py-6 pointer-events-none">
-        <span className="text-white text-2xl md:text-xl font-serif tracking-[0.3em] uppercase transform translate-y-12 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out">
-          {hoverText}
+      <div className="absolute inset-0 flex items-end justify-center py-8 px-6 pointer-events-none">
+        <span className="text-white text-2xl md:text-2xl font-ptserif  italic  transform translate-y-16 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out">
+         " {hoverText}"
         </span>
       </div>
 
@@ -45,25 +45,25 @@ const Pillar: React.FC<PillarProps> = ({ imageSrc, title, description, imageAlt,
 const SobhaPillars: React.FC = () => {
   const pillars = [
     {
-      title: "Craftsmanship",
-      hoverText: "Artistry", // Text shown on hover
-      imageSrc: "/images/p1.webp", // Example Architecture
+      title: "Signature Quality",
+      hoverText: "Materials that endure. Standards that inspire.", // Text shown on hover
+      imageSrc: "/images/a2.jpeg", // Example Architecture
       imageAlt: "Intricate architectural details",
-      description: "When building a house, attention to detail is essential. Sobha recognises this, and we pay attention to every detail, whether it's the quality of the materials, textures and finishes, door hinges, doors, floor tiling, bathroom flooring, fittings or window size. A true craftsman for a harmonious life."
+      description: "For us Quality is the bedrock of our reputation. We enforce rigorous quality control protocols at every stage of construction, ensuring that the structural integrity of our buildings is absolute. We build assets that retain their value."
     },
     {
       title: "Thoughtful Design",
-      hoverText: "Excellence", // Text shown on hover
-      imageSrc: "https://images.unsplash.com/photo-1507206130118-b5907f817163?auto=format&fit=crop&q=80&w=800", // Example Designer
+      hoverText: "Architecture shaped by human experience.", // Text shown on hover
+      imageSrc: "/images/a3.jpeg", // Example Designer
       imageAlt: "Designer working on plans",
-      description: "At Sobha, home design is not just a structure; it's a beautiful piece of art. Homes that are spacious with well-utilised spaces. The design is carefully considered and subjected to severe quality inspections. We consider every stage of construction to ensure a thoughtful design."
+      description: "At HINDUSTAN, We approach design with a problem-solving mindset. By harmonizing aesthetics with functional engineering, spaces are well-utilised and optimize efficiency. The result is a seamless environment where form perfectly follows function."
     },
     {
-      title: "Signature Quality",
-      hoverText: "Lifestyles", // Text shown on hover
-      imageSrc: "/images/image3.jpg", // Example Woodwork
+      title: "Enduring Craftsmanship",
+      hoverText: "Four decades of mastery in every build", // Text shown on hover
+      imageSrc: "/images/a1.jpeg", // Example Woodwork
       imageAlt: "Hands sanding fine wood",
-      description: "At Sobha, we are involved in every stage of the process, from material sourcing to building homes. Every home built by us is subjected to a material quality inspection. All of the items used in the construction are manufactured by us, allowing complete control over the quality of the products utilised."
+      description: "AT HINDUSTAN, Construction is a discipline of precision. Drawing on over four decades of experience, we execute complex architectural details with exactitude. We don’t just build for the handover; we build for the next generation."
     }
   ];
 
