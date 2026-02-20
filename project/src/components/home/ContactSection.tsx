@@ -95,7 +95,7 @@ const ContactSection = () => {
             {/* LEFT SECTION */}
             <div className='bg-[#fbfff7] p-6 rounded-lg shadow-lg'>
               <h2 className="text-2xl md:text-4xl font-poppins text-[#8a6c1a] mb-4">
-                Get in Touch
+                Get in Touch 
               </h2>
               <p className="text-neutral-600 mb-8 font-display">
                 Whether you're interested in our projects or have questions, we’re here to help.
