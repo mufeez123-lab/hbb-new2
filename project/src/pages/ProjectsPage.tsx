@@ -5,6 +5,7 @@ import { getAllProjects, Project } from '../service/ProjectService';
 // import Scroll from '../components/ScrollReavel.tsx/Scroll';
 import Demo from '../components/ScrollReavel.tsx/Demo1';
 import { Helmet } from 'react-helmet';
+import SEO from '../components/seo/Seo';
 
 const ProjectsPage = () => {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -12,9 +13,12 @@ const ProjectsPage = () => {
 
   return (
     <>
-       <Helmet>
-        <title>Properties | Hindustan Builders</title>
-      </Helmet>
+      <SEO 
+        title="Properties"
+        description="At Hindustan Limited, Construction is a discipline of precision. Drawing on over four decades of experience, we execute complex architectural details with exactitude. We don’t just build for the handover; we build for the next generation."
+        path="/projects"
+        image="https://hindustanbuilders.in/images/villas-preview.jpg"
+      />
     <Demo/>
     <section className="py-28 bg-neutral-50">
    

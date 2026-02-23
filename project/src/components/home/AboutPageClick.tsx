@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Brands from '../home/Brands';
 import Demo from '../ScrollReavel.tsx/Demo';
 import Pillars from './Pillars';
+import SEO from '../seo/Seo';
 
 /* ------------------ REUSABLE COMPONENTS ------------------ */
 
@@ -80,10 +81,12 @@ const AboutPageClick = () => {
 
   return (
     <div ref={containerRef} className="bg-white selection:bg-[#8a6c1a] selection:text-white">
-      <Helmet>
-        <title>About Us | Hindustan Builders</title>
-      </Helmet>
-
+  <SEO 
+        title="About Us"
+        description="At Hindustan Limited, We approach design with a problem-solving mindset. By harmonizing aesthetics with functional engineering, spaces are well-utilised and optimize efficiency. The result is a seamless environment where form perfectly follows function."
+        path="/about"
+        image="https://hindustanbuilders.in/images/villas-preview.jpg"
+      />
       {/* 1. HERO SECTION */}
       <Demo />
 

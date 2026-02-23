@@ -12,6 +12,7 @@ import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Whychooseus from '../components/home/Whychooseus';
 import Pillars from '../components/home/Pillars';
+import SEO from '../components/seo/Seo';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -34,13 +35,12 @@ const HomePage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Helmet>
-        <title>Hindustan Builders </title>
-        <meta
-          name="description"
-          content="Hindustan Builders - Creating landmark properties with exceptional quality and design across India. Explore our residential, commercial and luxury projects."
-        />
-      </Helmet>
+     <SEO 
+        title="Hindustan Limited"
+        description="Discover 3BHK and 4BHK commercial and Residential by Hindustan Limited with modern amenities."
+        path="/"
+        image="https://hindustanbuilders.in/images/villas-preview.jpg"
+      />
 
       <Hero />
       <AboutPage />

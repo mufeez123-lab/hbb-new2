@@ -14,6 +14,7 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './components/utils/ScrollToTop';
 import CustomCursor from "./components/Cursor/CursorPointer";
+import { HelmetProvider } from 'react-helmet-async';
 
 
 
@@ -104,7 +105,7 @@ function App() {
   const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/786313login';
 
   return (
-    
+    <HelmetProvider>
     <AuthProvider>
       <ProjectProvider>
          <CustomCursor />
@@ -149,6 +150,7 @@ function App() {
         
       </ProjectProvider>
     </AuthProvider>
+    </HelmetProvider>
   );
 }
 
