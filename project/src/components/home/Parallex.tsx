@@ -49,9 +49,9 @@ const ParallaxContact = () => {
             className="hidden md:flex items-center justify-center "
           >
             <img
-              src="/logo-SVG.svg"
+              src="/newlogo.png"
               alt="Hindustan Builders Logo"
-              className="w-40 lg:w-40 object-contain"
+              className="w-40 lg:w-[7em] object-contain"
             />
           </motion.div>
 
