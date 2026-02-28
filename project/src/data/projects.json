@@ -1,7 +1,7 @@
 [
   {
     "_id": "1",
-    "name": "Hindustan Heights",
+    "name": "Al-Menah",
     "description": "Each residence features expansive floor-to-ceiling windows that invite natural light and frame breathtaking urban vistas. Premium finishes, including Italian marble flooring and custom cabinetry, elevate the aesthetic of every room. Integrated smart-home technology allows for seamless control of climate, lighting, and security at your fingertips. Residents enjoy exclusive access to world-class amenities, including a private rooftop infinity pool and a state-of-the-art wellness center. These homes redefine urban elegance, offering a sophisticated sanctuary in the heart of the city’s most vibrant district.",
     "category": "Residential",
     "status": "featured",
@@ -10,8 +10,8 @@
     "client": "Private",
     "price": "1450",
     "images": [
-      { "url": "/images/image1.jpg", "public_id": "p1" },
-      { "url": "/images/image3.jpg", "public_id": "p1_2" }
+      { "url": "/images/Al-Menah-r.jpg", "public_id": "p1" }
+     
     ],
     "plans": [
       { "url": "/images/plan1.jpg", "title": "Typical Floor Plan", "public_id": "pl1_1" },
@@ -46,23 +46,23 @@
   },
   {
     "_id": "2",
-    "name": "Ocean Pearl Residency",
-    "description": "Premium seaside apartments with stunning ocean views. Wake up to the rhythmic sound of crashing waves and the refreshing scent of the salt air. Floor-to-ceiling windows frame a panoramic horizon where the azure water meets the sky. Each residence features expansive private balconies designed for ultimate relaxation and sunset viewing. This coastal sanctuary combines sophisticated modern architecture with the tranquil essence of shorefront living.",
-    "category": "Residential",
+    "name": "City Center",
+  "description": "A vibrant shopping mall designed to offer a complete retail and lifestyle experience. Discover a curated mix of premium brands, local boutiques, and flagship stores all under one elegant roof. Spacious walkways, contemporary architecture, and ambient lighting create a welcoming atmosphere for families and visitors. Enjoy a diverse selection of restaurants, cafés, and entertainment zones including cinemas and gaming arenas. With ample parking, modern security systems, and thoughtfully designed common areas, this shopping destination blends convenience, style, and comfort for an unforgettable day out.",
     "status": "featured",
+    "category":"Shopping Mall",
     "explore": true,
-    "location": "Ullal, Mangalore",
+    "location": "Uppala, Kasaragod",
     "client": "Private",
     "price": "1650",
     "images": [
-      { "url": "/images/image3.jpg", "public_id": "p2" }
+      { "url": "/images/City-r.png", "public_id": "p2" }
     ],
     "plans": [
       { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
       { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
       { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
     ],
-    "amenities": ["Swimming Pool", "24x7 Security", "Park Area"],
+    "amenities": [ "24x7 Security", "Park Area"],
     "specifications": [
       {
         "title": "Design",
@@ -87,16 +87,16 @@
   },
   {
     "_id": "3",
-    "name": "Green Valley Enclave",
+    "name": "City Tower",
     "description": "Eco-friendly homes surrounded by lush greenery.",
-    "category": "Residential",
+    "category": "Commercial",
     "status": "normal",
     "explore": false,
-    "location": "Moodbidri",
+    "location": " Mangalore",
     "client": "Private",
     "price": "1250",
     "images": [
-      { "url": "/images/abt.jpg", "public_id": "p3" }
+      { "url": "/images/city-m-r.jpg", "public_id": "p3" }
     ],
     "plans": [
       { "url": "/images/plan1.jpg", "title": "Landscape Plan", "public_id": "pl3_1" },
@@ -117,7 +117,7 @@
   },
   {
     "_id": "4",
-    "name": "City Center Plaza",
+    "name": "City Tower",
     "description": "Modern commercial spaces in the heart of the city.",
     "category": "Commercial",
     "status": "featured",
@@ -126,10 +126,8 @@
     "client": "Corporate",
     "price": "2200",
     "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" },
-      { "url": "/images/image3.jpg", "public_id": "p5_1" },
-      { "url": "/images/abt.jpg", "public_id": "p6" },
-      { "url": "/images/img1.jpg", "public_id": "p7" }
+      { "url": "/images/city-m-r.jpg", "public_id": "p4" }
+ 
     ],
     "plans": [
       { "url": "/images/plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
@@ -149,19 +147,17 @@
   },
   {
     "_id": "5",
-    "name": "City Center Plaza",
+    "name": "Diamond Tower",
     "description": "Modern commercial spaces in the heart of the city.",
-    "category": "Commercial",
+    "category": "Shopping Mall",
     "status": "featured",
     "explore": false,
-    "location": "Mangalore City",
+    "location": "Uppala",
     "client": "Corporate",
     "price": "2200",
     "images": [
-      { "url": "/images/image1.jpg", "public_id": "p4" },
-      { "url": "/images/image3.jpg", "public_id": "p5_1" },
-      { "url": "/images/abt.jpg", "public_id": "p6" },
-      { "url": "/images/img1.jpg", "public_id": "p7" }
+      { "url": "/images/diamond-tower.png", "public_id": "p4" }
+
     ],
     "plans": [
       { "url": "/images/plan1.jpg", "title": "Office Layout", "public_id": "pl4_1" },
@@ -180,24 +176,24 @@
     ]
   },
   {
-    "_id": "2",
-    "name": "Ocean Pearl Residency",
-    "description": "Premium seaside apartments with stunning ocean views. Wake up to the rhythmic sound of crashing waves and the refreshing scent of the salt air. Floor-to-ceiling windows frame a panoramic horizon where the azure water meets the sky. Each residence features expansive private balconies designed for ultimate relaxation and sunset viewing. This coastal sanctuary combines sophisticated modern architecture with the tranquil essence of shorefront living.",
-    "category": "Residential",
+    "_id": "6",
+    "name": "KSRTC Bustand",
+    "description": "The KSRTC Bus Stand in Puttur is a key public transportation hub serving the town of Puttur in Dakshina Kannada, Karnataka, India. Operated by the Karnataka State Road Transport Corporation, it connects Puttur with major towns and cities across Karnataka and neighbouring states through regular KSRTC services ranging from local daily routes to long-distance buses. The bus stand features multiple platforms and basic commuter facilities like waiting areas and restrooms, and provides convenient access for travellers heading to destinations such as Mangaluru, Bengaluru, Mysuru, and other regional centres. Its central location on Main Road makes it an important gateway for residents and visitors alike, offering easy access to onward local transport, ticket booking counters, and essential services for a comfortable journey",
+    "category": "Bus Stand",
     "status": "featured",
     "explore": true,
-    "location": "Ullal, Mangalore",
+    "location": "Puttur, Bantwal",
     "client": "Private",
     "price": "1650",
     "images": [
-      { "url": "/images/image3.jpg", "public_id": "p2" }
+      { "url": "/images/KSRTC-Puttur.jpg", "public_id": "p2" }
     ],
     "plans": [
       { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
       { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
       { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
     ],
-    "amenities": ["Swimming Pool", "24x7 Security", "Park Area"],
+    "amenities": [ "24x7 Security", "Park Area"],
     "specifications": [
       {
         "title": "Design",
@@ -213,10 +209,133 @@
       }
     ],
     "gallery": [
-      { "url": "/images/img1.jpg", "public_id": "g6_1" },
-      { "url": "/images/image1.jpg", "public_id": "g6_2" },
-      { "url": "/images/image3.jpg", "public_id": "g6_4" },
-      { "url": "/images/abt.jpg", "public_id": "g6_5" }
+      { "url": "/images/v1.jpg", "public_id": "g6_1" },
+      { "url": "/images/v2.jpg", "public_id": "g6_2" },
+      { "url": "/images/v3.jpg", "public_id": "g6_4" },
+      { "url": "/images/v1.jpg", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "7",
+    "name": "Metro Plaza",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Apartment",
+    "status": "featured",
+    "explore": true,
+    "location": "KC Road, Bantwal",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/metro-plaza-kcroad.png", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/metro-plaza-kcroad.png", "public_id": "g6_1" },
+      { "url": "/images/metro-plaza-kcroad.png", "public_id": "g6_2" },
+      { "url": "/images/metro-plaza-kcroad.png", "public_id": "g6_4" },
+      { "url": "/images/metro-plaza-kcroad.png", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "8",
+    "name": "Smart City Plaza",
+    "description": "The KSRTC Bus Stand in Puttur is a key public transportation hub serving the town of Puttur in Dakshina Kannada, Karnataka, India. Operated by the Karnataka State Road Transport Corporation, it connects Puttur with major towns and cities across Karnataka and neighbouring states through regular KSRTC services ranging from local daily routes to long-distance buses. The bus stand features multiple platforms and basic commuter facilities like waiting areas and restrooms, and provides convenient access for travellers heading to destinations such as Mangaluru, Bengaluru, Mysuru, and other regional centres. Its central location on Main Road makes it an important gateway for residents and visitors alike, offering easy access to onward local transport, ticket booking counters, and essential services for a comfortable journey",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "Thuminadu, Kerala",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/smart-plaza-thuminadu.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/smart-plaza-thuminadu.jpg", "public_id": "g6_1" },
+      { "url": "/images/smart-plaza-thuminadu.jpg", "public_id": "g6_2" },
+      { "url": "/images/smart-plaza-thuminadu.jpg", "public_id": "g6_4" },
+      { "url": "/images/smart-plaza-thuminadu.jpg", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "9",
+    "name": "KSRTC Bustand",
+    "description": "The KSRTC Bus Stand in Puttur is a key public transportation hub serving the town of Puttur in Dakshina Kannada, Karnataka, India. Operated by the Karnataka State Road Transport Corporation, it connects Puttur with major towns and cities across Karnataka and neighbouring states through regular KSRTC services ranging from local daily routes to long-distance buses. The bus stand features multiple platforms and basic commuter facilities like waiting areas and restrooms, and provides convenient access for travellers heading to destinations such as Mangaluru, Bengaluru, Mysuru, and other regional centres. Its central location on Main Road makes it an important gateway for residents and visitors alike, offering easy access to onward local transport, ticket booking counters, and essential services for a comfortable journey",
+    "category": "Bus Stand",
+    "status": "featured",
+    "explore": true,
+    "location": "Puttur, Bantwal",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/KSRTC-Puttur.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/v1.jpg", "public_id": "g6_1" },
+      { "url": "/images/v2.jpg", "public_id": "g6_2" },
+      { "url": "/images/v3.jpg", "public_id": "g6_4" },
+      { "url": "/images/v1.jpg", "public_id": "g6_5" }
    
     ]
   }

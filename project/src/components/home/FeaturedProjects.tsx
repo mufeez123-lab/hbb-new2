@@ -29,7 +29,7 @@ const FeaturedProjects = () => {
 
         <Swiper
           modules={[Navigation, Autoplay]}
-          spaceBetween={30}
+          spaceBetween={20}
           slidesPerView={1}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           // Link navigation to our state elements
