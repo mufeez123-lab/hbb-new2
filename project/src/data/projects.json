@@ -260,7 +260,7 @@
    {
     "_id": "8",
     "name": "Smart City Plaza",
-    "description": "The KSRTC Bus Stand in Puttur is a key public transportation hub serving the town of Puttur in Dakshina Kannada, Karnataka, India. Operated by the Karnataka State Road Transport Corporation, it connects Puttur with major towns and cities across Karnataka and neighbouring states through regular KSRTC services ranging from local daily routes to long-distance buses. The bus stand features multiple platforms and basic commuter facilities like waiting areas and restrooms, and provides convenient access for travellers heading to destinations such as Mangaluru, Bengaluru, Mysuru, and other regional centres. Its central location on Main Road makes it an important gateway for residents and visitors alike, offering easy access to onward local transport, ticket booking counters, and essential services for a comfortable journey",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
     "category": "Commercial",
     "status": "featured",
     "explore": true,
@@ -300,16 +300,16 @@
   },
    {
     "_id": "9",
-    "name": "KSRTC Bustand",
-    "description": "The KSRTC Bus Stand in Puttur is a key public transportation hub serving the town of Puttur in Dakshina Kannada, Karnataka, India. Operated by the Karnataka State Road Transport Corporation, it connects Puttur with major towns and cities across Karnataka and neighbouring states through regular KSRTC services ranging from local daily routes to long-distance buses. The bus stand features multiple platforms and basic commuter facilities like waiting areas and restrooms, and provides convenient access for travellers heading to destinations such as Mangaluru, Bengaluru, Mysuru, and other regional centres. Its central location on Main Road makes it an important gateway for residents and visitors alike, offering easy access to onward local transport, ticket booking counters, and essential services for a comfortable journey",
-    "category": "Bus Stand",
+    "name": "Metro Plaza",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
     "status": "featured",
     "explore": true,
-    "location": "Puttur, Bantwal",
+    "location": "Manjeshwar",
     "client": "Private",
     "price": "1650",
     "images": [
-      { "url": "/images/KSRTC-Puttur.jpg", "public_id": "p2" }
+      { "url": "/images/Metro-plaza-manje.png", "public_id": "p2" }
     ],
     "plans": [
       { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
@@ -332,11 +332,256 @@
       }
     ],
     "gallery": [
-      { "url": "/images/v1.jpg", "public_id": "g6_1" },
-      { "url": "/images/v2.jpg", "public_id": "g6_2" },
-      { "url": "/images/v3.jpg", "public_id": "g6_4" },
-      { "url": "/images/v1.jpg", "public_id": "g6_5" }
+      { "url": "/images/Metro-plaza-manje.png", "public_id": "g6_1" },
+      { "url": "/images/Metro-plaza-manje.png", "public_id": "g6_2" },
+      { "url": "/images/Metro-plaza-manje.png", "public_id": "g6_4" },
+      { "url": "/images/Metro-plaza-manje.png", "public_id": "g6_5" }
    
+    ]
+  },
+   {
+    "_id": "10",
+    "name": "Rose Garden ",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "Deralakatte",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/derlakate.png", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/derlakate.png", "public_id": "g6_1" },
+      { "url": "/images/derlakate.png", "public_id": "g6_2" },
+      { "url": "/images/derlakate.png", "public_id": "g6_4" },
+      { "url": "/images/derlakate.png", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "11",
+    "name": "Royal Arcade 2",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "Mada",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/royal-arcade.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/royal-arcade.jpg", "public_id": "g6_1" },
+      { "url": "/images/royal-arcade.jpg", "public_id": "g6_2" },
+      { "url": "/images/royal-arcade.jpg", "public_id": "g6_4" },
+      { "url": "/images/royal-arcade.jpg", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "12",
+    "name": "Royal Arcade ",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "Mada",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/royal-arcade.png", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/royal-arcade.png", "public_id": "g6_1" },
+      { "url": "/images/royal-arcade.png", "public_id": "g6_2" },
+      { "url": "/images/royal-arcade.png", "public_id": "g6_4" },
+      { "url": "/images/royal-arcade.png", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "13",
+    "name": "Sahakari Mall ",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/sahakari-mall.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/sahakari-mall.jpg", "public_id": "g6_1" },
+      { "url": "/images/view1.jpg", "public_id": "g6_2" },
+      { "url": "/images/view2.jpg", "public_id": "g6_4" }
+   
+   
+    ]
+  },
+   {
+    "_id": "14",
+    "name": "Sea Pearl Hieghts",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Residential",
+    "status": "featured",
+    "explore": true,
+    "location": "Mada",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/sea-pearl.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/sea-pearl.jpg", "public_id": "g6_1" },
+      { "url": "/images/sea-pearl.jpg", "public_id": "g6_2" },
+      { "url": "/images/sea-pearl.jpg", "public_id": "g6_4" },
+      { "url": "/images/sea-pearl.jpg", "public_id": "g6_5" }
+   
+    ]
+  },
+   {
+    "_id": "15",
+    "name": "Tabasco Inn ",
+    "description": "A modern commercial building designed to support dynamic businesses and professional growth. This thoughtfully planned space offers flexible office layouts, premium retail units, and well-structured work environments suitable for startups, corporate offices, and enterprises. Contemporary architecture, high-speed elevators, and energy-efficient systems ensure a productive and comfortable atmosphere. The building features ample parking, 24/7 security, advanced surveillance systems, and well-maintained common areas to support daily operations smoothly. Strategically located for easy accessibility, this commercial hub combines functionality, professionalism, and modern infrastructure to create an ideal destination for business success.",
+    "category": "Commercial",
+    "status": "featured",
+    "explore": true,
+    "location": "Kanhangad",
+    "client": "Private",
+    "price": "1650",
+    "images": [
+      { "url": "/images/tab1.jpg", "public_id": "p2" }
+    ],
+    "plans": [
+      { "url": "/images/plan2.webp", "title": "Master Site Plan", "public_id": "pl2_1" },
+      { "url": "/images/plan1.jpg", "title": "Penthouse Layout", "public_id": "pl2_2" },
+      { "url": "/images/plan2.webp", "title": "Penthouse Layout", "public_id": "pl2_3" }
+    ],
+    "amenities": [ "24x7 Security", "Park Area"],
+    "specifications": [
+      {
+        "title": "Design",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Develop",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      },
+        {
+        "title": "Architect",
+        "description": ["Sea-facing balconies", "Modern elevation"]
+      }
+    ],
+    "gallery": [
+      { "url": "/images/tab1.jpg", "public_id": "g6_1" },
+      { "url": "/images/tab2.jpg", "public_id": "g6_2" },
+      { "url": "/images/tab3.jpg", "public_id": "g6_4" }
+  
     ]
   }
 ]

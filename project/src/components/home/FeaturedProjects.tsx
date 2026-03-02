@@ -47,7 +47,7 @@ const FeaturedProjects = () => {
           }}
           className="relative group"
         >
-          {projects.map((project) => (
+       {projects.slice(0, 8).map((project) => (
             <SwiperSlide key={project._id} className="pb-12">
               <div className="group/card">
                 <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition-all duration-500 bg-white">
@@ -55,7 +55,7 @@ const FeaturedProjects = () => {
                     <img
                       src={project.images[0].url}
                       alt={project.name}
-                      className="h-[56vh] w-full object-cover group-hover/card:scale-110 transition-transform duration-700"
+                      className="h-[36vh] w-full object-cover group-hover/card:scale-110 transition-transform duration-700"
                     />
                   </Link>
 
