@@ -37,7 +37,7 @@ const ProjectsPage = () => {
                 <Link to={`/projects/${project._id}`}>
                   <img
                     src={project.images[0].url}
-                    className="h-[53vh] w-full object-cover "
+                    className="h-[33vh] w-full object-cover "
                   />
                 </Link>
 
