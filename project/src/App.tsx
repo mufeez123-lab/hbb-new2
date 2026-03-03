@@ -6,6 +6,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import SmoothScroll from "./components/utils/SmoothScroll";
 
 
 
@@ -108,6 +109,7 @@ function App() {
     <HelmetProvider>
     <AuthProvider>
       <ProjectProvider>
+        {/* <SmoothScroll /> */}
          <CustomCursor />
         <ScrollToTop />
         {!isAdminPage && <Header />}
@@ -123,7 +125,7 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/upcoming-projects" element={<UpcomingProjects />} />
               <Route path="/faqs" element={<FaqsPage />} />
-              <Route path="/brands" element={<Brands />} />
+              {/* <Route path="/brands" element={<Brands />} /> */}
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/board/:id" element={<BoardOfDirectorDetailPage />} />
 
