@@ -1,18 +1,16 @@
-import { useState } from 'react';
-import { ArrowRight, MapPin} from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { getFeaturedProjects, Project } from '../../service/ProjectService';
+import { useState } from "react";
+import { ArrowRight, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+import { getFeaturedProjects, Project } from "../../service/ProjectService";
 
-// Import Swiper React components and styles
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const FeaturedProjects = () => {
   const projects: Project[] = getFeaturedProjects();
-  
-  // Create state to hold navigation elements
+
   const [prevEl, setPrevEl] = useState<HTMLElement | null>(null);
   const [nextEl, setNextEl] = useState<HTMLElement | null>(null);
 
@@ -32,62 +30,97 @@ const FeaturedProjects = () => {
           spaceBetween={20}
           slidesPerView={1}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          // Link navigation to our state elements
           navigation={{ prevEl, nextEl }}
-         onBeforeInit={(swiper) => {
-  const nav = swiper.params.navigation;
-  if (nav && typeof nav !== 'boolean') {
-    nav.prevEl = prevEl;
-    nav.nextEl = nextEl;
-  }
-}}
+          onBeforeInit={(swiper) => {
+            const nav = swiper.params.navigation;
+            if (nav && typeof nav !== "boolean") {
+              nav.prevEl = prevEl;
+              nav.nextEl = nextEl;
+            }
+          }}
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
           className="relative group"
         >
-       {projects.slice(0, 8).map((project) => (
-            <SwiperSlide key={project._id} className="pb-12">
-              <div className="group/card">
-                <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition-all duration-500 bg-white">
-                  <Link to={`/projects/${project._id}`} className="block overflow-hidden">
-                    <img
-                      src={project.images[0].url}
-                      alt={project.name}
-                      className="h-[36vh] w-full object-cover group-hover/card:scale-110 transition-transform duration-700"
-                    />
-                  </Link>
+          {projects.slice(0, 8).map((project) => {
+            const isClickable = project.explore;
 
-                  <div className="p-5">
-                    <h3 className="text-lg font-display font-semibold">{project.name}</h3>
-                    
-                    <p className="text-sm font-poppins text-gray-500 flex items-center gap-1 mt-1">
-                      <MapPin size={14} className="text-gray-400" strokeWidth={2.5} />
-                      {project.location}
-                    </p>
+            return (
+              <SwiperSlide key={project._id} className="pb-12">
+                <div className="group/card">
+                  <div
+                    className={`border rounded-lg overflow-hidden shadow transition-all duration-500 bg-white
+                    ${
+                      isClickable
+                        ? "hover:shadow-xl cursor-pointer"
+                        : "opacity-75 cursor-not-allowed"
+                    }`}
+                  >
+                    {/* IMAGE */}
+                    {isClickable ? (
+                      <Link
+                        to={`/projects/${project._id}`}
+                        className="block overflow-hidden"
+                      >
+                        <img
+                          src={project.images[0].url}
+                          alt={project.name}
+                          className="h-[36vh] w-full object-cover group-hover/card:scale-110 transition-transform duration-700"
+                        />
+                      </Link>
+                    ) : (
+                      <div className="relative overflow-hidden">
+                        <img
+                          src={project.images[0].url}
+                          alt={project.name}
+                          className="h-[36vh] w-full object-cover"
+                        />
+                        <span className="absolute top-3 right-3 bg-black font-poppins text-white text-xs px-3 py-1 rounded">
+                          Sold Out
+                        </span>
+                      </div>
+                    )}
 
-                    <div className="flex justify-between items-center mt-4">
-                      <span className="text-sm font-poppins font-semibold">
-                        BUA: {project.price} sqft
-                      </span>
-                      {project.explore && (
-                        <Link 
-                          to={`/projects/${project._id}`} 
-                          className="text-[#b57c6b] font-poppins flex items-center gap-1 hover:gap-2 transition-all"
-                        >
-                          More <ArrowRight size={14} />
-                        </Link>
-                      )}
+                    {/* CONTENT */}
+                    <div className="p-5">
+                      <h3 className="text-lg font-display font-semibold">
+                        {project.name}
+                      </h3>
+
+                      <p className="text-sm font-poppins text-gray-500 flex items-center gap-1 mt-1">
+                        <MapPin
+                          size={14}
+                          className="text-gray-400"
+                          strokeWidth={2.5}
+                        />
+                        {project.location}
+                      </p>
+
+                      <div className="flex justify-between items-center mt-4">
+                        <span className="text-sm font-poppins font-semibold">
+                          {project.price
+                            ? `BUA: ${project.price} sqft`
+                            : project.client}
+                        </span>
+
+                        {isClickable && (
+                          <Link
+                            to={`/projects/${project._id}`}
+                            className="text-[#b57c6b] font-poppins flex items-center gap-1 hover:gap-2 transition-all"
+                          >
+                            More <ArrowRight size={14} />
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
-
-     
       </div>
     </section>
   );

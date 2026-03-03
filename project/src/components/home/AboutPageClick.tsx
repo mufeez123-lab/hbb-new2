@@ -236,7 +236,7 @@ const AboutPageClick = () => {
   </div>
 </section>
 
-      <Brands />
+      {/* <Brands /> */}
     </div>
   );
 };
