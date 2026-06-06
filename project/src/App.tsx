@@ -6,9 +6,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import SmoothScroll from "./components/utils/SmoothScroll";
+// import SmoothScroll from "./components/utils/SmoothScroll";
 
-
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminRoute from './components/auth/AdminRoute';
 
 // Components
 import Header from './components/layout/Header';
@@ -17,9 +18,6 @@ import ScrollToTop from './components/utils/ScrollToTop';
 import CustomCursor from "./components/Cursor/CursorPointer";
 import { HelmetProvider } from 'react-helmet-async';
 
-
-
-
 // Pages
 import HomePage from './pages/HomePage';
 // import AboutPage from './pages/AboutPage';
@@ -27,15 +25,14 @@ import AboutPageClick from './components/home/AboutPageClick';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import ContactPage from './pages/ContactPage';
-import UpcomingProjects from './pages/UpcomingProjects';
-import  FaqsPage  from './pages/FaqsPage';
-import Brands from './pages/Brands';
+// import UpcomingProjects from './pages/UpcomingProjects';
+// import  FaqsPage  from './pages/FaqsPage';
+// import Brands from './pages/Brands';
 import NotFoundPage from './pages/NotFoundPage';
-import BoardOfDirectorDetailPage from './pages/BoardofDirectorsDetails';
+// import BoardOfDirectorDetailPage from './pages/BoardofDirectorsDetails';
 
-
-
-// Admin Pages
+// Admin & Engine Control Pages
+import UploadProjectPage from './pages/UploadProjectPage'; // Newly added entry portal
 // import AdminLogin from './pages/admin/AdminLogin';
 // import AdminDashboard from './pages/admin/AdminDashboard';
 // import AdminProjects from './pages/admin/AdminProjects';
@@ -50,7 +47,7 @@ import BoardOfDirectorDetailPage from './pages/BoardofDirectorsDetails';
 // Context
 import { AuthProvider } from './context/AuthContext';
 import { ProjectProvider } from './context/ProjectContext';
-import AdminTestimonials from './pages/admin/AdminTestimonials';
+// import AdminTestimonials from './pages/admin/AdminTestimonials';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -80,78 +77,89 @@ function App() {
 
   if (loading) {
     return (
-     <div className="fixed cursor-dot inset-0 flex items-center justify-center bg-white/10 backdrop-blur-lg bg-transparent z-50">
-  <div className="text-center flex flex-col items-center space-y-3">
-    <div className="flex items-center space-x-3">
-      <img
-        src="/logo-SVG.svg"
-        alt="Logo"
-        className="h-20 w-20"
-        data-aos="fade-up"
-      />
-    </div>
-    <p
-      className="text-neutral-800 font-poppins font-medium"
-      data-aos="fade-up"
-    >
-      Building Dreams, Delivering Excellence
-    </p>
-  </div>
-</div>
-
-
+      <div className="fixed cursor-dot inset-0 flex items-center justify-center bg-white/10 backdrop-blur-lg bg-transparent z-50">
+        <div className="text-center flex flex-col items-center space-y-3">
+          <div className="flex items-center space-x-3">
+            <img
+              src="/logo-SVG.svg"
+              alt="Logo"
+              className="h-20 w-20"
+              data-aos="fade-up"
+            />
+          </div>
+          <p
+            className="text-neutral-800 font-poppins font-medium"
+            data-aos="fade-up"
+          >
+            Building Dreams, Delivering Excellence
+          </p>
+        </div>
+      </div>
     );
   }
 
-  const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/786313login';
+  // Ensures headers/footers dynamically stay hidden during administrative actions
+const isAdminPage = 
+  location.pathname.startsWith('/admin') || 
+  location.pathname === '/786313login';
 
   return (
     <HelmetProvider>
-    <AuthProvider>
-      <ProjectProvider>
-        {/* <SmoothScroll /> */}
-         <CustomCursor />
-        <ScrollToTop />
-        {!isAdminPage && <Header />}
-        <main className="min-h-screen">
-          <AnimatePresence mode="wait">
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<HomePage />} />
-              {/* <Route path="/about" element={<AboutPage />} /> */}
-              <Route path="/about" element={<AboutPageClick />} />
-              <Route path="/projects" element={<ProjectsPage />} />
-              <Route path="/projects/:id" element={<ProjectDetailPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/upcoming-projects" element={<UpcomingProjects />} />
-              <Route path="/faqs" element={<FaqsPage />} />
-              {/* <Route path="/brands" element={<Brands />} /> */}
-              <Route path="*" element={<NotFoundPage />} />
-              <Route path="/board/:id" element={<BoardOfDirectorDetailPage />} />
+      <AuthProvider>
+        <ProjectProvider>
+          {/* <SmoothScroll /> */}
+          <CustomCursor />
+          <ScrollToTop />
+          {!isAdminPage && <Header />}
+          <main className="min-h-screen">
+            <AnimatePresence mode="wait">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<HomePage />} />
+                {/* <Route path="/about" element={<AboutPage />} /> */}
+                <Route path="/about" element={<AboutPageClick />} />
+                <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/projects/:id" element={<ProjectDetailPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                {/* <Route path="/upcoming-projects" element={<UpcomingProjects />} /> */}
+                {/* <Route path="/faqs" element={<FaqsPage />} /> */}
+                {/* <Route path="/brands" element={<Brands />} /> */}
+                {/* <Route path="/board/:id" element={<BoardOfDirectorDetailPage />} /> */}
 
 
-              {/* Admin Routes */}
-              {/* <Route path="/786313login" element={<AdminLogin />} /> */}
-              {/* <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} /> */}
-              {/* <Route path="/admin/board" element={<AdminRoute><BoardMembersPage /></AdminRoute>} /> */}
-              {/* <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} /> */}
-              {/* <Route path="/admin/projects/add" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
-              {/* <Route path="/admin/projects/edit/:id" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
-              {/* <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} /> */}
-              {/* <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} /> */}
-              {/* <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} /> */}
-              {/* <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} /> */}
-              {/* <Route path="/admin/brochure" element={<AdminRoute><BrochureAdmin /></AdminRoute>} /> */}
+<Route path="/786313login" element={<AdminLogin />} />
+                {/* Secure Upload Engine Route */}
+          <Route 
+    path="/admin/upload-engine" 
+    element={
+      <AdminRoute>
+        <UploadProjectPage />
+      </AdminRoute>
+    } 
+  />
 
+                {/* Admin Routes */}
+                {/* <Route path="/786313login" element={<AdminLogin />} /> */}
+                {/* <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} /> */}
+                {/* <Route path="/admin/board" element={<AdminRoute><BoardMembersPage /></AdminRoute>} /> */}
+                {/* <Route path="/admin/projects" element={<AdminRoute><AdminProjects /></AdminRoute>} /> */}
+                {/* <Route path="/admin/projects/add" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
+                {/* <Route path="/admin/projects/edit/:id" element={<AdminRoute><ProjectForm /></AdminRoute>} /> */}
+                {/* <Route path="/admin/brands" element={<AdminRoute><BrandsPage /></AdminRoute>} /> */}
+                {/* <Route path="/admin/about" element={<AdminRoute><AboutStatsPage /></AdminRoute>} /> */}
+                {/* <Route path="/admin/hero" element={<AdminRoute><HeroSectionPage /></AdminRoute>} /> */}
+                {/* <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} /> */}
+                {/* <Route path="/admin/brochure" element={<AdminRoute><BrochureAdmin /></AdminRoute>} /> */}
 
-            </Routes>
-          </AnimatePresence>
-        </main> 
-       
-        {!isAdminPage && <Footer />}
-        
-      </ProjectProvider>
-    </AuthProvider>
+                {/* Fallback Catch-All Route */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </AnimatePresence>
+          </main> 
+          
+          {!isAdminPage && <Footer />}
+        </ProjectProvider>
+      </AuthProvider>
     </HelmetProvider>
   );
 }

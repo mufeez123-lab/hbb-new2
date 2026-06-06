@@ -1,40 +1,40 @@
-import React, { useEffect } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import NotFoundPage from '../../pages/NotFoundPage';
+import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { supabase } from '../../config/supabaseClient';
 
 interface AdminRouteProps {
   children: React.ReactNode;
 }
 
-const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user, loading, token } = useAuth();
+const AdminRoute = ({ children }: AdminRouteProps) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    console.log('AdminRoute state:', { user, loading, token });
-  }, [user, loading, token]);
+    // Check current active authentication session status
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
-    );
+    checkSession();
+
+    // Listen live to state mutations (logout events, token expirations)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Show a blank view or minimal loader while token signatures are verified
+  if (isAuthenticated === null) {
+    return <div className="min-h-screen bg-neutral-50" />;
   }
 
-  if (!token) {
-    console.log('No token found, redirecting to login');
-    return <Navigate to="/786313login" state={{ from: location }} replace />;
-  }
-
-  if (!user || user.role !== 'admin') {
-      return <NotFoundPage />;
-  }
-
-  console.log('Rendering admin route for user:', user);
-  return <>{children}</>;
+  // Force redirect back to entry screen if token parameters are missing
+  return isAuthenticated ? <>{children}</> : <Navigate to="/786313login" replace />;
 };
 
 export default AdminRoute;
