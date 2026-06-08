@@ -21,7 +21,7 @@ const SEO: React.FC<SEOProps> = ({
   return (
     <Helmet>
       {/* Standard Metadata */}
-      <title>{title} | Hindustan Builders</title>
+      <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
 
