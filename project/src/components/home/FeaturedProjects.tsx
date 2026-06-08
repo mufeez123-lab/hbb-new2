@@ -58,7 +58,7 @@ const FeaturedProjects = () => {
         <header className="flex items-center mb-16">
           <div className="flex-grow h-px bg-gray-300"></div>
           <h2 className="px-6 text-lg uppercase tracking-[0.2em] font-medium text-gray-800 text-center">
-            Our featured projects and Properties
+            Our featured projects 
           </h2>
           <div className="flex-grow h-px bg-gray-300"></div>
         </header>

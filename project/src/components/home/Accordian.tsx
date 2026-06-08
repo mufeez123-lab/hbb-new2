@@ -16,19 +16,19 @@ const AccordionSection = () => {
       title: "The Vision",
       desc: "Creating sustainable, modern spaces that redefine architectural beauty.",
       icon: <Eye />,
-      img: "/images/img1.jpg"
+      img: "/images/image1.jpg"
     },
     {
       title: "Our Quality",
       desc: "High-quality construction and on-time delivery are our core pillars.",
       icon: <Star />,
-      img: "/images/img1.jpg"
+      img: "/images/image3.jpg"
     },
     {
       title: "Expertise",
       desc: "From luxury villas to commercial hubs, we build with precision.",
       icon: <Hammer />,
-      img: "/images/img1.jpg"
+      img: "/images/a3.jpeg"
     }
   ];
 
