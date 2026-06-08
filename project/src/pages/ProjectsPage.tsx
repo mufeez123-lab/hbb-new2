@@ -47,7 +47,7 @@ const ProjectsPage = () => {
   return (
     <>
       <SEO
-        title="Properties"
+        title="Properties | Hindustan Limited"
         description="At Hindustan Limited, Construction is a discipline of precision. Drawing on over four decades of experience, we execute complex architectural details with exactitude. We don’t just build for the handover; we build for the next generation."
         path="/projects"
         image="https://hindustanbuilders.in/images/villas-preview.jpg"

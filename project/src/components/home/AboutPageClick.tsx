@@ -82,7 +82,7 @@ const AboutPageClick = () => {
   return (
     <div ref={containerRef} className="bg-white selection:bg-[#8a6c1a] selection:text-white">
   <SEO 
-        title="About Us"
+        title="About Us | Hindustan Limited"
         description="At Hindustan Limited, We approach design with a problem-solving mindset. By harmonizing aesthetics with functional engineering, spaces are well-utilised and optimize efficiency. The result is a seamless environment where form perfectly follows function."
         path="/about"
         image="https://hindustanbuilders.in/images/villas-preview.jpg"
