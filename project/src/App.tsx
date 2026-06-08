@@ -115,7 +115,7 @@ const isAdminPage =
             <AnimatePresence mode="wait">
               <Routes>
                 {/* Public Routes */}
-                <Route path="/demo" element={<HomePage />} />
+                <Route path="/" element={<HomePage />} />
                 {/* <Route path="/about" element={<AboutPage />} /> */}
                 <Route path="/about" element={<AboutPageClick />} />
                 <Route path="/projects" element={<ProjectsPage />} />
